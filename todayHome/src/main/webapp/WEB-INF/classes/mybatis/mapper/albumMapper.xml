@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="album">
+	<select id="seq" resultType="Long">
+		SELECT album_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertAlbum" parameterType="com.sp.app.album.Album">
+		INSERT INTO album(num, userId, subject, content, reg_date)
+		VALUES(#{num}, #{userId}, #{subject}, #{content}, SYSDATE)
+	</insert>
+
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			( INSTR(subject, #{keyword}) &gt; 0
+				OR INSTR(content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject' ">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content' ">
+			INSTR(content, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='reg_date' ">
+			( TO_CHAR(reg_date, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(reg_date, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<!-- 데이터개수  -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM album
+		<where>
+			userId = #{userId}
+			<if test="keyword != null and keyword!=''  ">
+				AND <include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 리스트 -->
+	<select id="listAlbum" parameterType="map" resultType="com.sp.app.album.Album">
+		SELECT a.num, userId, subject, imageFilename
+		FROM album a
+		LEFT OUTER JOIN (
+			SELECT fileNum, num, imageFilename FROM (
+				SELECT fileNum, num, imageFilename, 
+					ROW_NUMBER() OVER(PARTITION BY num ORDER BY fileNum ASC) rank
+				 FROM albumFile
+			) WHERE rank = 1
+		) i ON a.num = i.num
+		<where>
+			userId = #{userId}
+			<if test="keyword != null and keyword != ''">
+				AND <include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	 </select>
+
+    <!-- 글보기 -->
+    <select id="readAlbum" parameterType="Long" resultType="com.sp.app.album.Album">
+		SELECT num, a.userId, userName, subject, content, reg_date
+		FROM album a
+		JOIN member1 m ON a.userId = m.userId
+		WHERE num = #{num}
+	</select>
+
+	<!-- 이전글 -->
+	<select id="preReadAlbum" parameterType="map" resultType="com.sp.app.album.Album">
+		SELECT num, subject
+		FROM album
+		<where>
+			userId = #{userId}
+			<if test="keyword != null and keyword != '' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND (num &gt; #{num})
+		</where>
+		ORDER BY num ASC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <!-- 다음글 -->
+    <select id="nextReadAlbum" parameterType="map" resultType="com.sp.app.album.Album">
+		SELECT num, subject
+		FROM album
+		<where>
+			userId = #{userId}
+			<if test="keyword != null and keyword != '' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND (num &lt; #{num})
+		</where>
+		ORDER BY num DESC
+		FETCH FIRST 1 ROWS ONLY
+    </select>
+    
+	<!-- 수정 -->
+	<update id="updateAlbum" parameterType="com.sp.app.album.Album">
+		UPDATE album SET subject=#{subject}, content=#{content}
+		WHERE num = #{num}
+	</update>
+    
+	<!-- 삭제 -->
+	<delete id="deleteAlbum" parameterType="Long">
+		DELETE FROM album WHERE num = #{num}
+	</delete>
+	
+	<!-- 파일 -->
+	<insert id="insertFile" parameterType="com.sp.app.album.Album">
+		INSERT INTO albumFile(fileNum, num, imageFilename)
+		VALUES (albumFile_seq.NEXTVAL, #{num}, #{imageFilename})
+	</insert>
+	
+	<select id="listFile" parameterType="Long" resultType="com.sp.app.album.Album">
+		SELECT fileNum, num, imageFilename
+		FROM albumFile
+		WHERE num = #{num}
+	</select>
+	
+	<select id="readFile" parameterType="Long" resultType="com.sp.app.album.Album">
+		SELECT fileNum, num, imageFilename
+		FROM albumFile
+	    WHERE fileNum = #{fileNum}      
+	</select>
+	
+	<delete id="deleteFile" parameterType="map">
+		DELETE FROM albumFile WHERE ${field} = #{num}
+	</delete>
+</mapper>

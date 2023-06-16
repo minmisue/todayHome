@@ -1,14 +1,64 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menubar.css">
-
 <style>
-
-
-    .menubar-container {
-
+    .my-page-item {
+        position: relative;
     }
 
+    .selected-my-page-item {
+        color: rgb(53, 197, 240);
+    }
+
+    .triangle {
+        width: 0px;
+        height: 0px;
+        border-bottom: 10px solid #666666;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 15px solid #666666;
+    }
+
+    .select-arrow {
+        position: relative;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 12px solid #EBEDEF;
+    }
+
+    .select-arrow::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: -5px;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 12px solid white;
+    }
+
+    .arrow-container {
+        position: absolute;
+        left: 50%;
+        bottom: -1px;
+        transform: translate(-50%, 0)
+    }
+
+    .my-page-menubar-main {
+        /*padding: 0 92px;*/
+        border-top: 1px solid #EBEDEF;
+        display: none;
+        margin: 0;
+    }
+
+    .my-page-menubar-sub {
+        border-top: 1px solid #EBEDEF;
+        display: none;
+        margin: 0;
+    }
 </style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menubar.css">
 
 <header>
     <div class="menubar-container">
@@ -84,7 +134,6 @@
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">팔로잉</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">사진</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">집들이</div>
-<%--            <div class="sub-item">노하우</div>--%>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/event/list'">이벤트</div>
         </div>
     </div>
@@ -95,12 +144,62 @@
             <div class="sub-item">카테고리</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/ranks'">베스트</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/today-deals'">오늘의딜</div>
-<%--            <div class="sub-item">리퍼마켓</div>--%>
-<%--            <div class="sub-item">오!굿즈</div>--%>
-<%--            <div class="sub-item">빠른배송</div>--%>
-<%--            <div class="sub-item">오!쇼룸</div>--%>
-<%--            <div class="sub-item">오!프리미엄</div>--%>
-<%--            <div class="sub-item">오!기획전</div>--%>
         </div>
     </div>
+
+    <div class="my-page-menubar-main">
+        <div class="sub-menubar" style="justify-content: center; font-weight: 700; line-height: 30px; font-size: 18px">
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/home'">프로필
+                <div class="arrow-container"></div>
+            </div>
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">나의 쇼핑
+                <div class="arrow-container"></div>
+            </div>
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">나의 리뷰
+                <div class="arrow-container"></div>
+            </div>
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">설정
+                <div class="arrow-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-page-menubar-sub">
+        <div class="sub-menubar" style="justify-content: center;">
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">모두보기</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">사진</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">집들이</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">노하우</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">질문과답변</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">스크랩북</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">좋아요</div>
+        </div>
+    </div>
+
+	<div class="my-page-menubar-sub">
+		<div class="sub-menubar" style="justify-content: center;">
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">주문배송내역 조회</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">상품 스크랩북</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">나의문의내역</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">포인트</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">공지사항</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">고객센터</div>
+		</div>
+	</div>
+
+	<div class="my-page-menubar-sub">
+		<div class="sub-menubar" style="justify-content: center;">
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">리뷰쓰기</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">내가 작성한 리뷰</div>
+		</div>
+	</div>
+
+	<div class="my-page-menubar-sub">
+		<div class="sub-menubar" style="justify-content: center;">
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">회원정보수정</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">비밀번호 변경</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">사용자 숨기기 설정</div>
+		</div>
+	</div>
+
 </header>

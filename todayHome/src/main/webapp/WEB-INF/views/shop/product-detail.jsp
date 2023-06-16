@@ -181,11 +181,6 @@
 
 				<div class="preview-img-container">
 					<img style="width: 100%; height: 100%"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/4.avif">
-				</div>
-
-				<div class="preview-img-container">
-					<img style="width: 100%; height: 100%"
 						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/5.webp">
 				</div>
 			</div>
@@ -265,8 +260,8 @@
 		</div>
 	</div>
 
-	<div class="sub-menubar-container" style="margin-top: 50px; margin-bottom: 30px; display: block; background-color: #FAFAFA; position: sticky; top: 0">
-		<div class="sub-menubar">
+	<div class="sub-menubar-container" style="margin: 50px 0px 30px 0px; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
+		<div class="sub-menubar" style="padding: 0 55px">
 			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center">상품정보</div>
 			<div class="sub-item" style="width: 130px; text-align: center">리뷰 <span class="count">23,222</span></div>
 			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>
@@ -293,7 +288,7 @@
 		</div>
 
 		<div style="flex: 1; padding: 0 40px;">
-			<div class="flex-col" style="width: 100%; position: sticky; top: 80px; justify-content: space-between; height: 90vh;">
+			<div class="flex-col" style="width: 100%; position: sticky; top: 205px; justify-content: space-between; height: 74vh;">
 				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px">
 					<option selected="" value="" disabled="">색상</option>
 					<option value="0">투명 (PET) (25,600원)</option>

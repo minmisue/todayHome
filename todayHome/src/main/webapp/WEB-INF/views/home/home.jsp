@@ -10,6 +10,7 @@
 			height: 100%;
 			object-fit: cover;
 			transition: 0.2s;
+			border-radius: 5px;
 		}
 
 		.banner-card-img:hover {
@@ -129,7 +130,7 @@
 
 	<div class="main-container">
 		<div class="content flex-row" style="height: 508px;">
-			<div class="w-75 p-2">
+			<div class="w-75" style="padding-right: 20px">
 				<div class="w-100 h-100" style="overflow: hidden; position: relative">
 					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-banner.png">
 					<div class="flex-col main-banner-info">
@@ -141,7 +142,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="w-25 p-2">
+			<div class="w-25">
 				<div class="w-100 h-100" style="overflow: hidden;">
 					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-event1.png">
 				</div>

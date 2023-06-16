@@ -65,19 +65,22 @@
     gap: 20px;
     /*margin: 0 92px;*/
     margin: 0 auto;
-    max-width: 1256px;
-    padding: 0 60px;
-    height: 50px;
+    /*max-width: 1256px;*/
+    /*padding: 0 60px;*/
+    /*height: 50px;*/
     align-items: center;
     font-size: 16px;
     line-height: 20px;
     font-weight: 500;
+    padding: 5px 60px;
+    max-width: 1256px;
 }
 
 .sub-menubar-container {
-    padding: 0 92px;
+    /*padding: 0 92px;*/
     border-top: 1px solid #EBEDEF;
     display: none;
+    margin: 0;
 }
 
 .sub-item {

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="temp">
-
+<mapper namespace="management">
+    <insert id="insertProduct" parameterType="com.sp.app.domain.product.Product">
+        INSERT INTO PRODUCT (PRODUCT_ID, SELLER_ID, PRODUCT_CATEGORY_ID, PRODUCT_NAME, CONTENT)
+        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{catagoryId}, #{name}, #{content})
+    </insert>
 </mapper>

@@ -1,6 +1,7 @@
-package hello.servlet.web.product.category;
+package com.sp.app.product.category;
 
-import hello.servlet.web.domain.ProductCategory;
+
+import com.sp.app.domain.product.ProductCategory;
 
 import java.util.List;
 

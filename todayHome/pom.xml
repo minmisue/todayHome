@@ -381,6 +381,15 @@
 			<version>1.13</version>
 		</dependency>
 
+		<!-- 롬복 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+			<scope>provided</scope>
+		</dependency>
+
+
 	</dependencies>
     <build>
         <plugins>

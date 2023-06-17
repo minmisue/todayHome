@@ -1,6 +1,7 @@
-package hello.servlet.web.product.review;
+package com.sp.app.product.review;
 
-import hello.servlet.web.domain.ProductReview;
+
+import com.sp.app.domain.product.ProductReview;
 
 import java.util.List;
 

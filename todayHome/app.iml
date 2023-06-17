@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/classes" isTestSource="false" />
+    </content>
+  </component>
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Mybatis Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/classes/mybatis/mybatis-context.xml</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
 </module>

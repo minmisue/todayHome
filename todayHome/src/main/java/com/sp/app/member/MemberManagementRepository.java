@@ -8,8 +8,6 @@ public interface MemberManagementRepository {
 	
 	public void insertMember(Member member) throws Exception;
 	
-	public void updateMembership(Map<String, Object> map) throws Exception;
-	
 	public void updateLastLogin(Long memberId) throws Exception;
 	
 	public void updateMember(Member member) throws Exception;

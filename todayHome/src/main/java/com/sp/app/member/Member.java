@@ -14,7 +14,8 @@ public class Member {
 	private String info;
 	private int addressBundleId;
 	private String postNum1;
-	private String postNum2;
+	private String address1;
+	private String address2;
 	private int remainPoint;
 	
 	
@@ -96,17 +97,23 @@ public class Member {
 	public void setPostNum1(String postNum1) {
 		this.postNum1 = postNum1;
 	}
-	public String getPostNum2() {
-		return postNum2;
-	}
-	public void setPostNum2(String postNum2) {
-		this.postNum2 = postNum2;
-	}
 	public int getRemainPoint() {
 		return remainPoint;
 	}
 	public void setRemainPoint(int remainPoint) {
 		this.remainPoint = remainPoint;
+	}
+	public String getAddress1() {
+		return address1;
+	}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 	
 	

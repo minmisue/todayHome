@@ -19,11 +19,6 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 		
 	}
 
-	@Override
-	public void updateMembership(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void updateLastLogin(Long memberId) throws Exception {

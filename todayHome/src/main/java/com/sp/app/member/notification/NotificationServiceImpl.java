@@ -1,29 +1,25 @@
 package com.sp.app.member.notification;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import com.sp.app.common.CommonDAO;
 
-@Repository 
-public class NotificationRepositoryImpl implements NotificationRepository {
 
-	@Autowired
-	CommonDAO commonDAO;
+@Service
+public class NotificationServiceImpl implements NotificationService {
 	
+	@Autowired
+	NotificationRepository notificationRepository;
+	
+
 	@Override
 	public void createNotification(Notification notification) throws Exception {
-		// commonDAO.insertData("management.insertProduct", notification);
-		// TODO Auto-generated method stub
-		Map<String, Object> map = new HashMap<>();
-		map.put("productId", 1L);
-		map.put("imgName", "img1");
+		// commonDAO.insertData("managemnt.insert", noficaiton);
 		
-		commonDAO.insertData("management.insertProductImg",map);
+		//notificationRepository.createNotification(notification);
+		
 	}
 
 	@Override
@@ -55,6 +51,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 	
+
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Slf4j
 @Repository
-public class MyBatisDaoImpl implements CommonDAO {
+public class CommonMyBatisImpl implements CommonDAO {
 
 	@Autowired
 	private SqlSession sqlSession;

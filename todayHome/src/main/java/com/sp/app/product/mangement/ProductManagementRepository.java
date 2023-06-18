@@ -5,12 +5,17 @@ import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductManagementRepository {
 
-	Product createProduct(Product product);
+	void createProduct(Product product) throws Exception;
 
-	Product getProductById(Long productId);
+	void insertProductImg(Map<String, Object> imgMap) throws Exception;
+
+	void insertContentImg(Map<String, Object> imgMap) throws Exception;
+
+	Product getProductById(Long productId) throws Exception;
 
 	List<Product> getAllProducts();
 
@@ -18,7 +23,7 @@ public interface ProductManagementRepository {
 
 	List<Product> getProductsByKeyword(String keyword);
 
-	Product updateProduct(Product product);
+	void updateProduct(Product product);
 
 	void deleteProduct(Long productId);
 
@@ -26,7 +31,7 @@ public interface ProductManagementRepository {
 
 	void deleteScrapProduct(Long memberId, Long productId);
 
-	void isScrapProduct(Long memberId, Long productId);
+	boolean isScrapProduct(Long memberId, Long productId);
 
 	// 수정해야댐
 	ProductOption getOptionsById(Long productId);

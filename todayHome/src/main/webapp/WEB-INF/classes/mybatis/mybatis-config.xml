@@ -14,9 +14,8 @@
          <typeAlias alias="map" type="java.util.Map" />
     </typeAliases>	
  
-<!--
-	<mappers>
-		<mapper resource="classpath:/mybatis/mapper/tempMapper.xml" />
-	</mappers>
--->
+<!--	<mappers>-->
+<!--		<mapper resource="classpath:/mybatis/mapper/tempMapper.xml" />-->
+<!--		<package name="classpath:/mybatis/mapper"/>-->
+<!--	</mappers>-->
 </configuration>

@@ -31,7 +31,6 @@ public class ProductManagementRepositoryImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-
 		ArrayList<String> productImgList = new ArrayList<>();
 		productImgList.add("productImg1");
 		productImgList.add("productImg2");

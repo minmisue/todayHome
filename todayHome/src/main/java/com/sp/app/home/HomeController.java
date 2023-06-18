@@ -80,18 +80,42 @@ public class HomeController {
 	public String member() {
 		return "member/login";
 	}
+	
+	@GetMapping("member/new")
+	public String newMember() {
+		return "member/join-member";
+	}
 
 	@GetMapping("production-review/write")
-	public String review() {
-
+	public String reviewWrite() {
 		return "mypage/review-form";
+	}
+
+	@GetMapping("production-review/best")
+	public String reviewBest() {
+		return "mypage/myreview-best";
+	}
+
+	@GetMapping("production-review/fast")
+	public String reviewFast() {
+		return "mypage/myreview-fast";
 	}
 
 	@GetMapping("mypage/edit")
 	public String editMember() {
 		return "mypage/edit-member";
 	}
-
+	
+	@GetMapping("setalarm")
+	public String alarm() {
+		return "mypage/set-alarm";
+	}
+	
+	@GetMapping("edit-pwd")
+	public String editPwd() {
+		return "mypage/edit-pwd";
+	}
+	
 	@GetMapping("mypage/all")
 	public String myPageHome() {
 		return "mypage/all-view";

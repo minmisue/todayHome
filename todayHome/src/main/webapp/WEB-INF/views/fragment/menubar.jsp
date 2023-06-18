@@ -149,16 +149,16 @@
 
     <div class="my-page-menubar-main">
         <div class="sub-menubar" style="justify-content: center; font-weight: 700; line-height: 30px; font-size: 18px">
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/home'">프로필
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/all'">프로필
                 <div class="arrow-container"></div>
             </div>
             <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">나의 쇼핑
                 <div class="arrow-container"></div>
             </div>
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">나의 리뷰
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/production-review/write'">나의 리뷰
                 <div class="arrow-container"></div>
             </div>
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">설정
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/edit'">설정
                 <div class="arrow-container"></div>
             </div>
         </div>
@@ -189,15 +189,15 @@
 
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">리뷰쓰기</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">내가 작성한 리뷰</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/production-review/write'">리뷰쓰기</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/production-review/best'">내가 작성한 리뷰</div>
 		</div>
 	</div>
 
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">회원정보수정</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">비밀번호 변경</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/edit'">회원정보수정</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/edit-pwd'">비밀번호 변경</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">사용자 숨기기 설정</div>
 		</div>
 	</div>

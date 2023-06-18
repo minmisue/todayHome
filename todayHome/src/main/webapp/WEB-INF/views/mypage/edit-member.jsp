@@ -46,6 +46,7 @@
 		.form-group input[type="email"],
 		.form-group input[type="date"],
 		.form-group input[type="file"],
+		.form-group input[type="url"],
 		.form-group textarea {
 			width: 500px;
 			padding: 8px;
@@ -102,14 +103,20 @@
 <body>
 <script>
     $(function () {
-        // 여기에서 메뉴 선택
-		// 첫번째 파라미터 (커뮤니티, 쇼핑 중 선택)
-		// 두번째 파라미터 (서브 메뉴 중 몇번째인지 선택)
-        selectCurrentMenu(1, 1)
+	    	// 여기에서 메뉴 선택
+	        // 첫번째 파라미터 (커뮤니티, 쇼핑 중 선택)
+	        // 두번째 파라미터 (서브 메뉴 중 몇번째인지 선택)
+			// 두번째 파라미터에 null 입력시 메뉴바 숨김
+	        selectCurrentMenu(0, null);
+	
+	        // 마이페이지일때 메뉴
+			// 메인메뉴, 서브메뉴 숫자 입력
+			// 첫번째 파라미터에 0 입력시 숨김
+			selectMyPage(4,1);
     });
 </script>
 
-<jsp:include page="/WEB-INF/views/fragment/mypage-menubar.jsp"/>
+<jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
 
 <div class="main-container">
 	<div class="content">

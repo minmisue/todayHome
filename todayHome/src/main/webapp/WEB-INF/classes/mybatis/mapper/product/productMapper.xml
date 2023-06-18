@@ -4,7 +4,7 @@
 <mapper namespace="management">
     <insert id="insertProduct" parameterType="com.sp.app.domain.product.Product">
         INSERT INTO PRODUCT (PRODUCT_ID, SELLER_ID, PRODUCT_CATEGORY_ID, PRODUCT_NAME, CONTENT)
-        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{categoryId}, #{productName}, #{content})
+        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{productCategoryId}, #{productName}, #{content})
     </insert>
 
     <insert id="insertProductImg" parameterType="map">

@@ -1,10 +1,9 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductManagementService {
 
@@ -18,7 +17,7 @@ public interface ProductManagementService {
 
 	List<Product> getProductsByKeyword(String keyword);
 
-	void updateProduct(Product product);
+	void updateProduct(Product product) throws Exception;
 
 	void deleteProduct(Long productId);
 

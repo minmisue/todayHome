@@ -1,4 +1,4 @@
-package com.sp.app.member;
+package com.sp.app.domain.member;
 
 public class Member {
 	private int memberId;

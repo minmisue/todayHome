@@ -1,7 +1,6 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"classpath:/appServlet/servlet-context.xml",
@@ -95,7 +92,7 @@ public class ProductManagementRepositoryImplTest {
 		Product result = productManagementRepository.getProductById(productId);
 
 		// 결과
-		log.info("result = {}", result);
+//		log.info("result = {}", result);
 	}
 
 }

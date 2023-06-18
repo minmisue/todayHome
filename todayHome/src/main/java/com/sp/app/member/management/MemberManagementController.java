@@ -1,4 +1,4 @@
-package com.sp.app.member;
+package com.sp.app.member.management;
 
 public class MemberManagementController {
 

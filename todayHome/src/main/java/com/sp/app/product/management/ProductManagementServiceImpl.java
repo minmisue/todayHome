@@ -1,4 +1,4 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
@@ -72,7 +72,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void updateProduct(Product product) {
+	public void updateProduct(Product product) throws Exception {
+
 
 	}
 

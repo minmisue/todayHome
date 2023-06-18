@@ -2,6 +2,7 @@ package com.sp.app.member.notification;
 
 import java.util.List;
 
+import com.sp.app.domain.member.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

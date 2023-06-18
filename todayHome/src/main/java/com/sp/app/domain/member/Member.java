@@ -1,5 +1,8 @@
 package com.sp.app.domain.member;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d82ac62 (수정)
 
 public class Member {
 	private int memberId;

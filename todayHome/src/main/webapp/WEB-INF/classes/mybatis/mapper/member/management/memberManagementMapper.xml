@@ -2,6 +2,15 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
+<<<<<<< HEAD
+=======
+	<select id="loginMember" parameterType="String" resultType="com.sp.app.domain.member.Member">
+		SELECT m.memberIdx, membership, userId, userName, userPwd, register_date, modify_date, last_login
+		FROM member m
+		JOIN member1 m1 ON m1.memberIdx = m.memberIdx
+		WHERE userId = #{userId} AND enabled != 0
+	</select>
+>>>>>>> d82ac62 (수정)
 	
 	<update id="updateLastLogin" parameterType="String">
 		UPDATE member1 SET last_login = SYSDATE, failure_cnt = 0
@@ -16,19 +25,19 @@
 		INSERT INTO member(memberIdx, membership) VALUES (#{memberIdx}, 1) 
     </insert>
 
-    <insert id="insertMember1" parameterType="com.sp.app.member.Member">
+    <insert id="insertMember1" parameterType="com.sp.app.domain.member.Member">
 		INSERT INTO member1(memberIdx, userId, userName, userPwd, enabled, register_date, modify_date, failure_cnt)
 		VALUES (#{memberIdx}, #{userId}, #{userName}, #{userPwd}, 1, SYSDATE, SYSDATE, 0) 
     </insert>
 
-    <insert id="insertMember2" parameterType="com.sp.app.member.Member">
+    <insert id="insertMember2" parameterType="com.sp.app.domain.member.Member">
 		INSERT INTO member2(userId, birth, email, tel, zip, addr1, addr2)
 		VALUES (#{userId}, #{birth}, #{email}, #{tel}, 
 			#{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR}, 
 			#{addr2, jdbcType=VARCHAR})
     </insert>
 	
-    <update id="insertMember12" parameterType="com.sp.app.member.Member">
+    <update id="insertMember12" parameterType="com.sp.app.domain.member.Member">
 		INSERT ALL
 		INTO member1(memberIdx, userId, userName, userPwd, enabled, 
 			register_date, modify_date, failure_cnt)
@@ -40,7 +49,7 @@
 		SELECT * FROM dual     
     </update>
 	
-	<select id="readMember" parameterType="String" resultType="com.sp.app.member.Member">
+	<select id="readMember" parameterType="String" resultType="com.sp.app.domain.member.Member">
 		SELECT m.memberIdx, membership, m1.userId, userName, userPwd, enabled,
 			register_date, modify_date, last_login,
 			TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, 
@@ -51,7 +60,7 @@
 		WHERE m1.userId = #{userId}
 	</select>
 
-	<select id="readMember2" parameterType="Long" resultType="com.sp.app.member.Member">
+	<select id="readMember2" parameterType="Long" resultType="com.sp.app.domain.member.Member">
 		SELECT m.memberIdx, membership, enabled, 
 			NVL(m1.userId, 'guest') userId, NVL(userName, '손님') userName, userPwd, 
 			register_date, modify_date, last_login,
@@ -73,12 +82,12 @@
 		UPDATE member1 SET enabled=#{enabled} WHERE userId=#{userId}
     </update>
     
-    <update id="updateMember1" parameterType="com.sp.app.member.Member">
+    <update id="updateMember1" parameterType="com.sp.app.domain.member.Member">
 		UPDATE member1 SET userPwd=#{userPwd}, modify_date=SYSDATE
 		WHERE userId=#{userId}
     </update>
 	
-    <update id="updateMember2" parameterType="com.sp.app.member.Member">
+    <update id="updateMember2" parameterType="com.sp.app.domain.member.Member">
 		UPDATE member2 SET email=#{email, jdbcType=VARCHAR}, 
 			tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR},
 			zip=#{zip, jdbcType=VARCHAR},

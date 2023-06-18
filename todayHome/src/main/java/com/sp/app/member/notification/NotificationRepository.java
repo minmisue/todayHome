@@ -1,5 +1,7 @@
 package com.sp.app.member.notification;
 
+import com.sp.app.domain.member.Notification;
+
 import java.util.List;
 
 import com.sp.app.domain.member.Notification;

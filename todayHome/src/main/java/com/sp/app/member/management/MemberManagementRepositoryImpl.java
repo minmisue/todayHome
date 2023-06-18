@@ -2,6 +2,7 @@ package com.sp.app.member.management;
 
 import java.util.Map;
 
+import com.sp.app.domain.member.Member;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.domain.member.Member;

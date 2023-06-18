@@ -1,4 +1,9 @@
 package com.sp.app.member.management;
+<<<<<<< HEAD
+=======
+
+import com.sp.app.domain.member.Member;
+>>>>>>> d82ac62 (수정)
 
 import java.util.Map;
 

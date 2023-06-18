@@ -12,7 +12,14 @@ public class Seller {
 	private String representativeName;
 	private String presentation;
 	private Long accumulatedAmount;
+	private int status;
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public Long getSellerId() {
 		return sellerId;
 	}

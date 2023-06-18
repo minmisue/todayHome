@@ -1,4 +1,4 @@
-package com.sp.app.adjustment;
+package com.sp.app.seller.adjustment;
 
 import java.util.List;
 

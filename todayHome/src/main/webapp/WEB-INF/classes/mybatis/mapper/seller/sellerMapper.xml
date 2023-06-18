@@ -16,9 +16,28 @@
 			presentation=#{presentation, jdbcType=VARCHAR}
 		WHERE seller_id=#{sellerId}	
 	</update>
+	
 <!-- 판매자 테이블 정보 삭제 -->
 	<delete id="deleteSeller" parameterType="Long">
 		DELETE FROM seller WHERE seller_id=#{sellerId}
 	</delete>
 	
+<!-- 판매자 상태 확인 -->
+	<select id="readSellerStatus" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
+		SELECT status 
+		FROM seller_status
+		WHERE seller_id= #{sellerId}
+	</select>
+	
+<!-- 판매자 상태 수정 -->
+	<update id="updateSellerStatus" parameterType="map">
+		UPDATE seller SET status = #{status}
+		WHERE seller_id = #{sellerId}	
+	</update>
+	
+<!-- 전체 판매자 리스트 -->
+	<select id="getAllSellers" resultType="com.sp.app.domain.seller.Seller">
+    	SELECT *
+    	FROM seller
+	</select>
 </mapper>

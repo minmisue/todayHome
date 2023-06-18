@@ -1,9 +1,8 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,22 +17,22 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 
 	@Override
 	public void createProduct(Product product) throws Exception {
-		commonDAO.insertData("management.insertProduct", product);
+		commonDAO.insertData("productManagement.insertProduct", product);
 	}
 
 	@Override
 	public void insertProductImg(Map<String, Object> imgMap) throws Exception {
-		commonDAO.insertData("management.insertProductImg", imgMap);
+		commonDAO.insertData("productManagement.insertProductImg", imgMap);
 	}
 
 	@Override
 	public void insertContentImg(Map<String, Object> imgMap) throws Exception {
-		commonDAO.insertData("management.insertContentImg", imgMap);
+		commonDAO.insertData("productManagement.insertContentImg", imgMap);
 	}
 
 	@Override
 	public Product getProductById(Long productId) throws Exception {
-		return commonDAO.selectOne("management.getProduct", productId);
+		return commonDAO.selectOne("productManagement.getProduct", productId);
 	}
 
 	@Override

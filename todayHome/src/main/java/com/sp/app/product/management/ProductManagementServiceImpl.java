@@ -1,6 +1,5 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
 
-import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
 import lombok.extern.slf4j.Slf4j;

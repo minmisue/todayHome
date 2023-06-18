@@ -1,4 +1,5 @@
-package com.sp.app.product.mangement;
+package com.sp.app.product.management;
+
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
@@ -6,11 +7,15 @@ import com.sp.app.domain.product.ProductOption;
 import java.util.List;
 import java.util.Map;
 
-public interface ProductManagementService {
+public interface ProductManagementRepository {
 
 	void createProduct(Product product) throws Exception;
 
-	Product getProductById(Long productId);
+	void insertProductImg(Map<String, Object> imgMap) throws Exception;
+
+	void insertContentImg(Map<String, Object> imgMap) throws Exception;
+
+	Product getProductById(Long productId) throws Exception;
 
 	List<Product> getAllProducts();
 
@@ -18,7 +23,7 @@ public interface ProductManagementService {
 
 	List<Product> getProductsByKeyword(String keyword);
 
-	void updateProduct(Product product) throws Exception;
+	void updateProduct(Product product);
 
 	void deleteProduct(Long productId);
 

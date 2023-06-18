@@ -2,7 +2,7 @@ package com.sp.app.member;
 
 import java.util.Map;
 
-public interface MemberManagementRepository {
+public interface MemberManagementService {
 	
 	public void insertMember(Member member) throws Exception;
 	
@@ -15,5 +15,7 @@ public interface MemberManagementRepository {
 	public void deleteMember(Map<String, Object> map) throws Exception;
 	
 	public void generatePwd(Member member) throws Exception;
+	//임시 10자리 패스워드 생성 
 
+	Member loginMember(String email);
 }

@@ -2,10 +2,7 @@ package com.sp.app.member;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Repository;
-
-@Repository
-public class MemberManagementRepositoryImpl implements MemberManagementRepository {
+public class MemberManagementServiceImpl implements MemberManagementService{
 
 	@Override
 	public void insertMember(Member member) throws Exception {
@@ -42,6 +39,13 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Member loginMember(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

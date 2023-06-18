@@ -2,5 +2,34 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
-  
+    <insert id="insertProduct" parameterType="com.sp.app.domain.product.Product">
+        INSERT INTO PRODUCT (PRODUCT_ID, SELLER_ID, PRODUCT_CATEGORY_ID, PRODUCT_NAME, CONTENT)
+        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{productCategoryId}, #{productName}, #{content})
+    </insert>
+
+    <insert id="insertProductImg" parameterType="map">
+        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
+        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName})
+    </insert>
+
+    <insert id="insertContentImg" parameterType="map">
+        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
+        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName})
+    </insert>
+
+    <select id="getProduct" parameterType="Long" resultType="com.sp.app.domain.product.Product">
+        SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
+                product_name as productName, content, to_char(reg_date, 'yyyy-mm-dd') as regDate, price,
+                remain_quantity as remainQuantity, discount_percent as discountPercent, delivery_cost as deliveryCost,
+                reserving_point_percent as reservingPointPercent,
+                NVL(product_scrap_cnt, 0) AS productScrapCnt
+        FROM PRODUCT P
+                JOIN SELLER S2 ON P.SELLER_ID = S2.SELLER_ID
+                LEFT OUTER JOIN(
+                SELECT PRODUCT_ID, COUNT(*) AS PRODUCT_SCRAP_CNT
+                FROM PRODUCT_SCRAP
+                GROUP BY PRODUCT_ID
+        ) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
+        WHERE P.PRODUCT_ID = #{productId}
+    </select>
 </mapper>

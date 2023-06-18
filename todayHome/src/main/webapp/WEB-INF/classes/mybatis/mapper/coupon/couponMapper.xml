@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coupon">
+	<insert id="insertCoupon" parameterType="com.sp.app.domain.coupon.Coupon">
+	INSERT INTO coupon (coupon_id, discount_percent, name, max_discount_amount) 
+	VALUES (seq_coupon.NEXTVAL, #{coupon_id}, #{discount_percent}, #{name}, #{max_discount_amount})
+	</insert>
+	<insert id="insertmemberCoupon" parameterType="com.sp.app.domain.coupon.Coupon">
+	INSERT INTO member_coupon (member_coupon_id, coupon_id, member_id, expire_date, reg_date) 
+	VALUES (seq_member_coupon.NEXTVAL, #{member_coupon_id}, #{coupon_id}, #{member_id}, #{expire_date}, SYSDATE)
+	</insert>
+</mapper>

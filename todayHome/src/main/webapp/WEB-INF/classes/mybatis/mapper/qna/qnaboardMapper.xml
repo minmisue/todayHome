@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qnaboard">
+	<insert id="insertQnaBoard" parameterType="com.sp.app.domain.qna.Qna">
+		INSERT INTO qna_board (qna_board_id, qna_category_id, member_id, subject, content, created_date)
+		VALUES (seq_qna_board.NEXTVAL, #{qna_category_id}, #{member_id}, #{subject}, #{content}, #{created_date})
+	</insert>
+</mapper>

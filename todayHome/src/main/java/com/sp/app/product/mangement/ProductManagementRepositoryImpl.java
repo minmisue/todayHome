@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-@Slf4j
 public class ProductManagementRepositoryImpl implements ProductManagementRepository{
 
 	@Autowired

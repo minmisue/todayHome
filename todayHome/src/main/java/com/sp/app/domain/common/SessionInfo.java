@@ -1,4 +1,4 @@
-package com.sp.app.domain.product;
+package com.sp.app.domain.common;
 
 public class SessionInfo {
 	private Long memberId;

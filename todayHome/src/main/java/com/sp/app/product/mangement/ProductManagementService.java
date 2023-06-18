@@ -18,7 +18,7 @@ public interface ProductManagementService {
 
 	List<Product> getProductsByKeyword(String keyword);
 
-	void updateProduct(Product product);
+	void updateProduct(Product product) throws Exception;
 
 	void deleteProduct(Long productId);
 

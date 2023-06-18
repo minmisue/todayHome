@@ -1,5 +1,6 @@
 package com.sp.app.product.mangement;
 
+import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +73,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void updateProduct(Product product) {
+	public void updateProduct(Product product) throws Exception {
+
 
 	}
 

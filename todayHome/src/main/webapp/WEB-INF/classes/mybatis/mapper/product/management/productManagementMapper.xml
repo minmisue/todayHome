@@ -32,4 +32,8 @@
         ) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
         WHERE P.PRODUCT_ID = #{productId}
     </select>
+
+    <select id="getProductImg" parameterType="Long" resultType="list">
+
+    </select>
 </mapper>

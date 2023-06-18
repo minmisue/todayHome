@@ -1,8 +1,10 @@
-package com.sp.app.member;
+package com.sp.app.member.management;
 
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+
+import com.sp.app.domain.member.Member;
 
 @Repository
 public class MemberManagementRepositoryImpl implements MemberManagementRepository {

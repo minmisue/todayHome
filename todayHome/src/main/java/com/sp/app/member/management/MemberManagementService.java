@@ -1,6 +1,8 @@
-package com.sp.app.member;
+package com.sp.app.member.management;
 
 import java.util.Map;
+
+import com.sp.app.domain.member.Member;
 
 public interface MemberManagementService {
 	

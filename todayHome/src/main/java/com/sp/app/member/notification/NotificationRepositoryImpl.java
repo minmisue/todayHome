@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.member.Notification;
 
 @Repository 
 public class NotificationRepositoryImpl implements NotificationRepository {

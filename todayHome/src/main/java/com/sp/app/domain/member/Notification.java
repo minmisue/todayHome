@@ -1,4 +1,4 @@
-package com.sp.app.member.notification;
+package com.sp.app.domain.member;
 
 public class Notification {
 	private int notificationId;

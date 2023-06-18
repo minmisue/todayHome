@@ -2,12 +2,6 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
-	<select id="loginMember" parameterType="String" resultType="com.sp.app.member.Member">
-		SELECT m.memberIdx, membership, userId, userName, userPwd, register_date, modify_date, last_login
-		FROM member m
-		JOIN member1 m1 ON m1.memberIdx = m.memberIdx
-		WHERE userId = #{userId} AND enabled != 0
-	</select>
 	
 	<update id="updateLastLogin" parameterType="String">
 		UPDATE member1 SET last_login = SYSDATE, failure_cnt = 0

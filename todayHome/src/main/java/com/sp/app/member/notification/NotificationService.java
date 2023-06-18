@@ -2,6 +2,8 @@ package com.sp.app.member.notification;
 
 import java.util.List;
 
+import com.sp.app.domain.member.Notification;
+
 public interface NotificationService {
 	void createNotification(Notification notification) throws Exception;
 	void updateNotification(Notification notification) throws Exception;

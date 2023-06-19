@@ -8,13 +8,13 @@
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
-        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
-        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName})
+        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, SEQUENCE)
+        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{sequence})
     </insert>
 
     <insert id="insertContentImg" parameterType="map">
-        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
-        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName})
+        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)
+        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})
     </insert>
 
     <select id="getProduct" parameterType="Long" resultType="com.sp.app.domain.product.Product">
@@ -34,6 +34,8 @@
     </select>
 
     <select id="getProductImg" parameterType="Long" resultType="list">
-
+        SELECT save_name AS saveName
+        FROM product_img
+        WHERE product_id = #{producId}
     </select>
 </mapper>

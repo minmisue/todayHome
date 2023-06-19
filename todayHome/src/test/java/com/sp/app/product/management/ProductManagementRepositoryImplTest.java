@@ -76,6 +76,7 @@ public class ProductManagementRepositoryImplTest {
 		String imgName = "contentImgTest1";
 		imgMap.put("productId", 61L);
 		imgMap.put("imgName", imgName);
+		imgMap.put("sequence", 1);
 
 		// 테스트 할 메소드
 		productManagementRepository.insertProductImg(imgMap);

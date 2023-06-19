@@ -2,6 +2,7 @@ package com.sp.app.product.management;
 
 
 import com.sp.app.domain.product.Product;
+import com.sp.app.domain.product.ProductImg;
 import com.sp.app.domain.product.ProductOption;
 
 import java.util.List;
@@ -13,9 +14,15 @@ public interface ProductManagementRepository {
 
 	void insertProductImg(Map<String, Object> imgMap) throws Exception;
 
-	void insertContentImg(Map<String, Object> imgMap) throws Exception;
-
 	Product getProductById(Long productId) throws Exception;
+
+	List<ProductImg> getProductImgList(Long productId) throws Exception;
+
+	/**
+	 * n 번째 보다 크거나 같은 시퀀스를 모두 1씩 증가시킴
+	 * @param map      기준 sequence 값, 변경 할 productId
+	 */
+	void increaseImgSequences(Map<String, Object> map) throws Exception;
 
 	List<Product> getAllProducts();
 

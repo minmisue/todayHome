@@ -8,14 +8,14 @@
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
-        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, SEQUENCE)
-        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{sequence})
+        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, TYPE, SEQUENCE)
+        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{type}, #{sequence})
     </insert>
 
-    <insert id="insertContentImg" parameterType="map">
-        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)
-        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})
-    </insert>
+<!--    <insert id="insertContentImg" parameterType="map">-->
+<!--        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)-->
+<!--        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})-->
+<!--    </insert>-->
 
     <select id="getProduct" parameterType="Long" resultType="com.sp.app.domain.product.Product">
         SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
@@ -33,9 +33,17 @@
         WHERE P.PRODUCT_ID = #{productId}
     </select>
 
-    <select id="getProductImg" parameterType="Long" resultType="list">
-        SELECT save_name AS saveName
+    <select id="getProductImgList" parameterType="Long" resultType="com.sp.app.domain.product.ProductImg">
+        SELECT save_name AS saveName, TYPE, sequence
         FROM product_img
         WHERE product_id = #{producId}
+        ORDER BY SEQUENCE
     </select>
+
+    <update id="increaseImgSequences" parameterType="map">
+        UPDATE product_img
+        SET sequence = sequence + 1
+        WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
+    </update>
+
 </mapper>

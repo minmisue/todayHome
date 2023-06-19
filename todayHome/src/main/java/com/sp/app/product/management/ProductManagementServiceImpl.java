@@ -31,20 +31,28 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 		// 현재 productId 가져옴 (임시)
 		Long productId = 61L;
 
+		int sequence = 0;
 		// 상품 이미지 등록
 		for (String imgName : productImgList) {
 			Map<String, Object> productImgMap = new HashMap<>();
 			productImgMap.put("productId", productId);
 			productImgMap.put("imgName", imgName);
+			productImgMap.put("sequence", sequence);
+			productImgMap.put("type", 0);
 			productManagementRepository.insertProductImg(productImgMap);
+			sequence++;
 		}
 
+		sequence = 0;
 		// 상품 콘텐츠 이미지 등록
 		for (String imgName : contentImgList) {
 			Map<String, Object> contentImgMap = new HashMap<>();
 			contentImgMap.put("productId", productId);
 			contentImgMap.put("imgName", imgName);
-			productManagementRepository.insertContentImg(contentImgMap);
+			contentImgMap.put("sequence", sequence);
+			contentImgMap.put("type", 1);
+			productManagementRepository.insertProductImg(contentImgMap);
+			sequence++;
 		}
 
 		// 상품 옵션 등록

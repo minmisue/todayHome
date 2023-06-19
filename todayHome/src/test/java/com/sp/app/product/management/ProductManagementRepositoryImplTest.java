@@ -1,6 +1,7 @@
 package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
+import com.sp.app.domain.product.ProductImg;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,28 +60,27 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void insertProductImg() throws Exception {
 		// 주어진 값
-		Map<String, Object> imgMap = new HashMap<>();
-		String imgName = "imgTest1";
-		imgMap.put("productId", 61L);
-		imgMap.put("imgName", imgName);
+//		Map<String, Object> imgMap = new HashMap<>();
+//		String imgName = "imgTest1";
+//		imgMap.put("productId", 61L);
+//		imgMap.put("imgName", imgName);
+//		imgMap.put("sequence", 5);
+//		imgMap.put("type", 0);
 
 		// 테스트 할 메소드
-		productManagementRepository.insertProductImg(imgMap);
+		for (int i = 1; i < 5; i++) {
+			Map<String, Object> imgMap = new HashMap<>();
+			String imgName = "imgTest";
+			imgMap.put("productId", 61L);
+			imgMap.put("imgName", imgName + i);
+			imgMap.put("sequence", i);
+			imgMap.put("type", 0);
 
-		// 결과
-	}
+			productManagementRepository.insertProductImg(imgMap);
+		}
 
-	@Test
-	public void insertContentImg() throws Exception {
-		// 주어진 값
-		Map<String, Object> imgMap = new HashMap<>();
-		String imgName = "contentImgTest1";
-		imgMap.put("productId", 61L);
-		imgMap.put("imgName", imgName);
-		imgMap.put("sequence", 1);
 
-		// 테스트 할 메소드
-		productManagementRepository.insertProductImg(imgMap);
+//		productManagementRepository.insertProductImg(imgMap);
 
 		// 결과
 	}
@@ -96,4 +97,37 @@ public class ProductManagementRepositoryImplTest {
 //		log.info("result = {}", result);
 	}
 
+	@Test
+	public void getProductImgList() throws Exception {
+		// 주어진 값
+		Long productId = 61L;
+
+		// 테스트 할 메소드
+		List<ProductImg> productImgList = productManagementRepository.getProductImgList(productId);
+
+		// 결과
+		for (ProductImg productImg : productImgList) {
+			System.out.println(productImg);
+		}
+	}
+
+	@Test
+	public void increaseImgSequences() throws Exception {
+		// 주어진 값
+		Long productId = 61L;
+		int sequence = 2;
+
+		// 테스트 할 메소드
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("sequence", sequence);
+
+		productManagementRepository.increaseImgSequences(map);
+
+		// 결과
+		List<ProductImg> productImgList = productManagementRepository.getProductImgList(productId);
+		for (ProductImg productImg : productImgList) {
+			System.out.println(productImg);
+		}
+	}
 }

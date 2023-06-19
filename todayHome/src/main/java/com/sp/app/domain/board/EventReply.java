@@ -1,4 +1,4 @@
-package com.sp.app.domain.event;
+package com.sp.app.domain.board;
 
 public class EventReply {
 	private Long event_board_comment_id;

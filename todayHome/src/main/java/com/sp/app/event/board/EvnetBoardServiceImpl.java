@@ -2,18 +2,18 @@ package com.sp.app.event.board;
 
 import java.util.List;
 
-import com.sp.app.domain.event.EventBoard;
+import com.sp.app.domain.board.EventBoard;
 
 public class EvnetBoardServiceImpl implements EventBoardService{
 
 	@Override
-	public void insertEventBoard(EventBoard dto) throws Exception {
+	public void insertEventBoard(EventBoard eventboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateEventBoard(EventBoard dto) throws Exception {
+	public void updateEventBoard(EventBoard eventboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

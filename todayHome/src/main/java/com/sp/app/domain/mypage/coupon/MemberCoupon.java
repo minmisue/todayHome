@@ -1,11 +1,26 @@
-package com.sp.app.domain.copon;
+package com.sp.app.domain.mypage.coupon;
 
-public class Coupon {
+public class MemberCoupon {
+	private Long member_coupon_id;
+	private String member_id;
+	
 	private Long coupon_id;
 	private Long discount_percent;
 	private String name;
 	private Long max_discount_amount;
 	
+	public Long getMember_coupon_id() {
+		return member_coupon_id;
+	}
+	public void setMember_coupon_id(Long member_coupon_id) {
+		this.member_coupon_id = member_coupon_id;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
 	public Long getCoupon_id() {
 		return coupon_id;
 	}

@@ -1,4 +1,4 @@
-package com.sp.app.domain.event;
+package com.sp.app.domain.board;
 
 public class EventWinner {
 	private Long event_board_id;

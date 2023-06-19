@@ -2,18 +2,18 @@ package com.sp.app.notice.board;
 
 import java.util.List;
 
-import com.sp.app.domain.notice.NoticeBoard;
+import com.sp.app.domain.board.NoticeBoard;
 
 public class NoticeBoardServiceImpl implements NoticeBoardService{
 
 	@Override
-	public void insertNoticeBoard(NoticeBoard dto) throws Exception {
+	public void insertNoticeBoard(NoticeBoard noticeboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateNoticeBoard(NoticeBoard dto) throws Exception {
+	public void updateNoticeBoard(NoticeBoard noticeboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

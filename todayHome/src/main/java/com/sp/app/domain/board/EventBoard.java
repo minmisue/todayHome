@@ -1,4 +1,4 @@
-package com.sp.app.domain.event;
+package com.sp.app.domain.board;
 
 import java.util.List;
 

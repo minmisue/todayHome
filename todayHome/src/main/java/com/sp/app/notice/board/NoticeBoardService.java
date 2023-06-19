@@ -2,13 +2,13 @@ package com.sp.app.notice.board;
 
 import java.util.List;
 
-import com.sp.app.domain.notice.NoticeBoard;
+import com.sp.app.domain.board.NoticeBoard;
 
 public interface NoticeBoardService {
 	
-	void insertNoticeBoard(NoticeBoard dto) throws Exception;
+	void insertNoticeBoard(NoticeBoard noticeboard) throws Exception;
 	
-	void updateNoticeBoard(NoticeBoard dto) throws Exception;
+	void updateNoticeBoard(NoticeBoard noticeboard) throws Exception;
 	
 	void deleteNoticeBoard(Long notice_board_id) throws Exception;
 	

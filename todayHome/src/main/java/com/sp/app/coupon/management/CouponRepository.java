@@ -2,8 +2,8 @@ package com.sp.app.coupon.management;
 
 import java.util.List;
 
-import com.sp.app.domain.copon.Coupon;
-import com.sp.app.domain.copon.MemberCoupon;
+import com.sp.app.domain.mypage.coupon.Coupon;
+import com.sp.app.domain.mypage.coupon.MemberCoupon;
 
 
 public interface CouponRepository {

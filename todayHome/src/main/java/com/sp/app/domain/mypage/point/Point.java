@@ -1,4 +1,4 @@
-package com.sp.app.domain.point;
+package com.sp.app.domain.mypage.point;
 
 public class Point {
 	private Long member_id;

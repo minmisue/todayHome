@@ -1,4 +1,4 @@
-package com.sp.app.domain.qna;
+package com.sp.app.domain.board;
 
 public class QnaBoard {
 	private Long qna_board_id;

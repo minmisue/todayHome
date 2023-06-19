@@ -1,4 +1,4 @@
-package com.sp.app.domain.notice;
+package com.sp.app.domain.board;
 
 public class NoticeBoard {
 	private Long notice_board_id;

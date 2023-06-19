@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eventboard">
-	<insert id="insertEventBoard" parameterType="com.sp.app.domain.event.Event">
+	<insert id="insertEventBoard" parameterType="com.sp.app.domain.board.EventBoard">
 		INSERT INTO event_board(event_board_id, member_id, start_date, end_date, title, winning_date, winner_number, show_event)
 		VALEUS (seq_event_board.NEXTVAL, #{member_id}, #{start_date}, #{end_date}, #{title}, #{winning_date}, 0, #{show_event})
 	</insert>

@@ -1,4 +1,4 @@
-package com.sp.app.domain.point;
+package com.sp.app.domain.mypage.point;
 
 public class MemberPoint {
 	private Long point_usage_history_id;

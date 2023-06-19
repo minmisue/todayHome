@@ -46,4 +46,9 @@
         WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
     </update>
 
+    <update id="increaseImgSequences" parameterType="map">
+        UPDATE product_img
+        SET sequence = sequence + 1
+        WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
+    </update>
 </mapper>

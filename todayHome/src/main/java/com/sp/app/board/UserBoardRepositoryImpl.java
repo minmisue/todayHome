@@ -3,6 +3,13 @@ package com.sp.app.board;
 import java.util.List;
 
 public class UserBoardRepositoryImpl implements UserBoardRepository{
+	
+	@Override
+	public void createBoard(UserBoard userBoard) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public int getBoardCount(UserBoard userBoard) {
 		// TODO Auto-generated method stub
@@ -104,6 +111,8 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 	
 

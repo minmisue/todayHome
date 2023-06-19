@@ -3,6 +3,10 @@ package com.sp.app.board;
 import java.util.List;
 
 public interface UserBoardRepository {
+
+	//게시글 등록
+	void createBoard(UserBoard userBoard);
+	
 	// 게시글 개수 조회
     int getBoardCount(UserBoard userBoard);
 	
@@ -59,5 +63,9 @@ public interface UserBoardRepository {
 
 		// 멘션
     // List<Member> getMentionedUsers();
+    
+	// 게시글에 등록된 상품 모아보기
+    // List<Post> getPostsByProduct(Long userBoardId);
+
 }
 	

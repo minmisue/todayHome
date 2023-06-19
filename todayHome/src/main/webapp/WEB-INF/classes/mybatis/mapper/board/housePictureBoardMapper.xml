@@ -5,8 +5,8 @@
 <mapper namespace="housePictureBoard">
 	<insert id="createHousePictureBoard" parameterType="com.sp.app.board.HousePictureBoard">
 		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, created_date, 
-			subject, hitCount, ip_address)
+			 hitCount, ip_address)
 		VALUES (seq_user_board.NEXTVAL, #{memberId}, 1, SYSDATE,
-			#{subject}, 0, 111.222.333.444)
+			 0, 111.222.333.444)
 	</insert>
 </mapper>

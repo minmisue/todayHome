@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface ProductManagementRepository {
 
-	void createProduct(Product product) throws Exception;
+	void insertProduct(Product product) throws Exception;
 
 	void insertProductImg(Map<String, Object> imgMap) throws Exception;
 
@@ -34,11 +34,11 @@ public interface ProductManagementRepository {
 
 	void deleteProduct(Long productId);
 
-	void addScrapProduct(Long memberId, Long productId);
+	void insertScrapProduct(Long memberId, Long productId) throws Exception;
 
-	void deleteScrapProduct(Long memberId, Long productId);
+	void deleteScrapProduct(Long memberId, Long productId) throws Exception;
 
-	boolean isScrapProduct(Long memberId, Long productId);
+	int isScrapProduct(Long memberId, Long productId) throws Exception;
 
 	// 수정해야댐
 	ProductOption getOptionsById(Long productId);

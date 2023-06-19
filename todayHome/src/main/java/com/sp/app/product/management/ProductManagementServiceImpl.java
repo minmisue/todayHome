@@ -2,7 +2,6 @@ package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductOption;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 public class ProductManagementServiceImpl implements ProductManagementService {
 
@@ -23,7 +21,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	 */
 	@Override
 	public void createProduct(Product product) throws Exception {
-		productManagementRepository.createProduct(product);
+		productManagementRepository.insertProduct(product);
 
 		List<String> productImgList = product.getProductImgList();
 		List<String> contentImgList = product.getContentImgList();

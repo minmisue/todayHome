@@ -3,6 +3,7 @@ package com.sp.app.product.management;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductImg;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +46,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@After
 	public void tearDown() throws Exception {
+
 	}
 
 	@Test
@@ -52,7 +54,7 @@ public class ProductManagementRepositoryImplTest {
 		// 주어진 값
 
 		// 테스트 할 메소드
-		productManagementRepository.createProduct(product);
+		productManagementRepository.insertProduct(product);
 
 		// 결과
 	}
@@ -88,7 +90,7 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void getProductById() throws Exception {
 		// 주어진 값
-		Long productId = 61L;
+		Long productId = 161L;
 
 		// 테스트 할 메소드
 		Product result = productManagementRepository.getProductById(productId);
@@ -129,5 +131,44 @@ public class ProductManagementRepositoryImplTest {
 		for (ProductImg productImg : productImgList) {
 			System.out.println(productImg);
 		}
+	}
+
+
+	@Test
+	public void scrapProduct() throws Exception {
+		// 주어진 값
+		Long productId = 161L;
+		Long memberId = 1L;
+
+		// 인서트
+		productManagementRepository.insertScrapProduct(memberId, productId);
+
+		// 결과 (스크랩 확인)
+		int scrapProduct = productManagementRepository.isScrapProduct(memberId, productId);
+
+		// 검증
+		Assert.assertEquals(scrapProduct, 1);
+
+		// 스크랩 삭제
+		productManagementRepository.deleteScrapProduct(memberId, productId);
+	}
+
+
+	@Test
+	public void deleteScrapProduct() throws Exception {
+		// 주어진 값
+
+		// 테스트 코드
+
+		// 결과
+	}
+
+	@Test
+	public void isScrapProduct() throws Exception {
+		// 주어진 값
+
+		// 테스트 코드
+
+		// 결과
 	}
 }

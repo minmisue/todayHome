@@ -17,9 +17,9 @@
 <!--        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})-->
 <!--    </insert>-->
 
-    <select id="getProduct" parameterType="Long" resultType="com.sp.app.domain.product.Product">
+    <select id="getProductById" parameterType="Long" resultType="com.sp.app.domain.product.Product">
         SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
-                product_name as productName, content, to_char(reg_date, 'yyyy-mm-dd') as regDate, price,
+                product_name as productName, content, to_char(p.reg_date, 'yyyy-mm-dd') as regDate, price,
                 remain_quantity as remainQuantity, discount_percent as discountPercent, delivery_cost as deliveryCost,
                 reserving_point_percent as reservingPointPercent,
                 NVL(product_scrap_cnt, 0) AS productScrapCnt
@@ -46,9 +46,19 @@
         WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
     </update>
 
-    <update id="increaseImgSequences" parameterType="map">
-        UPDATE product_img
-        SET sequence = sequence + 1
-        WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
-    </update>
+    <insert id="insertScrapProduct" parameterType="map">
+        INSERT INTO PRODUCT_SCRAP (MEMBER_ID, PRODUCT_ID)
+        VALUES (#{memberId}, #{productId})
+    </insert>
+
+    <delete id="deleteScrapProduct" parameterType="map">
+        DELETE PRODUCT_SCRAP
+        WHERE PRODUCT_ID = #{productId} and MEMBER_ID = #{memberId}
+    </delete>
+
+    <select id="isScrapProduct" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM PRODUCT_SCRAP
+        WHERE MEMBER_ID = #{memberId} and PRODUCT_ID = #{productId}
+    </select>
 </mapper>

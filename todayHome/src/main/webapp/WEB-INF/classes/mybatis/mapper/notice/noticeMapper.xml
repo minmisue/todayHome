@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeboard">
+	<insert id="insertNoticeBoard">
+		INSERT INTO notice_board(notice_board_id, member_id, created_date, subject, content, hit_count, notice)
+		VALUES (seq_notice_board.NEXTVAL, #{member_id}, #{created_date}, #{subject}, #{content}, 0, 1)
+	</insert>
+</mapper>

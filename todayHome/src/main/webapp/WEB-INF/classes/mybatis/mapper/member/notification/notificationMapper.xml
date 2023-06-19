@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notification">
+
+ <insert id="insertNotification" parameterType="com.sp.app.domain.member.Notification">
+		INSERT INTO NOTIFICATION (NOTIFICATION_ID, MEMBER_ID, NOTIFICATION_TYPE, NOTIFICATION_MESSAGE, REG_DATE, IS_READ, PARAMETER1, PARAMETER2, PARAMETER3) 
+		VALUES (SEQ_NOTIFICATION.NEXTVAL,#{memberId},#{type},#{message,jdbcType=VARCHAR}, SYSDATE, 0, #{parameter1,jdbcType=VARCHAR}, #{parameter2,jdbcType=VARCHAR}, #{parameter3,jdbcType=VARCHAR});
+ </insert>
+
+ <update id="updateNotification" parameterType="com.sp.app.domain.member.Notification">
+	UPDATE NOTIFICATION set NOTIFICATION_TYPE = #{type} ,NOTIFICATION_MESSAGE = #{message, jdbcType=VARCHAR} 
+	,REG_DATE = #{regDate} ,IS_READ = #{isRead} 
+	,PARAMETER1 = #{parameter1, jdbcType=VARCHAR} ,PARAMETER2 = #{parameter2, jdbcType=VARCHAR} 
+	,PARAMETER3 = #{parameter3, jdbcType=VARCHAR}
+ </update>
+   
+  <delete id="deleteNotifion" parameterType="com.sp.app.domain.member.Notification"> 
+    delete NOTIFICATION where NOTIFICATION_ID = #{notificationId};
+</delete>
+
+<select id="getNotReadNotificationList" parameterType="Long" resultType="List">
+	SELECT notification_id as notificationId, member_id as memberId, notification_type as type, notification_message as message, reg_date as regDate, is_read as isRead, parameter1, parameter2, parameter3
+	FROM NOTIFICATION
+	where IS_READ = 0 and MEMBER_ID = #{memberId};
+</select>
+
+<select id="getNotReadNotificationCount" parameterType="Long" resultType="int">
+	SELECT count(*)
+	FROM NOTIFICATION
+	where IS_READ = 0 and MEMBER_ID = #{memberId};
+</select>
+
+
+
+</mapper>
+

@@ -15,7 +15,7 @@
 
     <insert id="insertMemberDetail" parameterType="com.sp.app.domain.member.Member">
 		INSERT INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName}, #{info});	
+		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName, jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR});	
 		
     </insert>
 	
@@ -24,7 +24,7 @@
 			INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
 			VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
 			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName}, #{info});
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR});
 		SELECT * FROM dual;     
     </update>
     
@@ -35,7 +35,7 @@
     </select>
 	
 	<select id="readMemberById" parameterType="Long" resultType="com.sp.app.domain.member.Member">
-		SELECT m.MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL, POST_NUM, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO
+		SELECT m.MEMBER_ID as memberId, MEMBER_ROLE_ID as memberRoleId, EMAIL, NAME, TEL, POST_NUM as postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE as regDate, PROFILE_IMG_NAME as profileImgName, INFO
 		FROM MEMBER m
 		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
 		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="readMemberByEmail" parameterType="String" resultType="com.sp.app.domain.member.Member">
-		SELECT m.MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL, POST_NUM, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO
+		SELECT m.MEMBER_ID as memberId, MEMBER_ROLE_ID as memberRoleId, EMAIL, NAME, TEL, POST_NUM as postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE as regDate, PROFILE_IMG_NAME as profileImgName, INFO
 		FROM MEMBER m
 		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
 		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
@@ -60,7 +60,7 @@
     </update>
     
     <update id="updateMemberDetail" parameterType="com.sp.app.domain.member.Member">
-    	update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName}, INFO = #{info}
+    	update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName, jdbcType=VARCHAR}, INFO = #{info, jdbcType=VARCHAR}
     </update>
     
     <update id="updateAddress" parameterType="com.sp.app.domain.member.Member">

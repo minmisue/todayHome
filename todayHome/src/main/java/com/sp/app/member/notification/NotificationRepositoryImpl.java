@@ -40,21 +40,15 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	}
 
 	@Override
-	public List<Notification> getNotificationList(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getNotificationCount(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int getNotReadNotificationCount(Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<Notification> getNotReadNotificationList(Long memberId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

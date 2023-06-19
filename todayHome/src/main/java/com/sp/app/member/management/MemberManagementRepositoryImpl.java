@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sp.app.domain.member.Member;
 
-@Repository
+@Repository("MemberRepository")
 public class MemberManagementRepositoryImpl implements MemberManagementRepository {
 
 	@Override

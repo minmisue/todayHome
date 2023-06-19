@@ -13,7 +13,35 @@ public class Seller {
 	private String presentation;
 	private Long accumulatedAmount;
 	private int status;
+	private String regDate;
+	private String adjustmentDate;
+	private Long amount;
+	private Long adjustmentId;
 	
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+	public String getAdjustmentDate() {
+		return adjustmentDate;
+	}
+	public void setAdjustmentDate(String adjustmentDate) {
+		this.adjustmentDate = adjustmentDate;
+	}
+	public Long getAmount() {
+		return amount;
+	}
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
+	public Long getAdjustmentId() {
+		return adjustmentId;
+	}
+	public void setAdjustmentId(Long adjustmentId) {
+		this.adjustmentId = adjustmentId;
+	}
 	public int getStatus() {
 		return status;
 	}

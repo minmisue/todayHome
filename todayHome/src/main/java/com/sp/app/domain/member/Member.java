@@ -1,30 +1,24 @@
 package com.sp.app.domain.member;
 
 public class Member {
-	private int memberId;
+	private Long memberId;
+	private int memberRoleId;
 	private String email;
 	private String name;
 	private String tel;
 	private String regDate;
-	private int role;
 	private String nickName;
 	private String password;
-	private int enable;
+	private int enabled;
 	private String profileImgName;
 	private String info;
 	private int addressBundleId;
-	private String postNum1;
+	private String postNum;
 	private String address1;
 	private String address2;
 	private int remainPoint;
 	
 	
-	public int getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
-	}
 	public String getEmail() {
 		return email;
 	}
@@ -49,12 +43,7 @@ public class Member {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public int getRole() {
-		return role;
-	}
-	public void setRole(int role) {
-		this.role = role;
-	}
+	
 	public String getNickName() {
 		return nickName;
 	}
@@ -68,10 +57,10 @@ public class Member {
 		this.password = password;
 	}
 	public int getEnable() {
-		return enable;
+		return enabled;
 	}
-	public void setEnable(int enable) {
-		this.enable = enable;
+	public void setEnable(int enabled) {
+		this.enabled = enabled;
 	}
 	public String getProfileImgName() {
 		return profileImgName;
@@ -91,11 +80,11 @@ public class Member {
 	public void setAddressBundleId(int addressBundleId) {
 		this.addressBundleId = addressBundleId;
 	}
-	public String getPostNum1() {
-		return postNum1;
+	public String getPostNum() {
+		return postNum;
 	}
-	public void setPostNum1(String postNum1) {
-		this.postNum1 = postNum1;
+	public void setPostNum(String postNum) {
+		this.postNum = postNum;
 	}
 	public int getRemainPoint() {
 		return remainPoint;
@@ -114,6 +103,18 @@ public class Member {
 	}
 	public void setAddress2(String address2) {
 		this.address2 = address2;
+	}
+	public int getMemberRoleId() {
+		return memberRoleId;
+	}
+	public void setMemberRoleId(int memberRoleId) {
+		this.memberRoleId = memberRoleId;
+	}
+	public Long getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 	
 	

@@ -3,97 +3,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
 	
-	<update id="updateLastLogin" parameterType="String">
-		UPDATE member1 SET last_login = SYSDATE, failure_cnt = 0
-		WHERE userId=#{userId}
-	</update>
-	
     <select id="memberSeq" resultType="Long">
        SELECT member_seq.NEXTVAL FROM dual 
     </select>
 
-    <insert id="insertMember" parameterType="Long">
-		INSERT INTO member(memberIdx, membership) VALUES (#{memberIdx}, 1) 
+    <insert id="insertMember" parameterType="com.sp.app.domain.member.Member">
+		INSERT INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
+		VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel});
+
     </insert>
 
-    <insert id="insertMember1" parameterType="com.sp.app.member.Member">
-		INSERT INTO member1(memberIdx, userId, userName, userPwd, enabled, register_date, modify_date, failure_cnt)
-		VALUES (#{memberIdx}, #{userId}, #{userName}, #{userPwd}, 1, SYSDATE, SYSDATE, 0) 
-    </insert>
-
-    <insert id="insertMember2" parameterType="com.sp.app.member.Member">
-		INSERT INTO member2(userId, birth, email, tel, zip, addr1, addr2)
-		VALUES (#{userId}, #{birth}, #{email}, #{tel}, 
-			#{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR}, 
-			#{addr2, jdbcType=VARCHAR})
+    <insert id="insertMemberDetail" parameterType="com.sp.app.domain.member.Member">
+		INSERT INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
+		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName}, #{info});	
+		
     </insert>
 	
-    <update id="insertMember12" parameterType="com.sp.app.member.Member">
+    <update id="insertMemberAll" parameterType="com.sp.app.domain.member.Member">
 		INSERT ALL
-		INTO member1(memberIdx, userId, userName, userPwd, enabled, 
-			register_date, modify_date, failure_cnt)
-		VALUES (#{memberIdx}, #{userId}, #{userName}, #{userPwd}, 1, SYSDATE, SYSDATE, 0)
-		INTO member2(userId, birth, email, tel, zip, addr1, addr2)
-		VALUES (#{userId}, #{birth}, #{email}, #{tel}, 
-			#{zip, jdbcType=VARCHAR}, #{addr1, jdbcType=VARCHAR}, 
-			#{addr2, jdbcType=VARCHAR})
-		SELECT * FROM dual     
+			INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
+			VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
+			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName}, #{info});
+		SELECT * FROM dual;     
     </update>
+    
+    <select id="emailCheck" parameterType="int" resultType="int">
+    	select count(*)
+		from MEMBER
+		where EMAIL = #{email};
+    </select>
 	
-	<select id="readMember" parameterType="String" resultType="com.sp.app.member.Member">
-		SELECT m.memberIdx, membership, m1.userId, userName, userPwd, enabled,
-			register_date, modify_date, last_login,
-			TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, 
-			zip, addr1, addr2
-		FROM member m 
-		JOIN member1 m1 ON m.memberIdx = m1.memberIdx 
-		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
-		WHERE m1.userId = #{userId}
+	<select id="readMemberById" parameterType="Long" resultType="com.sp.app.domain.member.Member">
+		SELECT m.MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL, POST_NUM, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO
+		FROM MEMBER m
+		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
+		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
+		WHERE m.MEMBER_ID = #{memberId};	
 	</select>
 
-	<select id="readMember2" parameterType="Long" resultType="com.sp.app.member.Member">
-		SELECT m.memberIdx, membership, enabled, 
-			NVL(m1.userId, 'guest') userId, NVL(userName, '손님') userName, userPwd, 
-			register_date, modify_date, last_login,
-			TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel,
-			zip, addr1, addr2
-		FROM member m
-		LEFT OUTER JOIN member1 m1 ON m.memberIdx = m1.memberIdx
-		LEFT OUTER JOIN member2 m2 ON m1.userId = m2.userId
-		WHERE m.memberIdx = #{memberIdx}
+	<select id="readMemberByEmail" parameterType="String" resultType="com.sp.app.domain.member.Member">
+		SELECT m.MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL, POST_NUM, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO
+		FROM MEMBER m
+		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
+		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
+		WHERE m.EMAIL = #{email};
 	</select>
 	
     <!-- 회원정보 수정  --> 
-    <update id="updateMembership" parameterType="map">
-		UPDATE member SET membership = #{membership}
-		WHERE memberIdx=#{memberIdx}
-    </update>
-
-    <update id="updateMemberEnabled" parameterType="map">
-		UPDATE member1 SET enabled=#{enabled} WHERE userId=#{userId}
+    <update id="updateMemberEnabled" parameterType="Map">
+		UPDATE MEMBER_DETAIL SET enabled=#{enabled} WHERE MEMBER_ID=#{memberId};
     </update>
     
-    <update id="updateMember1" parameterType="com.sp.app.member.Member">
-		UPDATE member1 SET userPwd=#{userPwd}, modify_date=SYSDATE
-		WHERE userId=#{userId}
+    <update id="updateMember" parameterType="com.sp.app.domain.member.Member">
+    	UPDATE MEMBER SET MEMBER_ROLE_ID = #{memberRoleId} , NAME = #{name}, TEL = #{tel};
     </update>
-	
-    <update id="updateMember2" parameterType="com.sp.app.member.Member">
-		UPDATE member2 SET email=#{email, jdbcType=VARCHAR}, 
-			tel=#{tel, jdbcType=VARCHAR}, birth=#{birth, jdbcType=VARCHAR},
-			zip=#{zip, jdbcType=VARCHAR},
-			addr1=#{addr1, jdbcType=VARCHAR}, addr2=#{addr2, jdbcType=VARCHAR}
-		WHERE userId=#{userId}
-    </update>
-
-    <!-- member 테이블 정보 삭제  -->    
-    <delete id="deleteMember1" parameterType="String">
-		DELETE FROM member1 WHERE userId=#{userId}
-    </delete>
     
-    <delete id="deleteMember2" parameterType="String">
-		DELETE FROM member2 WHERE userId=#{userId}
-    </delete>
+    <update id="updateMemberDetail" parameterType="com.sp.app.domain.member.Member">
+    	update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName}, INFO = #{info}
+    </update>
+    
+    <update id="updateAddress" parameterType="com.sp.app.domain.member.Member">
+    	update ADDRESS_BUNDLE set POST_NUM = #{postNum}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2};
+    </update>
+       
+    
 	
 
 </mapper>

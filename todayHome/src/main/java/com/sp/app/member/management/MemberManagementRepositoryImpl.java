@@ -16,33 +16,57 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	}
 
 	@Override
-	public void updateLastLogin(Long memberId) throws Exception {
+	public void insertMemberDetail(Member member) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateMember(Member member) throws Exception {
+	public void insertMemberAll(Member member) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Member readMember(String email) {
+	public int emailCheck(String email) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Member readMemberById(Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
+	public Member readMemberByEmail(String email) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateMemberEnabled(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void generatePwd(Member member) throws Exception {
+	public Member updateMember(Member member) throws Exception {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public Member updateMemberDetail(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Member updateAddress(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

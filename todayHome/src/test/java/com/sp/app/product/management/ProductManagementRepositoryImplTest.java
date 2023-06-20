@@ -155,7 +155,6 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void insertScrapProduct() throws Exception {
 		productManagementRepository.insertScrapProduct(1L, 61L);
-//		System.out.println(i);
 	}
 
 	@Test

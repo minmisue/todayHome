@@ -2,24 +2,57 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
-	
 	<!-- 장바구니 담기 -->
 	<insert id="insertCart" parameterType="com.sp.app.cart.Cart">
 		INSERT INTO cart(cart_id,member_id,product_id,stock_id,quantity,reg_date) 
     			VALUES(seq_cart.NEXTVAL,#{memberId},#{stockId},#{productId},#{quantity},SYSDATE); 
 	</insert>
 	
+	<!-- 장바구니 리스트(회원 별) -->
+	<select id="selectList" parameterType="map" resultType="com.sp.app.cart.Cart">
+		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId,
+			    p.product_name productName, p.price, c.quantity quantity,
+			    sl.seller_name sellerName, option_price optionPrice,
+			    discount_percent discountPercent, 
+			    delivery_cost deliveryCost,reserving_point_percent reservingPointPercent
+		FROM cart c
+		JOIN member m ON m.member_id = c.member_id
+		JOIN product p ON c.product_id = p.product_id
+		JOIN stock s ON c.stock_id = s.stock_id
+		JOIN seller sl ON p.seller_id = sl.seller_id
+		WHERE memberId = #{memberId}
+	</select>
+
 	<!-- 장바구니 삭제 -->
 	<delete id="deleteCart" parameterType="Long">
-		DELETE FROM cart WHERE cart_id = #{cart}
+		DELETE FROM cart WHERE cart_id = #{cartId}
 	</delete>
 	
-	<!-- 장바구니 업데이트(수량변경) -->
-	<update id="updateCart" parameterType="Long">
+	<!-- 장바구니 업데이트(수량변경 플러스) -->
+	<update id="updatePlusCart" parameterType="Long">
 		UPDATE cart SET quantity=quantity+1 WHERE cart_id = #{cartId}
 	</update>
+
+	<!-- 장바구니 업데이트(수량변경 마이너스) -->
+	<update id="updateMinusCart" parameterType="Long">
+		UPDATE cart SET quantity=quantity-1 WHERE cart_id = #{cartId}
+	</update>
 	
-	<!-- 장바구니 리스트 -->
+	<!-- 장바구니담기전 재고 체크 -->
+	<select id="checkQuantity" parameterType="map" resultType="Integer">
+	<![CDATA[
+		select * 
+		from stock
+		where stock_id = #{stockId} AND #{quantity} <= quantity - #{quantity}
+	]]>
+	</select>
+
+	<!-- 장바구니에 담긴 상품인지 확인 -->
+	<select id="checkCartProduct" parameterType="Long" resultType="Integer">
+		SELECT *
+		FROM cart
+		where cart_id = #{cartId}
+	</select>
 	
 	
 </mapper>

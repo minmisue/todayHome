@@ -1,6 +1,7 @@
 package com.sp.app.cart;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CartManagementRepository {
 	
@@ -15,5 +16,11 @@ public interface CartManagementRepository {
 	
 	// 회원 별 장바구니 리스트
 	public List<Cart> getCartList(Long memberId) throws Exception;
+	
+	// 장바구니 재고 체크 
+	public Integer checkQuantity(Map<String, Object> map) throws Exception;
+	
+	// 장바구니에 담겨있는지 확인
+	public Integer checkCartProduct(Long cartId) throws Exception;
 
 }

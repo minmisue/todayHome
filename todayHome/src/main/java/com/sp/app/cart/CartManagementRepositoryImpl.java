@@ -1,6 +1,7 @@
 package com.sp.app.cart;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,22 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	public List<Cart> getCartList(Long memberId) throws Exception{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer checkQuantity(Map<String, Object> map) throws Exception {
+		Integer result = null; // 아무런 조건이 없으면 null 반환 하기때문에 반환 타입 Integer
+		result = commonDAO.selectOne("cart.checkQuantity", map);
+		
+		return result;
+	}
+
+	@Override
+	public Integer checkCartProduct(Long cartId) throws Exception {
+		Integer result = null;
+		result = commonDAO.selectOne("cart.checkCartProduct", cartId);
+		
+		return result;
 	}
 
 }

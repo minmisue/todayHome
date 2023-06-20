@@ -99,10 +99,8 @@
                         <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/161866122047151511.jpeg?w=1440">
                     </a>
                     <a class="news-link" href="#" style="text-decoration: none;">
-                        <div>
                             <span class="news-title">일상에서 발견하는 예쁜 인테리어, 소품 사진을 공유해주세요. 인기 사진으로 선정되면 포인트를 적립해 드려요.</span>
                             <span class="news-date">1일</span>
-                        </div>
                     </a>
                        
                 </div>

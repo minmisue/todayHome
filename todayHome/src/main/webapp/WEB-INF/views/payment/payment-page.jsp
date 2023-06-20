@@ -384,22 +384,22 @@
 
 						<div class="flex-col payment-method-container">
 							<div style="font-size: 14px;">카드</div>
-							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"} style="height: 60px; width: 60px;">
+							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1" style="height: 60px; width: 60px;">
 						</div>
 
 						<div class="flex-col payment-method-container">
 							<div style="font-size: 14px;">카드</div>
-							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"} style="height: 60px; width: 60px;">
+							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1" style="height: 60px; width: 60px;">
 						</div>
 
 						<div class="flex-col payment-method-container">
 							<div style="font-size: 14px;">카드</div>
-							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"} style="height: 60px; width: 60px;">
+							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1" style="height: 60px; width: 60px;">
 						</div>
 
 						<div class="flex-col payment-method-container">
 							<div style="font-size: 14px;">카드</div>
-							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"} style="height: 60px; width: 60px;">
+							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1" style="height: 60px; width: 60px;">
 						</div>
 
 					</div>

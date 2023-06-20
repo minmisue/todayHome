@@ -1,9 +1,7 @@
 package com.sp.app.product.management;
 
 import com.sp.app.common.CommonDAO;
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductImg;
-import com.sp.app.domain.product.ProductOption;
+import com.sp.app.domain.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -92,16 +90,41 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public ProductOption getOptionsById(Long productId) {
+	public ProductMainOption getOptionsById(Long productId) {
 		return null;
 	}
 
 
 	@Override
-	public ProductOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
+	public ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("productId", productId);
 		map.put("parentOptionId", parentOptionId);
 		return commonDAO.selectOne("productManagement.getMainOptionByParentId", map);
+	}
+
+	@Override
+	public List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception {
+		return commonDAO.selectList("productManagement.getSubOptionsByMainOptionId", mainOptionId);
+	}
+
+	@Override
+	public List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception {
+		return commonDAO.selectList("productManagement.getStockBySubOptionId", subOptionId);
+	}
+
+	@Override
+	public List<Product> findProductByCategory(Long categoryId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public Long getMainOptionSeq() throws Exception {
+		return null;
+	}
+
+	@Override
+	public Long getProductSeq() throws Exception {
+		return null;
 	}
 }

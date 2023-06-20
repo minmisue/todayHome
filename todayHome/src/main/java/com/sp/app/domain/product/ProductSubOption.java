@@ -3,7 +3,7 @@ package com.sp.app.domain.product;
 public class ProductSubOption {
 	private Long optionDetailId;
 	private Long mainOptionId;
-	private String OptionDetailName;
+	private String optionDetailName;
 
 	public ProductSubOption() {
 	}
@@ -12,17 +12,9 @@ public class ProductSubOption {
 	public String toString() {
 		return "ProductSubOption{" +
 				"optionDetailId=" + optionDetailId +
+				", OptionDetailName='" + optionDetailName + '\'' +
 				", mainOptionId=" + mainOptionId +
-				", OptionDetailName='" + OptionDetailName + '\'' +
 				'}';
-	}
-
-	public Long getOptionDetailId() {
-		return optionDetailId;
-	}
-
-	public void setOptionDetailId(Long optionDetailId) {
-		this.optionDetailId = optionDetailId;
 	}
 
 	public Long getMainOptionId() {
@@ -33,11 +25,19 @@ public class ProductSubOption {
 		this.mainOptionId = mainOptionId;
 	}
 
+	public Long getOptionDetailId() {
+		return optionDetailId;
+	}
+
+	public void setOptionDetailId(Long optionDetailId) {
+		this.optionDetailId = optionDetailId;
+	}
+
 	public String getOptionDetailName() {
-		return OptionDetailName;
+		return optionDetailName;
 	}
 
 	public void setOptionDetailName(String optionDetailName) {
-		OptionDetailName = optionDetailName;
+		this.optionDetailName = optionDetailName;
 	}
 }

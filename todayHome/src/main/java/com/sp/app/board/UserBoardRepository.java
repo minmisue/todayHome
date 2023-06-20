@@ -1,11 +1,14 @@
 package com.sp.app.board;
 
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.UserBoard;
+
 import java.util.List;
 
 public interface UserBoardRepository {
 
 	//게시글 등록
-	void createBoard(UserBoard userBoard);
+	void createBoard(UserBoard userBoard) throws Exception;
 	
 	// 게시글 개수 조회
     int getBoardCount(UserBoard userBoard);

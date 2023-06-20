@@ -1,8 +1,6 @@
 package com.sp.app.product.management;
 
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductImg;
-import com.sp.app.domain.product.ProductOption;
+import com.sp.app.domain.product.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -154,6 +152,11 @@ public class ProductManagementRepositoryImplTest {
 		productManagementRepository.deleteScrapProduct(memberId, productId);
 	}
 
+	@Test
+	public void insertScrapProduct() throws Exception {
+		productManagementRepository.insertScrapProduct(1L, 61L);
+//		System.out.println(i);
+	}
 
 	@Test
 	public void deleteScrapProduct() throws Exception {
@@ -175,32 +178,48 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getMainOption() throws Exception {
-
-		List<ProductOption> list = new ArrayList<>();
+		List<ProductMainOption> list = new ArrayList<>();
 
 		Long productId = 61L;
 
-//		ProductOption mainOption = productManagementRepository.getMainOption(productId);
-
-		ProductOption mainOptionByParentId = productManagementRepository.getMainOptionByParentId(productId, null);
-		list.add(mainOptionByParentId);
-
-		Long mainOptionId = mainOptionByParentId.getMainOptionId();
-
+		Long mainOptionId = null;
 
 		while (true) {
-			ProductOption option = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
+			ProductMainOption option = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
 			if (option != null) {
-				list.add(option);
 				mainOptionId = option.getMainOptionId();
+
+				List<ProductSubOption> subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+				option.setSubOptions(subOptions);
+
+				list.add(option);
 			} else {
 				break;
 			}
 		}
 
-		for (ProductOption option : list) {
+		for (ProductMainOption option : list) {
 			System.out.println(option);
 		}
+	}
 
+	@Test
+	public void getSubOptionsByMainOptionId() throws Exception {
+		Long mainOptionId = 23L;
+		List<ProductSubOption> subOptionsByMainOptionId = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+
+		for (ProductSubOption productSubOption : subOptionsByMainOptionId) {
+			System.out.println(productSubOption);
+		}
+	}
+
+	@Test
+	public void getStockBySubOptionId() throws Exception {
+		Long mainOptionId = 41L;
+		List<ProductStock> subOptionsByMainOptionId = productManagementRepository.getStockBySubOptionId(mainOptionId);
+
+		for (ProductStock productStock : subOptionsByMainOptionId) {
+			System.out.println(productStock);
+		}
 	}
 }

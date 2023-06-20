@@ -1,9 +1,7 @@
 package com.sp.app.product.management;
 
 
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductImg;
-import com.sp.app.domain.product.ProductOption;
+import com.sp.app.domain.product.*;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,17 @@ public interface ProductManagementRepository {
 	int isScrapProduct(Long memberId, Long productId) throws Exception;
 
 	// 수정해야댐
-	ProductOption getOptionsById(Long productId);
+	ProductMainOption getOptionsById(Long productId);
 
-	ProductOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception;
+	ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception;
+
+	List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception;
+
+	List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception;
+
+	List<Product> findProductByCategory(Long categoryId) throws Exception;
+
+	Long getMainOptionSeq() throws Exception;
+
+	Long getProductSeq() throws Exception;
 }

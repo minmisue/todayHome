@@ -1,13 +1,28 @@
 package com.sp.app.board;
 
+import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.UserBoard;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository
 public class UserBoardRepositoryImpl implements UserBoardRepository{
-	
+
+	@Autowired
+	private CommonDAO commonDAO;
+
 	@Override
-	public void createBoard(UserBoard userBoard) {
+	public void createBoard(UserBoard userBoard) throws Exception {
 		// TODO Auto-generated method stub
-		
+
+		Long seq = commonDAO.selectOne("userBoard.seq");
+
+		userBoard.setUserBoardId(seq);
+
+		commonDAO.insertData("userBoard.createUserBoard", userBoard);
 	}
 	
 	@Override

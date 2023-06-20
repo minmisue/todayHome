@@ -1,7 +1,6 @@
 package com.sp.app.product.management;
 
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductOption;
+import com.sp.app.domain.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +57,23 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public Product getProductById(Long productId) {
+	public void insertProductImg(Map<String, Object> imgMap) throws Exception {
+
+	}
+
+	@Override
+	public Product getProductById(Long productId) throws Exception {
 		return null;
+	}
+
+	@Override
+	public List<ProductImg> getProductImgList(Long productId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public void increaseImgSequences(Map<String, Object> map) throws Exception {
+
 	}
 
 	@Override
@@ -78,8 +92,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void updateProduct(Product product) throws Exception {
-
+	public void updateProduct(Product product) {
 
 	}
 
@@ -89,22 +102,42 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void addScrapProduct(Long memberId, Long productId) {
+	public void insertScrapProduct(Long memberId, Long productId) throws Exception {
 
 	}
 
 	@Override
-	public void deleteScrapProduct(Long memberId, Long productId) {
+	public void deleteScrapProduct(Long memberId, Long productId) throws Exception {
 
 	}
 
 	@Override
-	public boolean isScrapProduct(Long memberId, Long productId) {
-		return false;
+	public int isScrapProduct(Long memberId, Long productId) throws Exception {
+		return 0;
 	}
 
 	@Override
-	public ProductOption getOptionsById(Long productId) {
+	public ProductMainOption getOptionsById(Long productId) {
+		return null;
+	}
+
+	@Override
+	public ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<Product> findProductByCategory(Long categoryId) throws Exception {
 		return null;
 	}
 }

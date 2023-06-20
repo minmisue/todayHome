@@ -1,8 +1,9 @@
 package com.sp.app.domain.product;
 
 
+import java.util.List;
 
-public class ProductOption {
+public class ProductMainOption {
 	private Long mainOptionId;
 
 	private Long parentOptionId;
@@ -11,7 +12,9 @@ public class ProductOption {
 
 	private Long productId;
 
-	public ProductOption() {
+	private List<ProductSubOption> subOptions;
+
+	public ProductMainOption() {
 	}
 
 	@Override
@@ -21,7 +24,16 @@ public class ProductOption {
 				", parentOptionId=" + parentOptionId +
 				", optionName='" + optionName + '\'' +
 				", productId=" + productId +
+				", subOptions=" + subOptions +
 				'}';
+	}
+
+	public List<ProductSubOption> getSubOptions() {
+		return subOptions;
+	}
+
+	public void setSubOptions(List<ProductSubOption> subOptions) {
+		this.subOptions = subOptions;
 	}
 
 	public Long getMainOptionId() {

@@ -1,30 +1,22 @@
 package com.sp.app.board;
 
+
+import com.sp.app.domain.board.UserBoard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sp.app.common.CommonDAO;
-
-@Service("userBoard.userBoardService")
+@Service
 public class UserBoardServiceImpl implements UserBoardService{
+
 	@Autowired
-	private CommonDAO dao;
-	
+	UserBoardRepository userBoardRepository;
+
 	@Override
-	public void insertBoard(UserBoard userBoard, Content content) throws Exception {
-		try {
-			long seq = dao.selectOne("seq_user_board");
-			userBoard.setUserBoardId(seq);
-			content.setUserBoardId(seq);
-			
-			dao.insertData("userBoard.createUserBoard", userBoard);
-			dao.insertData("userBoard.insertContent", content);
+	public void createBoard(UserBoard userBoard) throws Exception {
+		userBoardRepository.createBoard(userBoard);
 
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
+
+
+
 	}
-
 }

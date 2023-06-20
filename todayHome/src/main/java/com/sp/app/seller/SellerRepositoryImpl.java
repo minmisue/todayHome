@@ -29,31 +29,23 @@ public class SellerRepositoryImpl implements SellerRepository{
 
 	@Override
 	public void getSellerStatus(Long sellerId) throws Exception{
-		// TODO Auto-generated method stub
+		commonDAO.selectOne("seller.getSellerStatus", sellerId);
 		
 	}
 
 	@Override
-	public void updateSellerStatus(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void updateSellerStatus(Map<String, Object> map) throws Exception {		
+		commonDAO.updateData("seller.updateSellerStatus", map);	
 	}
 
 	@Override
 	public List<Seller> getSellersByCondition(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return commonDAO.selectList("seller.getSellersByCondition", map);
 	}
 
 	@Override
 	public int getSellerCount(int status) throws Exception {
-		try {
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		
-		return 0;
-	}
+		return commonDAO.selectOne("seller.getSellerCount", status);
 
+	}
 }

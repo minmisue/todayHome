@@ -76,7 +76,7 @@
 </select>
 
 	
- <!-- 판매자 수 -->
+ <!-- 판매자 상태에 따른 수 -->
 	<select id="getSellerCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
 		FROM seller_status

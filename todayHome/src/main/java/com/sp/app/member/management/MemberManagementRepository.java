@@ -1,6 +1,5 @@
 package com.sp.app.member.management;
 
-import java.util.Map;
 
 import com.sp.app.domain.member.Member;
 
@@ -18,12 +17,12 @@ public interface MemberManagementRepository {
 	
 	Member readMemberByEmail(String email) throws Exception;
 	
-	void updateMemberEnabled(Map<String, Object> map) throws Exception;
+	void updateMemberEnabled(Long memberId, int enabled) throws Exception;
 	
-	Member updateMember(Member member) throws Exception;
+	int updateMember(Member member) throws Exception;
 	
-	Member updateMemberDetail(Member member) throws Exception;
+	int updateMemberDetail(Member member) throws Exception;
 	
-	Member updateAddress(Member member) throws Exception;
+	int updateAddress(Member member) throws Exception;
 
 }

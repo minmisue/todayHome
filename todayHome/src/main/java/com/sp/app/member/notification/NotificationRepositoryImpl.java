@@ -1,8 +1,7 @@
 package com.sp.app.member.notification;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,37 +17,31 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	
 	@Override
 	public void createNotification(Notification notification) throws Exception {
-		// commonDAO.insertData("management.insertProduct", notification);
-		// TODO Auto-generated method stub
-		Map<String, Object> map = new HashMap<>();
-		map.put("productId", 1L);
-		map.put("imgName", "img1");
-		
-		commonDAO.insertData("management.insertProductImg",map);
+		commonDAO.insertData("management.createNotification",notification);
 	}
 
 	@Override
-	public void updateNotification(Notification notification) throws Exception {
-		// TODO Auto-generated method stub
+	public int updateNotification(Notification notification) throws Exception {
+		return commonDAO.updateData("management.updateNotification",notification);
 		
 	}
 
 	@Override
 	public void deleteNotification(Notification notification) throws Exception {
-		// TODO Auto-generated method stub
+		commonDAO.deleteData("management.deleteNotification",notification);
+
 		
 	}
 
 	@Override
 	public int getNotReadNotificationCount(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return commonDAO.selectOne("management.getNotReadNotificationCount", memberId);
 	}
 
 	@Override
 	public List<Notification> getNotReadNotificationList(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Notification> list = commonDAO.selectList("management.getNotReadNotificationList",memberId);
+		return list;
 	}
 
 	

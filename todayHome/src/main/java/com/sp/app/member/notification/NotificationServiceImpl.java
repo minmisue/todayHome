@@ -18,9 +18,9 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void updateNotification(Notification notification) throws Exception {
+	public int updateNotification(Notification notification) throws Exception {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override

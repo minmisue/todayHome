@@ -1,6 +1,5 @@
 package com.sp.app.member.management;
 
-import java.util.Map;
 
 import com.sp.app.domain.member.Member;
 
@@ -43,7 +42,7 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 	}
 
 	@Override
-	public void updateMemberEnabled(Map<String, Object> map) throws Exception {
+	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}

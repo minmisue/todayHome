@@ -13,6 +13,7 @@
 	,REG_DATE = #{regDate} ,IS_READ = #{isRead} 
 	,PARAMETER1 = #{parameter1, jdbcType=VARCHAR} ,PARAMETER2 = #{parameter2, jdbcType=VARCHAR} 
 	,PARAMETER3 = #{parameter3, jdbcType=VARCHAR}
+	where MEMBER_ID = #{memberId}
  </update>
    
   <delete id="deleteNotification" parameterType="com.sp.app.domain.member.Notification"> 

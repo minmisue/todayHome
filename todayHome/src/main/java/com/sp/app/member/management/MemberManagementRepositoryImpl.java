@@ -3,6 +3,7 @@ package com.sp.app.member.management;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,12 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 
 	@Autowired
 	CommonDAO commonDAO;
-	
+
+	@Override
+	public Long getMemberSeq() throws Exception {
+		return commonDAO.selectOne("management.getMemberSeq");
+	}
+
 	@Override
 	public void insertMember(Member member) throws Exception {
 		commonDAO.insertData("management.insertMember", member);
@@ -46,7 +52,7 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	@Override
 	public Member readMemberByEmail(String email) throws Exception {
 		return commonDAO.selectOne("management.readMemberByEmail", email);
-		 
+
 	}
 
 	@Override

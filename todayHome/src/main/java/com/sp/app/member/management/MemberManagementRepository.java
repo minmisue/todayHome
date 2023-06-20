@@ -4,6 +4,8 @@ package com.sp.app.member.management;
 import com.sp.app.domain.member.Member;
 
 public interface MemberManagementRepository {
+
+	Long getMemberSeq() throws Exception;
 	
 	void insertMember(Member member) throws Exception;
 	

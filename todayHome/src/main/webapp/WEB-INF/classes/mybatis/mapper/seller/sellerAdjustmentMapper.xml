@@ -3,14 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sellerAdjustment">
 <!-- 정산 기록 수정 -->
-<update id="updataeAdjustment" parameterType="com.sp.app.domain.seller.Seller">
+<update id="updateAdjustment" parameterType="com.sp.app.domain.seller.Seller">
 	UPDATE adjustment SET amount=#{amount}, adjustment_date=SYSDATE
 	WHERE adjustment_id = #{adjustmentId} 
 </update>
 
 <!-- 정산 기록 생성 -->
 <insert id="createAdjustment" parameterType="com.sp.app.domain.seller.Seller">
-	INSERT INTO (adjustment adjustment_id, adjustment_date,amount)
+	INSERT INTO adjustment (adjustment adjustment_id, adjustment_date,amount)
 	VALUES (SEQ_ADJUSTMENT.NEXTVAL,SYSDATE,amount)
 </insert>
 

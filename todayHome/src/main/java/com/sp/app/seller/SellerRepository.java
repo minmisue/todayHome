@@ -17,19 +17,11 @@ public interface SellerRepository {
     
    	//판매자 상태 수정 ok
    	void updateSellerStatus(Map<String, Object> map) throws Exception;
-    
-   	// 판매자 삭제 (안하기로함)
-    void deleteSeller(Long sellerId) throws Exception;
-    
-    // 판매자 리스트 반환 
+
+    // 판매자 리스트 반환  ok
     List<Seller> getSellersByCondition(Map<String, Object> map) throws Exception;
     
-    //판매자 상태가 1인 사람.(진짜 판매자)
-    int dataCount(int status) throws Exception;
-    
-    // 판매자의 평가에 따라 리스트 반환 (하는지 안한는지 잘 모름)
-    List<Seller> getSellersByRating(int rating);
-    
-    //송장번호 입력하기(민주가 하는거 인듯?)
-    void setDeliveryNumber(Long orderId);
+    //판매자 상태가 0,1,2,3 인 사람 각각 카운트. ok
+    int getSellerCount(int status) throws Exception;
+
 }

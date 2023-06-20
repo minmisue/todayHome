@@ -34,24 +34,6 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public void deleteSeller(Long sellerId) throws Exception{
-		commonDAO.deleteData("seller.deleteSeller", sellerId);
-		
-	}
-
-	@Override
-	public List<Seller> getSellersByRating(int rating) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDeliveryNumber(Long orderId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void updateSellerStatus(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -64,7 +46,7 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public int dataCount(int status) throws Exception {
+	public int getSellerCount(int status) throws Exception {
 		try {
 			
 		} catch (Exception e) {

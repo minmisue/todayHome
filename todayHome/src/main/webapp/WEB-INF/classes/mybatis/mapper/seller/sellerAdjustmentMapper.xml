@@ -6,8 +6,8 @@
 <update id="updataeAdjustment" parameterType="com.sp.app.domain.seller.Seller">
 	UPDATE adjustment SET amount=#{amount}, adjustment_date=SYSDATE
 	WHERE adjustment_id = #{adjustmentId} 
-
 </update>
+
 <!-- 정산 기록 생성 -->
 <insert id="createAdjustment" parameterType="com.sp.app.domain.seller.Seller">
 	INSERT INTO (adjustment adjustment_id, adjustment_date,amount)

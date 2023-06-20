@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:/appServlet/servlet-context.xml",
-		"classpath:/root-context.xml",
+		"classpath:/spring/appServlet/servlet-context.xml",
+		"classpath:/spring/root-context.xml",
 		"classpath:/mybatis/mybatis-context.xml"
 })
 public class MemberManagementRepositoryImplTest {

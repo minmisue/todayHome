@@ -42,4 +42,6 @@ public interface ProductManagementRepository {
 
 	// 수정해야댐
 	ProductOption getOptionsById(Long productId);
+
+	ProductOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception;
 }

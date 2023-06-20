@@ -2,6 +2,7 @@ package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductImg;
+import com.sp.app.domain.product.ProductOption;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -170,5 +171,36 @@ public class ProductManagementRepositoryImplTest {
 		// 테스트 코드
 
 		// 결과
+	}
+
+	@Test
+	public void getMainOption() throws Exception {
+
+		List<ProductOption> list = new ArrayList<>();
+
+		Long productId = 61L;
+
+//		ProductOption mainOption = productManagementRepository.getMainOption(productId);
+
+		ProductOption mainOptionByParentId = productManagementRepository.getMainOptionByParentId(productId, null);
+		list.add(mainOptionByParentId);
+
+		Long mainOptionId = mainOptionByParentId.getMainOptionId();
+
+
+		while (true) {
+			ProductOption option = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
+			if (option != null) {
+				list.add(option);
+				mainOptionId = option.getMainOptionId();
+			} else {
+				break;
+			}
+		}
+
+		for (ProductOption option : list) {
+			System.out.println(option);
+		}
+
 	}
 }

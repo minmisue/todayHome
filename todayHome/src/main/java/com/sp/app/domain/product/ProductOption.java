@@ -1,30 +1,58 @@
 package com.sp.app.domain.product;
 
 
-import java.util.List;
 
 public class ProductOption {
-	private String mainOption;
-	private List<String> subOption;
+	private Long mainOptionId;
 
-	public ProductOption(String mainOption, List<String> subOption) {
-		this.mainOption = mainOption;
-		this.subOption = subOption;
+	private Long parentOptionId;
+
+	private String optionName;
+
+	private Long productId;
+
+	public ProductOption() {
 	}
 
-	public String getMainOption() {
-		return mainOption;
+	@Override
+	public String toString() {
+		return "ProductOption{" +
+				"mainOptionId=" + mainOptionId +
+				", parentOptionId=" + parentOptionId +
+				", optionName='" + optionName + '\'' +
+				", productId=" + productId +
+				'}';
 	}
 
-	public void setMainOption(String mainOption) {
-		this.mainOption = mainOption;
+	public Long getMainOptionId() {
+		return mainOptionId;
 	}
 
-	public List<String> getSubOption() {
-		return subOption;
+	public void setMainOptionId(Long mainOptionId) {
+		this.mainOptionId = mainOptionId;
 	}
 
-	public void setSubOption(List<String> subOption) {
-		this.subOption = subOption;
+	public Long getParentOptionId() {
+		return parentOptionId;
+	}
+
+	public void setParentOptionId(Long parentOptionId) {
+		this.parentOptionId = parentOptionId;
+	}
+
+	public String getOptionName() {
+		return optionName;
+	}
+
+	public void setOptionName(String optionName) {
+		this.optionName = optionName;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 }

@@ -95,4 +95,13 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public ProductOption getOptionsById(Long productId) {
 		return null;
 	}
+
+
+	@Override
+	public ProductOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("parentOptionId", parentOptionId);
+		return commonDAO.selectOne("productManagement.getMainOptionByParentId", map);
+	}
 }

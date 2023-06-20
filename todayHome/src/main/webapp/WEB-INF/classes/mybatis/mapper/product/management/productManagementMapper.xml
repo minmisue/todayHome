@@ -61,4 +61,16 @@
         FROM PRODUCT_SCRAP
         WHERE MEMBER_ID = #{memberId} and PRODUCT_ID = #{productId}
     </select>
+
+    <select id="getMainOptionByParentId" resultType="com.sp.app.domain.product.ProductOption" parameterType="map">
+        SELECT option_id AS mainOptionId, parent_option_id AS parentOptionId, product_id AS productId, option_name AS optionName
+        FROM product_main_option
+        WHERE product_id = #{productId} AND  parent_option_id
+        <if test="parentOptionId == null">
+            is null
+        </if>
+        <if test="parentOptionId != null">
+            = #{parentOptionId , jdbcType=VARCHAR}
+        </if>
+    </select>
 </mapper>

@@ -24,4 +24,5 @@ public interface MemberManagementService {
 	Member updateMemberDetail(Member member) throws Exception;
 	
 	Member updateAddress(Member member) throws Exception;
+	
 }

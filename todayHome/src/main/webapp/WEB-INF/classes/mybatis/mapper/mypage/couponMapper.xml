@@ -4,10 +4,10 @@
 <mapper namespace="coupon">
 	<insert id="insertCoupon" parameterType="com.sp.app.domain.mypage.coupon.Coupon">
 		INSERT INTO coupon (coupon_id, discount_percent, name, max_discount_amount) 
-		VALUES (seq_coupon.NEXTVAL, #{coupon_id}, #{discount_percent}, #{name}, #{max_discount_amount})
+		VALUES (seq_coupon.NEXTVAL, #{couponId}, #{discountPercent}, #{name}, #{maxDiscountAmount})
 	</insert>
 	<insert id="insertmemberCoupon" parameterType="com.sp.app.domain.mypage.coupon.MemberCoupon">
 		INSERT INTO member_coupon (member_coupon_id, coupon_id, member_id, expire_date, reg_date) 
-		VALUES (seq_member_coupon.NEXTVAL, #{member_coupon_id}, #{coupon_id}, #{member_id}, #{expire_date}, SYSDATE)
+		VALUES (seq_member_coupon.NEXTVAL, #{memberCouponId}, #{couponId}, #{memberId}, #{expireDate}, SYSDATE)
 	</insert>
 </mapper>

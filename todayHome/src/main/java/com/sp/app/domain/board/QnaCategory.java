@@ -1,21 +1,22 @@
 package com.sp.app.domain.board;
 
 public class QnaCategory {
-	private Long qna_category_id;
-	private String qna_category_name;
+	private Long qnaCategoryId;
+	private String qnaCategoryName;
 	
-	public Long getQna_category_id() {
-		return qna_category_id;
+	public Long getQnaCategoryId() {
+		return qnaCategoryId;
 	}
-	public void setQna_category_id(Long qna_category_id) {
-		this.qna_category_id = qna_category_id;
+	public void setQnaCategoryId(Long qnaCategoryId) {
+		this.qnaCategoryId = qnaCategoryId;
 	}
-	public String getQna_category_name() {
-		return qna_category_name;
+	public String getQnaCategoryName() {
+		return qnaCategoryName;
 	}
-	public void setQna_category_name(String qna_category_name) {
-		this.qna_category_name = qna_category_name;
+	public void setQnaCategoryName(String qnaCategoryName) {
+		this.qnaCategoryName = qnaCategoryName;
 	}
+	
 	
 	
 }

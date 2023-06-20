@@ -4,6 +4,6 @@
 <mapper namespace="qnaboard">
 	<insert id="insertQnaBoard" parameterType="com.sp.app.domain.board.QnaBoard">
 		INSERT INTO qna_board (qna_board_id, qna_category_id, member_id, subject, content, created_date)
-		VALUES (seq_qna_board.NEXTVAL, #{qna_category_id}, #{member_id}, #{subject}, #{content}, #{created_date})
+		VALUES (seq_qna_board.NEXTVAL, #{qnaCategoryId}, #{memberId}, #{subject}, #{content}, #{createdDate})
 	</insert>
 </mapper>

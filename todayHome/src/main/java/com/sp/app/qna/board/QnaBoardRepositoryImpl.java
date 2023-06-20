@@ -19,7 +19,7 @@ public class QnaBoardRepositoryImpl implements QnaBoardRepository{
 	}
 
 	@Override
-	public void deleteQnaBoard(Long qna_board_id) throws Exception {
+	public void deleteQnaBoard(Long qnaBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -31,7 +31,7 @@ public class QnaBoardRepositoryImpl implements QnaBoardRepository{
 	}
 
 	@Override
-	public QnaBoard getQnaBoardById(Long qna_board_id) {
+	public QnaBoard getQnaBoardById(Long qnaBoardId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

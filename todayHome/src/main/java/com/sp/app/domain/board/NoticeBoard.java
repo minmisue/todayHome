@@ -1,31 +1,31 @@
 package com.sp.app.domain.board;
 
 public class NoticeBoard {
-	private Long notice_board_id;
-	private Long member_id;
-	private String created_date;
+	private Long noticeBoardId;
+	private Long memberId;
+	private String createdDate;
 	private String subject;
 	private String content;
-	private int hit_count;
+	private int hitCount;
 	private int notice;
 	
-	public Long getNotice_board_id() {
-		return notice_board_id;
+	public Long getNoticeBoardId() {
+		return noticeBoardId;
 	}
-	public void setNotice_board_id(Long notice_board_id) {
-		this.notice_board_id = notice_board_id;
+	public void setNoticeBoardId(Long noticeBoardId) {
+		this.noticeBoardId = noticeBoardId;
 	}
-	public Long getMember_id() {
-		return member_id;
+	public Long getMemberId() {
+		return memberId;
 	}
-	public void setMember_id(Long member_id) {
-		this.member_id = member_id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
-	public String getCreated_date() {
-		return created_date;
+	public String getCreatedDate() {
+		return createdDate;
 	}
-	public void setCreated_date(String created_date) {
-		this.created_date = created_date;
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
 	}
 	public String getSubject() {
 		return subject;
@@ -39,11 +39,11 @@ public class NoticeBoard {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getHit_count() {
-		return hit_count;
+	public int getHitCount() {
+		return hitCount;
 	}
-	public void setHit_count(int hit_count) {
-		this.hit_count = hit_count;
+	public void setHitCount(int hitCount) {
+		this.hitCount = hitCount;
 	}
 	public int getNotice() {
 		return notice;

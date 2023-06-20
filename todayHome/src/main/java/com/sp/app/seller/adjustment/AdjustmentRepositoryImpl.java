@@ -19,7 +19,7 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 		
 	}
 
-	@Override
+	@Override 
 	public void getAdjustmentByAdjustmentId(Long adjustmentId) throws Exception {
 		commonDAO.selectOne("sellerAdjustment.getAdjustmentById",adjustmentId);
 	}

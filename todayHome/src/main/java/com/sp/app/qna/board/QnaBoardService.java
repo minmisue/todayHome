@@ -2,18 +2,18 @@ package com.sp.app.qna.board;
 
 import java.util.List;
 
-import com.sp.app.domain.qna.QnaBoard;
+import com.sp.app.domain.board.QnaBoard;
 
 public interface QnaBoardService {
 	
-	void insertQnaBoard(QnaBoard dto) throws Exception;
+	void insertQnaBoard(QnaBoard qnaboard) throws Exception;
 	
-	void updateQnaBoard(QnaBoard dto) throws Exception;
+	void updateQnaBoard(QnaBoard qnaboard) throws Exception;
 	
-	void deleteQnaBoard(Long qna_board_id) throws Exception;
+	void deleteQnaBoard(Long qnaBoardId) throws Exception;
 	
 	List<QnaBoard> getAllQnaBoard();
 	
-	QnaBoard getQnaBoardById(Long qna_board_id);
+	QnaBoard getQnaBoardById(Long qnaBoardId);
 	
 }

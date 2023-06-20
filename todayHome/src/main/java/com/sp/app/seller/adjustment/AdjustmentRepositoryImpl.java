@@ -2,6 +2,9 @@ package com.sp.app.seller.adjustment;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 
 	@Override
@@ -11,7 +14,7 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 	}
 
 	@Override
-	public Adjustment getAdjustmentById(Long adjustmentId) {
+	public Adjustment getAdjustmentByAdjustmentId(Long adjustmentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -34,10 +37,5 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 		return null;
 	}
 
-	@Override
-	public void deleteAdjustment(Long adjustmentId) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

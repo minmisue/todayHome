@@ -1,21 +1,28 @@
 package com.sp.app.member.management;
 
-import java.util.Map;
 
 import com.sp.app.domain.member.Member;
 
 public interface MemberManagementRepository {
 	
-	public void insertMember(Member member) throws Exception;
+	void insertMember(Member member) throws Exception;
 	
-	public void updateLastLogin(Long memberId) throws Exception;
+	void insertMemberDetail(Member member) throws Exception;
 	
-	public void updateMember(Member member) throws Exception;
+	void insertMemberAll(Member member) throws Exception;
 	
-	public Member readMember(String email);
+	int emailCheck(String email) throws Exception;
 	
-	public void deleteMember(Map<String, Object> map) throws Exception;
+	Member readMemberById(Long memberId) throws Exception;
 	
-	public void generatePwd(Member member) throws Exception;
+	Member readMemberByEmail(String email) throws Exception;
+	
+	void updateMemberEnabled(Long memberId, int enabled) throws Exception;
+	
+	int updateMember(Member member) throws Exception;
+	
+	int updateMemberDetail(Member member) throws Exception;
+	
+	int updateAddress(Member member) throws Exception;
 
 }

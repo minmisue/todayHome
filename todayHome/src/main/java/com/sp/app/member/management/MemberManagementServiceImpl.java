@@ -1,6 +1,5 @@
 package com.sp.app.member.management;
 
-import java.util.Map;
 
 import com.sp.app.domain.member.Member;
 
@@ -13,40 +12,59 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 	}
 
 	@Override
-	public void updateLastLogin(Long memberId) throws Exception {
+	public void insertMemberDetail(Member member) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateMember(Member member) throws Exception {
+	public void insertMemberAll(Member member) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Member readMember(String email) {
+	public int emailCheck(String email) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Member readMemberById(Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void generatePwd(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Member loginMember(String email) {
+	public Member readMemberByEmail(String email) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Member updateMember(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Member updateMemberDetail(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Member updateAddress(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

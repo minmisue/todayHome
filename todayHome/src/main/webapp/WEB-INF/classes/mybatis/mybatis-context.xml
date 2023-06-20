@@ -36,6 +36,10 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" lazy-init="true">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"/>
+<<<<<<< HEAD
+=======
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/product/**/*.xml" />
+>>>>>>> branch 'main' of https://github.com/minmisue/todayHome.git
 	</bean>
 
 	<!-- SqlSessionTemplate : MyBatis SQL method 호출 및 관리, 예외처리 담당 -->

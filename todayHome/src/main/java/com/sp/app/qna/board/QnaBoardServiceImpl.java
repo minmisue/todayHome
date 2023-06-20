@@ -2,24 +2,24 @@ package com.sp.app.qna.board;
 
 import java.util.List;
 
-import com.sp.app.domain.qna.QnaBoard;
+import com.sp.app.domain.board.QnaBoard;
 
 public class QnaBoardServiceImpl implements QnaBoardService{
 
 	@Override
-	public void insertQnaBoard(QnaBoard dto) throws Exception {
+	public void insertQnaBoard(QnaBoard qnaboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateQnaBoard(QnaBoard dto) throws Exception {
+	public void updateQnaBoard(QnaBoard qnaboard) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteQnaBoard(Long qna_board_id) throws Exception {
+	public void deleteQnaBoard(Long qnaBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -31,7 +31,7 @@ public class QnaBoardServiceImpl implements QnaBoardService{
 	}
 
 	@Override
-	public QnaBoard getQnaBoardById(Long qna_board_id) {
+	public QnaBoard getQnaBoardById(Long qnaBoardId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

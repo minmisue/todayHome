@@ -1,7 +1,7 @@
 package com.sp.app.point.managerment;
 
-import com.sp.app.domain.point.MemberPoint;
-import com.sp.app.domain.point.Point;
+import com.sp.app.domain.mypage.point.MemberPoint;
+import com.sp.app.domain.mypage.point.Point;
 
 public interface PointService {
 	void insertPoint(Point dto) throws Exception;

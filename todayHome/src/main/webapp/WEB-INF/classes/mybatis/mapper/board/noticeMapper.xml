@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="noticeboard">
+	<insert id="insertNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">
+		INSERT INTO notice_board(notice_board_id, member_id, created_date, subject, content, hit_count, notice)
+		VALUES (seq_notice_board.NEXTVAL, #{memberId}, #{createdDate}, #{subject}, #{content}, 0, 1)
+	</insert>
+	
+	<update id="updateNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">
+		UPDATE notice_board SET subject = #{subject}, content = #{content},notice = #{notice} WHERE notice_board_id = #{noticeBoardId}
+	</update>
+	
+	<delete id="deleteNoticeBoard" parameterType="Long">
+		DELETE FROM notice_board 
+		WHERE notice_board_id = #{noticeBoardId}
+	</delete>
+	
+	<select id="getAllNoticeBoard" resultType="com.sp.app.domain.board.NoticeBoard">
+		SELECT notice_board_id as noticeBoardId, member_id as memberId, created_date as createdDate, subject, content, hit_count as hitCount, notice
+		FROM notice_board
+	</select>
+	
+	<select id="getNoticeBoardById" parameterType="Long" resultType="com.sp.app.domain.board.NoticeBoard">
+		SELECT notice_board_id as noticeBoardId, member_id as memberId, created_date as createdDate, subject, content, hit_count as hitCount, notice
+		FROM notice_board
+		WHERE notice_board_id = #{noticeBoardId}
+	</select>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userBoard">
+	<select id="seq" resultType="Long">
+		SELECT seq_user_board.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="createUserBoard" parameterType="com.sp.app.domain.board.UserBoard">
+		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, created_date, hitCount, ip_address)
+		VALUES (#{userBoardId}, #{memberId}, #{boardTypeId}, SYSDATE, 0, 111.222.333.444)
+	</insert>
+	
+	<insert id="insertContent" parameterType="com.sp.app.domain.board.ProductContent">
+		INSERT INTO USER_BOARD_CONTENT(user_board_id, category_id, content, content_sequence, img_name)
+		VALUES (#{userBoardId}, #{categoryId}, #{content}, seq_user_board_content.NEXTVAL, imgName)
+	</insert>
+	
+</mapper>

@@ -1,8 +1,6 @@
 package com.sp.app.product.management;
 
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductOption;
-import lombok.extern.slf4j.Slf4j;
+import com.sp.app.domain.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 public class ProductManagementServiceImpl implements ProductManagementService {
 
@@ -23,7 +20,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	 */
 	@Override
 	public void createProduct(Product product) throws Exception {
-		productManagementRepository.createProduct(product);
+		productManagementRepository.insertProduct(product);
 
 		List<String> productImgList = product.getProductImgList();
 		List<String> contentImgList = product.getContentImgList();
@@ -31,20 +28,28 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 		// 현재 productId 가져옴 (임시)
 		Long productId = 61L;
 
+		int sequence = 0;
 		// 상품 이미지 등록
 		for (String imgName : productImgList) {
 			Map<String, Object> productImgMap = new HashMap<>();
 			productImgMap.put("productId", productId);
 			productImgMap.put("imgName", imgName);
+			productImgMap.put("sequence", sequence);
+			productImgMap.put("type", 0);
 			productManagementRepository.insertProductImg(productImgMap);
+			sequence++;
 		}
 
+		sequence = 0;
 		// 상품 콘텐츠 이미지 등록
 		for (String imgName : contentImgList) {
 			Map<String, Object> contentImgMap = new HashMap<>();
 			contentImgMap.put("productId", productId);
 			contentImgMap.put("imgName", imgName);
-			productManagementRepository.insertContentImg(contentImgMap);
+			contentImgMap.put("sequence", sequence);
+			contentImgMap.put("type", 1);
+			productManagementRepository.insertProductImg(contentImgMap);
+			sequence++;
 		}
 
 		// 상품 옵션 등록
@@ -52,8 +57,23 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public Product getProductById(Long productId) {
+	public void insertProductImg(Map<String, Object> imgMap) throws Exception {
+
+	}
+
+	@Override
+	public Product getProductById(Long productId) throws Exception {
 		return null;
+	}
+
+	@Override
+	public List<ProductImg> getProductImgList(Long productId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public void increaseImgSequences(Map<String, Object> map) throws Exception {
+
 	}
 
 	@Override
@@ -72,8 +92,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void updateProduct(Product product) throws Exception {
-
+	public void updateProduct(Product product) {
 
 	}
 
@@ -83,22 +102,42 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void addScrapProduct(Long memberId, Long productId) {
+	public void insertScrapProduct(Long memberId, Long productId) throws Exception {
 
 	}
 
 	@Override
-	public void deleteScrapProduct(Long memberId, Long productId) {
+	public void deleteScrapProduct(Long memberId, Long productId) throws Exception {
 
 	}
 
 	@Override
-	public boolean isScrapProduct(Long memberId, Long productId) {
-		return false;
+	public int isScrapProduct(Long memberId, Long productId) throws Exception {
+		return 0;
 	}
 
 	@Override
-	public ProductOption getOptionsById(Long productId) {
+	public ProductMainOption getOptionsById(Long productId) {
+		return null;
+	}
+
+	@Override
+	public ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<Product> findProductByCategory(Long categoryId) throws Exception {
 		return null;
 	}
 }

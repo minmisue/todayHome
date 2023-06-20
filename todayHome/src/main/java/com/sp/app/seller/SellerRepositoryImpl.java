@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.seller.Seller;
 
+@Repository
 public class SellerRepositoryImpl implements SellerRepository{
 	
 	@Autowired
@@ -26,31 +28,7 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public void getSellerStatus(Long sellerId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteSeller(Long sellerId) throws Exception{
-		commonDAO.deleteData("seller.deleteSeller", sellerId);
-		
-	}
-
-	@Override
-	public List<Seller> getAllSellers() throws Exception{
-		
-		return null;
-	}
-
-	@Override
-	public List<Seller> getSellersByRating(int rating) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDeliveryNumber(Long orderId) {
+	public void getSellerStatus(Long sellerId) throws Exception{
 		// TODO Auto-generated method stub
 		
 	}
@@ -59,6 +37,23 @@ public class SellerRepositoryImpl implements SellerRepository{
 	public void updateSellerStatus(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Seller> getSellersByCondition(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getSellerCount(int status) throws Exception {
+		try {
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return 0;
 	}
 
 }

@@ -8,18 +8,18 @@
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
-        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
-        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName})
+        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, TYPE, SEQUENCE)
+        VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{type}, #{sequence})
     </insert>
 
-    <insert id="insertContentImg" parameterType="map">
-        INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME)
-        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName})
-    </insert>
+<!--    <insert id="insertContentImg" parameterType="map">-->
+<!--        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)-->
+<!--        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})-->
+<!--    </insert>-->
 
-    <select id="getProduct" parameterType="Long" resultType="com.sp.app.domain.product.Product">
+    <select id="getProductById" parameterType="Long" resultType="com.sp.app.domain.product.Product">
         SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
-                product_name as productName, content, to_char(reg_date, 'yyyy-mm-dd') as regDate, price,
+                product_name as productName, content, to_char(p.reg_date, 'yyyy-mm-dd') as regDate, price,
                 remain_quantity as remainQuantity, discount_percent as discountPercent, delivery_cost as deliveryCost,
                 reserving_point_percent as reservingPointPercent,
                 NVL(product_scrap_cnt, 0) AS productScrapCnt
@@ -32,4 +32,81 @@
         ) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
         WHERE P.PRODUCT_ID = #{productId}
     </select>
+
+    <select id="getProductImgList" parameterType="Long" resultType="com.sp.app.domain.product.ProductImg">
+        SELECT save_name AS saveName, TYPE, sequence
+        FROM product_img
+        WHERE product_id = #{producId}
+        ORDER BY SEQUENCE
+    </select>
+
+    <update id="increaseImgSequences" parameterType="map">
+        UPDATE product_img
+        SET sequence = sequence + 1
+        WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
+    </update>
+
+    <insert id="insertScrapProduct" parameterType="map">
+        INSERT INTO PRODUCT_SCRAP (MEMBER_ID, PRODUCT_ID)
+        VALUES (#{memberId}, #{productId})
+    </insert>
+
+    <delete id="deleteScrapProduct" parameterType="map">
+        DELETE PRODUCT_SCRAP
+        WHERE PRODUCT_ID = #{productId} and MEMBER_ID = #{memberId}
+    </delete>
+
+    <select id="isScrapProduct" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+        FROM PRODUCT_SCRAP
+        WHERE MEMBER_ID = #{memberId} and PRODUCT_ID = #{productId}
+    </select>
+
+    <select id="getMainOptionByParentId" resultType="com.sp.app.domain.product.ProductMainOption" parameterType="map">
+        SELECT option_id AS mainOptionId, parent_option_id AS parentOptionId, product_id AS productId, option_name AS optionName
+        FROM product_main_option
+        WHERE product_id = #{productId} AND  parent_option_id
+        <if test="parentOptionId == null">
+            is null
+        </if>
+        <if test="parentOptionId != null">
+            = #{parentOptionId , jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="getSubOptionsByMainOptionId" resultType="com.sp.app.domain.product.ProductSubOption" parameterType="Long">
+        SELECT option_detail_id AS optionDetailId, option_detail_name AS optionDetailName
+        FROM product_sub_option
+        WHERE option_id = #{mainOptionId}
+    </select>
+
+    <select id="getStockBySubOptionId" resultType="com.sp.app.domain.product.ProductStock" parameterType="Long">
+        SELECT option_price AS optionPrice, quantity, option_detail_id2 AS optionDetailId2
+        FROM stock
+        WHERE option_detail_id = #{subOptionId}
+    </select>
+
+    <select id="getMainOptionSeq" resultType="Long">
+        SELECT SEQ_PRODUCT_MAIN_OPTION.nextval FROM DUAL
+    </select>
+
+    <insert id="insertMainOption" parameterType="map">
+        SELECT SEQ_PRODUCT.nextval FROM DUAL
+    </insert>
+
+    <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">
+        INSERT INTO PRODUCT_MAIN_OPTION (OPTION_ID, PARENT_OPTION_ID, PRODUCT_ID, OPTION_NAME)
+        VALUES (#{mainOptionId}, #{parentOptionId, jdbcType=VARCHAR}, #{productId}, #{optionName})
+    </insert>
+
+    <insert id="insertSubOption" parameterType="com.sp.app.domain.product.ProductSubOption">
+        INSERT INTO PRODUCT_SUB_OPTION (OPTION_DETAIL_ID, OPTION_ID, OPTION_DETAIL_NAME)
+        VALUES (SEQ_PRODUCT_SUB_OPTION.nextval, #{mainOptionId}, #{optionDetailName})
+    </insert>
+
+    <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">
+        INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)
+        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{optionDetailId1, jdbcType=VARCHAR}, #{optionDetailId2, jdbcType=VARCHAR})
+    </insert>
+
 </mapper>

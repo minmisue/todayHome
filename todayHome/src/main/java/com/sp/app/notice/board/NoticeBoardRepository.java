@@ -2,17 +2,17 @@ package com.sp.app.notice.board;
 
 import java.util.List;
 
-import com.sp.app.domain.notice.NoticeBoard;
+import com.sp.app.domain.board.NoticeBoard;
 
 public interface NoticeBoardRepository {
 	
-	void insertNoticeBoard(NoticeBoard dto) throws Exception;
+	void insertNoticeBoard(NoticeBoard noticeboard) throws Exception;
 	
-	void updateNoticeBoard(NoticeBoard dto) throws Exception;
+	void updateNoticeBoard(NoticeBoard noticeboard) throws Exception;
 	
-	void deleteNoticeBoard(Long notice_board_id) throws Exception;
+	void deleteNoticeBoard(Long noticeBoardId) throws Exception;
 	
-	List<NoticeBoard> getAllNoticeBoard();
+	List<NoticeBoard> getAllNoticeBoard() throws Exception;
 	
-	NoticeBoard getNoticeBoardById(Long notice_board_id);
+	NoticeBoard getNoticeBoardById(Long noticeBoardId) throws Exception;
 }

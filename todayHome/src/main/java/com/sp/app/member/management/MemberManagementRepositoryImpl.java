@@ -1,48 +1,78 @@
 package com.sp.app.member.management;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.member.Member;
 
-@Repository
+@Repository("MemberRepository")
 public class MemberManagementRepositoryImpl implements MemberManagementRepository {
 
+	@Autowired
+	CommonDAO commonDAO;
+	
 	@Override
 	public void insertMember(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		commonDAO.insertData("management.insertMember", member);
 		
 	}
 
 	@Override
-	public void updateLastLogin(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
+	public void insertMemberDetail(Member member) throws Exception {
+		commonDAO.insertData("management.insertMemberDetail", member);
 		
 	}
 
 	@Override
-	public void updateMember(Member member) throws Exception {
-		// TODO Auto-generated method stub
+	public void insertMemberAll(Member member) throws Exception {
+		commonDAO.insertData("management.insertMemberAll", member);
 		
 	}
 
 	@Override
-	public Member readMember(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	public int emailCheck(String email) throws Exception {
+		return commonDAO.selectOne("management.emailCheck", email);
 	}
 
 	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public Member readMemberById(Long memberId) throws Exception {
+		return commonDAO.selectOne("management.readMemberById", memberId);
 	}
 
 	@Override
-	public void generatePwd(Member member) throws Exception {
-		// TODO Auto-generated method stub
+	public Member readMemberByEmail(String email) throws Exception {
+		return commonDAO.selectOne("management.readMemberByEmail", email);
+		 
+	}
+
+	@Override
+	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("enabled", enabled);
 		
+		commonDAO.updateData("management.updateMemberEnabled",map);
+	}
+
+	@Override
+	public int updateMember(Member member) throws Exception {
+	
+		return commonDAO.updateData("management.updateMember", member);
+		 
+	}
+
+	@Override
+	public int updateMemberDetail(Member member) throws Exception {
+		return commonDAO.updateData("management.updateMemberDetail", member);
+	}
+
+	@Override
+	public int updateAddress(Member member) throws Exception {
+		return commonDAO.updateData("management.updateAddress", member);
 	}
 
 

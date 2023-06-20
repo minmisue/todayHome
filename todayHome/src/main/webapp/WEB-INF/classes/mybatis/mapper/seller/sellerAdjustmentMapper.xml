@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sellerAdjustment">
+<!-- 정산 기록 수정 -->
+<update id="updataeAdjustment" parameterType="com.sp.app.domain.seller.Seller">
+	UPDATE adjustment SET amount=#{amount}, adjustment_date=SYSDATE
+	WHERE adjustment_id = #{adjustmentId} 
+</update>
+
+<!-- 정산 기록 생성 -->
+<insert id="createAdjustment" parameterType="com.sp.app.domain.seller.Seller">
+	INSERT INTO (adjustment adjustment_id, adjustment_date,amount)
+	VALUES (SEQ_ADJUSTMENT.NEXTVAL,SYSDATE,amount)
+</insert>
+
+<!-- 모든 정산 목록 반환  -->
+<select id=" getAllAdjustments" resultType="com.sp.app.domain.seller.Seller">
+	SELECT adjustment_id as adjustmentId,seller_id as sellerId, to_char(adjustment_date, 'yyyy-mm-dd') as adjustmentDate, 
+	amount
+	FROM adjustment
+</select>
+
+<!-- 판매자 아이디로 정산 목록 반환 -->
+<select id="getAdjustmentsBySellerId" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
+	SELECT to_char(adjustment_date, 'YYYY-MM-DD') as adjustmentDate, amount
+	FROM adjustment
+	WHERE seller_id = #{sellerId}
+</select>
+
+<!-- 정산 아이디로 정산 반환  -->
+<select id="getAdjustmentByAdjustmentId" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
+	SELECT to_char(adjustment_date, 'YYYY-MM-DD') as adjustmentDate,amount
+	FROM adjustment
+	WHERE adjustment_id = #{adjustmentId}
+</select>
+</mapper>
+

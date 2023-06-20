@@ -1,11 +1,11 @@
 package com.sp.app.product.management;
 
 import com.sp.app.common.CommonDAO;
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductOption;
+import com.sp.app.domain.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	private CommonDAO commonDAO;
 
 	@Override
-	public void createProduct(Product product) throws Exception {
+	public void insertProduct(Product product) throws Exception {
 		commonDAO.insertData("productManagement.insertProduct", product);
 	}
 
@@ -26,13 +26,18 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public void insertContentImg(Map<String, Object> imgMap) throws Exception {
-		commonDAO.insertData("productManagement.insertContentImg", imgMap);
+	public Product getProductById(Long productId) throws Exception {
+		return commonDAO.selectOne("productManagement.getProductById", productId);
 	}
 
 	@Override
-	public Product getProductById(Long productId) throws Exception {
-		return commonDAO.selectOne("productManagement.getProduct", productId);
+	public List<ProductImg> getProductImgList(Long productId) throws Exception {
+		return commonDAO.selectList("productManagement.getProductImgList", productId);
+	}
+
+	@Override
+	public void increaseImgSequences(Map<String, Object> map) throws Exception {
+		commonDAO.updateData("productManagement.increaseImgSequences", map);
 	}
 
 	@Override
@@ -61,22 +66,65 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public void addScrapProduct(Long memberId, Long productId) {
-
+	public void insertScrapProduct(Long memberId, Long productId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("productId", productId);
+		commonDAO.insertData("productManagement.insertScrapProduct", map);
 	}
 
 	@Override
-	public void deleteScrapProduct(Long memberId, Long productId) {
-
+	public void deleteScrapProduct(Long memberId, Long productId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("productId", productId);
+		commonDAO.deleteData("productManagement.deleteScrapProduct", map);
 	}
 
 	@Override
-	public boolean isScrapProduct(Long memberId, Long productId) {
-		return false;
+	public int isScrapProduct(Long memberId, Long productId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("productId", productId);
+		return commonDAO.selectOne("productManagement.isScrapProduct", map);
 	}
 
 	@Override
-	public ProductOption getOptionsById(Long productId) {
+	public ProductMainOption getOptionsById(Long productId) {
+		return null;
+	}
+
+
+	@Override
+	public ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("parentOptionId", parentOptionId);
+		return commonDAO.selectOne("productManagement.getMainOptionByParentId", map);
+	}
+
+	@Override
+	public List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception {
+		return commonDAO.selectList("productManagement.getSubOptionsByMainOptionId", mainOptionId);
+	}
+
+	@Override
+	public List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception {
+		return commonDAO.selectList("productManagement.getStockBySubOptionId", subOptionId);
+	}
+
+	@Override
+	public List<Product> findProductByCategory(Long categoryId) throws Exception {
+		return null;
+	}
+
+	@Override
+	public Long getMainOptionSeq() throws Exception {
+		return null;
+	}
+
+	@Override
+	public Long getProductSeq() throws Exception {
 		return null;
 	}
 }

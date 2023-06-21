@@ -1,6 +1,7 @@
 package com.sp.app.board;
 
 import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.board.BoardContent;
 import com.sp.app.domain.board.Comment;
 import com.sp.app.domain.board.UserBoard;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,22 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 
 	@Override
 	public void createBoard(UserBoard userBoard) throws Exception {
-		// TODO Auto-generated method stub
 
 		Long seq = commonDAO.selectOne("userBoard.seq");
 
 		userBoard.setUserBoardId(seq);
 
 		commonDAO.insertData("userBoard.createUserBoard", userBoard);
+	}
+	
+	@Override
+	public void insertContent(BoardContent boardContent) throws Exception {
+		
+		Long seq = commonDAO.selectOne("userBoard.seq");
+		
+		boardContent.setUserBoardContentId(seq);
+		
+		commonDAO.insertData("userBoard.insertContent", boardContent);
 	}
 	
 	@Override
@@ -126,6 +136,8 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 
 

@@ -2,14 +2,23 @@ package com.sp.app.domain.board;
 
 import java.util.List;
 
-public class ProductContent {
+public class BoardContent {
+	private Long userBoardContentId;
 	private Long userBoardId;
 	private Long categoryId;
 	private String content;
 	private int contentSequence;
 	private String imgName;
 	List<ProductTag> productTagList;
+	
+	
+	public Long getUserBoardContentId() {
+		return userBoardContentId;
+	}
 
+	public void setUserBoardContentId(Long userBoardContentId) {
+		this.userBoardContentId = userBoardContentId;
+	}
 
 	public Long getUserBoardId() {
 		return userBoardId;

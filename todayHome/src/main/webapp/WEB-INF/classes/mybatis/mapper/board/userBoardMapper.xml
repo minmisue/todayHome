@@ -11,9 +11,38 @@
 		VALUES (#{userBoardId}, #{memberId}, #{boardTypeId}, SYSDATE, 0, 111.222.333.444)
 	</insert>
 	
-	<insert id="insertContent" parameterType="com.sp.app.domain.board.ProductContent">
+	<insert id="insertContent" parameterType="com.sp.app.domain.board.BoardContent">
 		INSERT INTO USER_BOARD_CONTENT(user_board_id, category_id, content, content_sequence, img_name)
 		VALUES (#{userBoardId}, #{categoryId}, #{content}, seq_user_board_content.NEXTVAL, imgName)
 	</insert>
+	
+	<!-- 데이터 개수 -->
+	<!-- 검색 데이터 개수 수정해야함 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM user_Board
+	</select>
+	
+	<select id="listBoard" parameterType="map" resultType="com.sp.app.domain.board.ListBoard">
+		SELECT user_board_id, nickname, b.member_id, 
+				hitCount, replyCount, boardLikeCount, boardScrapCount,
+				profile_img_name, 
+				(SELECT content from user_board_content WHERE content_sequence = '1' ) as content , 
+				(SELECT img_name from user_board_content WHERE content_sequence = '1') as imgName,
+				(SELECT content FROM user_board_comment WHERE user_board_id = b.user_board_id ORDER BY reg_date DESC FETCH FIRST 1 ROW ONLY) as commentContent
+		FROM user_board b
+		JOIN member m ON b.member_id = m.member_id
+		JOIN user_board_content ct ON b.user_board_id = ct.user_board_id
+		JOIN user_board_comment cm ON b.user_board_id = cm.user_board_id
+		ORDER BY user_board_id DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<select id="readBoard" parameterType="Long" resultType="com.sp.app.board.Board">
+		SELECT boardNum, b.userId, userName, subject, content, groupNum, 
+				depth, orderNo, parent, reg_date, hitCount
+		FROM board b
+		JOIN  member1 m ON b.userId = m.userId
+		WHERE boardNum = #{boardNum}                       
+	</select>
 	
 </mapper>

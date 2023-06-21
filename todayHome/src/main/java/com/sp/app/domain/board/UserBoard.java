@@ -16,7 +16,7 @@ public class UserBoard {
 	private int boardLikeCount;
 	private int boardScrapCount;
 	private String presentationImgName;
-	private List<ProductContent> productContentList;
+	private List<BoardContent> boardContentList;
 
 
 	public Long getUserBoardId() {
@@ -115,11 +115,11 @@ public class UserBoard {
 		this.presentationImgName = presentationImgName;
 	}
 
-	public List<ProductContent> getProductContentList() {
-		return productContentList;
+	public List<BoardContent> getBoardContentList() {
+		return boardContentList;
 	}
 
-	public void setProductContentList(List<ProductContent> productContentList) {
-		this.productContentList = productContentList;
+	public void setBoardContentList(List<BoardContent> boardContentList) {
+		this.boardContentList = boardContentList;
 	}
 }

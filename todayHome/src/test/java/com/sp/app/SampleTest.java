@@ -78,10 +78,15 @@ public class SampleTest {
 	@Test
 	public void getStockBySubOptionId() throws Exception {
 		Long mainOptionId = 41L;
+
 		List<ProductStock> subOptionsByMainOptionId = productManagementRepository.getStockBySubOptionId(mainOptionId);
 
 		for (ProductStock productStock : subOptionsByMainOptionId) {
 			System.out.println(productStock);
 		}
+
+		int price = subOptionsByMainOptionId.get(0).getOptionPrice();
+
+		Assert.assertEquals(4000, price);
 	}
 }

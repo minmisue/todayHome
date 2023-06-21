@@ -309,26 +309,32 @@ public class ProductManagementRepositoryImplTest {
 			return;
 		}
 
+		Long selectedOption = subOptions.get(0).getOptionDetailId();
+
 		mainOptionId = mainOption.getMainOptionId();
+		System.out.println("선택 옵션 : " + selectedOption);
 
 		// 서브 옵션 리스트 반환
 		subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
 		System.out.println("최초 옵션 : " + mainOption.getOptionName());
 		System.out.println("\n선택 사항");
+
+		List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(selectedOption);
+		System.out.println("--------------------------------");
+		for (ProductStock stockBySubOption : stockBySubOptions) {
+			System.out.println(
+					"옵션1 : " + stockBySubOption.getOptionDetailId1() +
+							" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
+							" , 가격 : " + stockBySubOption.getOptionPrice()
+			);
+		}
+		System.out.println("--------------------------------");
+
 		for (ProductSubOption subOption : subOptions) {
 			System.out.println("--------------------------------");
 			System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
 			System.out.println("옵션 : " + subOption.getOptionDetailName());
 
-			List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getOptionDetailId());
-
-			for (ProductStock stockBySubOption : stockBySubOptions) {
-				System.out.println(
-						"옵션1 : " + stockBySubOption.getOptionDetailId1() +
-								" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
-								" , 가격 : " + stockBySubOption.getOptionPrice()
-				);
-			}
 			System.out.println("--------------------------------");
 		}
 	}
@@ -341,8 +347,5 @@ public class ProductManagementRepositoryImplTest {
 		// 첫 메인 옵션 아이디
 		int mainOptionCnt = productManagementRepository.getMainOptionCnt(product);
 		System.out.println(mainOptionCnt);
-
 	}
-
-
 }

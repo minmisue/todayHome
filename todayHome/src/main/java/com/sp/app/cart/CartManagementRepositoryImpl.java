@@ -1,5 +1,6 @@
 package com.sp.app.cart;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +24,13 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void updateProduct(Long cartId) throws Exception {
-		commonDAO.updateData("cart.updateCart", cartId);
+	public void updateProduct(Long cartId, int quantity) throws Exception {
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("cartId", cartId);
+		map.put("quantity", quantity);
+		
+		commonDAO.updateData("cart.updateQuantity", map);
 		
 	}
 
@@ -40,18 +46,29 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public Integer checkQuantity(Map<String, Object> map) throws Exception {
+	public Integer checkQuantity(Long stockId, int quantity) throws Exception {
 		Integer result = null; // 아무런 조건이 없으면 null 반환 하기때문에 반환 타입 Integer
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("stockId", stockId);
+		map.put("quantity", quantity);
+		
+		
 		result = commonDAO.selectOne("cart.checkQuantity", map);
 		
 		return result;
 	}
 
 	@Override
-	public Integer checkCartProduct(Long cartId) throws Exception {
+	public Integer checkCartProduct(Long memberId, Long productId, Long stockId) throws Exception {
 		Integer result = null;
-		result = commonDAO.selectOne("cart.checkCartProduct", cartId);
 		
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		map.put("productId", productId);
+		map.put("stockId", stockId);
+		
+		result = commonDAO.selectOne("cart.checkCartProduct", map);
 		return result;
 	}
 

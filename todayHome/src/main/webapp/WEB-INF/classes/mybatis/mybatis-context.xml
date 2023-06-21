@@ -40,7 +40,7 @@
 		<!-- 여기에 본인 폴더 등록 후 사용, 안쓰는건 주석 처리 -->
 <!--		<property name="mapperLocations" value="classpath:/mybatis/mapper/**/*.xml" />-->
 		<!-- 상품 -->
-		<property name="mapperLocations" value="classpath:/mybatis/mapper/product/**/*.xml" />
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/cart/**/*.xml" />
 		<!-- 멤버 -->
 <!--		<property name="mapperLocations" value="classpath:/mybatis/mapper/member/**/*.xml" />-->
 	</bean>

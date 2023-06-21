@@ -14,21 +14,26 @@ public class CartServiceImpl implements CartService{
 	public void createProduct(Cart cart){		
 		try {
 			
-			if(cartManagementRepository.checkCartProduct(cart.getCartId()) != null) {
+			if(cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getProductId(),cart.getStockId()) != 0) {
 				// null이 아니라는거는 이미 담겨져있다는 뜻
 				return;
 			}
 			
 			cartManagementRepository.createProduct(cart);
 		} catch (Exception e) {
-			e.printStackTrace();
+		
 		}
 	}
 
 	@Override
-	public void updateProduct(Long cartId) {
+	public void updateProduct(Map<String, Object> map) {
 		try {
-			cartManagementRepository.updateProduct(cartId);
+			
+			Long cartId = (Long)map.get("cartId");
+			Integer quantity = (Integer)map.get("quantity");
+
+			
+			cartManagementRepository.updateProduct(cartId,quantity);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,7 +57,11 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public Boolean checkQuantity(Map<String, Object> map) {
 		try {
-			if(cartManagementRepository.checkQuantity(map) != null) {
+			
+			Long stockId = (Long)map.get("stockId");
+			int quantity = (Integer)map.get("quantity");
+			
+			if(cartManagementRepository.checkQuantity(stockId,quantity) != null) {
 				return true;
 			}
 		} catch (Exception e) {

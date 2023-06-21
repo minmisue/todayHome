@@ -5,53 +5,53 @@
 	<!-- 장바구니 담기 -->
 	<insert id="insertCart" parameterType="com.sp.app.cart.Cart">
 		INSERT INTO cart(cart_id,member_id,product_id,stock_id,quantity,reg_date) 
-    			VALUES(seq_cart.NEXTVAL,#{memberId},#{stockId},#{productId},#{quantity},SYSDATE); 
+    			VALUES(seq_cart.NEXTVAL,#{memberId},#{productId},#{stockId},#{quantity},SYSDATE)
 	</insert>
 	
 	<!-- 장바구니 리스트(회원 별) -->
 	<select id="selectList" parameterType="map" resultType="com.sp.app.cart.Cart">
-		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId,
-			    p.product_name productName, p.price, c.quantity quantity,
+		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId, s.stock_id stockId,
+			    p.product_name productName, p.price price, c.quantity quantity,
 			    sl.seller_name sellerName, option_price optionPrice,
 			    discount_percent discountPercent, 
-			    delivery_cost deliveryCost,reserving_point_percent reservingPointPercent
+			    delivery_cost deliveryCost,
+		        s.option_detail_id optionDetailId, s.option_detail_id2 optionDetailId2,pi.save_name save_name
 		FROM cart c
 		JOIN member m ON m.member_id = c.member_id
 		JOIN product p ON c.product_id = p.product_id
+		JOIN product_img pi ON p.product_id = pi.product_id
 		JOIN stock s ON c.stock_id = s.stock_id
 		JOIN seller sl ON p.seller_id = sl.seller_id
-		WHERE memberId = #{memberId}
+		WHERE pi.sequence = 1 AND m.member_id = #{memberId}
 	</select>
 
 	<!-- 장바구니 삭제 -->
 	<delete id="deleteCart" parameterType="Long">
-		DELETE FROM cart WHERE cart_id = #{cartId}
+		DELETE FROM cart WHERE cart_id IN
+				<foreach item="cartId" index="index" collection="cartList"
+						open="(" separator="," close=")">
+					#{cartId}
+				</foreach>
 	</delete>
 	
-	<!-- 장바구니 업데이트(수량변경 플러스) -->
-	<update id="updatePlusCart" parameterType="Long">
-		UPDATE cart SET quantity=quantity+1 WHERE cart_id = #{cartId}
-	</update>
-
-	<!-- 장바구니 업데이트(수량변경 마이너스) -->
-	<update id="updateMinusCart" parameterType="Long">
-		UPDATE cart SET quantity=quantity-1 WHERE cart_id = #{cartId}
+	<update id="updateQuantity" parameterType="map">
+			UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
 	</update>
 	
 	<!-- 장바구니담기전 재고 체크 -->
 	<select id="checkQuantity" parameterType="map" resultType="Integer">
 	<![CDATA[
-		select * 
+		select COUNT(*) 
 		from stock
 		where stock_id = #{stockId} AND #{quantity} <= quantity - #{quantity}
 	]]>
 	</select>
 
 	<!-- 장바구니에 담긴 상품인지 확인 -->
-	<select id="checkCartProduct" parameterType="Long" resultType="Integer">
-		SELECT *
+	<select id="checkCartProduct" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
 		FROM cart
-		where cart_id = #{cartId}
+		where member_id = #{memberId} AND product_id = #{productId} AND stock_id = #{stockId}
 	</select>
 	
 	

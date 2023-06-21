@@ -8,7 +8,7 @@ public interface CartService {
 	public void createProduct(Cart cart);
 	
 	// 장바구니 업데이트
-	public void updateProduct(Long cartId);
+	public void updateProduct(Map<String, Object> map);
 	
 	// 장바구니 취소
 	public void deleteCart(Long cartId);

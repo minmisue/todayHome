@@ -1,34 +1,64 @@
 package com.sp.app.cart;
 
 public class Cart {
-	private long cartId;
-	private long memberId;
-	private long productImgId;
-	private long stockId;
+	private Long cartId;
+	private Long memberId;
+	private Long productImgId;
+	private Long stockId;
 	
-	private long productId;
+	private Long productId;
 	private int quantity; // 수량
 	private String regDate; // 담은 날짜
 	private String productName; // 상품이름
 	private String brandName;// 브랜드 이름
 	private String saveName; // 사진 저장 이름
-	private int price; // 상품 기본가격
-	private double discountPrcent; // 할인율
-	private int deliveryCost; // 배달비
+	private Long price; // 상품 기본가격
+	private Double discountPrcent; // 할인율
+	private Long deliveryCost; // 배달비
 	
 	
 	
-	public long getStockId() {
-		return stockId;
+	public Long getCartId() {
+		return cartId;
 	}
-	public void setStockId(long stockId) {
-		this.stockId = stockId;
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
 	}
-	public long getProductImgId() {
+	public Long getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
+	}
+	public Long getProductImgId() {
 		return productImgId;
 	}
-	public void setProductImgId(long productImgId) {
+	public void setProductImgId(Long productImgId) {
 		this.productImgId = productImgId;
+	}
+	public Long getStockId() {
+		return stockId;
+	}
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
+	}
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 	public String getProductName() {
 		return productName;
@@ -48,54 +78,26 @@ public class Cart {
 	public void setSaveName(String saveName) {
 		this.saveName = saveName;
 	}
-	public int getPrice() {
+	public Long getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
-	public double getDiscountPrcent() {
+	public Double getDiscountPrcent() {
 		return discountPrcent;
 	}
-	public void setDiscountPrcent(double discountPrcent) {
+	public void setDiscountPrcent(Double discountPrcent) {
 		this.discountPrcent = discountPrcent;
 	}
-	public int getDeliveryCost() {
+	public Long getDeliveryCost() {
 		return deliveryCost;
 	}
-	public void setDeliveryCost(int deliveryCost) {
+	public void setDeliveryCost(Long deliveryCost) {
 		this.deliveryCost = deliveryCost;
 	}
-	public long getCartId() {
-		return cartId;
-	}
-	public void setCartId(long cartId) {
-		this.cartId = cartId;
-	}
-	public long getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(long memberId) {
-		this.memberId = memberId;
-	}
-	public long getProductId() {
-		return productId;
-	}
-	public void setProductId(long productId) {
-		this.productId = productId;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public String getRegDate() {
-		return regDate;
-	}
-	public void setRegDate(String reg_date) {
-		this.regDate = reg_date;
-	}
+	
+	
 	
 	
 }

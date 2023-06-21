@@ -113,7 +113,43 @@ public class MemberManagementRepositoryImplTest {
 	}
 
 	@Test
-	public void updateMemberEnabled() {
+	public void updateMemberEnabled() throws Exception {
+
+		memberManagementRepository.updateMemberEnabled(62L, 1);
+
+	}
+
+
+	@Test
+	public void updateMember() throws Exception {
+		Long memberId = 62L;
+		Member member = new Member(memberId, 0, "01012341234", "12341234");
+		memberManagementRepository.updateMember(member);
+
+	}
+
+	@Test
+	public void updateMemberDetail() throws Exception {
+		Long memberId = 62L;
+		Member member = new Member(memberId, "수댕이", "1234", "미ㅏㄴㅇ", "하이하잏");
+		memberManagementRepository.updateMemberDetail(member);
+
+	}
+
+	@Test
+	public void insertAddress() throws Exception {
+		Long memberId = 62L;
+		Member member = new Member(memberId, "1234","12","34");
+		memberManagementRepository.insertAddress(member);
+
+
+	}
+	@Test
+	public void updateAddress() throws Exception {
+		Long memberId = 62L;
+		Member member = new Member(memberId, "12","34","56");
+		memberManagementRepository.updateAddress(member);
+
 
 	}
 }

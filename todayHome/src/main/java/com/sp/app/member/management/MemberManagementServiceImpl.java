@@ -65,7 +65,8 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 		return null;
 	}
 
+	@Override
+	public void insertAddress(Member member) throws Exception {
 
-
-
+	}
 }

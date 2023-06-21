@@ -81,5 +81,8 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 		return commonDAO.updateData("management.updateAddress", member);
 	}
 
-
+	@Override
+	public void insertAddress(Member member) throws Exception {
+		commonDAO.updateData("management.insertAddress",member);
+	}
 }

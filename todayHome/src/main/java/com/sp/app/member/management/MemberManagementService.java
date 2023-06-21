@@ -24,5 +24,6 @@ public interface MemberManagementService {
 	Member updateMemberDetail(Member member) throws Exception;
 	
 	Member updateAddress(Member member) throws Exception;
-	
+
+	void insertAddress(Member member) throws Exception;
 }

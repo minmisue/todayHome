@@ -90,23 +90,35 @@
         SELECT SEQ_PRODUCT_MAIN_OPTION.nextval FROM DUAL
     </select>
 
-    <insert id="insertMainOption" parameterType="map">
+    <select id="getProductSeq" resultType="Long">
         SELECT SEQ_PRODUCT.nextval FROM DUAL
-    </insert>
+    </select>
 
-    <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">
-        INSERT INTO PRODUCT_MAIN_OPTION (OPTION_ID, PARENT_OPTION_ID, PRODUCT_ID, OPTION_NAME)
-        VALUES (#{mainOptionId}, #{parentOptionId, jdbcType=VARCHAR}, #{productId}, #{optionName})
-    </insert>
+    <select id="getMainOptionCnt" resultType="int" parameterType="Long">
+        SELECT count(*)
+        FROM (SELECT CONNECT_BY_ROOT option_id AS option_id, option_name, PRODUCT_ID
+              FROM product_main_option
+              START WITH parent_option_id IS NULL
+              CONNECT BY PRIOR option_id = parent_option_id)
+        WHERE PRODUCT_ID = #{product}
+    </select>
 
-    <insert id="insertSubOption" parameterType="com.sp.app.domain.product.ProductSubOption">
-        INSERT INTO PRODUCT_SUB_OPTION (OPTION_DETAIL_ID, OPTION_ID, OPTION_DETAIL_NAME)
-        VALUES (SEQ_PRODUCT_SUB_OPTION.nextval, #{mainOptionId}, #{optionDetailName})
-    </insert>
+<!--    <insert id="insertMainOption" parameterType="map">-->
+<!--        SELECT SEQ_PRODUCT.nextval FROM DUAL-->
+<!--    </insert>-->
 
-    <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">
-        INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)
-        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{optionDetailId1, jdbcType=VARCHAR}, #{optionDetailId2, jdbcType=VARCHAR})
-    </insert>
+<!--    <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">-->
+<!--        INSERT INTO PRODUCT_MAIN_OPTION (OPTION_ID, PARENT_OPTION_ID, PRODUCT_ID, OPTION_NAME)-->
+<!--        VALUES (#{mainOptionId}, #{parentOptionId, jdbcType=VARCHAR}, #{productId}, #{optionName})-->
+<!--    </insert>-->
 
+<!--    <insert id="insertSubOption" parameterType="com.sp.app.domain.product.ProductSubOption">-->
+<!--        INSERT INTO PRODUCT_SUB_OPTION (OPTION_DETAIL_ID, OPTION_ID, OPTION_DETAIL_NAME)-->
+<!--        VALUES (SEQ_PRODUCT_SUB_OPTION.nextval, #{mainOptionId}, #{optionDetailName})-->
+<!--    </insert>-->
+
+<!--    <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">-->
+<!--        INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)-->
+<!--        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{optionDetailId1, jdbcType=VARCHAR}, #{optionDetailId2, jdbcType=VARCHAR})-->
+<!--    </insert>-->
 </mapper>

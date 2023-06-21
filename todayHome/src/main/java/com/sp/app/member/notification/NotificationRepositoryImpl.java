@@ -17,30 +17,30 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	
 	@Override
 	public void createNotification(Notification notification) throws Exception {
-		commonDAO.insertData("management.createNotification",notification);
+		commonDAO.insertData("notification.createNotification",notification);
 	}
 
 	@Override
 	public int updateNotification(Notification notification) throws Exception {
-		return commonDAO.updateData("management.updateNotification",notification);
+		return commonDAO.updateData("notification.updateNotification",notification);
 		
 	}
 
 	@Override
 	public void deleteNotification(Notification notification) throws Exception {
-		commonDAO.deleteData("management.deleteNotification",notification);
+		commonDAO.deleteData("notification.deleteNotification",notification);
 
 		
 	}
 
 	@Override
 	public int getNotReadNotificationCount(Long memberId) throws Exception {
-		return commonDAO.selectOne("management.getNotReadNotificationCount", memberId);
+		return commonDAO.selectOne("notification.getNotReadNotificationCount", memberId);
 	}
 
 	@Override
 	public List<Notification> getNotReadNotificationList(Long memberId) throws Exception {
-		List<Notification> list = commonDAO.selectList("management.getNotReadNotificationList",memberId);
+		List<Notification> list = commonDAO.selectList("notification.getNotReadNotificationList",memberId);
 		return list;
 	}
 

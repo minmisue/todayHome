@@ -10,6 +10,8 @@ public class Notification {
 	private String parameter1;
 	private String parameter2;
 	private String parameter3;
+
+
 	
 	public Long getNotificationId() {
 		return notificationId;
@@ -65,7 +67,30 @@ public class Notification {
 	public void setParameter3(String parameter3) {
 		this.parameter3 = parameter3;
 	}
-	
-	
-	
+
+	public Notification(Long memberId, int type, String message, String parameter1, String parameter2, String parameter3) {
+		this.memberId = memberId;
+		this.type = type;
+		this.message = message;
+		this.parameter1 = parameter1;
+		this.parameter2 = parameter2;
+		this.parameter3 = parameter3;
+	}
+
+	public Notification(Long notificationId) {
+		this.notificationId = notificationId;
+	}
+
+	public Notification(Long memberId, int type, String message, String regDate, boolean isRead, String parameter1, String parameter2, String parameter3) {
+		this.memberId = memberId;
+		this.type = type;
+		this.message = message;
+		this.regDate = regDate;
+		this.isRead = isRead;
+		this.parameter1 = parameter1;
+		this.parameter2 = parameter2;
+		this.parameter3 = parameter3;
+
+
+	}
 }

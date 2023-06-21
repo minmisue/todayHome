@@ -17,8 +17,8 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:/appServlet/servlet-context.xml",
-		"classpath:/root-context.xml",
+		"classpath:/spring/appServlet/servlet-context.xml",
+		"classpath:/spring/root-context.xml",
 		"classpath:/mybatis/mybatis-context.xml"
 })
 public class ProductManagementRepositoryImplTest {
@@ -221,4 +221,128 @@ public class ProductManagementRepositoryImplTest {
 			System.out.println(productStock);
 		}
 	}
+
+	@Test
+	public void productOptionProcessUsingWhile() throws Exception {
+		// 상품 아이디
+		Long productId = 61L;
+
+		// 메인 옵션 개수
+		int mainOptionCnt = productManagementRepository.getMainOptionCnt(productId);
+		System.out.println("메인 옵션 개수 : " + productId);
+
+		Long mainOptionId = null;
+		while (true) {
+			// 첫 메인 옵션 아이디
+			ProductMainOption mainOption = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
+			if (mainOption == null) {
+				System.out.println("옵션 없음");
+				return;
+			}
+
+			mainOptionId = mainOption.getMainOptionId();
+
+			// 서브 옵션 리스트 반환
+			List<ProductSubOption> subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+			System.out.println("최초 옵션 : " + mainOption.getOptionName());
+			System.out.println("\n선택 사항");
+			for (ProductSubOption subOption : subOptions) {
+				System.out.println("--------------------------------");
+				System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
+				System.out.println("옵션 : " + subOption.getOptionDetailName());
+
+				List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getOptionDetailId());
+
+				for (ProductStock stockBySubOption : stockBySubOptions) {
+					System.out.println(
+							"옵션1 : " + stockBySubOption.getOptionDetailId1() +
+							" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
+							" , 가격 : " + stockBySubOption.getOptionPrice()
+					);
+				}
+				System.out.println("--------------------------------");
+			}
+			productId = mainOption.getProductId();
+
+		}
+	}
+
+	@Test
+	public void productOptionProcess() throws Exception {
+		// 상품 아이디
+		Long productId = 61L;
+
+		// 메인 옵션 개수
+		int mainOptionCnt = productManagementRepository.getMainOptionCnt(productId);
+		System.out.println("메인 옵션 개수 : " + productId);
+
+		Long mainOptionId = null;
+
+		// 첫 메인 옵션 아이디
+		ProductMainOption mainOption = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
+		if (mainOption == null) {
+			System.out.println("옵션 없음");
+			return;
+		}
+
+		mainOptionId = mainOption.getMainOptionId();
+
+		// 서브 옵션 리스트 반환
+		List<ProductSubOption> subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+		System.out.println("최초 옵션 : " + mainOption.getOptionName());
+		System.out.println("\n선택 사항");
+		for (ProductSubOption subOption : subOptions) {
+			System.out.println("--------------------------------");
+			System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
+			System.out.println("옵션 : " + subOption.getOptionDetailName());
+			System.out.println("--------------------------------");
+		}
+
+		productId = mainOption.getProductId();
+
+
+		// 두번째 옵션 아이디
+		mainOption = productManagementRepository.getMainOptionByParentId(productId, mainOptionId);
+
+		if (mainOption == null) {
+			System.out.println("옵션 없음");
+			return;
+		}
+
+		mainOptionId = mainOption.getMainOptionId();
+
+		// 서브 옵션 리스트 반환
+		subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+		System.out.println("최초 옵션 : " + mainOption.getOptionName());
+		System.out.println("\n선택 사항");
+		for (ProductSubOption subOption : subOptions) {
+			System.out.println("--------------------------------");
+			System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
+			System.out.println("옵션 : " + subOption.getOptionDetailName());
+
+			List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getOptionDetailId());
+
+			for (ProductStock stockBySubOption : stockBySubOptions) {
+				System.out.println(
+						"옵션1 : " + stockBySubOption.getOptionDetailId1() +
+								" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
+								" , 가격 : " + stockBySubOption.getOptionPrice()
+				);
+			}
+			System.out.println("--------------------------------");
+		}
+	}
+
+	@Test
+	public void getMainOptionCnt() throws Exception {
+		// 상품 아이디
+		Long product = 61L;
+
+		// 첫 메인 옵션 아이디
+		int mainOptionCnt = productManagementRepository.getMainOptionCnt(product);
+		System.out.println(mainOptionCnt);
+
+	}
+
+
 }

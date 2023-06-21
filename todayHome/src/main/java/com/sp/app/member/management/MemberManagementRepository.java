@@ -27,4 +27,5 @@ public interface MemberManagementRepository {
 	
 	int updateAddress(Member member) throws Exception;
 
+	void insertAddress(Member member) throws Exception;
 }

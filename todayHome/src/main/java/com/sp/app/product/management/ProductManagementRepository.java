@@ -52,4 +52,6 @@ public interface ProductManagementRepository {
 	Long getMainOptionSeq() throws Exception;
 
 	Long getProductSeq() throws Exception;
+
+	int getMainOptionCnt(Long productId) throws Exception;
 }

@@ -4,8 +4,11 @@
 <mapper namespace="seller">
 <!-- 판매자 회원가입 -->
 	<insert id="insertSeller" parameterType="com.sp.app.domain.seller.Seller">
-		INSERT INTO seller (seller_id, brand_name,password,business_number,seller_name,tel,email,representative_name,presentation,reg_date)
-		VALUES (SEQ_SELLER.NEXTVAL,#{brandName}, #{password}, #{businessNumber}, #{sellerName}, #{tel}, #{email}, #{representativeName}, #{presentation},SYSDATE)	
+		INSERT ALL INTO seller (seller_id, member_id,brand_name,password,business_number,seller_name,tel,email,representative_name,presentation,reg_date)
+		VALUES (SEQ_SELLER.NEXTVAL,#{memberId},#{brandName}, #{password}, #{businessNumber}, #{sellerName}, #{tel}, #{email}, #{representativeName}, #{presentation},SYSDATE)	
+		INTO seller_status (seller_id, status)
+		VALUES (SEQ_SELLER.NEXVAL, default)
+		SELECT * FROM dual;
 	</insert>
 	
 <!-- 판매자 정보 수정 -->	
@@ -30,34 +33,35 @@
 		WHERE seller_id = #{sellerId}	
 	</update>
 	
-<!-- 판매자 리스트 -->
+<!-- 	판매자 리스트 : 
+판매자 리스트를 가지고 오는데 검색창에는 이름, 사업자번호,판매자이름,브랜드이름 중 하나만 검색 가능하고 정렬도 정산 오름&내림,가입일 오름&내림차순 중 하나만 가능하고
+상태 체크창에서는 대기,수락,거절,정지가 복수 선택이 가능-->
   <select id="getSellersByCondition" parameterType="map" resultType="com.sp.app.domain.seller.Seller">
-    SELECT .seller_id, s.brand_name, s.business_number, s.seller_name, s.tel, s.email,
-    s.representative_name, s.presentation, s.accumulated_amount, s.reg_date,
-    ss.status
+  SELECT s.seller_id AS sellerId, s.brand_name AS brandName, s.business_number AS businessNumber, 
+  		 s.seller_name AS sellerName, s.tel AS tel, s.email AS email,
+  		 s.representative_name AS representativeName, s.presentation AS presentation,
+  		 s.accumulated_amount AS accumulatedAmount, to_char(s.reg_date, 'YYYY-MM-DD') AS regDate,
+  		 ss.status AS status
   FROM seller s
-JOIN seller_status ss ON s.seller_id = ss.seller_id
+  JOIN seller_status ss ON s.seller_id = ss.seller_id
   <where>
-	<if test="condition=='sellerName'">
-		INSTR(s.seller_name, #{keyword}) &gt; 0
-	</if>
-	<if test="condition=='businessNumber'">
-		INSTR(s.business_number, #{keyword}) &gt; 0
-	</if>
-	<if test="condition=='sellerName'">
-		INSTR(s.seller_name, #{keyword}) &gt; 0
-	</if>
-	<if test="condition=='brandName'">
-		INSTR(s.brand_name, #{keyword}) &gt; 0
-	</if>
-    AND (
-	<if test="regDate != null">
-		s.reg_date &gt;= #{regDate}
-	</if>
-    )
-</where>
-
-<if test="orderByAmount != null">
+    <if test="condition=='sellerName'">
+      INSTR(s.seller_name, #{keyword}) &gt; 0
+    </if>
+    <if test="condition=='businessNumber'">
+      INSTR(s.business_number, #{keyword}) &gt; 0
+    </if>
+    <if test="condition=='brandName'">
+      INSTR(s.brand_name, #{keyword}) &gt; 0
+    </if>
+    <if test="status != null">
+    	AND
+      <foreach item="sellectedStatus" collection="status" separator=" OR ">
+        ss.status = #{sellectedStatus}
+      </foreach>
+    </if>
+  </where>
+  <if test="orderByAmount != null">
     <if test="orderByAmount == 'asc'">
       ORDER BY s.accumulated_amount ASC
     </if>
@@ -72,13 +76,14 @@ JOIN seller_status ss ON s.seller_id = ss.seller_id
     <if test="orderByDate == 'desc'">
       ORDER BY s.reg_date DESC
     </if>
-    </if>
-	</select>
+  </if>
+</select>
+
 	
-    	<!-- 판매자 수 -->
-	<select id="SellerCount" parameterType="" resultType="Integer">
-		SELECT NVL(COUNT(*),0)
-		FROM seller_status 
-		WHERE status = 1;		  
+ <!-- 판매자 상태에 따른 수 -->
+	<select id="getSellerCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM seller_status
+		WHERE status = #{status}	  
 	</select>
 </mapper>

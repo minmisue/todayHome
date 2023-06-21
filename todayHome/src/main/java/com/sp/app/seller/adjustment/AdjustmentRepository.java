@@ -4,19 +4,19 @@ import java.util.List;
 
 public interface AdjustmentRepository {
     // 모든 정산 목록 반환 ok
-    List<Adjustment> getAllAdjustments();
+    List<Adjustment> getAllAdjustments() throws Exception;
 
     // 정산 아이디로 정산 반환 ok
-    Adjustment getAdjustmentByAdjustmentId(Long adjustmentId);
+    void getAdjustmentByAdjustmentId(Long adjustmentId) throws Exception;
 
     // 판매자 아이디로 정산 목록 반환 ok
-    List<Adjustment> getAdjustmentsBySellerId(Long sellerId);
+    List<Adjustment> getAdjustmentsBySellerId(Long sellerId) throws Exception;
 
     // 정산 기록 생성 ok
-    Adjustment createAdjustment(Adjustment adjustment);
+   void createAdjustment(Adjustment adjustment) throws Exception;
 
     // 정산 기록 수정 ok
-    Adjustment updateAdjustment(Long adjustmentId, Adjustment adjustment);
+   void  updateAdjustment(Adjustment adjustment) throws Exception;
 
 }
 

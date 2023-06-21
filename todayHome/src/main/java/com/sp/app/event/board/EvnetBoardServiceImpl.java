@@ -19,7 +19,7 @@ public class EvnetBoardServiceImpl implements EventBoardService{
 	}
 
 	@Override
-	public void deleteEventBoard(Long event_board_id) throws Exception {
+	public void deleteEventBoard(Long eventBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -31,7 +31,7 @@ public class EvnetBoardServiceImpl implements EventBoardService{
 	}
 
 	@Override
-	public EventBoard getEventBoardById(Long event_board_id) throws Exception {
+	public EventBoard getEventBoardById(Long eventBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

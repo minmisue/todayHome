@@ -10,9 +10,9 @@ public interface NoticeBoardService {
 	
 	void updateNoticeBoard(NoticeBoard noticeboard) throws Exception;
 	
-	void deleteNoticeBoard(Long notice_board_id) throws Exception;
+	void deleteNoticeBoard(Long noticeBoardId) throws Exception;
 	
 	List<NoticeBoard> getAllNoticeBoard();
 	
-	NoticeBoard getNoticeBoardById(Long notice_board_id);
+	NoticeBoard getNoticeBoardById(Long noticeBoardId);
 }

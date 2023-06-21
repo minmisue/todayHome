@@ -10,9 +10,9 @@ public interface QnaBoardRepository {
 	
 	void updateQnaBoard(QnaBoard qnaboard) throws Exception;
 	
-	void deleteQnaBoard(Long qna_board_id) throws Exception;
+	void deleteQnaBoard(Long qnaBoardId) throws Exception;
 	
 	List<QnaBoard> getAllQnaBoard();
 	
-	QnaBoard getQnaBoardById(Long qna_board_id);
+	QnaBoard getQnaBoardById(Long qnaBoardId);
 }

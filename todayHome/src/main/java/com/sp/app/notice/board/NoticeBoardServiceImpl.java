@@ -2,38 +2,61 @@ package com.sp.app.notice.board;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sp.app.domain.board.NoticeBoard;
 
+@Service
 public class NoticeBoardServiceImpl implements NoticeBoardService{
 
+	@Autowired
+	private NoticeBoardRepository noticeboardRepository;
+	
 	@Override
 	public void insertNoticeBoard(NoticeBoard noticeboard) throws Exception {
-		// TODO Auto-generated method stub
 		
+		noticeboardRepository.insertNoticeBoard(noticeboard);
 	}
 
 	@Override
 	public void updateNoticeBoard(NoticeBoard noticeboard) throws Exception {
-		// TODO Auto-generated method stub
 		
+		noticeboardRepository.updateNoticeBoard(noticeboard);
 	}
 
 	@Override
-	public void deleteNoticeBoard(Long notice_board_id) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void deleteNoticeBoard(Long noticeBoardId) throws Exception {
+
+		noticeboardRepository.deleteNoticeBoard(noticeBoardId);
 	}
 
 	@Override
 	public List<NoticeBoard> getAllNoticeBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<NoticeBoard> noticeboardlist = null;
+		
+		try {
+			
+			noticeboardlist = noticeboardRepository.getAllNoticeBoard();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return noticeboardlist;
 	}
 
 	@Override
-	public NoticeBoard getNoticeBoardById(Long notice_board_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public NoticeBoard getNoticeBoardById(Long noticeBoardId) {
+		NoticeBoard noticedto = null;
+		
+		try {
+			noticedto = noticeboardRepository.getNoticeBoardById(noticeBoardId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return noticedto;
 	}
 
 }

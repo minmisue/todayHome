@@ -1,20 +1,20 @@
 package com.sp.app.domain.mypage.point;
 
 public class Point {
-	private Long member_id;
-	private Long remain_point;
+	private Long memberId;
+	private Long remainPoint;
 	
-	public Long getMember_id() {
-		return member_id;
+	public Long getMemberId() {
+		return memberId;
 	}
-	public void setMember_id(Long member_id) {
-		this.member_id = member_id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
-	public Long getRemain_point() {
-		return remain_point;
+	public Long getRemainPoint() {
+		return remainPoint;
 	}
-	public void setRemain_point(Long remain_point) {
-		this.remain_point = remain_point;
+	public void setRemainPoint(Long remainPoint) {
+		this.remainPoint = remainPoint;
 	}
 	
 	

@@ -3,19 +3,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="management">
 	
-    <select id="memberSeq" resultType="Long">
-       SELECT member_seq.NEXTVAL FROM dual 
+    <select id="getMemberSeq" resultType="Long">
+       SELECT seq_member.NEXTVAL FROM dual 
     </select>
 
     <insert id="insertMember" parameterType="com.sp.app.domain.member.Member">
 		INSERT INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
-		VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel});
-
+		VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
     </insert>
 
     <insert id="insertMemberDetail" parameterType="com.sp.app.domain.member.Member">
 		INSERT INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName, jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR});	
+		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName, jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})	
 		
     </insert>
 	
@@ -24,14 +23,14 @@
 			INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
 			VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
 			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR});
-		SELECT * FROM dual;     
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
+		SELECT * FROM dual    
     </update>
     
-    <select id="emailCheck" parameterType="int" resultType="int">
-    	select count(*)
+    <select id="emailCheck" parameterType="String" resultType="int">
+		select count(*)
 		from MEMBER
-		where EMAIL = #{email};
+		where EMAIL = #{email}
     </select>
 	
 	<select id="readMemberById" parameterType="Long" resultType="com.sp.app.domain.member.Member">
@@ -39,7 +38,7 @@
 		FROM MEMBER m
 		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
 		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
-		WHERE m.MEMBER_ID = #{memberId};	
+		WHERE m.MEMBER_ID = #{memberId}	
 	</select>
 
 	<select id="readMemberByEmail" parameterType="String" resultType="com.sp.app.domain.member.Member">
@@ -47,24 +46,32 @@
 		FROM MEMBER m
 		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
 		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
-		WHERE m.EMAIL = #{email};
+		WHERE m.EMAIL = #{email}
 	</select>
 	
     <!-- 회원정보 수정  --> 
     <update id="updateMemberEnabled" parameterType="Map">
-		UPDATE MEMBER_DETAIL SET enabled=#{enabled} WHERE MEMBER_ID=#{memberId};
+		UPDATE MEMBER_DETAIL SET enabled=#{enabled} WHERE MEMBER_ID=#{memberId}
     </update>
     
     <update id="updateMember" parameterType="com.sp.app.domain.member.Member">
-    	UPDATE MEMBER SET MEMBER_ROLE_ID = #{memberRoleId} , NAME = #{name}, TEL = #{tel};
+		UPDATE MEMBER SET MEMBER_ROLE_ID = #{memberRoleId} , NAME = #{name}, TEL = #{tel}
+		where MEMBER_ID = #{memberId}
     </update>
     
     <update id="updateMemberDetail" parameterType="com.sp.app.domain.member.Member">
-    	update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName, jdbcType=VARCHAR}, INFO = #{info, jdbcType=VARCHAR}
+		update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName, jdbcType=VARCHAR}, INFO = #{info, jdbcType=VARCHAR}
+		where MEMBER_ID = #{memberId}
     </update>
-    
+
+	<insert id="insertAddress" parameterType="com.sp.app.domain.member.Member">
+		INSERT INTO ADDRESS_BUNDLE (MEMBER_ID, POST_NUM, ADDRESS1, ADDRESS2)
+		VALUES (#{memberId}, #{postNum}, #{address1}, #{address2})
+	</insert>
+
     <update id="updateAddress" parameterType="com.sp.app.domain.member.Member">
-    	update ADDRESS_BUNDLE set POST_NUM = #{postNum}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2};
+		UPDATE ADDRESS_BUNDLE set POST_NUM = #{postNum}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2}
+		where MEMBER_ID = #{memberId}
     </update>
        
     

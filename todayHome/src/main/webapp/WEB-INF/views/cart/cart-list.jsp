@@ -100,6 +100,10 @@
             margin-bottom: 10px;
             padding: 0 15px
         }
+        
+        #selected-product-delete:hover {
+        	cursor: pointer;
+        }
 	</style>
 </head>
 <body>
@@ -112,6 +116,45 @@
 		// 두번째 파라미터에 null 입력시 서브메뉴 없앰
         selectCurrentMenu(0, null)
     });
+    
+    
+    // 쿠폰배너 없애기
+    $(function() {
+		$("#close-coupon-banner").click(function() {
+			$(".coupon-banner").closest("div").hide();
+		});
+	});
+    
+    
+    // 전제 선택 
+    $(function() {
+		$("#all-check-box").click(function() {
+			let chk = $(this).is(":checked");
+			
+	        if(chk) $("input[type=checkbox]").prop('checked', true); 
+	        else $("input[type=checkbox]").prop('checked', false); 			
+		});
+	});
+    
+    
+    // 선택삭제    
+    // 체크된 값만 가져오기
+    // $(".클래스/#아이디").find('input:checked').each(function(index){}
+    $(function() {
+		$("#selected-product-delete").click(function name() {
+			let checkListNum = $('input:checkbox[name=checkList]:checked').length;
+			if(checkListNum === 0){
+				alert('선택된 상품이 없습니다');
+				return;
+			}
+			if(confirm('선택한 ' + checkListNum +'개의 상품을 삭제하시겠습니까?')){
+				console.log('ok');
+			}
+				
+		});
+		
+	});
+    
 </script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -123,7 +166,7 @@
 				<div class="flex-row cart-check-container">
 					<div class="flex-row" style="align-items: center">
 						<div>
-							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="">
+							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" id="all-check-box" value="">
 						</div>
 						<div style="font-size: 15px; color: #424242">모두선택</div>
 					</div>
@@ -131,7 +174,7 @@
 					<div class="flex-row" style="gap: 10px; align-items: center; font-weight: 400; font-size: 12px; color: #424242;">
 						<div>품절 모두 삭제</div>
 						<div style="color: #DBDBDB">|</div>
-						<div>선택삭제</div>
+						<div id="selected-product-delete">선택삭제</div>
 					</div>
 				</div>
 
@@ -139,7 +182,7 @@
 				<div style="position: sticky; top: 101px;">
 					<div class="shadow-sm coupon-banner flex-row">
 						<div>쿠폰 적용된 가격은 결제할 때 확인 가능</div>
-						<div style="font-size: 24px"><i class="bi bi-x"></i></div>
+						<div style="font-size: 24px"><i class="bi bi-x" id="close-coupon-banner"></i></div>
 					</div>
 				</div>
 
@@ -148,7 +191,7 @@
 						<div class="flex-col" style="justify-content: center; align-items: center; border-bottom: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px; font-weight: 500;"><div>데데리트 배송</div></div>
 
 						<div class="flex-row" style="gap: 10px; padding: 15px">
-							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="">
+							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" name="checkList" value="">
 
 							<div class="flex-row" style="width: 100%; ">
 								<div class="flex-col" style="gap: 10px; width: 100%">
@@ -170,8 +213,6 @@
 											<div style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">미드센추리 스테인레스 이동식 수납 카트 2size</div>
 											<div class="flex-row" style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px">
 												<div>배송비 3,000원</div>
-												<div>|</div>
-												<div>일반택배</div>
 											</div>
 										</div>
 									</div>

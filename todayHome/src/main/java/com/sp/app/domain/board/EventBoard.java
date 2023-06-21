@@ -3,47 +3,47 @@ package com.sp.app.domain.board;
 import java.util.List;
 
 public class EventBoard {
-	private Long event_board_id;
-	private Long member_id;
-	private String start_date;
-	private String end_date;
+	private Long eventBoardId;
+	private Long memberId;
+	private String startDate;
+	private String endDate;
 	private String title;
-	private String winning_date;
-	private String winner_number;
-	private int show_event;
+	private String winningDate;
+	private String winnerNumber;
+	private int showEvent;
 	
 	private List<String> eventImgList;
 
-	public Long getEvent_board_id() {
-		return event_board_id;
+	public Long getEventBoardId() {
+		return eventBoardId;
 	}
 
-	public void setEvent_board_id(Long event_board_id) {
-		this.event_board_id = event_board_id;
+	public void setEventBoardId(Long eventBoardId) {
+		this.eventBoardId = eventBoardId;
 	}
 
-	public Long getMember_id() {
-		return member_id;
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setMember_id(Long member_id) {
-		this.member_id = member_id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
-	public String getStart_date() {
-		return start_date;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setStart_date(String start_date) {
-		this.start_date = start_date;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
-	public String getEnd_date() {
-		return end_date;
+	public String getEndDate() {
+		return endDate;
 	}
 
-	public void setEnd_date(String end_date) {
-		this.end_date = end_date;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getTitle() {
@@ -54,28 +54,28 @@ public class EventBoard {
 		this.title = title;
 	}
 
-	public String getWinning_date() {
-		return winning_date;
+	public String getWinningDate() {
+		return winningDate;
 	}
 
-	public void setWinning_date(String winning_date) {
-		this.winning_date = winning_date;
+	public void setWinningDate(String winningDate) {
+		this.winningDate = winningDate;
 	}
 
-	public String getWinner_number() {
-		return winner_number;
+	public String getWinnerNumber() {
+		return winnerNumber;
 	}
 
-	public void setWinner_number(String winner_number) {
-		this.winner_number = winner_number;
+	public void setWinnerNumber(String winnerNumber) {
+		this.winnerNumber = winnerNumber;
 	}
 
-	public int getShow_event() {
-		return show_event;
+	public int getShowEvent() {
+		return showEvent;
 	}
 
-	public void setShow_event(int show_event) {
-		this.show_event = show_event;
+	public void setShowEvent(int showEvent) {
+		this.showEvent = showEvent;
 	}
 
 	public List<String> getEventImgList() {
@@ -85,6 +85,7 @@ public class EventBoard {
 	public void setEventImgList(List<String> eventImgList) {
 		this.eventImgList = eventImgList;
 	}
+
 	
 	
 }

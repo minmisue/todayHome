@@ -26,7 +26,7 @@ public class EventBoardRepositoryImpl implements EventBoardRepository{
 	}
 
 	@Override
-	public void deleteEventBoard(Long event_board_id) throws Exception {
+	public void deleteEventBoard(Long eventBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -38,7 +38,7 @@ public class EventBoardRepositoryImpl implements EventBoardRepository{
 	}
 
 	@Override
-	public EventBoard getEventBoardById(Long event_board_id) throws Exception {
+	public EventBoard getEventBoardById(Long eventBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

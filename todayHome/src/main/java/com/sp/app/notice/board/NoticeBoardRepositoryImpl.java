@@ -21,26 +21,22 @@ public class NoticeBoardRepositoryImpl implements NoticeBoardRepository{
 
 	@Override
 	public void updateNoticeBoard(NoticeBoard noticeboard) throws Exception {
-		// TODO Auto-generated method stub
-		
+		commonDAO.updateData("noticeboard.updateNoticeBoard", noticeboard);
 	}
 
 	@Override
-	public void deleteNoticeBoard(Long notice_board_id) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void deleteNoticeBoard(Long noticeBoardId) throws Exception {
+		commonDAO.deleteData("noticeboard.deleteNoticeBoard", noticeBoardId);
 	}
 
 	@Override
-	public List<NoticeBoard> getAllNoticeBoard() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<NoticeBoard> getAllNoticeBoard() throws Exception{
+		return commonDAO.selectList("noticeBoard.getAllNoticeBoard");
 	}
 
 	@Override
-	public NoticeBoard getNoticeBoardById(Long notice_board_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public NoticeBoard getNoticeBoardById(Long noticeBoardId) throws Exception{
+		return commonDAO.selectOne("noticeBoard.getNoticeBoardById", noticeBoardId);
 	}
 
 }

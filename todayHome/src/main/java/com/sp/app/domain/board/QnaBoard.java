@@ -1,30 +1,30 @@
 package com.sp.app.domain.board;
 
 public class QnaBoard {
-	private Long qna_board_id;
-	private Long qna_category_id;
-	private Long member_id;
+	private Long qnaBoardId;
+	private Long qnaCategoryId;
+	private Long memberId;
 	private String subject;
 	private String content;
-	private String created_date;
+	private String createdDate;
 	
-	public Long getQna_board_id() {
-		return qna_board_id;
+	public Long getQnaBoardId() {
+		return qnaBoardId;
 	}
-	public void setQna_board_id(Long qna_board_id) {
-		this.qna_board_id = qna_board_id;
+	public void setQnaBoardId(Long qnaBoardId) {
+		this.qnaBoardId = qnaBoardId;
 	}
-	public Long getQna_category_id() {
-		return qna_category_id;
+	public Long getQnaCategoryId() {
+		return qnaCategoryId;
 	}
-	public void setQna_category_id(Long qna_category_id) {
-		this.qna_category_id = qna_category_id;
+	public void setQnaCategoryId(Long qnaCategoryId) {
+		this.qnaCategoryId = qnaCategoryId;
 	}
-	public Long getMember_id() {
-		return member_id;
+	public Long getMemberId() {
+		return memberId;
 	}
-	public void setMember_id(Long member_id) {
-		this.member_id = member_id;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 	public String getSubject() {
 		return subject;
@@ -38,11 +38,11 @@ public class QnaBoard {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCreated_date() {
-		return created_date;
+	public String getCreatedDate() {
+		return createdDate;
 	}
-	public void setCreated_date(String created_date) {
-		this.created_date = created_date;
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
 	}
 	
 	

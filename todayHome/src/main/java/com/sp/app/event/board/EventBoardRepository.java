@@ -12,9 +12,9 @@ public interface EventBoardRepository {
 	
 	void updateEventBoard(EventBoard eventboard) throws Exception;
 	
-	void deleteEventBoard(Long event_board_id) throws Exception;
+	void deleteEventBoard(Long eventBoardId) throws Exception;
 	
 	List<EventBoard> getAllEventBoard();
 	
-	EventBoard getEventBoardById(Long event_board_id) throws Exception;
+	EventBoard getEventBoardById(Long eventBoardId) throws Exception;
 }

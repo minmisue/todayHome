@@ -1,73 +1,88 @@
 package com.sp.app.member.management;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.member.Member;
 
 @Repository("MemberRepository")
 public class MemberManagementRepositoryImpl implements MemberManagementRepository {
 
+	@Autowired
+	CommonDAO commonDAO;
+
+	@Override
+	public Long getMemberSeq() throws Exception {
+		return commonDAO.selectOne("management.getMemberSeq");
+	}
+
 	@Override
 	public void insertMember(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		commonDAO.insertData("management.insertMember", member);
 		
 	}
 
 	@Override
 	public void insertMemberDetail(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		commonDAO.insertData("management.insertMemberDetail", member);
 		
 	}
 
 	@Override
 	public void insertMemberAll(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		commonDAO.insertData("management.insertMemberAll", member);
 		
 	}
 
 	@Override
 	public int emailCheck(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return commonDAO.selectOne("management.emailCheck", email);
 	}
 
 	@Override
 	public Member readMemberById(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return commonDAO.selectOne("management.readMemberById", memberId);
 	}
 
 	@Override
 	public Member readMemberByEmail(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return commonDAO.selectOne("management.readMemberByEmail", email);
+
 	}
 
 	@Override
-	public void updateMemberEnabled(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
+		map.put("enabled", enabled);
 		
+		commonDAO.updateData("management.updateMemberEnabled",map);
 	}
 
 	@Override
-	public Member updateMember(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateMember(Member member) throws Exception {
+	
+		return commonDAO.updateData("management.updateMember", member);
+		 
 	}
 
 	@Override
-	public Member updateMemberDetail(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateMemberDetail(Member member) throws Exception {
+		return commonDAO.updateData("management.updateMemberDetail", member);
 	}
 
 	@Override
-	public Member updateAddress(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateAddress(Member member) throws Exception {
+		return commonDAO.updateData("management.updateAddress", member);
 	}
 
-
+	@Override
+	public void insertAddress(Member member) throws Exception {
+		commonDAO.updateData("management.insertAddress",member);
+	}
 }

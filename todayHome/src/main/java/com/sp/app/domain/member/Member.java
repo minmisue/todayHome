@@ -12,112 +12,189 @@ public class Member {
 	private int enabled;
 	private String profileImgName;
 	private String info;
-	private int addressBundleId;
 	private String postNum;
 	private String address1;
 	private String address2;
 	private int remainPoint;
-	
-	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
+
+	public Member(Long memberId, int memberRoleId, String name, String tel) {
+		this.memberId = memberId;
+		this.memberRoleId = memberRoleId;
 		this.name = name;
-	}
-	public String getTel() {
-		return tel;
-	}
-	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getRegDate() {
-		return regDate;
-	}
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
-	}
-	
-	public String getNickName() {
-		return nickName;
-	}
-	public void setNickName(String nickName) {
+
+	public Member(Long memberId, String nickName, String password, String profileImgName, String info) {
+		this.memberId = memberId;
 		this.nickName = nickName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
 		this.password = password;
-	}
-	public int getEnable() {
-		return enabled;
-	}
-	public void setEnable(int enabled) {
-		this.enabled = enabled;
-	}
-	public String getProfileImgName() {
-		return profileImgName;
-	}
-	public void setProfileImgName(String profileImgName) {
 		this.profileImgName = profileImgName;
-	}
-	public String getInfo() {
-		return info;
-	}
-	public void setInfo(String info) {
 		this.info = info;
 	}
-	public int getAddressBundleId() {
-		return addressBundleId;
-	}
-	public void setAddressBundleId(int addressBundleId) {
-		this.addressBundleId = addressBundleId;
-	}
-	public String getPostNum() {
-		return postNum;
-	}
-	public void setPostNum(String postNum) {
+
+	public Member(Long memberId, String postNum, String address1, String address2) {
+		this.memberId = memberId;
 		this.postNum = postNum;
-	}
-	public int getRemainPoint() {
-		return remainPoint;
-	}
-	public void setRemainPoint(int remainPoint) {
-		this.remainPoint = remainPoint;
-	}
-	public String getAddress1() {
-		return address1;
-	}
-	public void setAddress1(String address1) {
 		this.address1 = address1;
-	}
-	public String getAddress2() {
-		return address2;
-	}
-	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-	public int getMemberRoleId() {
-		return memberRoleId;
+
+	public Member() {
 	}
-	public void setMemberRoleId(int memberRoleId) {
-		this.memberRoleId = memberRoleId;
+
+	public Member(Long memberId) {
+		this.memberId = memberId;
 	}
+
+	public Member(Long memberId, String email, String name, String tel, String nickName, String password, String profileImgName, String info) {
+		this.memberId = memberId;
+		this.email = email;
+		this.name = name;
+		this.tel = tel;
+		this.nickName = nickName;
+		this.password = password;
+		this.profileImgName = profileImgName;
+		this.info = info;
+	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+				"memberId=" + memberId +
+				", memberRoleId=" + memberRoleId +
+				", email='" + email + '\'' +
+				", name='" + name + '\'' +
+				", tel='" + tel + '\'' +
+				", regDate='" + regDate + '\'' +
+				", nickName='" + nickName + '\'' +
+				", password='" + password + '\'' +
+				", enabled=" + enabled +
+				", profileImgName='" + profileImgName + '\'' +
+				", info='" + info + '\'' +
+				", postNum='" + postNum + '\'' +
+				", address1='" + address1 + '\'' +
+				", address2='" + address2 + '\'' +
+				", remainPoint=" + remainPoint +
+				'}';
+	}
+
 	public Long getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(Long memberId) {
 		this.memberId = memberId;
 	}
-	
-	
-	
-	
+
+	public int getMemberRoleId() {
+		return memberRoleId;
+	}
+
+	public void setMemberRoleId(int memberRoleId) {
+		this.memberRoleId = memberRoleId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	public String getPostNum() {
+		return postNum;
+	}
+
+	public void setPostNum(String postNum) {
+		this.postNum = postNum;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public int getRemainPoint() {
+		return remainPoint;
+	}
+
+	public void setRemainPoint(int remainPoint) {
+		this.remainPoint = remainPoint;
+	}
 }

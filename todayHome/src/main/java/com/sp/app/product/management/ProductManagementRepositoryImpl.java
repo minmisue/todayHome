@@ -120,11 +120,16 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 
 	@Override
 	public Long getMainOptionSeq() throws Exception {
-		return null;
+		return commonDAO.selectOne("productManagement.getMainOptionSeq");
 	}
 
 	@Override
 	public Long getProductSeq() throws Exception {
-		return null;
+		return commonDAO.selectOne("productManagement.getProductSeq");
+	}
+
+	@Override
+	public int getMainOptionCnt(Long productId) throws Exception {
+		return commonDAO.selectOne("productManagement.getMainOptionCnt", productId);
 	}
 }

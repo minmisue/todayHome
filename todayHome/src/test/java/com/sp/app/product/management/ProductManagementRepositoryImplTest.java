@@ -220,6 +220,7 @@ public class ProductManagementRepositoryImplTest {
 		for (ProductStock productStock : subOptionsByMainOptionId) {
 			System.out.println(productStock);
 		}
+
 	}
 
 	@Test
@@ -347,5 +348,16 @@ public class ProductManagementRepositoryImplTest {
 		// 첫 메인 옵션 아이디
 		int mainOptionCnt = productManagementRepository.getMainOptionCnt(product);
 		System.out.println(mainOptionCnt);
+	}
+
+	@Test
+	public void getOptionMapByStockId() throws Exception {
+		Long stockId = 1L;
+
+		List<OptionMap> optionMap = productManagementRepository.getOptionMapByStockId(stockId);
+
+		for (OptionMap map : optionMap) {
+			System.out.println(map);
+		}
 	}
 }

@@ -108,6 +108,21 @@
         VALUES (seq_product_main_option.nextval, #{parentOptionId}, #{productId}, #{optionName});
     </insert>
 
+    <select id="getOptionMapByStockId" parameterType="Long" resultType="com.sp.app.domain.product.OptionMap">
+        SELECT pmo.OPTION_NAME AS mainOption, OPTION_DETAIL_NAME AS subOption
+        FROM PRODUCT_SUB_OPTION
+                 JOIN PRODUCT_MAIN_OPTION PMO ON PMO.OPTION_ID = PRODUCT_SUB_OPTION.OPTION_ID
+        WHERE OPTION_DETAIL_ID IN (
+            SELECT option_detail_id
+            FROM stock
+            WHERE stock_id = #{optionDetailId}
+            UNION ALL
+            SELECT option_detail_id2
+            FROM stock
+            WHERE stock_id = #{optionDetailId}
+        )
+    </select>
+
 <!--    <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">-->
 <!--        INSERT INTO PRODUCT_MAIN_OPTION (OPTION_ID, PARENT_OPTION_ID, PRODUCT_ID, OPTION_NAME)-->
 <!--        VALUES (#{mainOptionId}, #{parentOptionId, jdbcType=VARCHAR}, #{productId}, #{optionName})-->

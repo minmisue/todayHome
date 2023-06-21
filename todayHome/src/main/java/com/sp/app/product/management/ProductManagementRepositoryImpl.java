@@ -132,4 +132,9 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public int getMainOptionCnt(Long productId) throws Exception {
 		return commonDAO.selectOne("productManagement.getMainOptionCnt", productId);
 	}
+
+	@Override
+	public List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception {
+		return commonDAO.selectList("productManagement.getOptionMapByStockId", stockId);
+	}
 }

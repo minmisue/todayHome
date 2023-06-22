@@ -137,4 +137,19 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception {
 		return commonDAO.selectList("productManagement.getOptionMapByStockId", stockId);
 	}
+
+	@Override
+	public void insertMainOption(ProductMainOption productMainOption) throws Exception {
+		commonDAO.insertData("productManagement.insertMainOption", productMainOption);
+	}
+
+	@Override
+	public void insertSubOption(ProductSubOption productSubOption) throws Exception {
+		commonDAO.insertData("productManagement.insertSubOption", productSubOption);
+	}
+
+	@Override
+	public void insertStock(ProductStock productStock) throws Exception {
+		commonDAO.insertData("productManagement.insertStock", productStock);
+	}
 }

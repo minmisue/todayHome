@@ -1,38 +1,60 @@
 package com.sp.app.domain.product;
 
 public class OptionMap {
-	private String mainOption;
-	private String subOption;
+	private String mainOptionName;
+	private String subOptionName;
+	private Long mainOptionId;
+	private Long subOptionId;
 
 	public OptionMap() {
+	}
+
+	public OptionMap(String mainOptionName, String subOptionName, Long mainOptionId, Long subOptionId) {
+		this.mainOptionName = mainOptionName;
+		this.subOptionName = subOptionName;
+		this.mainOptionId = mainOptionId;
+		this.subOptionId = subOptionId;
 	}
 
 	@Override
 	public String toString() {
 		return "OptionMap{" +
-				"mainOption='" + mainOption + '\'' +
-				", subOption='" + subOption + '\'' +
+				"mainOptionName='" + mainOptionName + '\'' +
+				", subOptionName='" + subOptionName + '\'' +
+				", mainOptionId=" + mainOptionId +
+				", subOptionId=" + subOptionId +
 				'}';
 	}
 
-	public OptionMap(String mainOption, String subOption) {
-		this.mainOption = mainOption;
-		this.subOption = subOption;
+	public String getMainOptionName() {
+		return mainOptionName;
 	}
 
-	public String getMainOption() {
-		return mainOption;
+	public void setMainOptionName(String mainOptionName) {
+		this.mainOptionName = mainOptionName;
 	}
 
-	public void setMainOption(String mainOption) {
-		this.mainOption = mainOption;
+	public String getSubOptionName() {
+		return subOptionName;
 	}
 
-	public String getSubOption() {
-		return subOption;
+	public void setSubOptionName(String subOptionName) {
+		this.subOptionName = subOptionName;
 	}
 
-	public void setSubOption(String subOption) {
-		this.subOption = subOption;
+	public Long getMainOptionId() {
+		return mainOptionId;
+	}
+
+	public void setMainOptionId(Long mainOptionId) {
+		this.mainOptionId = mainOptionId;
+	}
+
+	public Long getSubOptionId() {
+		return subOptionId;
+	}
+
+	public void setSubOptionId(Long subOptionId) {
+		this.subOptionId = subOptionId;
 	}
 }

@@ -3,10 +3,17 @@ package com.sp.app.domain.product;
 public class ProductStock {
 	private int optionPrice;
 	private int quantity;
-	private Long optionDetailId1;
-	private Long optionDetailId2;
+	private Long subOptionId1;
+	private Long subOptionId2;
 
 	public ProductStock() {
+	}
+
+	public ProductStock(int optionPrice, int quantity, Long subOptionId1, Long subOptionId2) {
+		this.optionPrice = optionPrice;
+		this.quantity = quantity;
+		this.subOptionId1 = subOptionId1;
+		this.subOptionId2 = subOptionId2;
 	}
 
 	@Override
@@ -14,17 +21,9 @@ public class ProductStock {
 		return "ProductStock{" +
 				"optionPrice=" + optionPrice +
 				", quantity=" + quantity +
-				", optionDetailId1=" + optionDetailId1 +
-				", optionDetailId2=" + optionDetailId2 +
+				", subOptionId1=" + subOptionId1 +
+				", subOptionId2=" + subOptionId2 +
 				'}';
-	}
-
-	public Long getOptionDetailId2() {
-		return optionDetailId2;
-	}
-
-	public void setOptionDetailId2(Long optionDetailId2) {
-		this.optionDetailId2 = optionDetailId2;
 	}
 
 	public int getOptionPrice() {
@@ -43,11 +42,19 @@ public class ProductStock {
 		this.quantity = quantity;
 	}
 
-	public Long getOptionDetailId1() {
-		return optionDetailId1;
+	public Long getSubOptionId1() {
+		return subOptionId1;
 	}
 
-	public void setOptionDetailId1(Long optionDetailId1) {
-		this.optionDetailId1 = optionDetailId1;
+	public void setSubOptionId1(Long subOptionId1) {
+		this.subOptionId1 = subOptionId1;
+	}
+
+	public Long getSubOptionId2() {
+		return subOptionId2;
+	}
+
+	public void setSubOptionId2(Long subOptionId2) {
+		this.subOptionId2 = subOptionId2;
 	}
 }

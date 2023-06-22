@@ -56,4 +56,10 @@ public interface ProductManagementRepository {
 	int getMainOptionCnt(Long productId) throws Exception;
 
 	List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception;
+
+	void insertMainOption(ProductMainOption productMainOption) throws Exception;
+
+	void insertSubOption(ProductSubOption productSubOption) throws Exception;
+
+	void insertStock(ProductStock productStock) throws Exception;
 }

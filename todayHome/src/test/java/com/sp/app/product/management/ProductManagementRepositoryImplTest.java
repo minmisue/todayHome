@@ -249,15 +249,15 @@ public class ProductManagementRepositoryImplTest {
 			System.out.println("\n선택 사항");
 			for (ProductSubOption subOption : subOptions) {
 				System.out.println("--------------------------------");
-				System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
-				System.out.println("옵션 : " + subOption.getOptionDetailName());
+				System.out.print("아이디 : " + subOption.getSubOptionId() + " | ");
+				System.out.println("옵션 : " + subOption.getSubOptionName());
 
-				List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getOptionDetailId());
+				List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getSubOptionId());
 
 				for (ProductStock stockBySubOption : stockBySubOptions) {
 					System.out.println(
-							"옵션1 : " + stockBySubOption.getOptionDetailId1() +
-							" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
+							"옵션1 : " + stockBySubOption.getSubOptionId1() +
+							" , 옵션2 : " + stockBySubOption.getSubOptionId2() +
 							" , 가격 : " + stockBySubOption.getOptionPrice()
 					);
 				}
@@ -271,7 +271,7 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void productOptionProcess() throws Exception {
 		// 상품 아이디
-		Long productId = 61L;
+		Long productId = 81L;
 
 		// 메인 옵션 개수
 		int mainOptionCnt = productManagementRepository.getMainOptionCnt(productId);
@@ -294,8 +294,8 @@ public class ProductManagementRepositoryImplTest {
 		System.out.println("\n선택 사항");
 		for (ProductSubOption subOption : subOptions) {
 			System.out.println("--------------------------------");
-			System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
-			System.out.println("옵션 : " + subOption.getOptionDetailName());
+			System.out.print("아이디 : " + subOption.getSubOptionId() + " | ");
+			System.out.println("옵션 : " + subOption.getSubOptionName());
 			System.out.println("--------------------------------");
 		}
 
@@ -310,7 +310,7 @@ public class ProductManagementRepositoryImplTest {
 			return;
 		}
 
-		Long selectedOption = subOptions.get(0).getOptionDetailId();
+		Long selectedOption = subOptions.get(0).getSubOptionId();
 
 		mainOptionId = mainOption.getMainOptionId();
 		System.out.println("선택 옵션 : " + selectedOption);
@@ -324,8 +324,8 @@ public class ProductManagementRepositoryImplTest {
 		System.out.println("--------------------------------");
 		for (ProductStock stockBySubOption : stockBySubOptions) {
 			System.out.println(
-					"옵션1 : " + stockBySubOption.getOptionDetailId1() +
-							" , 옵션2 : " + stockBySubOption.getOptionDetailId2() +
+					"옵션1 : " + stockBySubOption.getSubOptionId1() +
+							" , 옵션2 : " + stockBySubOption.getSubOptionId2() +
 							" , 가격 : " + stockBySubOption.getOptionPrice()
 			);
 		}
@@ -333,8 +333,8 @@ public class ProductManagementRepositoryImplTest {
 
 		for (ProductSubOption subOption : subOptions) {
 			System.out.println("--------------------------------");
-			System.out.print("아이디 : " + subOption.getOptionDetailId() + " | ");
-			System.out.println("옵션 : " + subOption.getOptionDetailName());
+			System.out.print("아이디 : " + subOption.getSubOptionId() + " | ");
+			System.out.println("옵션 : " + subOption.getSubOptionName());
 
 			System.out.println("--------------------------------");
 		}
@@ -343,7 +343,7 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void getMainOptionCnt() throws Exception {
 		// 상품 아이디
-		Long product = 61L;
+		Long product = 81L;
 
 		// 첫 메인 옵션 아이디
 		int mainOptionCnt = productManagementRepository.getMainOptionCnt(product);
@@ -352,12 +352,71 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getOptionMapByStockId() throws Exception {
-		Long stockId = 1L;
+		Long stockId = 21L;
 
 		List<OptionMap> optionMap = productManagementRepository.getOptionMapByStockId(stockId);
 
 		for (OptionMap map : optionMap) {
 			System.out.println(map);
 		}
+	}
+
+	@Test
+	public void insertMainOption() throws Exception {
+		Long productId = 81L;
+
+		ProductMainOption mainOption = new ProductMainOption(null, "신발 종류", productId);
+		productManagementRepository.insertMainOption(mainOption);
+
+		Long mainOptionId = mainOption.getMainOptionId();
+		ProductSubOption productSubOption;
+
+		List<String> subOptionNames = new ArrayList<>();
+		subOptionNames.add("에어포스");
+		subOptionNames.add("슈퍼스타");
+
+		List<ProductSubOption> subOptionList1 = new ArrayList<>();
+
+		for (int i = 0; i < 2; i ++) {
+			productSubOption = new ProductSubOption(mainOptionId, subOptionNames.get(i));
+			productManagementRepository.insertSubOption(productSubOption);
+			subOptionList1.add(productSubOption);
+		}
+
+		mainOption = new ProductMainOption(mainOptionId, "발 사이즈", productId);
+		productManagementRepository.insertMainOption(mainOption);
+
+		mainOptionId = mainOption.getMainOptionId();
+
+		List<ProductSubOption> subOptionList2 = new ArrayList<>();
+
+		for (int i = 0; i < 5; i ++) {
+			productSubOption = new ProductSubOption(mainOptionId, String.valueOf(260 - (10*i)));
+			productManagementRepository.insertSubOption(productSubOption);
+			subOptionList2.add(productSubOption);
+		}
+
+
+		for (ProductSubOption subOption : subOptionList2) {
+			System.out.println(subOption);
+		}
+
+		for (ProductSubOption subOption : subOptionList1) {
+			Long optionId1 = subOption.getSubOptionId();
+
+			for (ProductSubOption option : subOptionList2) {
+				System.out.println(optionId1 + " / " + option.getSubOptionId());
+			}
+		}
+
+	}
+
+
+	@Test
+	public void insertSubOption() throws Exception {
+		ProductSubOption productSubOption = new ProductSubOption(65L, "예제 서브 옵션");
+		productManagementRepository.insertSubOption(productSubOption);
+
+		System.out.println(productSubOption.getSubOptionId());
 	}
 }

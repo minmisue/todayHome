@@ -1,4 +1,4 @@
-package com.sp.app.cart;
+package com.sp.app.domain.cart;
 
 public class Cart {
 	private Long cartId;
@@ -15,8 +15,6 @@ public class Cart {
 	private Long price; // 상품 기본가격
 	private Double discountPrcent; // 할인율
 	private Long deliveryCost; // 배달비
-	
-	
 	
 	public Long getCartId() {
 		return cartId;

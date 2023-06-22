@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.cart.Cart;
 
 
 @Repository
@@ -35,8 +36,8 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void deleteCart(Long cartId) throws Exception{
-		commonDAO.deleteData("cart.deleteCart", cartId);
+	public void deleteCart(List<Long> cartIdList) throws Exception{
+		commonDAO.deleteData("cart.deleteCart", cartIdList);
 	}
 
 	@Override
@@ -47,29 +48,21 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 
 	@Override
 	public Integer checkQuantity(Long stockId, int quantity) throws Exception {
-		Integer result = null; // 아무런 조건이 없으면 null 반환 하기때문에 반환 타입 Integer
-		
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("stockId", stockId);
 		map.put("quantity", quantity);
 		
-		
-		result = commonDAO.selectOne("cart.checkQuantity", map);
-		
-		return result;
+		return commonDAO.selectOne("cart.checkQuantity", map);
 	}
 
 	@Override
-	public Integer checkCartProduct(Long memberId, Long productId, Long stockId) throws Exception {
-		Integer result = null;
-		
+	public Integer checkCartProduct(Long memberId, Long stockId) throws Exception {
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("memberId", memberId);
-		map.put("productId", productId);
+
 		map.put("stockId", stockId);
 		
-		result = commonDAO.selectOne("cart.checkCartProduct", map);
-		return result;
+		return commonDAO.selectOne("cart.checkCartProduct", map);
 	}
 
 }

@@ -1,9 +1,10 @@
 package com.sp.app.cart;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sp.app.domain.cart.Cart;
 
 public class CartServiceImpl implements CartService{
 
@@ -14,25 +15,39 @@ public class CartServiceImpl implements CartService{
 	public void createProduct(Cart cart){		
 		try {
 			
-			if(cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getProductId(),cart.getStockId()) != 0) {
-				// null이 아니라는거는 이미 담겨져있다는 뜻
+			Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getStockId());
+			int tot = 0;
+			int inputQuantity = cart.getQuantity();
+			tot = inputQuantity;
+			boolean status = quantity > 0 && quantity != null;
+			
+			// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
+			if(status) {
+				tot += quantity;	
+			}
+			
+			// 재고 확인
+			if(cartManagementRepository.checkQuantity(cart.getStockId(), tot) == 0) {
+				return;
+			}
+			
+			// true 면 장바구니에 수량만 변경
+			if (status) {
+				cartManagementRepository.updateProduct(cart.getCartId(), tot);
 				return;
 			}
 			
 			cartManagementRepository.createProduct(cart);
-		} catch (Exception e) {
+		}catch (RuntimeException e1) {
+			throw e1;
+		}catch (Exception e) {
 		
 		}
 	}
 
 	@Override
-	public void updateProduct(Map<String, Object> map) {
+	public void updateProduct(Long cartId, int quantity) {
 		try {
-			
-			Long cartId = (Long)map.get("cartId");
-			Integer quantity = (Integer)map.get("quantity");
-
-			
 			cartManagementRepository.updateProduct(cartId,quantity);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,9 +55,9 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public void deleteCart(Long cartId) {
+	public void deleteCart(List<Long> cartIdList) {
 		try {
-			cartManagementRepository.deleteCart(cartId);
+			cartManagementRepository.deleteCart(cartIdList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,11 +70,8 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public Boolean checkQuantity(Map<String, Object> map) {
+	public Boolean checkQuantity(Long stockId, int quantity) {
 		try {
-			
-			Long stockId = (Long)map.get("stockId");
-			int quantity = (Integer)map.get("quantity");
 			
 			if(cartManagementRepository.checkQuantity(stockId,quantity) != null) {
 				return true;

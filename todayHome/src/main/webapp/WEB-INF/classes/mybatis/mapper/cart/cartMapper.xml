@@ -3,13 +3,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 	<!-- 장바구니 담기 -->
-	<insert id="insertCart" parameterType="com.sp.app.cart.Cart">
+	<insert id="insertCart" parameterType="com.sp.app.domain.cart.Cart">
 		INSERT INTO cart(cart_id,member_id,product_id,stock_id,quantity,reg_date) 
     			VALUES(seq_cart.NEXTVAL,#{memberId},#{productId},#{stockId},#{quantity},SYSDATE)
 	</insert>
 	
 	<!-- 장바구니 리스트(회원 별) -->
-	<select id="selectList" parameterType="map" resultType="com.sp.app.cart.Cart">
+	<select id="selectList" parameterType="map" resultType="com.sp.app.domain.cart.Cart">
 		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId, s.stock_id stockId,
 			    p.product_name productName, p.price price, c.quantity quantity,
 			    sl.seller_name sellerName, option_price optionPrice,
@@ -26,9 +26,9 @@
 	</select>
 
 	<!-- 장바구니 삭제 -->
-	<delete id="deleteCart" parameterType="Long">
+	<delete id="deleteCart" parameterType="java.util.List">
 		DELETE FROM cart WHERE cart_id IN
-				<foreach item="cartId" index="index" collection="cartList"
+				<foreach item="cartId" index="index" collection="list"
 						open="(" separator="," close=")">
 					#{cartId}
 				</foreach>
@@ -38,7 +38,7 @@
 			UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
 	</update>
 	
-	<!-- 장바구니담기전 재고 체크 -->
+	<!-- 장바구니담기전 재고 체크 0이면 재고 없음-->
 	<select id="checkQuantity" parameterType="map" resultType="Integer">
 	<![CDATA[
 		select COUNT(*) 
@@ -47,12 +47,11 @@
 	]]>
 	</select>
 
-	<!-- 장바구니에 담긴 상품인지 확인 -->
+	<!-- 장바구니에 담긴 상품인지 확인 - 있으면 quantity 이 없음 -->
 	<select id="checkCartProduct" parameterType="map" resultType="Integer">
-		SELECT COUNT(*)
+		SELECT quantity
 		FROM cart
 		where member_id = #{memberId} AND product_id = #{productId} AND stock_id = #{stockId}
 	</select>
-	
-	
+		
 </mapper>

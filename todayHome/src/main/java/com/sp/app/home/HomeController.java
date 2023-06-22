@@ -120,6 +120,11 @@ public class HomeController {
 	public String myPageHome() {
 		return "mypage/all-view";
 	}
+	
+	@GetMapping("mypage/notice")
+	public String myPageNotice() {
+		return "mypage/notice-board";
+	}
 
 	@GetMapping("mypage/alert")
 	public String myPageAlert() {

@@ -40,9 +40,11 @@
 		<!-- 여기에 본인 폴더 등록 후 사용, 안쓰는건 주석 처리 -->
 <!--		<property name="mapperLocations" value="classpath:/mybatis/mapper/**/*.xml" />-->
 		<!-- 상품 -->
-		<property name="mapperLocations" value="classpath:/mybatis/mapper/product/**/*.xml" />
+		<!-- <property name="mapperLocations" value="classpath:/mybatis/mapper/product/**/*.xml" /> -->
 		<!-- 멤버 -->
 <!--		<property name="mapperLocations" value="classpath:/mybatis/mapper/member/**/*.xml" />-->
+		<!-- 마이페이지 -->
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/mypage/*.xml" />
 	</bean>
 
 	<!-- SqlSessionTemplate : MyBatis SQL method 호출 및 관리, 예외처리 담당 -->

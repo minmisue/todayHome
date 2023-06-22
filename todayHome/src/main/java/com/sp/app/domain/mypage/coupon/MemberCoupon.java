@@ -2,49 +2,75 @@ package com.sp.app.domain.mypage.coupon;
 
 public class MemberCoupon {
 	private Long memberCouponId;
-	private String memberId;
-	
 	private Long couponId;
-	private Long discountPercent;
 	private String name;
-	private Long maxDiscountAmount;
+
+	private Long memberId;
+	private String expireDate;
+	private String regDate;
 	
+	
+	public MemberCoupon() {
+		
+	}
+	
+	public MemberCoupon(Long memberId) {
+		this.memberId = memberId;
+	}
+
+	public MemberCoupon(Long couponId, Long memberId, String expireDate) {
+		this.couponId = couponId;
+		this.memberId = memberId;
+		this.expireDate = expireDate;
+	}
+
 	public Long getMemberCouponId() {
 		return memberCouponId;
 	}
+
 	public void setMemberCouponId(Long memberCouponId) {
 		this.memberCouponId = memberCouponId;
 	}
-	public String getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
+
 	public Long getCouponId() {
 		return couponId;
 	}
+
 	public void setCouponId(Long couponId) {
 		this.couponId = couponId;
 	}
-	public Long getDiscountPercent() {
-		return discountPercent;
+
+	public Long getMemberId() {
+		return memberId;
 	}
-	public void setDiscountPercent(Long discountPercent) {
-		this.discountPercent = discountPercent;
+
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
+
+	public String getExpireDate() {
+		return expireDate;
+	}
+
+	public void setExpireDate(String expireDate) {
+		this.expireDate = expireDate;
+	}
+
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getMaxDiscountAmount() {
-		return maxDiscountAmount;
-	}
-	public void setMaxDiscountAmount(Long maxDiscountAmount) {
-		this.maxDiscountAmount = maxDiscountAmount;
-	}
-	
 	
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -40,7 +41,7 @@ public class ProductManagementRepositoryImplTest {
 		contentImgList.add("contentImg2");
 		contentImgList.add("contentImg3");
 
-		product = new Product(1L, 4L, "테스트2", productImgList, contentImgList, "상품 내용");
+//		product = new Product(1L, 4L, "테스트2", productImgList, contentImgList, "상품 내용");
 	}
 
 	@After
@@ -77,7 +78,7 @@ public class ProductManagementRepositoryImplTest {
 			imgMap.put("sequence", i);
 			imgMap.put("type", 0);
 
-			productManagementRepository.insertProductImg(imgMap);
+//			productManagementRepository.insertProductImg(imgMap);
 		}
 
 
@@ -214,7 +215,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getStockBySubOptionId() throws Exception {
-		Long mainOptionId = 41L;
+		Long mainOptionId = 42L;
 		List<ProductStock> subOptionsByMainOptionId = productManagementRepository.getStockBySubOptionId(mainOptionId);
 
 		for (ProductStock productStock : subOptionsByMainOptionId) {
@@ -269,13 +270,13 @@ public class ProductManagementRepositoryImplTest {
 	}
 
 	@Test
-	public void productOptionProcess() throws Exception {
+	public void getProductOptionsProcess() throws Exception {
 		// 상품 아이디
-		Long productId = 81L;
+		Long productId = 247L;
 
 		// 메인 옵션 개수
 		int mainOptionCnt = productManagementRepository.getMainOptionCnt(productId);
-		System.out.println("메인 옵션 개수 : " + productId);
+		System.out.println("메인 옵션 개수 : " + mainOptionCnt);
 
 		Long mainOptionId = null;
 
@@ -310,34 +311,37 @@ public class ProductManagementRepositoryImplTest {
 			return;
 		}
 
-		Long selectedOption = subOptions.get(0).getSubOptionId();
-
-		mainOptionId = mainOption.getMainOptionId();
-		System.out.println("선택 옵션 : " + selectedOption);
-
-		// 서브 옵션 리스트 반환
-		subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
-		System.out.println("최초 옵션 : " + mainOption.getOptionName());
-		System.out.println("\n선택 사항");
-
-		List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(selectedOption);
-		System.out.println("--------------------------------");
-		for (ProductStock stockBySubOption : stockBySubOptions) {
-			System.out.println(
-					"옵션1 : " + stockBySubOption.getSubOptionId1() +
-							" , 옵션2 : " + stockBySubOption.getSubOptionId2() +
-							" , 가격 : " + stockBySubOption.getOptionPrice()
-			);
-		}
-		System.out.println("--------------------------------");
-
 		for (ProductSubOption subOption : subOptions) {
+			List<ProductStock> stockBySubOptions = productManagementRepository.getStockBySubOptionId(subOption.getSubOptionId());
 			System.out.println("--------------------------------");
-			System.out.print("아이디 : " + subOption.getSubOptionId() + " | ");
-			System.out.println("옵션 : " + subOption.getSubOptionName());
-
+			System.out.println("선택 옵션 : " + subOption.getSubOptionName());
+			System.out.println();
+			for (ProductStock stockBySubOption : stockBySubOptions) {
+				System.out.println(
+								"옵션1 " + stockBySubOption.getSubOptionId1() + " : " + stockBySubOption.getSubOptionName1() +
+								" , 옵션2 " + stockBySubOption.getSubOptionId2() + " : " + stockBySubOption.getSubOptionName2() +
+								" , 가격 : " + stockBySubOption.getOptionPrice() +
+								" , 재고 : " + stockBySubOption.getQuantity()
+				);
+			}
 			System.out.println("--------------------------------");
 		}
+
+//		mainOptionId = mainOption.getMainOptionId();
+//
+//		// 서브 옵션 리스트 반환
+//		subOptions = productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
+//		System.out.println("최초 옵션 : " + mainOption.getOptionName());
+//		System.out.println("\n선택 사항");
+//
+//
+//		for (ProductSubOption subOption : subOptions) {
+//			System.out.println("--------------------------------");
+//			System.out.print("아이디 : " + subOption.getSubOptionId() + " | ");
+//			System.out.println("옵션 : " + subOption.getSubOptionName());
+//
+//			System.out.println("--------------------------------");
+//		}
 	}
 
 	@Test
@@ -371,14 +375,14 @@ public class ProductManagementRepositoryImplTest {
 		Long mainOptionId = mainOption.getMainOptionId();
 		ProductSubOption productSubOption;
 
-		List<String> subOptionNames = new ArrayList<>();
-		subOptionNames.add("에어포스");
-		subOptionNames.add("슈퍼스타");
+		List<String> subOptionNames1 = new ArrayList<>();
+		subOptionNames1.add("에어포스");
+		subOptionNames1.add("슈퍼스타");
 
 		List<ProductSubOption> subOptionList1 = new ArrayList<>();
 
-		for (int i = 0; i < 2; i ++) {
-			productSubOption = new ProductSubOption(mainOptionId, subOptionNames.get(i));
+		for (String subOptionName : subOptionNames1) {
+			productSubOption = new ProductSubOption(mainOptionId, subOptionName);
 			productManagementRepository.insertSubOption(productSubOption);
 			subOptionList1.add(productSubOption);
 		}
@@ -389,28 +393,33 @@ public class ProductManagementRepositoryImplTest {
 		mainOptionId = mainOption.getMainOptionId();
 
 		List<ProductSubOption> subOptionList2 = new ArrayList<>();
+		List<String> subOptionNames2 = new ArrayList<>();
 
-		for (int i = 0; i < 5; i ++) {
-			productSubOption = new ProductSubOption(mainOptionId, String.valueOf(260 - (10*i)));
+		subOptionNames2.add("260");
+		subOptionNames2.add("250");
+		subOptionNames2.add("240");
+		subOptionNames2.add("230");
+
+		for (String subOptionName : subOptionNames2) {
+			productSubOption = new ProductSubOption(mainOptionId, subOptionName);
 			productManagementRepository.insertSubOption(productSubOption);
 			subOptionList2.add(productSubOption);
 		}
 
-
-		for (ProductSubOption subOption : subOptionList2) {
-			System.out.println(subOption);
-		}
+//		for (ProductSubOption subOption : subOptionList2) {
+//			System.out.println(subOption);
+//		}
 
 		for (ProductSubOption subOption : subOptionList1) {
 			Long optionId1 = subOption.getSubOptionId();
-
+			System.out.println("-----------------------------");
+			System.out.println(subOption);
 			for (ProductSubOption option : subOptionList2) {
 				System.out.println(optionId1 + " / " + option.getSubOptionId());
 			}
+			System.out.println("-----------------------------");
 		}
-
 	}
-
 
 	@Test
 	public void insertSubOption() throws Exception {
@@ -418,5 +427,48 @@ public class ProductManagementRepositoryImplTest {
 		productManagementRepository.insertSubOption(productSubOption);
 
 		System.out.println(productSubOption.getSubOptionId());
+	}
+
+	@Test
+	public void insertStock() throws Exception {
+		List<Long> subOptionIdList1 = new ArrayList<>();
+		List<Long> subOptionIdList2 = new ArrayList<>();
+
+//		productManagementRepository.getMainOptionByParentId()
+
+//		productManagementRepository.getSubOptionsByMainOptionId();
+
+		subOptionIdList1.add(131L);
+		subOptionIdList1.add(132L);
+
+		subOptionIdList2.add(133L);
+		subOptionIdList2.add(134L);
+		subOptionIdList2.add(135L);
+		subOptionIdList2.add(136L);
+
+		int quantity = 33;
+
+		for (Long option1 : subOptionIdList1) {
+			for (Long option2 : subOptionIdList2) {
+				// 10개의 숫자 출력 예시
+				int randomNumber = ThreadLocalRandom.current().nextInt(10, 361) * 100;
+
+				ProductStock stock = new ProductStock(randomNumber, quantity, option1, option2);
+				productManagementRepository.insertStock(stock);
+
+				quantity--;
+			}
+		}
+	}
+
+	@Test
+	public void getStockListByProductId() throws Exception {
+		Long productId = 247L;
+
+		List<ProductStock> stockList = productManagementRepository.getStockListByProductId(productId);
+
+		for (ProductStock stock : stockList) {
+			System.out.println(stock);
+		}
 	}
 }

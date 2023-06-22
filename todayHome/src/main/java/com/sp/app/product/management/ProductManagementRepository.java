@@ -10,7 +10,7 @@ public interface ProductManagementRepository {
 
 	void insertProduct(Product product) throws Exception;
 
-	void insertProductImg(Map<String, Object> imgMap) throws Exception;
+	void insertProductImg(Long productId, ProductImg productImg) throws Exception;
 
 	Product getProductById(Long productId) throws Exception;
 
@@ -62,4 +62,14 @@ public interface ProductManagementRepository {
 	void insertSubOption(ProductSubOption productSubOption) throws Exception;
 
 	void insertStock(ProductStock productStock) throws Exception;
+
+	// stock 리스트 반환
+	List<ProductStock> getStockListByProductId(Long productId) throws Exception;
+
+	// stock 수정
+
+	// stock 삭제
+
+	// 재고 변경
+
 }

@@ -8,6 +8,10 @@ public class ProductSubOption {
 	public ProductSubOption() {
 	}
 
+	public ProductSubOption(String subOptionName) {
+		this.subOptionName = subOptionName;
+	}
+
 	public ProductSubOption(Long mainOptionId, String subOptionName) {
 		this.mainOptionId = mainOptionId;
 		this.subOptionName = subOptionName;

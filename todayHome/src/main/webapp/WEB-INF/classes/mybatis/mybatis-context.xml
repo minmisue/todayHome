@@ -27,7 +27,7 @@
 		<property name="maxTotal" value="20"/>		<!-- 동시에 사용할 수 있는 최대 커넥션 개수(default=8) -->
 		<property name="maxIdle" value="20"/>		<!-- Connection Pool에 반납할 때 최대로 유지될 수 있는 커넥션 개수(default=8) -->
 		<property name="minIdle" value="20"/>		<!-- 최소한으로 유지할 커넥션 개수(default=0) -->
-	  		
+
 		<property name="maxWaitMillis" value="10000" />	<!-- pool이 고갈되었을 경우 최대 대기 시간(ms단위, default=-1 : 무한정) -->
 		<property name="defaultAutoCommit" value="true" />
 	</bean>

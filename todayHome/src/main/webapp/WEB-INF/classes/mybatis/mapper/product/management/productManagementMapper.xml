@@ -3,19 +3,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productManagement">
     <insert id="insertProduct" parameterType="com.sp.app.domain.product.Product">
-        INSERT INTO PRODUCT (PRODUCT_ID, SELLER_ID, PRODUCT_CATEGORY_ID, PRODUCT_NAME, CONTENT)
-        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{productCategoryId}, #{productName}, #{content})
+        <selectKey keyProperty="productId" resultType="Long" order="BEFORE">
+            SELECT SEQ_PRODUCT.NEXTVAL as productId FROM DUAL
+        </selectKey>
+        insert INTO product (product_id, seller_id, product_category_id, product_name, content, price, discount_percent, delivery_cost)
+        VALUES (#{productId}, #{sellerId}, #{productCategoryId}, #{productName}, #{content, jdbcType=VARCHAR}, #{price, jdbcType=VARCHAR}, #{discountPercent, jdbcType=VARCHAR}, #{deliveryCost, jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
         INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, TYPE, SEQUENCE)
         VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{type}, #{sequence})
     </insert>
-
-<!--    <insert id="insertContentImg" parameterType="map">-->
-<!--        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)-->
-<!--        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})-->
-<!--    </insert>-->
 
     <select id="getProductById" parameterType="Long" resultType="com.sp.app.domain.product.Product">
         SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
@@ -139,4 +137,24 @@
         INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)
         VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{subOptionId1, jdbcType=VARCHAR}, #{subOptionId2, jdbcType=VARCHAR})
     </insert>
+
+    <select id="getStockListByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
+        SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
+               subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
+               subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
+               sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
+        FROM
+            (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
+                    pso2.option_detail_name AS subOptionName2,
+                    pso.option_id AS option_id1, pso2.option_id AS option_id2,
+                    option_price AS optionPrice, pso.option_detail_id as subOptionId1,
+                    pso2.option_detail_id AS subOPtionId2, QUANTITY
+                FROM stock s
+                JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
+                JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
+                JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+        WHERE pmo.product_id = #{productId}
+        ORDER BY subOptionId1, subOPtionId2
+    </select>
 </mapper>

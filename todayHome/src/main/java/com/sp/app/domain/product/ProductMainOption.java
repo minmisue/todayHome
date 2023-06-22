@@ -17,6 +17,11 @@ public class ProductMainOption {
 	public ProductMainOption() {
 	}
 
+	public ProductMainOption(String optionName, Long productId) {
+		this.optionName = optionName;
+		this.productId = productId;
+	}
+
 	public ProductMainOption(Long parentOptionId, String optionName, Long productId) {
 		this.parentOptionId = parentOptionId;
 		this.optionName = optionName;

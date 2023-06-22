@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ProductManagementRepositoryImpl implements ProductManagementRepository{
+public class ProductManagementRepositoryImpl implements ProductManagementRepository {
 
 	@Autowired
 	private CommonDAO commonDAO;
@@ -21,7 +21,12 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public void insertProductImg(Map<String, Object> imgMap) throws Exception {
+	public void insertProductImg(Long productId, ProductImg productImg) throws Exception {
+		Map<String, Object> imgMap = new HashMap<>();
+		imgMap.put("productId", productId);
+		imgMap.put("imgName", productImg.getSaveName());
+		imgMap.put("sequence", productImg.getSequence());
+		imgMap.put("type", productImg.getType());
 		commonDAO.insertData("productManagement.insertProductImg", imgMap);
 	}
 
@@ -151,5 +156,10 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	@Override
 	public void insertStock(ProductStock productStock) throws Exception {
 		commonDAO.insertData("productManagement.insertStock", productStock);
+	}
+
+	@Override
+	public List<ProductStock> getStockListByProductId(Long productId) throws Exception {
+		return commonDAO.selectList("productManagement.getStockListByProductId", productId);
 	}
 }

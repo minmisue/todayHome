@@ -17,6 +17,11 @@ public class ProductImg {
 	public ProductImg() {
 	}
 
+	public ProductImg(String saveName, int type) {
+		this.saveName = saveName;
+		this.type = type;
+	}
+
 	public ProductImg(String saveName, int sequence, int type) {
 		this.saveName = saveName;
 		this.sequence = sequence;

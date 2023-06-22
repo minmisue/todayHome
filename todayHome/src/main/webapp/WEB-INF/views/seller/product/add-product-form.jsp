@@ -109,11 +109,12 @@
 		}
 
         .form-container {
-            border: 1px solid black;
+            border: 1px solid #DFE2E6;
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 5px;
+			border-radius: 4px;
         }
 
         h3 {
@@ -162,6 +163,18 @@
 			color: white;
 		}
 
+        .add-btn, .remove-btn {
+            margin: 0 8px;
+            font-size: 30px;
+        }
+
+		.add-btn {
+            color: #6D90E0
+		}
+
+		.remove-btn {
+			color: indianred;
+		}
 	</style>
 
 <body>
@@ -237,14 +250,17 @@
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
 
 				<div style="height: 210px; display: flex; flex-direction: row; gap: 40px;">
-					<img src="${pageContext.request.contextPath}/resource/picture/${mode == "post" ? "default2.png" : product.picture}"
+					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
 						 style="height: 100%; width: 210px; object-fit: cover; border: 1px solid #DFE2E6"
 						 id="productImg">
-					<div style="display: grid; height: 100%; grid-template-columns: 70px 25px 150px; grid-auto-rows: 50px; align-items: center; align-content: center">
-						<div class="product-name-preview">상품명</div><span class="product-name-preview">:</span><span class="product-name-preview" id="name-preview"></span>
-						<div style="font-size: 16px">카테고리</div><span>:</span><span id="category-preview"></span>
-						<div style="font-size: 16px">재고</div><span>:</span><span id="quantity-preview"></span>
-					</div>
+				</div>
+				<div class="flex-row" style="gap: 7px">
+					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
+						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
+					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
+						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
+					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
+						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
 				</div>
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
@@ -252,35 +268,30 @@
 				<div>옵션 설정</div>
 				<div class="form-container" >
 					<div id="formContainer" class="form-box">
-						<div class="form-object" style="align-items: start">
-							<input style="flex: 1" type="text" name="schoolName" placeholder="상위 옵션명">
-							<div class="flex-col" style="flex: 1">
-								<div id="qualificationsFormContainer" class="form-box">
-									<div class="form-object">
-										<input style="flex: 1" type="text" name="licenseName" placeholder="자격증 명을 입력하세요.">
+						<div class="form-object" style="flex-direction: column;">
+							<div class="flex-col" style="width: 100%; align-items: end">
+								<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
+									<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
+									<input style=" padding: 10px 10px; " class="form-control" type="text" name="schoolName" placeholder="상위 옵션명">
+								</div>
+								<div class="flex-col" style="width: 95%; text-align: right; justify-content: center">
+									<div id="qualificationsFormContainer" style="" class="form-box">
+										<div class="form-object" style="width: 100%">
+											<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
+											<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
+										</div>
 									</div>
 								</div>
-								<button type="button" id="addQualificationBtn" class="plus-btn">추가</button>
 							</div>
 						</div>
 					</div>
-					<button type="button" id="addSchoolName" class="plus-btn">추가</button>
+<%--					<i class="bi bi-plus-square-fill" id="addSchoolName"></i>--%>
+					<button type="button" id="addSchoolName" class="plus-btn">옵션 추가</button>
 				</div>
 
-<%--				<div class="form-container" >--%>
-<%--					<div id="qualificationsFormContainer" class="form-box">--%>
-<%--						<div class="form-object">--%>
-<%--							<input style="flex: 1" type="text" name="licenseName" placeholder="자격증 명을 입력하세요.">--%>
-<%--							<input style="flex: 1" type="date" name="licenseDate">--%>
-<%--						</div>--%>
-<%--					</div>--%>
-<%--					<button type="button" id="addQualificationBtn" class="plus-btn">추가</button>--%>
-<%--				</div>--%>
-
-				<button style="padding: 15px; margin-top: 30px">회원 가입</button>
+				<div>옵션 가격 및 수량 설정</div>
 
 
-				<div>옵션 이름</div>
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
 
@@ -447,67 +458,77 @@
 </script>
 
 <script>
-    let addSchoolButton = document.getElementById('addSchoolName');
-    let formContainer = document.getElementById('formContainer');
+    let addMainOptionBtn = document.getElementById('addSchoolName');
 
-    let addQualificationBtn = document.getElementById('addQualificationBtn');
-    let qualificationFormContainer = document.getElementById('qualificationsFormContainer');
-
-    addSchoolButton.addEventListener('click', function () {
+    addMainOptionBtn.addEventListener('click', function () {
         // let tag = $('#formContainer').find(':first').clone()
         let tag =
             `
-			<div class="form-object">
-				<input style="flex: 1" type="text" name="schoolName" placeholder="학교명을 입력하세요.">
-				<input style="flex: 1" type="date" name="schoolDate1">
-				<input style="flex: 1" type="date" name="schoolDate2">
-				<i class="fa-regular fa-trash-can" onclick="deleteObject(this)"></i>
-			</div>
+<!--			<div class="form-object">-->
+<!--				<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>-->
+<!--				<input style="flex: 1" type="text" name="schoolName" placeholder="학교명을 입력하세요.">-->
+<!--				<input style="flex: 1" type="date" name="schoolDate1">-->
+<!--				<input style="flex: 1" type="date" name="schoolDate2">-->
+<!--			</div>-->
+				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-bottom: 7px;"></div>
+
+				<div class="flex-col" style="width: 100%; align-items: end">
+					<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
+						<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
+						<input style=" padding: 10px 10px; " class="form-control" type="text" name="schoolName" placeholder="상위 옵션명">
+					</div>
+					<div class="flex-col" style="width: 95%; text-align: right; justify-content: center">
+						<div id="qualificationsFormContainer" style="" class="form-box">
+							<div class="form-object" style="width: 100%">
+								<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
+								<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
+							</div>
+						</div>
+					</div>
+				</div>
 			`
 
         addBtn(tag, $('#formContainer'))
     });
 
-
-    addQualificationBtn.addEventListener('click', function () {
+    // addQualificationBtn.addEventListener('click', function () {
+	function addSubOption(obj) {
         // let tag = $('#qualificationsFormContainer').find(':first').clone()
         let tag =
             `
-			<div class="form-object">
-				<input style="flex: 1" type="text" name="licenseName" placeholder="자격증 명을 입력하세요.">
-				<input style="flex: 1" type="date" name="licenseDate">
-				<i class="fa-regular fa-trash-can" onclick="deleteObject(this)"></i>
-			</div>
+<!--			<div class="form-object">-->
+<!--				<input style="flex: 1" type="text" name="licenseName" placeholder="자격증 명을 입력하세요.">-->
+<!--				<input style="flex: 1" type="date" name="licenseDate">-->
+<!--				<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>-->
+<!--			</div>-->
+				<div class="form-object" style="width: 100%">
+					<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
+					<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
+				</div>
 			`
 
-        addBtn(tag, $('#qualificationsFormContainer'))
-    });
+        addBtn(tag, $(obj).parent().parent())
+    }
 
     function addBtn(tag, obj) {
         obj.append(tag)
 
-        if (obj.children().length === 2) {
-            obj.find(':first').append('<i class="fa-regular fa-trash-can" onclick="deleteObject(this)"></i>')
-        }
+        // if (obj.children().length === 2) {
+        //     obj.find(':first').append('<i class="fa-regular fa-trash-can" onclick="deleteObject(this)"></i>')
+        // }
     }
 
     function deleteObject(obj) {
         console.log('삭제')
         let formBox = $(obj).closest('.form-box')
-        let cnt = formBox.children().length
+        // let cnt = formBox.children().length
 
-        $(obj).parent().remove()
+        $(obj).parent().parent().remove()
 
-        if (cnt === 2) {
-            formBox.find(':first').children('i').remove()
-        }
+        // if (cnt === 2) {
+        //     formBox.find(':first').children('i').remove()
+        // }
     }
-</script>
-
-<script>
-    $(function () {
-        selectMenu(menuIndex)
-    })
 </script>
 </body>
 </html>

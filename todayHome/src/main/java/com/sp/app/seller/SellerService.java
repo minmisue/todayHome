@@ -5,23 +5,22 @@ import java.util.Map;
 
 import com.sp.app.domain.seller.Seller;
 
-public interface SellerRepository {
+public interface SellerService {
     // 판매자 생성 ok
 	void createSeller(Seller seller) throws Exception;
     
-    // 판매자 수정 ok
+    // 판매자 수정 
    	void updateSeller(Seller seller) throws Exception;
     
     // 판매자 상태 조회 
    	Seller getSellerStatus(Long sellerId) throws Exception;
     
-   	//판매자 상태 수정 ok
+   	//판매자 상태 수정 
    	void updateSellerStatus(Seller seller) throws Exception;
 
-    // 판매자 리스트 반환  ok
+    // 판매자 리스트 반환  
     List<Seller> getSellersByCondition(Map<String, Object> map) throws Exception;
     
-    //판매자 상태가 0,1,2,3 인 사람 각각 카운트. ok
+    //판매자 상태가 0,1,2,3 인 사람 각각 카운트. 
     int getSellerCountByStatus(int status) throws Exception;
-
 }

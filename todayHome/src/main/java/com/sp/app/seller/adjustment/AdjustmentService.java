@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sp.app.domain.seller.SellerAdjustment;
 
-public interface AdjustmentRepository {
+public interface AdjustmentService {
     // 모든 정산 목록 반환 ok
     List<SellerAdjustment> getAllAdjustments() throws Exception;
 
@@ -19,6 +19,4 @@ public interface AdjustmentRepository {
 
     // 정산 기록 수정(필요 없을듯) ok
    void  updateAdjustment(SellerAdjustment adjustment) throws Exception;
-
 }
-

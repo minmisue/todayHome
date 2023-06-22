@@ -45,7 +45,10 @@
 <!--		<property name="mapperLocations" value="classpath:/mybatis/mapper/member/**/*.xml" />-->
 		<!-- 마이페이지 -->
 		<property name="mapperLocations" value="classpath:/mybatis/mapper/mypage/*.xml" />
+		<property name="mapperLocations" value="classpath:/mybatis/mapper/seller/**/*.xml" />
 	</bean>
+	
+	
 
 	<!-- SqlSessionTemplate : MyBatis SQL method 호출 및 관리, 예외처리 담당 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

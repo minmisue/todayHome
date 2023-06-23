@@ -3,9 +3,12 @@ package com.sp.app.cart;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sp.app.domain.cart.Cart;
 
+
+@Service("cart.cartService")
 public class CartServiceImpl implements CartService{
 
 	@Autowired

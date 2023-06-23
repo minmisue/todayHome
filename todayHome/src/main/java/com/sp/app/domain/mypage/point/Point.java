@@ -2,7 +2,15 @@ package com.sp.app.domain.mypage.point;
 
 public class Point {
 	private Long memberId;
-	private Long remainPoint;
+	private int remainPoint;
+	
+	public Point() {
+	}
+	
+	public Point(Long memberId, int remainPoint) {
+		this.memberId = memberId;
+		this.remainPoint = remainPoint;
+	}
 	
 	public Long getMemberId() {
 		return memberId;
@@ -10,10 +18,10 @@ public class Point {
 	public void setMemberId(Long memberId) {
 		this.memberId = memberId;
 	}
-	public Long getRemainPoint() {
+	public int getRemainPoint() {
 		return remainPoint;
 	}
-	public void setRemainPoint(Long remainPoint) {
+	public void setRemainPoint(int remainPoint) {
 		this.remainPoint = remainPoint;
 	}
 	

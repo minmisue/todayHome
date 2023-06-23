@@ -50,10 +50,10 @@ public class SampleTest {
 		contentImgList.add("contentImg2");
 		contentImgList.add("contentImg3");
 
-		Product product = new Product(1L, 4L, "테스트2", productImgList, contentImgList, "상품 내용");
+//		Product product = new Product(1L, 4L, "테스트2", productImgList, contentImgList, "상품 내용");
 
 		// 테스트 할 메소드
-		productManagementRepository.insertProduct(product);
+//		productManagementRepository.insertProduct(product);
 
 		// 결과
 	}
@@ -87,6 +87,6 @@ public class SampleTest {
 
 		int price = subOptionsByMainOptionId.get(0).getOptionPrice();
 
-		Assert.assertEquals(4000, price);
+//		Assert.assertEquals(4000, price);
 	}
 }

@@ -4,7 +4,16 @@ public class MemberPoint {
 	private Long pointUsageHistoryId;
 	private Long memberId;
 	private String regDate;
-	private Long amount;
+	private int amount;
+	
+	public MemberPoint() {
+		
+	}
+	
+	public MemberPoint(Long memberId, int amount) {
+		this.memberId = memberId;
+		this.amount = amount;
+	}
 	
 	public Long getPointUsageHistoryId() {
 		return pointUsageHistoryId;
@@ -24,10 +33,10 @@ public class MemberPoint {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Long getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(Long amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	

@@ -3,19 +3,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productManagement">
     <insert id="insertProduct" parameterType="com.sp.app.domain.product.Product">
-        INSERT INTO PRODUCT (PRODUCT_ID, SELLER_ID, PRODUCT_CATEGORY_ID, PRODUCT_NAME, CONTENT)
-        VALUES (SEQ_PRODUCT.NEXTVAL, #{sellerId}, #{productCategoryId}, #{productName}, #{content})
+        <selectKey keyProperty="productId" resultType="Long" order="BEFORE">
+            SELECT SEQ_PRODUCT.NEXTVAL as productId FROM DUAL
+        </selectKey>
+        insert INTO product (product_id, seller_id, product_category_id, product_name, content, price, discount_percent, delivery_cost)
+        VALUES (#{productId}, #{sellerId}, #{productCategoryId}, #{productName}, #{content, jdbcType=VARCHAR}, #{price, jdbcType=VARCHAR}, #{discountPercent, jdbcType=VARCHAR}, #{deliveryCost, jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
         INSERT INTO product_img (PRODUCT_IMG_ID, PRODUCT_ID, SAVE_NAME, TYPE, SEQUENCE)
         VALUES (SEQ_PRODUCT_IMG.nextval, #{productId}, #{imgName}, #{type}, #{sequence})
     </insert>
-
-<!--    <insert id="insertContentImg" parameterType="map">-->
-<!--        INSERT INTO PRODUCT_CONTENT_IMG (PRODUCT_CONTENT_IMG, PRODUCT_ID, SAVE_NAME, SEQUENCE)-->
-<!--        VALUES (SEQ_PRODUCT_CONTENT_IMG.nextval, #{productId}, #{imgName}, #{sequence})-->
-<!--    </insert>-->
 
     <select id="getProductById" parameterType="Long" resultType="com.sp.app.domain.product.Product">
         SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
@@ -75,13 +73,13 @@
     </select>
 
     <select id="getSubOptionsByMainOptionId" resultType="com.sp.app.domain.product.ProductSubOption" parameterType="Long">
-        SELECT option_detail_id AS optionDetailId, option_detail_name AS optionDetailName
+        SELECT option_detail_id AS subOptionId, option_detail_name AS subOptionName
         FROM product_sub_option
         WHERE option_id = #{mainOptionId}
     </select>
 
     <select id="getStockBySubOptionId" resultType="com.sp.app.domain.product.ProductStock" parameterType="Long">
-        SELECT option_price AS optionPrice, quantity, OPTION_DETAIL_ID AS optionDetailId1, option_detail_id2 AS optionDetailId2
+        SELECT option_price AS optionPrice, quantity, OPTION_DETAIL_ID AS subOptionId1, option_detail_id2 AS subOptionId2
         FROM stock
         WHERE option_detail_id = #{subOptionId}
     </select>
@@ -104,22 +102,59 @@
     </select>
 
     <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">
-        insert INTO product_main_option (option_id, parent_option_id, product_id, option_name)
-        VALUES (seq_product_main_option.nextval, #{parentOptionId}, #{productId}, #{optionName});
+        <selectKey keyProperty="mainOptionId" resultType="Long" order="BEFORE">
+            SELECT SEQ_PRODUCT_MAIN_OPTION.NEXTVAL as mainOptionId FROM DUAL
+        </selectKey>
+        INSERT INTO product_main_option (option_id, parent_option_id, product_id, option_name)
+        VALUES (#{mainOptionId}, #{parentOptionId ,jdbcType=VARCHAR}, #{productId}, #{optionName})
     </insert>
 
-<!--    <insert id="insertMainOption" parameterType="com.sp.app.domain.product.ProductMainOption">-->
-<!--        INSERT INTO PRODUCT_MAIN_OPTION (OPTION_ID, PARENT_OPTION_ID, PRODUCT_ID, OPTION_NAME)-->
-<!--        VALUES (#{mainOptionId}, #{parentOptionId, jdbcType=VARCHAR}, #{productId}, #{optionName})-->
-<!--    </insert>-->
+    <select id="getOptionMapByStockId" parameterType="Long" resultType="com.sp.app.domain.product.OptionMap">
+        select pmo.option_id AS mainOptionId, pmo.OPTION_NAME AS mainOptionName, option_detail_id AS subOptionId, OPTION_DETAIL_NAME AS subOptionName
+        FROM PRODUCT_SUB_OPTION
+        JOIN PRODUCT_MAIN_OPTION PMO ON PMO.OPTION_ID = PRODUCT_SUB_OPTION.OPTION_ID
+        WHERE OPTION_DETAIL_ID IN (
+            SELECT option_detail_id
+            FROM stock
+            WHERE stock_id = #{optionDetailId}
+            UNION ALL
+            SELECT option_detail_id2
+            FROM stock
+            WHERE stock_id = #{optionDetailId}
+        )
+    </select>
 
-<!--    <insert id="insertSubOption" parameterType="com.sp.app.domain.product.ProductSubOption">-->
-<!--        INSERT INTO PRODUCT_SUB_OPTION (OPTION_DETAIL_ID, OPTION_ID, OPTION_DETAIL_NAME)-->
-<!--        VALUES (SEQ_PRODUCT_SUB_OPTION.nextval, #{mainOptionId}, #{optionDetailName})-->
-<!--    </insert>-->
 
-<!--    <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">-->
-<!--        INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)-->
-<!--        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{optionDetailId1, jdbcType=VARCHAR}, #{optionDetailId2, jdbcType=VARCHAR})-->
-<!--    </insert>-->
+    <insert id="insertSubOption" parameterType="com.sp.app.domain.product.ProductSubOption">
+        <selectKey keyProperty="subOptionId" resultType="Long" order="BEFORE">
+            SELECT SEQ_PRODUCT_SUB_OPTION.NEXTVAL as mainOptionId FROM DUAL
+        </selectKey>
+        INSERT INTO PRODUCT_SUB_OPTION (OPTION_DETAIL_ID, OPTION_ID, OPTION_DETAIL_NAME)
+        VALUES (#{subOptionId}, #{mainOptionId}, #{subOptionName})
+    </insert>
+
+    <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">
+        INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)
+        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{subOptionId1, jdbcType=VARCHAR}, #{subOptionId2, jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getStockListByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
+        SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
+               subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
+               subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
+               sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
+        FROM
+            (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
+                    pso2.option_detail_name AS subOptionName2,
+                    pso.option_id AS option_id1, pso2.option_id AS option_id2,
+                    option_price AS optionPrice, pso.option_detail_id as subOptionId1,
+                    pso2.option_detail_id AS subOPtionId2, QUANTITY
+                FROM stock s
+                JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
+                JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
+                JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+        WHERE pmo.product_id = #{productId}
+        ORDER BY subOptionId1, subOPtionId2
+    </select>
 </mapper>

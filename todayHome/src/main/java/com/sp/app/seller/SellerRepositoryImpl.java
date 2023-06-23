@@ -13,11 +13,11 @@ import com.sp.app.domain.seller.Seller;
 public class SellerRepositoryImpl implements SellerRepository{
 	
 	@Autowired
-	private CommonDAO commonDAO;
+	private CommonDAO commonDAO; 
 	
 	@Override
 	public void createSeller(Seller seller) throws Exception {
-		commonDAO.insertData("seller.insertSeller", seller);
+		commonDAO.insertData("seller.createSeller", seller);
 		
 	}
 
@@ -28,14 +28,14 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public void getSellerStatus(Long sellerId) throws Exception{
-		commonDAO.selectOne("seller.getSellerStatus", sellerId);
+	public Seller getSellerStatus(Long sellerId) throws Exception{
+		return commonDAO.selectOne("seller.getSellerStatus", sellerId);
 		
 	}
 
 	@Override
-	public void updateSellerStatus(Map<String, Object> map) throws Exception {		
-		commonDAO.updateData("seller.updateSellerStatus", map);	
+	public void updateSellerStatus(Seller seller) throws Exception {		
+		commonDAO.updateData("seller.updateSellerStatus", seller);	
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public int getSellerCount(int status) throws Exception {
+	public int getSellerCountByStatus(int status) throws Exception {
 		return commonDAO.selectOne("seller.getSellerCount", status);
 
 	}

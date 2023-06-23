@@ -9,8 +9,8 @@ public class Product {
 	private Long productCategoryId;
 	private String productName;
 	private int remainQuantity;
-	private List<String> productImgList;
-	private List<String> contentImgList;
+	private List<ProductImg> productImgList;
+	private List<ProductImg> contentImgList;
 	private String content;
 	private int productScrapCnt;
 	private String regDate;
@@ -22,7 +22,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(Long sellerId, Long productCategoryId, String productName, List<String> productImgList, List<String> contentImgList, String content) {
+	public Product(Long sellerId, Long productCategoryId, String productName, List<ProductImg> productImgList, List<ProductImg> contentImgList, String content) {
 		this.sellerId = sellerId;
 		this.productCategoryId = productCategoryId;
 		this.productName = productName;
@@ -30,7 +30,6 @@ public class Product {
 		this.contentImgList = contentImgList;
 		this.content = content;
 	}
-
 
 	@Override
 	public String toString() {
@@ -92,19 +91,19 @@ public class Product {
 		this.remainQuantity = remainQuantity;
 	}
 
-	public List<String> getProductImgList() {
+	public List<ProductImg> getProductImgList() {
 		return productImgList;
 	}
 
-	public void setProductImgList(List<String> productImgList) {
+	public void setProductImgList(List<ProductImg> productImgList) {
 		this.productImgList = productImgList;
 	}
 
-	public List<String> getContentImgList() {
+	public List<ProductImg> getContentImgList() {
 		return contentImgList;
 	}
 
-	public void setContentImgList(List<String> contentImgList) {
+	public void setContentImgList(List<ProductImg> contentImgList) {
 		this.contentImgList = contentImgList;
 	}
 

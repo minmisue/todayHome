@@ -4,6 +4,34 @@
 <mapper namespace="point">
 	<insert id="insertPoint" parameterType="com.sp.app.domain.mypage.point.Point">
 		INSERT INTO point(member_id, remain_point)
-		VALUES (#{member_id}, #{remain_point})
+		VALUES (#{memberId}, #{remainPoint})
 	</insert>
+	
+	<update id="updateMemberPoint" parameterType="com.sp.app.domain.mypage.point.Point">
+		UPDATE point 
+		SET remain_point = #{remainPoint}
+		WHERE member_id = #{memberId}
+	</update>
+
+	<insert id="insertMemberPoint" parameterType="com.sp.app.domain.mypage.point.MemberPoint">
+		INSERT INTO point_usage_history(point_usage_history_id, member_id, reg_date, amount)
+		VALUES ( seq_point_usage_history.NEXTVAL, #{memberId}, SYSDATE, #{amount} )
+	</insert>
+	
+	<delete id="deleteMemberPoint" parameterType="Long">
+		DELETE FROM point_usage_history
+		WHERE point_usage_history_id = #{pointUsageHistoryId}
+	</delete>
+	
+	<select id="getPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.point.Point">
+		SELECT member_id as memberId, remain_point as remainPoint
+		FROM point
+		WHERE member_id = #{memberId}
+	</select>
+	
+	<select id="getMemberPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.point.MemberPoint">
+		SELECT point_usage_history_id as pointUsageHistoryId,member_id as memberId, reg_date as regDate, amount
+		FROM point_usage_history
+		WHERE member_id = #{memberId}
+	</select>
 </mapper>

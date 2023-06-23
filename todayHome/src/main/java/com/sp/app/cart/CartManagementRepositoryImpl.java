@@ -1,5 +1,6 @@
 package com.sp.app.cart;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.cart.Cart;
 
 
 @Repository
@@ -23,14 +25,19 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void updateProduct(Long cartId) throws Exception {
-		commonDAO.updateData("cart.updateCart", cartId);
+	public void updateProduct(Long cartId, int quantity) throws Exception {
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("cartId", cartId);
+		map.put("quantity", quantity);
+		
+		commonDAO.updateData("cart.updateQuantity", map);
 		
 	}
 
 	@Override
-	public void deleteCart(Long cartId) throws Exception{
-		commonDAO.deleteData("cart.deleteCart", cartId);
+	public void deleteCart(List<Long> cartIdList) throws Exception{
+		commonDAO.deleteData("cart.deleteCart", cartIdList);
 	}
 
 	@Override
@@ -40,19 +47,22 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public Integer checkQuantity(Map<String, Object> map) throws Exception {
-		Integer result = null; // 아무런 조건이 없으면 null 반환 하기때문에 반환 타입 Integer
-		result = commonDAO.selectOne("cart.checkQuantity", map);
+	public Integer checkQuantity(Long stockId, int quantity) throws Exception {
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("stockId", stockId);
+		map.put("quantity", quantity);
 		
-		return result;
+		return commonDAO.selectOne("cart.checkQuantity", map);
 	}
 
 	@Override
-	public Integer checkCartProduct(Long cartId) throws Exception {
-		Integer result = null;
-		result = commonDAO.selectOne("cart.checkCartProduct", cartId);
+	public Integer checkCartProduct(Long memberId, Long stockId) throws Exception {
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+
+		map.put("stockId", stockId);
 		
-		return result;
+		return commonDAO.selectOne("cart.checkCartProduct", map);
 	}
 
 }

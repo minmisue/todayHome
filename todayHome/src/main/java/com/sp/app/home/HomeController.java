@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HomeController {
 
-
 	@GetMapping("/")
 	public String index() {
-		return "redirect://home";
+		return "redirect:/home";
 	}
 
 	@GetMapping("home")
@@ -114,6 +113,11 @@ public class HomeController {
 	@GetMapping("mypage/all")
 	public String myPageHome() {
 		return "mypage/all-view";
+	}
+	
+	@GetMapping("mypage/notice")
+	public String myPageNotice() {
+		return "mypage/notice-board";
 	}
 
 	@GetMapping("mypage/alert")

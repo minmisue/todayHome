@@ -1,18 +1,27 @@
 package com.sp.app.domain.product;
 
 public class ProductSubOption {
-	private Long optionDetailId;
+	private Long subOptionId;
 	private Long mainOptionId;
-	private String optionDetailName;
+	private String subOptionName;
 
 	public ProductSubOption() {
+	}
+
+	public ProductSubOption(String subOptionName) {
+		this.subOptionName = subOptionName;
+	}
+
+	public ProductSubOption(Long mainOptionId, String subOptionName) {
+		this.mainOptionId = mainOptionId;
+		this.subOptionName = subOptionName;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductSubOption{" +
-				"optionDetailId=" + optionDetailId +
-				", OptionDetailName='" + optionDetailName + '\'' +
+				"optionDetailId=" + subOptionId +
+				", OptionDetailName='" + subOptionName + '\'' +
 				", mainOptionId=" + mainOptionId +
 				'}';
 	}
@@ -25,19 +34,19 @@ public class ProductSubOption {
 		this.mainOptionId = mainOptionId;
 	}
 
-	public Long getOptionDetailId() {
-		return optionDetailId;
+	public Long getSubOptionId() {
+		return subOptionId;
 	}
 
-	public void setOptionDetailId(Long optionDetailId) {
-		this.optionDetailId = optionDetailId;
+	public void setSubOptionId(Long subOptionId) {
+		this.subOptionId = subOptionId;
 	}
 
-	public String getOptionDetailName() {
-		return optionDetailName;
+	public String getSubOptionName() {
+		return subOptionName;
 	}
 
-	public void setOptionDetailName(String optionDetailName) {
-		this.optionDetailName = optionDetailName;
+	public void setSubOptionName(String subOptionName) {
+		this.subOptionName = subOptionName;
 	}
 }

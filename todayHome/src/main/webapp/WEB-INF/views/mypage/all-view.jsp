@@ -249,8 +249,7 @@
 				<div class="myinfo">
 					<div class="myinfo-profile">
 						<div class="share-icon">
-							<img src="${pageContext.request.contextPath}/resources/picture/share-nodes-solid.svg"
-								 style="width: 28px; height: 28px" alt="">
+							<i class="bi bi-share"></i>
 						</div>
 						<div class="image-wrapper">
 							<img alt=""
@@ -270,21 +269,15 @@
 
 					<div class="myinfo-history">
 						<div class="myinfo-history-scrap myinfo-history-item">
-							<img
-									src="${pageContext.request.contextPath}/resources/picture/bookmark-regular.svg"
-									style="width: 28px; height: 28px;" alt=""> <span>스크랩북</span>
+							<i class="bi bi-bookmark-check"></i> <span>스크랩북</span>
 							<em>9</em>
 						</div>
 						<div class="myinfo-history-like myinfo-history-item">
-							<img
-									src="${pageContext.request.contextPath}/resources/picture/heart-regular.svg"
-									style="width: 28px; height: 28px;" alt=""> <span>좋아요</span>
+							<i class="bi bi-heart"></i> <span>좋아요</span>
 							<em>1</em>
 						</div>
 						<div class="myinfo-history-coupon myinfo-history-item">
-							<img
-									src="${pageContext.request.contextPath}/resources/picture/ticket-solid.svg"
-									style="width: 28px; height: 28px;" alt=""> <span>내
+							<i class="bi bi-ticket"></i> <span>내
                            쿠폰</span> <em>0</em>
 						</div>
 					</div>

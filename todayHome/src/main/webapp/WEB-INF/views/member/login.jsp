@@ -49,6 +49,8 @@
 			border-radius: 4px;
             font-weight: bold;
             margin-top: 18px;
+            width: 100%;
+            border: none;
         }
 
 		.login-btn:hover {
@@ -131,17 +133,17 @@
 <body>
 <div class="oh">
 	<img class="logo" src="${pageContext.request.contextPath}/resources/picture/social/home3.JPG">
-	<form action="" method="POST">
+	<form action="${pageContext.request.contextPath}/login" method="POST">
 		<div class="form-row">
-			<input class="ep email" type="text" id="username" name="username" placeholder="이메일" required><br>
+			<input class="ep email" type="text" id="email" name="email" placeholder="이메일" required><br>
 			<input class="ep password" type="password" id="password" name="password" placeholder="비밀번호" required>
 		</div>
 
 <%--		????? --%>
 <%--		<input class="login" type="submit" value="로그인">--%>
-		<div class="login-btn">
+		<button class="login-btn">
 			로그인
-		</div>
+		</button>
 
 
 		<div class="yeah">

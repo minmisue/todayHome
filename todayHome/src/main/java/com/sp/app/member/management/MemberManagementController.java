@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
 
 //단순 조회 시 GET 
@@ -26,15 +27,21 @@ public class MemberManagementController {
 	@PostMapping("login")
 	public String loginSubmit(HttpSession httpSession, @RequestParam String email, @RequestParam String password) {
 		Member member = memberManagementService.login(email, password);
+		if(member == null) {
+			return "redirect:/login";
+		} 
 		
+		Long memberId = member.getMemberId();
+		String nickname = member.getNickName();
+		Integer role = member.getMemberRoleId();
 		
-	
+		SessionInfo sessionInfo = new SessionInfo(memberId, nickname, role);
 		
-		
-
-		
+		httpSession.setAttribute("sessionInfo", sessionInfo);
+				
 		return "redirect:/home";
-		
 	}
+	
+	
 	
 }

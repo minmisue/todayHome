@@ -3,12 +3,13 @@ package com.sp.app.domain.common;
 public class SessionInfo {
 	private Long memberId;
 	private String userNickname;
-	private Long userRole;
+	private Integer userRole;
 
 	public SessionInfo() {
 	}
 
-	public SessionInfo(Long memberId, String userNickname, Long userRole) {
+	public SessionInfo(Long memberId, String userNickname, Integer userRole) {
+		super();
 		this.memberId = memberId;
 		this.userNickname = userNickname;
 		this.userRole = userRole;
@@ -30,11 +31,13 @@ public class SessionInfo {
 		this.userNickname = userNickname;
 	}
 
-	public Long getUserRole() {
+	public Integer getUserRole() {
 		return userRole;
 	}
 
-	public void setUserRole(Long userRole) {
+	public void setUserRole(Integer userRole) {
 		this.userRole = userRole;
 	}
+
+	
 }

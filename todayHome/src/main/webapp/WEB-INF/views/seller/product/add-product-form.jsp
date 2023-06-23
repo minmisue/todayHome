@@ -38,7 +38,7 @@
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			gap: 35px;
+			/*gap: 35px;*/
 		}
 
 		textarea {
@@ -88,7 +88,6 @@
 			height: 100px;
 			border: 1px solid #DFE2E6;
 			border-radius: 8px;
-			margin-top: 20px;
 		}
 
 		.product-info {
@@ -150,7 +149,6 @@
         .form-box {
             display: flex;
             flex-direction: column;
-            gap: 10px;
             margin-bottom: 10px;
             width: 100%;
         }
@@ -175,6 +173,59 @@
 		.remove-btn {
 			color: indianred;
 		}
+
+		.add-btn:hover, .remove-btn:hover {
+			filter: brightness(80%);
+            cursor: pointer;
+        }
+
+        .selected-product {
+            height: 100px;
+            border: 1px solid #DFE2E6;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            overflow: auto;
+			/*gap: 5px;*/
+			/*padding: 5px;*/
+        }
+
+        .selected-product img {
+            height: 100%;
+            width: 93px;
+            object-fit: cover;
+            padding: 5px 0px 5px 5px;
+            cursor: pointer;
+        }
+
+        .option-submit-btn {
+            background-color: #6D90E0;
+            padding: 10px 15px;
+            border-radius: 4px;
+            color: white;
+        }
+
+		.option-submit-btn:hover, .plus-btn:hover {
+			filter: brightness(95%);
+            cursor: pointer;
+		}
+
+        .stock-object {
+			/*flex: 1;*/
+			width: 150px;
+        }
+
+        .stock-input-container {
+			justify-content: space-between;
+			align-items: center;
+			text-align: center;
+			height: 60px;
+        }
+
+        .stock-input {
+
+        }
 	</style>
 
 <body>
@@ -198,263 +249,275 @@
 		</div>
 
 		<div class="content-container" style="flex: 1;">
-			<form method="post" class="main-content-card" enctype="multipart/form-data" action="${pageContext.request.contextPath}/product/${mode}-product" id="form">
+			<%-- enctype="multipart/form-data" --%>
+			<form method="post" class="main-content-card" enctype="multipart/form-data" action="${pageContext.request.contextPath}/seller/${mode}-product" id="form">
+				<%-- 임시 데이터 --%>
+				<input type="hidden" name="sellerId" value="1"/>
+
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상품명</span></div>
-						<input class="form-control product-info" name="name" id="productName" value="${mode == "post" ? "" : product.name}">
+						<input class="form-control product-info" name="productName" id="productName" value="${mode == "post" ? "" : product.name}">
 						<button class="btn btn-outline-secondary" type="button" id="productNameCheckBtn">중복 검사</button>
 					</div>
 				</div>
 				<input type="hidden" name="id" value="${mode.equals("post") ? "" : product.productId}">
 
-				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
+				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
-						<select class="form-select form-control product-info" name="category" id="category">
+						<select class="form-select form-control product-info" name="productCategoryId" id="category">
 							<option selected value="0">카테고리 선택</option>
-							<option value="1">봉지라면</option>
-							<option value="2">컵라면</option>
-							<option value="3">토핑</option>
+							<option value="1">가구</option>
+							<option value="2">디지털</option>
+							<option value="3">잡화</option>
 						</select>
 					</div>
 
 					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">재고</span></div>
-						<input type="number" class="form-control product-info" id="quantityInput" name="quantity" value="${mode == "post" ? "" : product.remainQuantity}">
+						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세</span></div>
+						<select class="form-select form-control product-info" name="category" disabled>
+							<option selected value="0">카테고리 선택</option>
+							<option value="1">가구</option>
+							<option value="2">디지털</option>
+							<option value="3">잡화</option>
+						</select>
+					</div>
+
+					<div class="input-group">
+						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 2</span></div>
+						<select class="form-select form-control product-info" name="category" disabled>
+							<option selected value="0">카테고리 선택</option>
+							<option value="1">가구</option>
+							<option value="2">디지털</option>
+							<option value="3">잡화</option>
+						</select>
+					</div>
+
+					<div class="input-group">
+						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 3</span></div>
+						<select class="form-select form-control product-info" name="category" disabled>
+							<option selected value="0">카테고리 선택</option>
+							<option value="1">가구</option>
+							<option value="2">디지털</option>
+							<option value="3">잡화</option>
+						</select>
 					</div>
 				</div>
 
 
-				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
+				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">기본 가격</span></div>
-						<input type="number" class="form-control product-info" id="defaultPrice" name="quantity" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="defaultPrice" name="price" value="${mode == "post" ? "" : product.remainQuantity}">
 					</div>
 
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">할인율</span></div>
-						<input type="number" class="form-control product-info" id="discountPercent" name="quantity" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.remainQuantity}">
 					</div>
 
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">배달비</span></div>
-						<input type="number" class="form-control product-info" id="deliveryCost" name="quantity" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="deliveryCost" name="deliveryCost" value="${mode == "post" ? "" : product.remainQuantity}">
 					</div>
 				</div>
 
-				<div class="input-group" style="flex: 1">
-					<input type="file" class="form-control" aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="picture" id="productImgInput">
+<%--				<div class="input-group" style="flex: 1">--%>
+<%--					<input type="file" class="form-control" aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="picture" id="productImgInput">--%>
+<%--				</div>--%>
+
+				<div class="input-group" style="flex: 1; margin-top: 35px;">
+					<input type="file" class="form-control" id="imgInput"
+						   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="picture" multiple="multiple" >
 				</div>
 
-				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
+				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
-				<div style="height: 210px; display: flex; flex-direction: row; gap: 40px;">
-					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
-						 style="height: 100%; width: 210px; object-fit: cover; border: 1px solid #DFE2E6"
-						 id="productImg">
-				</div>
-				<div class="flex-row" style="gap: 7px">
-					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
-						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
-					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
-						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
-					<img src="${pageContext.request.contextPath}/resources/picture/default.png"
-						 style="width: 90px; height: 90px; object-fit: cover; border: 1px solid #DFE2E6">
+				<%-- 이미지 미리보기 --%>
+				<div style="margin-top: 35px;">
+					<div style="height: 210px; display: flex; flex-direction: row; border-radius: 4px">
+						<img src="${pageContext.request.contextPath}/resources/picture/default.png"
+							 style="height: 100%; width: 210px; object-fit: cover; border: 1px solid #DFE2E6; border-radius: 4px"
+							 id="productImg">
+					</div>
+
+					<div class="selected-product" id="imgPool"></div>
 				</div>
 
-				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
+				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
-				<div>옵션 설정</div>
-				<div class="form-container" >
-					<div id="formContainer" class="form-box">
-						<div class="form-object" style="flex-direction: column;">
-							<div class="flex-col" style="width: 100%; align-items: end">
+				<div style="margin-top: 35px;">옵션 설정</div>
+
+				<div class="form-container" style="margin-top: 35px;" >
+<%--					<div id="formContainer" class="form-box">--%>
+						<div class="form-object option-container" style="flex-direction: column;">
+							<div class="flex-col main-option" style="width: 100%; align-items: end">
 								<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
 									<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
-									<input style=" padding: 10px 10px; " class="form-control" type="text" name="schoolName" placeholder="상위 옵션명">
+									<input style=" padding: 10px 10px; " class="form-control main-option-input" type="text" name="schoolName" placeholder="상위 옵션명">
 								</div>
-								<div class="flex-col" style="width: 95%; text-align: right; justify-content: center">
-									<div id="qualificationsFormContainer" style="" class="form-box">
-										<div class="form-object" style="width: 100%">
-											<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
-											<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
-										</div>
+								<div class="flex-col sub-option-container" style="width: 95%; text-align: right; justify-content: center">
+									<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
+										<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
+										<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
 									</div>
 								</div>
 							</div>
-						</div>
+<%--						</div>--%>
 					</div>
 <%--					<i class="bi bi-plus-square-fill" id="addSchoolName"></i>--%>
 					<button type="button" id="addSchoolName" class="plus-btn">옵션 추가</button>
 				</div>
+				<div style="margin-top: 10px; display: flex; flex-direction: row; justify-content: right">
+					<div class="option-submit-btn" onclick="generateOptionCombine();">등록 완료</div>
+				</div>
+				<div style="margin-top: 35px;">옵션별 재고 설정</div>
 
-				<div>옵션 가격 및 수량 설정</div>
+				<div class="stock-container">
+					<div class="flex-row stock-input-container">
+						<div class="flex-row">
+							<div class="stock-object">메인옵션 이름1</div>
+							<div class="stock-object">메인옵션 이름2</div>
+							<div class="stock-object">메인옵션 이름3</div>
+						</div>
+						<div class="flex-row">
+							<div class="stock-object">가격</div>
+							<div class="stock-object">재고</div>
+						</div>
+					</div>
+					<div class="flex-row stock-input-container">
+						<div class="flex-row">
+							<div class="stock-object">이름1</div>
+							<div class="stock-object">이름2</div>
+							<div class="stock-object">이름3</div>
+						</div>
+							<div class="flex-row">
+							<div class="stock-object stock-input">
+								<input type="text" name="stockPrice" style="width: 120px; height: 40px">
+							</div>
+							<div class="stock-object stock-input">
+								<input type="text" name="stockQuantity" style="width: 120px; height: 40px">
+							</div>
+						</div>
+					</div>
 
-
-
-				<div style="width: 100%; border-bottom: 1px solid #DFE2E6"></div>
-
-				<label>
-					상품 설명
-					<textarea class="form-control" style="margin-top: 15px;"></textarea>
-				</label>
-
-				<div style="text-align: right">
-					<button type="button" class="btn btn-success" style="width: 100px; margin-top: 20px" id="submitButton">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
+					<div class="flex-row stock-input-container">
+						<div class="flex-row">
+							<div class="stock-object">이름1</div>
+							<div class="stock-object">이름2</div>
+							<div class="stock-object">이름3</div>
+						</div>
+						<div class="flex-row">
+							<div class="stock-object stock-input">
+								<input type="text" name="stockPrice" style="width: 120px; height: 40px">
+							</div>
+							<div class="stock-object stock-input">
+								<input type="text" name="stockQuantity" style="width: 120px; height: 40px">
+							</div>
+						</div>
+					</div>
 				</div>
 
+				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
+				<label style="margin-top: 35px;">
+					상품 설명
+					<textarea class="form-control" style="margin-top: 5px;" name="content"></textarea>
+				</label>
+
+				<div style="text-align: right; margin-top: 10px;">
+					<button type="submit" class="btn btn-success" style="width: 100px; margin-top: 20px">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
+<script>
+	let combineList = []
+
+    function generateOptionCombine() {
+        let mainOptionContainer = $('.option-container').children();
+		let subOptionListList = [];
+
+        // 메인 옵션 리스트
+        for (const x of mainOptionContainer) {
+            let subOptionList = [];
+            console.log($(x).children().first().find('input').val())
+
+
+            let subOptionContainers = $(x).find('.sub-option-container').children()
+
+
+            for (const subOption of subOptionContainers) {
+                // console.log($(x).find('input').val())
+				subOptionList.push($(subOption).find('input').val())
+            }
+
+            subOptionListList.push(subOptionList);
+        }
+
+        console.log(subOptionListList)
+
+        combineList = combineSubOptions(subOptionListList);
+    }
+
+
+    function displayCombine(combineList) {
+        for (const combine of combineList) {
+			combine
+			`<div></div>`
+        }
+	}
+</script>
 
 <script>
-    let submitBtn = document.getElementById('submitButton');
-    let form = document.getElementById('form');
-    let productNameInput = document.getElementById('productName');
-    let productIdInput = document.getElementById('productId');
-    let productImgInput = document.getElementById('productImgInput')
-    let productImg = document.getElementById('productImg');
+    let imgPool = document.getElementById('imgPool');
+    let productImgInput = document.getElementById('imgInput');
 
-    let categoryInput = $('#category');
-    let quantityInput = $('#quantityInput')
-
-    let productId = null;
-    let nameCheckStatus = false;
-
-    // 유효성 검사
-
-
-    $(function () {
-        if (${mode.equals('edit')}) {
-            let categoryName = '${product.category.label}';
-            console.log(categoryName)
-
-            categoryInput.find('[value=${product.category.value}]').attr('selected', true)
-            nameCheckStatus = true;
-            let $productName = $('#productName');
-            $productName.attr('readOnly', true)
-            $productName.css('background-color', 'F8F9FA')
-
-            $('#name-preview').text($productName.val())
-            $('#quantity-preview').text('${product.remainQuantity}')
-            $('#category-preview').text(categoryName)
-        }
-    });
-
-
-    // 유효성 검사
-
+    // 이미지 미리보기
     productImgInput.addEventListener('change', function () {
-        const reader = new FileReader();
-        reader.onload = ({ target }) => {
-            productImg.src = target.result;
-        };
-        reader.readAsDataURL(productImgInput.files[0]);
-    });
+        $(imgPool).empty()
 
-
-    // 폼 전송 함수
-    submitBtn.addEventListener('click', function () {
-
-        if (!nameCheckStatus) {
-            alert('아이디 중복 검사를 먼저 해주세요.')
-            return
-        }
-
-        if (Number(categoryInput.val()) === 0) {
-            alert('카테고리를 선택해주세요.')
-            categoryInput.focus()
-            return
-        }
-
-        if (!isDigitNumber(quantityInput.val())) {
-            alert('재고를 입력해 주세요.\n한자리 이상의 정수만 입력 가능합니다.')
-            quantityInput.focus()
-            return
-        }
-
-        if (${mode.equals('post')}) {
-            if (!confirm("등록 하시겠습니까?")) return;
-        } else {
-            if (!confirm("수정 하시겠습니까?")) return;
-        }
-
-        form.submit();
-    });
-
-    $(function () {
-        // 카테고리 미리보기
-        categoryInput.change(function () {
-            let $categoryPreview = $('#category-preview');
-
-            if (Number(categoryInput.val()) === 0) {
-                $categoryPreview.text('')
-            } else {
-                $categoryPreview.text(categoryInput.find('[value=' + categoryInput.val() + ']').text())
-            }
-        });
-
-        $("#productNameCheckBtn").click(function () {
-            let url = "${pageContext.request.contextPath}/product/valid-product-name}";
-            let name = $('#productName')
-
-            // 상품명이 빈 문자열일때 리턴
-            if (name.val().trim() === '') {
-                alert('상품명을 입력해 주세요.')
-                name.focus()
-                return
-            }
-
-            let qs = "name=" + name.val();
-
-            const fn = function (data) {
-                let state = data.state;
-                if (state === true) {
-                    name.attr('readOnly', true);
-                    name.css('background-color', '#F8F9FA')
-
-                    nameCheckStatus = true
-                    $('#name-preview').text(name.val())
-                    alert('사용 가능한 상품명입니다.')
-                } else {
-                    alert('이미 존재하는 상품명입니다.')
-                }
+        for (const file of productImgInput.files) {
+            const reader = new FileReader();
+            reader.onload = ({ target }) => {
+                let img = document.createElement('img');
+                img.src = target.result;
+                imgPool.appendChild(img)
+                // productImg.src = target.result;
             };
-            ajaxFun(url, "post", qs, "json", fn);
-        });
 
-        quantityInput.change(function () {
-            $('#quantity-preview').text(quantityInput.val());
-        });
-
-        function ajaxFun(url, method, query, dataType, fn) {
-            $.ajax({
-                type: method,
-                url: url,
-                data: query,
-                dataType: dataType,
-                success: function (data) {
-                    fn(data);
-                },
-                beforeSend: function (jqXHR) {
-                    jqXHR.setRequestHeader("AJAX", true); // 사용자 정의 헤더
-                },
-                error: function (jqXHR) {
-                    if (jqXHR.status === 403) {
-                        login();
-                        return false;
-                    } else if (jqXHR.status === 400) {
-                        alert("요청 처리가 실패 했습니다.");
-                        return false;
-                    }
-                }
-            });
+            reader.readAsDataURL(file);
         }
     });
+</script>
+
+<script>
+    function combineSubOptions(subOptionIdListList) {
+        let totalSize = 1;
+        for (let i = 0; i < subOptionIdListList.length; i++) {
+            totalSize *= subOptionIdListList[i].length;
+        }
+
+        let resultList = [];
+
+        for (let i = 0; i < totalSize; i++) {
+            let result = [];
+            let temp = i;
+
+            for (let j = 0; j < subOptionIdListList.length; j++) {
+                let subOptionList = subOptionIdListList[j];
+                let index = temp % subOptionList.length;
+                result.push(subOptionList[index]);
+                temp = Math.floor(temp / subOptionList.length);
+            }
+
+            resultList.push(result);
+        }
+        return resultList;
+    }
 </script>
 
 <script>
@@ -464,31 +527,21 @@
         // let tag = $('#formContainer').find(':first').clone()
         let tag =
             `
-<!--			<div class="form-object">-->
-<!--				<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>-->
-<!--				<input style="flex: 1" type="text" name="schoolName" placeholder="학교명을 입력하세요.">-->
-<!--				<input style="flex: 1" type="date" name="schoolDate1">-->
-<!--				<input style="flex: 1" type="date" name="schoolDate2">-->
-<!--			</div>-->
-				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-bottom: 7px;"></div>
-
-				<div class="flex-col" style="width: 100%; align-items: end">
+				<div class="flex-col main-option" style="width: 100%; align-items: end">
 					<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
 						<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
 						<input style=" padding: 10px 10px; " class="form-control" type="text" name="schoolName" placeholder="상위 옵션명">
 					</div>
-					<div class="flex-col" style="width: 95%; text-align: right; justify-content: center">
-						<div id="qualificationsFormContainer" style="" class="form-box">
-							<div class="form-object" style="width: 100%">
-								<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
-								<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
-							</div>
+					<div class="flex-col sub-option-container" style="width: 95%; text-align: right; justify-content: center">
+						<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
+							<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
+							<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
 						</div>
 					</div>
 				</div>
 			`
 
-        addBtn(tag, $('#formContainer'))
+        addBtn(tag, $('.option-container'))
     });
 
     // addQualificationBtn.addEventListener('click', function () {
@@ -496,13 +549,8 @@
         // let tag = $('#qualificationsFormContainer').find(':first').clone()
         let tag =
             `
-<!--			<div class="form-object">-->
-<!--				<input style="flex: 1" type="text" name="licenseName" placeholder="자격증 명을 입력하세요.">-->
-<!--				<input style="flex: 1" type="date" name="licenseDate">-->
-<!--				<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>-->
-<!--			</div>-->
-				<div class="form-object" style="width: 100%">
-					<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
+				<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
+					<i class="bi bi-dash-square-fill remove-btn" onclick="deleteSubObject(this)"></i>
 					<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" name="licenseName" placeholder="하위 옵션명">
 				</div>
 			`
@@ -520,10 +568,22 @@
 
     function deleteObject(obj) {
         console.log('삭제')
-        let formBox = $(obj).closest('.form-box')
+        // let formBox = $(obj).closest('.form-box')
         // let cnt = formBox.children().length
 
         $(obj).parent().parent().remove()
+
+        // if (cnt === 2) {
+        //     formBox.find(':first').children('i').remove()
+        // }
+    }
+
+    function deleteSubObject(obj) {
+        console.log('삭제')
+        // let formBox = $(obj).closest('.form-box')
+        // let cnt = formBox.children().length
+
+        $(obj).parent().remove()
 
         // if (cnt === 2) {
         //     formBox.find(':first').children('i').remove()

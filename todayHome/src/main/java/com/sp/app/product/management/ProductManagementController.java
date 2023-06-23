@@ -24,16 +24,17 @@ public class ProductManagementController {
 	public String addProductForm(Model model) {
 		// 임시 셀러 아이디
 		model.addAttribute("sellerId", 1L);
+		model.addAttribute("mode", "post");
+
 		return "seller/product/add-product-form";
 	}
 
-	@PostMapping("product")
+	@PostMapping("post-product")
 	public String addProductSubmit(@ModelAttribute Product product) {
 
+		System.out.println(product);
 
-
-
-		return "seller/product/add-product-form";
+		return "redirect:/home";
 	}
 
 }

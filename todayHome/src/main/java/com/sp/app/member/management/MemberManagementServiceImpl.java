@@ -40,6 +40,14 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 	public void insertMember(Member member) throws Exception {
 		
 		
+		try {
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -50,7 +58,7 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 
 	@Override
 	public void insertMemberAll(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

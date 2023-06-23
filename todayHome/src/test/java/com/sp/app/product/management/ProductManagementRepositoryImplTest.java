@@ -356,7 +356,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getOptionMapByStockId() throws Exception {
-		Long stockId = 21L;
+		Long stockId = 42L;
 
 		List<OptionMap> optionMap = productManagementRepository.getOptionMapByStockId(stockId);
 

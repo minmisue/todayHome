@@ -213,19 +213,21 @@
 
         .stock-object {
 			/*flex: 1;*/
+			line-height: 30px;
 			width: 150px;
         }
 
         .stock-input-container {
+			margin-top: 20px;
 			justify-content: space-between;
 			align-items: center;
 			text-align: center;
-			height: 60px;
         }
 
         .stock-input {
 
         }
+
 	</style>
 
 <body>
@@ -375,48 +377,56 @@
 				<div style="margin-top: 35px;">옵션별 재고 설정</div>
 
 				<div class="stock-container">
-					<div class="flex-row stock-input-container">
-						<div class="flex-row">
-							<div class="stock-object">메인옵션 이름1</div>
-							<div class="stock-object">메인옵션 이름2</div>
-							<div class="stock-object">메인옵션 이름3</div>
-						</div>
-						<div class="flex-row">
-							<div class="stock-object">가격</div>
-							<div class="stock-object">재고</div>
-						</div>
-					</div>
-					<div class="flex-row stock-input-container">
-						<div class="flex-row">
-							<div class="stock-object">이름1</div>
-							<div class="stock-object">이름2</div>
-							<div class="stock-object">이름3</div>
-						</div>
-							<div class="flex-row">
-							<div class="stock-object stock-input">
-								<input type="text" name="stockPrice" style="width: 120px; height: 40px">
-							</div>
-							<div class="stock-object stock-input">
-								<input type="text" name="stockQuantity" style="width: 120px; height: 40px">
-							</div>
-						</div>
+<%--					<div class="flex-row stock-input-container">--%>
+<%--						<div class="flex-row">--%>
+<%--							<div class="stock-object">메인옵션 이름1</div>--%>
+<%--							<div class="stock-object">메인옵션 이름2</div>--%>
+<%--							<div class="stock-object">메인옵션 이름3</div>--%>
+<%--						</div>--%>
+<%--						<div class="flex-row" style="gap: 5px">--%>
+<%--							<div class="stock-object" style="width: 120px;">가격</div>--%>
+<%--							<div class="stock-object" style="width: 120px;">재고</div>--%>
+<%--						</div>--%>
+<%--					</div>--%>
+
+
+<%--					<div class="flex-row stock-input-container">--%>
+<%--						&lt;%&ndash; 옵션명 &ndash;%&gt;--%>
+<%--						<div class="flex-col " style="gap: 10px">--%>
+<%--							<div class="flex-row">--%>
+<%--								<div class="stock-object">이름1</div>--%>
+<%--								<div class="stock-object">이름2</div>--%>
+<%--								<div class="stock-object">이름3</div>--%>
+<%--							</div>--%>
+<%--							<div class="flex-row">--%>
+<%--								<div class="stock-object">이름1</div>--%>
+<%--								<div class="stock-object">이름2</div>--%>
+<%--								<div class="stock-object">이름3</div>--%>
+<%--							</div>--%>
+<%--						</div>--%>
+
+<%--						&lt;%&ndash; 재고 정보 &ndash;%&gt;--%>
+<%--						<div class="flex-col " style="gap: 10px">--%>
+<%--							<div class="flex-row" style="gap: 5px">--%>
+<%--								<div class="stock-input">--%>
+<%--									<input type="text" name="stockPrice" style="width: 120px; height: 30px">--%>
+<%--								</div>--%>
+<%--								<div class="stock-input">--%>
+<%--									<input type="text" name="stockQuantity" style="width: 120px; height: 30px">--%>
+<%--								</div>--%>
+<%--							</div>--%>
+
+<%--							<div class="flex-row" style="gap: 5px">--%>
+<%--								<div class="stock-input">--%>
+<%--									<input type="text" name="stockPrice" style="width: 120px; height: 30px">--%>
+<%--								</div>--%>
+<%--								<div class="stock-input">--%>
+<%--									<input type="text" name="stockQuantity" style="width: 120px; height: 30px">--%>
+<%--								</div>--%>
+<%--							</div>--%>
+<%--						</div>--%>
 					</div>
 
-					<div class="flex-row stock-input-container">
-						<div class="flex-row">
-							<div class="stock-object">이름1</div>
-							<div class="stock-object">이름2</div>
-							<div class="stock-object">이름3</div>
-						</div>
-						<div class="flex-row">
-							<div class="stock-object stock-input">
-								<input type="text" name="stockPrice" style="width: 120px; height: 40px">
-							</div>
-							<div class="stock-object stock-input">
-								<input type="text" name="stockQuantity" style="width: 120px; height: 40px">
-							</div>
-						</div>
-					</div>
 				</div>
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
@@ -436,7 +446,9 @@
 
 <script>
 	let combineList = []
+	let mainOptionList = []
 
+	// 옵션 경우의 수 생성
     function generateOptionCombine() {
         let mainOptionContainer = $('.option-container').children();
 		let subOptionListList = [];
@@ -446,12 +458,11 @@
             let subOptionList = [];
             console.log($(x).children().first().find('input').val())
 
+			mainOptionList.push($(x).children().first().find('input').val())
 
             let subOptionContainers = $(x).find('.sub-option-container').children()
 
-
             for (const subOption of subOptionContainers) {
-                // console.log($(x).find('input').val())
 				subOptionList.push($(subOption).find('input').val())
             }
 
@@ -459,16 +470,44 @@
         }
 
         console.log(subOptionListList)
-
         combineList = combineSubOptions(subOptionListList);
+
+        console.log(mainOptionList)
+
+        displayCombine()
+
     }
 
 
     function displayCombine(combineList) {
-        for (const combine of combineList) {
-			combine
-			`<div></div>`
+        let stockContainer = $('.stock-container');
+
+        let generatedSubjectMenu
+
+        for (const x of mainOptionList) {
+			generatedSubjectMenu += '<div class="stock-object">' + x + '</div>'
         }
+        
+        let subject =
+			`
+				<div class="flex-row stock-input-container">
+					<div class="flex-row">` +
+						generatedSubjectMenu
+						+
+					`</div>
+					<div class="flex-row" style="gap: 5px">
+						<div class="stock-object" style="width: 120px;">가격</div>
+						<div class="stock-object" style="width: 120px;">재고</div>
+					</div>
+				</div>
+			`
+        console.log(subject)
+		stockContainer.append(subject)
+
+        // for (const combine of combineList) {
+		// 	combine
+		//
+        // }
 	}
 </script>
 
@@ -519,6 +558,7 @@
         return resultList;
     }
 </script>
+
 
 <script>
     let addMainOptionBtn = document.getElementById('addSchoolName');

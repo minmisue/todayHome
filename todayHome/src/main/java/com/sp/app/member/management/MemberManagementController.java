@@ -47,7 +47,7 @@ public class MemberManagementController {
 		
 	 session.invalidate();
 	 
-	 return "redirect:/";
+	 return "redirect:/";   
 	 
 	}
 

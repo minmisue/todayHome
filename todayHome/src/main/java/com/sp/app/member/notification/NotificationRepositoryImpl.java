@@ -16,8 +16,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	CommonDAO commonDAO;
 	
 	@Override
-	public void createNotification(Notification notification) throws Exception {
-		commonDAO.insertData("notification.createNotification",notification);
+	public void insertNotification(Notification notification) throws Exception {
+		commonDAO.insertData("notification.insertNotification",notification);
 	}
 
 	@Override

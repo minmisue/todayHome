@@ -75,11 +75,6 @@ public class HomeController {
 	public String paymentForm() {
 		return "payment/payment-page";
 	}
-
-	@GetMapping("login")
-	public String member() {
-		return "member/login";
-	}
 	
 	@GetMapping("member/new")
 	public String newMember() {

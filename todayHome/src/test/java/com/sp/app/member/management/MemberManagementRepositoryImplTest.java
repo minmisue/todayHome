@@ -149,7 +149,5 @@ public class MemberManagementRepositoryImplTest {
 		Long memberId = 62L;
 		Member member = new Member(memberId, "12","34","56");
 		memberManagementRepository.updateAddress(member);
-
-
 	}
 }

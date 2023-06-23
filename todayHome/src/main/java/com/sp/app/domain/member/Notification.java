@@ -11,8 +11,15 @@ public class Notification {
 	private String parameter2;
 	private String parameter3;
 
+	
 
 	
+	@Override
+	public String toString() {
+		return "Notification [notificationId=" + notificationId + ", memberId=" + memberId + ", type=" + type
+				+ ", message=" + message + ", regDate=" + regDate + ", isRead=" + isRead + ", parameter1=" + parameter1
+				+ ", parameter2=" + parameter2 + ", parameter3=" + parameter3 + "]";
+	}
 	public Long getNotificationId() {
 		return notificationId;
 	}
@@ -66,9 +73,16 @@ public class Notification {
 	}
 	public void setParameter3(String parameter3) {
 		this.parameter3 = parameter3;
-	}
+	}	
 
-	public Notification(Long memberId, int type, String message, String parameter1, String parameter2, String parameter3) {
+	public Notification() {
+		
+	}
+	
+	public Notification(Long notificationId, Long memberId, int type, String message, String parameter1,
+			String parameter2, String parameter3) {
+	
+		this.notificationId = notificationId;
 		this.memberId = memberId;
 		this.type = type;
 		this.message = message;
@@ -76,7 +90,8 @@ public class Notification {
 		this.parameter2 = parameter2;
 		this.parameter3 = parameter3;
 	}
-
+	
+	
 	public Notification(Long notificationId) {
 		this.notificationId = notificationId;
 	}

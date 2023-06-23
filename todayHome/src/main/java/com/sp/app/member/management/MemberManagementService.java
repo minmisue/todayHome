@@ -26,4 +26,6 @@ public interface MemberManagementService {
 	Member updateAddress(Member member) throws Exception;
 
 	void insertAddress(Member member) throws Exception;
+	
+	Member login(String email, String password);
 }

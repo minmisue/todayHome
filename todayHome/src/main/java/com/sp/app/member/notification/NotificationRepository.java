@@ -6,7 +6,7 @@ import com.sp.app.domain.member.Notification;
 
 public interface NotificationRepository {
 	
-	void createNotification(Notification notification) throws Exception;
+	void insertNotification(Notification notification) throws Exception;
 	int updateNotification(Notification notification) throws Exception;
 	void deleteNotification(Notification notification) throws Exception;
 	List<Notification> getNotReadNotificationList(Long memberId) throws Exception;

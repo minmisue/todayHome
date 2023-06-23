@@ -11,7 +11,7 @@ public interface EventBoardService {
 	
 	void deleteEventBoard(Long eventBoardId) throws Exception;
 	
-	List<EventBoard> getAllEventBoard();
+	List<EventBoard> getAllEventBoard() throws Exception;
 	
 	EventBoard getEventBoardById(Long eventBoardId) throws Exception;
 }

@@ -1,18 +1,42 @@
 package com.sp.app.domain.board;
 
-import java.util.List;
-
 public class EventBoard {
 	private Long eventBoardId;
 	private Long memberId;
 	private String startDate;
 	private String endDate;
 	private String title;
+	private String content;
 	private String winningDate;
 	private String winnerNumber;
-	private int showEvent;
+	private int showEvent;	
+	private String regDate;
+	private String eventImg;
 	
-	private List<String> eventImgList;
+	
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getEventImg() {
+		return eventImg;
+	}
+
+	public void setEventImg(String eventImg) {
+		this.eventImg = eventImg;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
 
 	public Long getEventBoardId() {
 		return eventBoardId;
@@ -78,14 +102,5 @@ public class EventBoard {
 		this.showEvent = showEvent;
 	}
 
-	public List<String> getEventImgList() {
-		return eventImgList;
-	}
-
-	public void setEventImgList(List<String> eventImgList) {
-		this.eventImgList = eventImgList;
-	}
-
-	
 	
 }

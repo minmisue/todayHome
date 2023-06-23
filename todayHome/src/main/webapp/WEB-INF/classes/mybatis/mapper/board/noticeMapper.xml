@@ -4,7 +4,7 @@
 <mapper namespace="noticeboard">
 	<insert id="insertNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">
 		INSERT INTO notice_board(notice_board_id, member_id, created_date, subject, content, hit_count, notice)
-		VALUES (seq_notice_board.NEXTVAL, #{memberId}, #{createdDate}, #{subject}, #{content}, 0, 1)
+		VALUES (seq_notice_board.NEXTVAL, #{memberId}, SYSDATE, #{subject}, #{content}, 0, 1)
 	</insert>
 	
 	<update id="updateNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">

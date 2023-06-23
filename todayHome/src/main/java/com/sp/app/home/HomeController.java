@@ -115,11 +115,6 @@ public class HomeController {
 		return "mypage/all-view";
 	}
 	
-	@GetMapping("mypage/notice")
-	public String myPageNotice() {
-		return "mypage/notice-board";
-	}
-
 	@GetMapping("mypage/alert")
 	public String myPageAlert() {
 		return "mypage/my-alert";
@@ -133,6 +128,11 @@ public class HomeController {
 	@GetMapping("event/detail")
 	public String eventDetail() {
 		return "event/event-detail";
+	}
+	
+	@GetMapping("event/write")
+	public String eventWrite() {
+		return "event/event-write";
 	}
 	
 	@GetMapping("customerCenter")

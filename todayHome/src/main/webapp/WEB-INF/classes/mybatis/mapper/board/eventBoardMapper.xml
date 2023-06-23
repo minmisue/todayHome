@@ -3,7 +3,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="eventboard">
 	<insert id="insertEventBoard" parameterType="com.sp.app.domain.board.EventBoard">
-		INSERT INTO event_board(event_board_id, member_id, start_date, end_date, title, winning_date, winner_number, show_event)
-		VALEUS (seq_event_board.NEXTVAL, #{memberId}, #{startDate}, #{endDate}, #{title}, #{winningDate}, 0, #{showEvent})
+		INSERT INTO event_board(event_board_id, member_id, start_date, end_date, title, content, winning_date, winner_number, show_event, event_img)
+		VALEUS (seq_event_board.NEXTVAL, #{memberId}, #{startDate}, #{endDate}, #{title}, #{content}, #{winningDate}, 0, #{showEvent}, #{eventImg})
 	</insert>
+	
+	<update id="updateEventBoard" parameterType="com.sp.app.domain.board.EventBoard">
+		UPDATE event_board
+		SET start_date = #{startDate}, end_date = #{endDate}, title = #{title}, content = #{content}, winning_date = #{winningDate}, winner_number = #{winnerNumber), show_event = #{showEvent}, event_img = #{eventImg}
+		WHERE event_board_id = #{eventBoardId}
+	</update>
+	
+	<delete id="deleteEventBoard" parameterType="Long">
+		DELETE FROM event_board
+		WHERE event_board_id = #{eventBoardId}
+	</delete>
+	
+	<select id="getAllEventBoard" resultType="com.sp.app.domain.board.EventBoard">
+		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number winnerNumber, show_event as showEvent, event_img as eventImg
+		FROM event_board
+		WHERE show_event = 1
+	</select>
+	
+	<select id="getEventBoardById" parameterType="Long" resultType="com.sp.app.domain.board.EventBoard">
+		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number winnerNumber, show_event as showEvent, event_img as eventImg
+		FROM event_board
+		WHERE event_board_id = #{eventBoardId}
+	</select>
 </mapper>

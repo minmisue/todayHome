@@ -9,6 +9,10 @@ public class NoticeBoard {
 	private int hitCount;
 	private int notice;
 	
+	public NoticeBoard() {
+		
+	}
+	
 	public Long getNoticeBoardId() {
 		return noticeBoardId;
 	}

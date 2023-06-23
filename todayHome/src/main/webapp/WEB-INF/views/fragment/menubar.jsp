@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <style>
     .my-page-item {
@@ -77,8 +78,10 @@
             </div>
 
             <%-- 로그인 --%>
-            <i class="bi bi-bookmark menubar-icon"></i>
-            <i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/mypage/alert'"></i>
+			<c:if test="${sessionScope.sessionInfo.userRole == 1 && not empty sessionScope.sessionInfo}">
+				<i class="bi bi-bookmark menubar-icon"></i>
+				<i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/mypage/alert'"></i>
+			</c:if>
             <%--            --%>
 
             <div style="position: relative">
@@ -91,28 +94,30 @@
             </div>
 
             <%-- 로그인 --%>
+			<c:if test="${sessionScope.sessionInfo.userRole == 1 || not empty sessionScope.sessionInfo}">
+				<div class="btn-group" role="group">
+					<img class="menubar-profile-img dropdown-toggle" src="${pageContext.request.contextPath}/resources/picture/default-profile.png" onclick="location.href='#'"
+						 data-bs-toggle="dropdown"
+						 aria-expanded="false">
 
-            <div class="btn-group" role="group">
-                <img class="menubar-profile-img dropdown-toggle" src="${pageContext.request.contextPath}/resources/picture/default-profile.png" onclick="location.href='#'"
-                     data-bs-toggle="dropdown"
-                     aria-expanded="false">
-
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/all">마이페이지</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/production-review/write">나의 쇼핑</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/picture/write">판매자 신청</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/notice">고객센터</a></li>
-                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/picture/write">로그아웃</a></li>
-                </ul>
-            </div>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/all">마이페이지</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/production-review/write">나의 쇼핑</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/picture/write">판매자 신청</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/notice">고객센터</a></li>
+						<li><a class="dropdown-item" href="javascript:void(0)" onclick="logout()" >로그아웃</a></li>
+					</ul>
+				</div>
+			</c:if>
             <%----%>
 
 <%--            로그인 아닐시--%>
-<%--            <div class="menubar-text">로그인</div>--%>
-<%--            <div class="menubar-text">회원가입</div>--%>
-<%--            <div class="menubar-text">고객센터</div>--%>
-<%--            --%>
+			<c:if test="${sessionScope.sessionInfo.userRole == 0 || empty sessionScope.sessionInfo}">
+				<div class="menubar-text"><a style="text-decoration: none; color: black" href="${pageContext.request.contextPath}/login">로그인</a></div>
+				<div class="menubar-text"><a style="text-decoration: none; color: black" href="${pageContext.request.contextPath}/join">회원가입</a></div>
+				<div class="menubar-text"><a style="text-decoration: none; color: black" href="${pageContext.request.contextPath}/login">고객센터</a></div>
+			</c:if>
 
             <div class="btn-group" role="group">
                 <button type="button" class="btn dropdown-toggle write-btn" data-bs-toggle="dropdown"
@@ -203,3 +208,14 @@
 	</div>
 
 </header>
+
+<script>
+    function logout(){
+        let f = document.createElement('form');
+        f.setAttribute('method', 'post');
+        f.setAttribute('action', '${pageContext.request.contextPath}' + '/logout')
+
+        document.body.appendChild(f);
+        f.submit();
+    }
+</script>

@@ -450,8 +450,8 @@ public class ProductManagementRepositoryImplTest {
 
 		for (Long option1 : subOptionIdList1) {
 			for (Long option2 : subOptionIdList2) {
-				// 10개의 숫자 출력 예시
-				int randomNumber = ThreadLocalRandom.current().nextInt(10, 361) * 100;
+				// 랜덤 숫자
+				int randomNumber = ThreadLocalRandom.current().nextInt(10, 500) * 100;
 
 				ProductStock stock = new ProductStock(randomNumber, quantity, option1, option2);
 				productManagementRepository.insertStock(stock);
@@ -463,7 +463,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getStockListByProductId() throws Exception {
-		Long productId = 247L;
+		Long productId = 268L;
 
 		List<ProductStock> stockList = productManagementRepository.getStockListByProductId(productId);
 

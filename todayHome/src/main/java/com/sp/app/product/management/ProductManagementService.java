@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface ProductManagementService {
 
-	void createProduct(Product product) throws Exception;
+	void createProduct(Product product, List<String> mainOptionName, String[][] subOptionName, List<Integer> stockPriceList, List<Integer> stockQuantityList);
 
 	void insertProductImg(Map<String, Object> imgMap) throws Exception;
 

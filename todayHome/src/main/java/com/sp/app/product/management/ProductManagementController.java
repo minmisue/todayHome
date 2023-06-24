@@ -1,14 +1,16 @@
 package com.sp.app.product.management;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.domain.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("seller")
@@ -30,11 +32,45 @@ public class ProductManagementController {
 	}
 
 	@PostMapping("post-product")
-	public String addProductSubmit(@ModelAttribute Product product) {
+	public String addProductSubmit(
+			@ModelAttribute Product product,
+			@RequestParam List<String> mainOptionName,
+			@RequestParam String subOptionName,
+			@RequestParam List<Integer> stockPrice,
+			@RequestParam List<Integer> stockQuantity
+	) {
 
-		System.out.println(product);
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		System.out.println("product = " + product);
+		System.out.println("mainOptionName = " + mainOptionName);
+		System.out.println("subOptionName = " + subOptionName);
+		System.out.println("stockPrice = " + stockPrice);
+		System.out.println("stockQuantity = " + stockQuantity);
+		String[][] readSubNamesList;
+
+		try {
+			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+		for (String[] subNames : readSubNamesList) {
+			for (String subName : subNames) {
+				System.out.print(subName + " ");
+			}
+			System.out.println();
+		}
+
+		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
 
 		return "redirect:/home";
 	}
 
+	@PostMapping("get-map-test")
+	@ResponseBody
+	public String test(@RequestBody List<Object> map) {
+		System.out.println(map);
+		return "ok";
+	}
 }

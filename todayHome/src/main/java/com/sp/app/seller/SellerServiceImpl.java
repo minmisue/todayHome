@@ -89,6 +89,7 @@ public class SellerServiceImpl implements SellerService {
 	    return count;
 	}
 
+	
 	@Override
 	public Seller getSellerBySellerId(Long sellerId) throws Exception {
 		Seller seller = null;
@@ -99,6 +100,6 @@ public class SellerServiceImpl implements SellerService {
 			e.printStackTrace();
 			throw e;
 		}
-		return seller;
+		return seller; 
 	}
 }

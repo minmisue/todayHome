@@ -95,7 +95,6 @@
   		 representative_name AS representativeName,presentation,
   		 accumulated_amount AS accumulatedAmount, to_char(reg_date, 'YYYY-MM-DD') AS regDate
   		From seller
-  		WHERE seller_id=#{seller_id}
-	
+  		WHERE seller_id=#{seller_id}	
 	</select>
 </mapper>

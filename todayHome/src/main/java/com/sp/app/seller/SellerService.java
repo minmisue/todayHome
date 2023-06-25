@@ -1,6 +1,6 @@
 package com.sp.app.seller;
 
-import java.util.List;
+import java.util.List; 
 import java.util.Map;
 
 import com.sp.app.domain.seller.Seller;

@@ -52,7 +52,7 @@ public class SellerRepositoryImpl implements SellerRepository{
 	@Override
 	public Seller getSellerBySellerId(Long sellerId) throws Exception {
 		return commonDAO.selectOne("seller.getSellerBySellerId", sellerId);
-		
+		 
 		
 	}
 }

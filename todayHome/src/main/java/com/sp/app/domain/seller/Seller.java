@@ -57,7 +57,9 @@ public class Seller {
 	public Seller(Long sellerId, String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate,int status) {
 
 	}
-	
+	public Seller(String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate) {
+
+	}
 
 	public Long getSellerId() {
 		return sellerId;

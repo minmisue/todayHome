@@ -65,11 +65,6 @@ public class HomeController {
 		return "community/houseWarming/house-warming-list";
 	}
 
-	@GetMapping("cart/list")
-	public String houseWarmingList() {
-		return "cart/cart-list";
-	}
-
 	@GetMapping("payment")
 	public String paymentForm() {
 		return "payment/payment-page";

@@ -682,6 +682,9 @@
 	}
 
     function deleteObject(obj) {
+		if (!confirm('해당 옵션을 삭제합니다.')) {
+            return
+		}
         console.log('삭제')
         // let formBox = $(obj).closest('.form-box')
         // let cnt = formBox.children().length
@@ -693,7 +696,12 @@
         // }
     }
 
+
     function deleteSubObject(obj) {
+
+        if (!confirm('해당 옵션을 삭제합니다.')) {
+            return
+        }
         console.log('삭제')
         // let formBox = $(obj).closest('.form-box')
         // let cnt = formBox.children().length

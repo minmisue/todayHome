@@ -215,87 +215,139 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void insertProductImg(Map<String, Object> imgMap) throws Exception {
-
+	public void insertProductImg(Long productId, ProductImg productImg) {
+		try {
+			productManagementRepository.insertProductImg(productId, productImg);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public Product getProductById(Long productId) throws Exception {
-		return null;
+	public Product getProductById(Long productId) {
+		try {
+			return productManagementRepository.getProductById(productId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public List<ProductImg> getProductImgList(Long productId) throws Exception {
-		return null;
+	public List<ProductImg> getProductImgList(Long productId) {
+		try {
+			return productManagementRepository.getProductImgList(productId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public void increaseImgSequences(Map<String, Object> map) throws Exception {
-
+	public void increaseImgSequences(Long productId, int sequence) throws Exception {
+		productManagementRepository.increaseImgSequences(productId, sequence);
 	}
 
 	@Override
 	public List<Product> getAllProducts() {
-		return null;
+		return productManagementRepository.getAllProducts();
 	}
 
 	@Override
 	public List<Product> getProductsByCategory(Long categoryId) {
-		return null;
+		return productManagementRepository.getProductsByCategory(categoryId);
 	}
 
 	@Override
 	public List<Product> getProductsByKeyword(String keyword) {
-		return null;
+		return productManagementRepository.getProductsByKeyword(keyword);
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-
+		productManagementRepository.updateProduct(product);
 	}
 
 	@Override
 	public void deleteProduct(Long productId) {
-
+		productManagementRepository.deleteProduct(productId);
 	}
 
 	@Override
 	public void insertScrapProduct(Long memberId, Long productId) throws Exception {
-
+		productManagementRepository.insertScrapProduct(memberId, productId);
 	}
 
 	@Override
 	public void deleteScrapProduct(Long memberId, Long productId) throws Exception {
-
+		productManagementRepository.deleteScrapProduct(memberId, productId);
 	}
 
 	@Override
 	public int isScrapProduct(Long memberId, Long productId) throws Exception {
-		return 0;
+		return productManagementRepository.isScrapProduct(memberId, productId);
 	}
 
 	@Override
 	public ProductMainOption getOptionsById(Long productId) {
-		return null;
+		return productManagementRepository.getOptionsById(productId);
 	}
 
 	@Override
 	public ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception {
-		return null;
+		return productManagementRepository.getMainOptionByParentId(productId, parentOptionId);
 	}
 
 	@Override
 	public List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception {
-		return null;
+		return productManagementRepository.getSubOptionsByMainOptionId(mainOptionId);
 	}
 
 	@Override
 	public List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception {
-		return null;
+		return productManagementRepository.getStockBySubOptionId(subOptionId);
 	}
 
 	@Override
 	public List<Product> findProductByCategory(Long categoryId) throws Exception {
-		return null;
+		return productManagementRepository.findProductByCategory(categoryId);
+	}
+
+	@Override
+	public Long getMainOptionSeq() throws Exception {
+		return productManagementRepository.getMainOptionSeq();
+	}
+
+	@Override
+	public Long getProductSeq() throws Exception {
+		return productManagementRepository.getProductSeq();
+	}
+
+	@Override
+	public int getMainOptionCnt(Long productId) throws Exception {
+		return productManagementRepository.getMainOptionCnt(productId);
+	}
+
+	@Override
+	public List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception {
+		return productManagementRepository.getOptionMapByStockId(stockId);
+	}
+
+	@Override
+	public void insertMainOption(ProductMainOption productMainOption) throws Exception {
+		productManagementRepository.insertMainOption(productMainOption);
+	}
+
+	@Override
+	public void insertSubOption(ProductSubOption productSubOption) throws Exception {
+		productManagementRepository.insertSubOption(productSubOption);
+	}
+
+	@Override
+	public void insertStock(ProductStock productStock) throws Exception {
+		productManagementRepository.insertStock(productStock);
+	}
+
+	@Override
+	public List<ProductStock> getStockListByProductId(Long productId) throws Exception {
+		return productManagementRepository.getStockListByProductId(productId);
 	}
 }

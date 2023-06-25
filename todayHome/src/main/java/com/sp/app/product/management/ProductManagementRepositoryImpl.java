@@ -41,7 +41,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public void increaseImgSequences(Map<String, Object> map) throws Exception {
+	public void increaseImgSequences(Long productId, int sequence) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("sequence", sequence);
+
 		commonDAO.updateData("productManagement.increaseImgSequences", map);
 	}
 

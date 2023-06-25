@@ -90,13 +90,13 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void getProductById() throws Exception {
 		// 주어진 값
-		Long productId = 161L;
+		Long productId = 268L;
 
 		// 테스트 할 메소드
 		Product result = productManagementRepository.getProductById(productId);
 
 		// 결과
-//		log.info("result = {}", result);
+		System.out.println(result);
 	}
 
 	@Test
@@ -120,11 +120,7 @@ public class ProductManagementRepositoryImplTest {
 		int sequence = 2;
 
 		// 테스트 할 메소드
-		Map<String, Object> map = new HashMap<>();
-		map.put("productId", productId);
-		map.put("sequence", sequence);
-
-		productManagementRepository.increaseImgSequences(map);
+		productManagementRepository.increaseImgSequences(productId, sequence);
 
 		// 결과
 		List<ProductImg> productImgList = productManagementRepository.getProductImgList(productId);

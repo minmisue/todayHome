@@ -9,17 +9,17 @@ public interface ProductManagementService {
 
 	void createProduct(Product product, List<String> mainOptionName, String[][] subOptionName, List<Integer> stockPriceList, List<Integer> stockQuantityList);
 
-	void insertProductImg(Map<String, Object> imgMap) throws Exception;
+	void insertProductImg(Long productId, ProductImg productImg);
 
-	Product getProductById(Long productId) throws Exception;
+	Product getProductById(Long productId);
 
-	List<ProductImg> getProductImgList(Long productId) throws Exception;
+	List<ProductImg> getProductImgList(Long productId);
 
 	/**
 	 * n 번째 보다 크거나 같은 시퀀스를 모두 1씩 증가시킴
-	 * @param map      기준 sequence 값, 변경 할 productId
+	 * 기준 sequence 값, 변경 할 productId
 	 */
-	void increaseImgSequences(Map<String, Object> map) throws Exception;
+	void increaseImgSequences(Long productId, int sequence) throws Exception;
 
 	List<Product> getAllProducts();
 
@@ -47,4 +47,21 @@ public interface ProductManagementService {
 	List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception;
 
 	List<Product> findProductByCategory(Long categoryId) throws Exception;
+
+	Long getMainOptionSeq() throws Exception;
+
+	Long getProductSeq() throws Exception;
+
+	int getMainOptionCnt(Long productId) throws Exception;
+
+	List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception;
+
+	void insertMainOption(ProductMainOption productMainOption) throws Exception;
+
+	void insertSubOption(ProductSubOption productSubOption) throws Exception;
+
+	void insertStock(ProductStock productStock) throws Exception;
+
+	// stock 리스트 반환
+	List<ProductStock> getStockListByProductId(Long productId) throws Exception;
 }

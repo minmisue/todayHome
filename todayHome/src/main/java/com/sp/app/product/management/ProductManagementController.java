@@ -3,6 +3,7 @@ package com.sp.app.product.management;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.domain.product.Product;
+import com.sp.app.seller.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,12 @@ import java.util.Map;
 @RequestMapping("seller")
 public class ProductManagementController {
 
-	private final ProductManagementService productManagementService;
+	@Autowired
+	private ProductManagementService productManagementService;
 
-	public ProductManagementController(ProductManagementService productManagementService) {
-		this.productManagementService = productManagementService;
-	}
+	@Autowired
+	private SellerService sellerService;
+
 
 	@GetMapping("product")
 	public String addProductForm(Model model) {
@@ -72,5 +74,16 @@ public class ProductManagementController {
 	public String test(@RequestBody List<Object> map) {
 		System.out.println(map);
 		return "ok";
+	}
+
+	@GetMapping("product/{productId}")
+	public String productDetail(@PathVariable Long productId, Model model) {
+
+		Product product = productManagementService.getProductById(productId);
+		Long sellerId = product.getSellerId();
+
+
+		model.addAttribute("product", product);
+		return "shop/product-detail";
 	}
 }

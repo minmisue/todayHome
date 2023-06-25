@@ -20,7 +20,7 @@ public interface ProductManagementRepository {
 	 * n 번째 보다 크거나 같은 시퀀스를 모두 1씩 증가시킴
 	 * @param map      기준 sequence 값, 변경 할 productId
 	 */
-	void increaseImgSequences(Map<String, Object> map) throws Exception;
+	void increaseImgSequences(Long productId, int sequence) throws Exception;
 
 	List<Product> getAllProducts();
 

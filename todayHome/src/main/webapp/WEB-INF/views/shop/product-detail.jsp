@@ -292,7 +292,7 @@
 			</div>
 
 			<div class="flex-row" style="justify-content: space-between">
-				<button class="cart-btn">장바구니</button>
+				<button class="cart-btn" id="addCartBtn">장바구니</button>
 				<button class="direct-purchase-btn" onclick="getSelectedOption()">바로구매</button>
 			</div>
 		</div>
@@ -354,7 +354,7 @@
 
 					<div class="flex-row">
 						<div class="bookmark-icon"><i class="bi bi-bookmark"></i></div>
-						<button class="cart-btn">장바구니</button>
+						<button class="cart-btn" onclick="getAllSelectedOptions()">장바구니</button>
 						<button class="direct-purchase-btn">바로구매</button>
 					</div>
 				</div>
@@ -505,6 +505,7 @@
 			+ `
 				</div>
 					<div class="flex-row" style="margin-top: 12px; align-items: end; justify-content: space-between">
+						<input type="hidden" class="stock-id" value="`+ stock.stockId +`">
 						<div class="edit-quantity-container" style="display: flex; flex-direction: row; align-items: center" id="quantityBundle">
 							<i class="bi bi-dash-lg btnChange minus" onclick="$.clickChangeBtn(this, ` + stock.stockId + `)"></i>
 							<div class="option-quantity" style="width: 40px; text-align: center" >1</div>
@@ -554,6 +555,74 @@
             optionPrice.text(changeNum * price)
         }
     };
+
+</script>
+
+
+<script>
+    function getAllSelectedOptions() {
+        let selectedOptions = $('.selected-option-container').children();
+        let result = []
+
+        for (const option of selectedOptions) {
+			let stockId = $(option).find('.stock-id').val();
+            let quantity = $(option).find('.option-quantity').text();
+			result.push([stockId, quantity])
+            // console.log('stockId = ' + stockId + ' quantity = ' + quantity);
+        }
+
+        return result
+    }
+
+
+
+	// 장바구니
+    $("#addCartBtn").click(function () {
+        if (${empty sessionScope.sessionInfo}) {
+            if (confirm("로그인이 필요한 서비스 입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+                $(location).attr('href', '${pageContext.request.contextPath}/login')
+                return;
+            } else {
+                return;
+            }
+        }
+
+        let msg = "상품을 장바구니에 저장합니다."
+
+        if (!confirm(msg)) {
+            return false;
+        }
+
+        let selectedOptions = getAllSelectedOptions();
+
+        let productId = "${product.productId}";
+
+        let data = {
+            productId: productId,
+			selectedOptions: selectedOptions
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/seller/product/cart",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                let state = response.state;
+                if (state === true) {
+                    if (confirm("장바구니에 저장되었습니다.\n장바구니로 이동하시겠습니까?")) {
+                        $(location).attr('href', '${pageContext.request.contextPath}/cart')
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+
+    });
+
 
 </script>
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("seller")
@@ -109,18 +110,41 @@ public class ProductManagementController {
 		return "shop/product-detail";
 	}
 
-	@PostMapping
-	public String addProductToCart(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo,
-                                   int quantity, Long productId) {
+	@PostMapping("product/cart")
+	@ResponseBody
+	public String addProductToCart(
+			@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo,
+			@RequestBody Map<String, Object> data) {
 		Long memberId = sessionInfo.getMemberId();
+
+		System.out.println(memberId);
+		System.out.println(data);
+
+		System.out.println(data.get("productId"));
+		List<List<Long>> options = (List<List<Long>>) data.get("selectedOptions");
+
+		for (List<Long> option : options) {
+			System.out.print("stockId = " + option.get(0));
+			System.out.println(" quantity = " + option.get(1));
+
+		}
+//		System.out.println(o);
+
+//		for (Map<String, Long> stringLongMap : o) {
+//			Long stockId = stringLongMap.get("stockId");
+//			Long quantity = stringLongMap.get("quantity");
+//
+//			System.out.println("stockId : " + stockId + " quantity" + quantity);
+//		}
+
 
 //		Cart cart = new Cart();
 //		cart.setMemberId(memberId);
-//		cart.setQuantity();
-//		cart.setProductId();
+//		cart.setQuantity(quantity);
+//		cart.setProductId(productId);
 //
-//		cartService.createProduct();
+//		cartService.createProduct(cart);
 
-		return null;
+		return "ok";
 	}
 }

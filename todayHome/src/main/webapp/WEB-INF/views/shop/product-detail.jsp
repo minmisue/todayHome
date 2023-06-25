@@ -288,7 +288,7 @@
 
 			<div class="flex-row" style="justify-content: space-between; margin-top: 30px; ">
 				<div style="margin-bottom: 20px; font-weight: 600">주문금액</div>
-				<div style="font-size: 20px; line-height: 28px; font-weight: 700">0원</div>
+				<div style="font-size: 20px; line-height: 28px; font-weight: 700"><span class="total-price">0</span>원</div>
 			</div>
 
 			<div class="flex-row" style="justify-content: space-between">
@@ -349,7 +349,7 @@
 				<div class="flex-col">
 					<div class="flex-row" style="justify-content: space-between">
 						<div style="margin-bottom: 20px; font-weight: 600">주문금액</div>
-						<div style="font-size: 20px; line-height: 28px; font-weight: 700">0원</div>
+						<div style="font-size: 20px; line-height: 28px; font-weight: 700"><span class="total-price">0</span>원</div>
 					</div>
 
 					<div class="flex-row">
@@ -428,7 +428,7 @@
     for (let i = 0; i < mainOptionCnt; i++) {
         selectOptions[i].addEventListener('change', function () {
 
-            // 마지막 옵션을 선택한 경우
+            // 마지막 옵션을 선택한 경우 : 옵션을 초기화하고 선택 컨테이너 생성
             if (i === mainOptionCnt-1) {
                 console.log('옵션 모두 선택 완료!')
 
@@ -452,10 +452,20 @@
                     })
 				}
 
-                console.log(selectOptionInfo)
-                addSelectedOption(selectOptionInfo)
+                let stockId = selectOptionInfo.stockId;
+                let allSelectedOptions = getAllSelectedOptions();
 
+                for (const selectedOption of allSelectedOptions) {
+                    if (parseInt(selectedOption[0]) === parseInt(stockId)) {
+                        alert('이미 등록된 옵션입니다.')
+                        clearOptions();
+						return;
+					}
+                }
+
+                addSelectedOption(selectOptionInfo)
                 clearOptions();
+                displayTotalPrice()
 				return
 			}
 			// 다음 메인옵션이 있는 경우
@@ -482,6 +492,7 @@
         });
     }
 
+    // 옵션 선택 완료시 하단에 옵션 + 가격 + 수량 정보를 나타내는 컨테이너를 추가한다.
     function addSelectedOption(stock) {
 
         let optionNameBundle
@@ -553,6 +564,8 @@
             optionQuantityInput.val(changeNum);
             optionQuantityDisplay.text(changeNum);
             optionPrice.text(changeNum * price)
+
+            displayTotalPrice()
         }
     };
 
@@ -568,10 +581,25 @@
 			let stockId = $(option).find('.stock-id').val();
             let quantity = $(option).find('.option-quantity').text();
 			result.push([stockId, quantity])
-            // console.log('stockId = ' + stockId + ' quantity = ' + quantity);
         }
 
         return result
+    }
+
+    // 주문 금액 합산가격 표기
+    function displayTotalPrice() {
+        let selectedOptions = $('.selected-option-container').children();
+        let totalPrice = 0
+
+        for (const option of selectedOptions) {
+            totalPrice += parseInt($(option).find('.option-price').text());
+        }
+
+        let totalPriceOut = $('.total-price');
+
+        for (const totalPriceObj of totalPriceOut) {
+			$(totalPriceObj).text(totalPrice)
+        }
     }
 
 

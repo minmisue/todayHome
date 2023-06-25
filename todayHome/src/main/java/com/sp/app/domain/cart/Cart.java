@@ -1,5 +1,7 @@
 package com.sp.app.domain.cart;
 
+import java.util.List;
+
 public class Cart {
 	private Long cartId;
 	private Long memberId;
@@ -13,9 +15,20 @@ public class Cart {
 	private String brandName;// 브랜드 이름
 	private String saveName; // 사진 저장 이름
 	private Long price; // 상품 기본가격
-	private Double discountPrcent; // 할인율
+	private Double discountPercent; // 할인율
 	private Long deliveryCost; // 배달비
+
 	
+	private List<Long> stockIdList;
+	
+	
+	
+	public List<Long> getStockIdList() {
+		return stockIdList;
+	}
+	public void setStockIdList(List<Long> stockIdList) {
+		this.stockIdList = stockIdList;
+	}
 	public Long getCartId() {
 		return cartId;
 	}
@@ -82,11 +95,11 @@ public class Cart {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-	public Double getDiscountPrcent() {
-		return discountPrcent;
+	public Double getDiscountPercent() {
+		return discountPercent;
 	}
-	public void setDiscountPrcent(Double discountPrcent) {
-		this.discountPrcent = discountPrcent;
+	public void setDiscountPercent(Double discountPercent) {
+		this.discountPercent = discountPercent;
 	}
 	public Long getDeliveryCost() {
 		return deliveryCost;

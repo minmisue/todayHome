@@ -3,6 +3,7 @@ package com.sp.app.cart;
 import java.util.List;
 
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.Stock;
 
 public interface CartService {
 	// 장바구니 넣기
@@ -19,4 +20,7 @@ public interface CartService {
 	
 	// 재고체크
 	public Boolean checkQuantity(Long stockId, int quantity);
+	
+	// 장바구니에 담긴 상품의 옵션 아이디
+	public List<Stock> getStockId(Long cartId);
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.Stock;
 
 
 @Repository
@@ -42,8 +43,8 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 
 	@Override
 	public List<Cart> getCartList(Long memberId) throws Exception{
-		// TODO Auto-generated method stub
-		return null;
+		List<Cart> cartList = commonDAO.selectList("cart.selectList", memberId);
+		return cartList;
 	}
 
 	@Override
@@ -63,6 +64,13 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 		map.put("stockId", stockId);
 		
 		return commonDAO.selectOne("cart.checkCartProduct", map);
+	}
+
+	@Override
+	public List<Stock> getStockId(Long cartId) throws Exception{
+		 List<Stock> stockIdList = commonDAO.selectList("cart.selectListStock", cartId);
+		
+		return stockIdList;		
 	}
 
 }

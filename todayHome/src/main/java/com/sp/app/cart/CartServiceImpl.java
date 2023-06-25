@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.Stock;
+import com.sp.app.product.management.ProductManagementRepository;
 
 
 @Service("cart.cartService")
@@ -13,6 +15,9 @@ public class CartServiceImpl implements CartService{
 
 	@Autowired
 	CartManagementRepository cartManagementRepository;
+	
+	@Autowired
+	ProductManagementRepository productManagementRepository;
 	
 	@Override
 	public void createProduct(Cart cart){		
@@ -68,8 +73,15 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public List<Cart> getCartList(Long memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Cart> cartList = null;
+		
+		try {
+			cartList = cartManagementRepository.getCartList(memberId);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cartList;
 	}
 
 	@Override
@@ -83,6 +95,19 @@ public class CartServiceImpl implements CartService{
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<Stock> getStockId(Long cartId) {
+		List<Stock> stockIdList = null;
+		try {
+			stockIdList =  cartManagementRepository.getStockId(cartId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return stockIdList;
 	}
 
 }

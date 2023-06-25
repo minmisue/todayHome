@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductMainOption;
 import com.sp.app.domain.product.ProductStock;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -108,9 +110,16 @@ public class ProductManagementController {
 	}
 
 	@PostMapping
-	public String addProductToCart() {
-		new Cart();
-//		cartService.createProduct();
+	public String addProductToCart(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo,
+                                   int quantity, Long productId) {
+		Long memberId = sessionInfo.getMemberId();
+
+		Cart cart = new Cart();
+		cart.setMemberId(memberId);
+		cart.setQuantity();
+		cart.setProductId();
+
+		cartService.createProduct();
 
 		return null;
 	}

@@ -439,4 +439,13 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
 		return productMainOptions;
 	}
+
+	@Override
+	public ProductStock getStockByStockId(Long stockId) {
+		try {
+			return productManagementRepository.getStockByStockId(stockId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

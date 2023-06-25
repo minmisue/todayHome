@@ -65,4 +65,6 @@ public interface ProductManagementService {
 	List<ProductStock> getStockListByProductId(Long productId);
 
 	List<ProductMainOption> getMainOptionListByProductId(Long productId);
+
+	ProductStock getStockByStockId(Long stockId);
 }

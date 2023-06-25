@@ -3,15 +3,15 @@ package com.sp.app.product.management;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.domain.product.Product;
+import com.sp.app.domain.product.ProductMainOption;
+import com.sp.app.domain.product.ProductStock;
 import com.sp.app.seller.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("seller")
@@ -82,8 +82,15 @@ public class ProductManagementController {
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
 
+		List<ProductStock> stockList = productManagementService.getStockListByProductId(productId);
+		int mainOptionCnt = productManagementService.getMainOptionCnt(productId);
+		List<ProductMainOption> mainOptionList = productManagementService.getMainOptionListByProductId(productId);
 
 		model.addAttribute("product", product);
+		model.addAttribute("stockList", stockList);
+		model.addAttribute("mainOptionCnt", mainOptionCnt);
+		model.addAttribute("mainOptionList", mainOptionList);
+
 		return "shop/product-detail";
 	}
 }

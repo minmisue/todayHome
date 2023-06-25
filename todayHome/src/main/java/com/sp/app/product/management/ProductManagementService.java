@@ -3,7 +3,6 @@ package com.sp.app.product.management;
 import com.sp.app.domain.product.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductManagementService {
 
@@ -19,7 +18,7 @@ public interface ProductManagementService {
 	 * n 번째 보다 크거나 같은 시퀀스를 모두 1씩 증가시킴
 	 * 기준 sequence 값, 변경 할 productId
 	 */
-	void increaseImgSequences(Long productId, int sequence) throws Exception;
+	void increaseImgSequences(Long productId, int sequence) ;
 
 	List<Product> getAllProducts();
 
@@ -31,37 +30,39 @@ public interface ProductManagementService {
 
 	void deleteProduct(Long productId);
 
-	void insertScrapProduct(Long memberId, Long productId) throws Exception;
+	void insertScrapProduct(Long memberId, Long productId) ;
 
-	void deleteScrapProduct(Long memberId, Long productId) throws Exception;
+	void deleteScrapProduct(Long memberId, Long productId) ;
 
-	int isScrapProduct(Long memberId, Long productId) throws Exception;
+	int isScrapProduct(Long memberId, Long productId) ;
 
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);
 
-	ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) throws Exception;
+	ProductMainOption getMainOptionByParentId(Long productId, Long parentOptionId) ;
 
-	List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) throws Exception;
+	List<ProductSubOption> getSubOptionsByMainOptionId(Long mainOptionId) ;
 
-	List<ProductStock> getStockBySubOptionId(Long subOptionId) throws Exception;
+	List<ProductStock> getStockBySubOptionId(Long subOptionId) ;
 
-	List<Product> findProductByCategory(Long categoryId) throws Exception;
+	List<Product> findProductByCategory(Long categoryId) ;
 
-	Long getMainOptionSeq() throws Exception;
+	Long getMainOptionSeq() ;
 
-	Long getProductSeq() throws Exception;
+	Long getProductSeq() ;
 
-	int getMainOptionCnt(Long productId) throws Exception;
+	int getMainOptionCnt(Long productId) ;
 
-	List<OptionMap> getOptionMapByStockId(Long stockId) throws Exception;
+	List<OptionMap> getOptionMapByStockId(Long stockId) ;
 
-	void insertMainOption(ProductMainOption productMainOption) throws Exception;
+	void insertMainOption(ProductMainOption productMainOption) ;
 
-	void insertSubOption(ProductSubOption productSubOption) throws Exception;
+	void insertSubOption(ProductSubOption productSubOption) ;
 
-	void insertStock(ProductStock productStock) throws Exception;
+	void insertStock(ProductStock productStock) ;
 
 	// stock 리스트 반환
-	List<ProductStock> getStockListByProductId(Long productId) throws Exception;
+	List<ProductStock> getStockListByProductId(Long productId);
+
+	List<ProductMainOption> getMainOptionListByProductId(Long productId);
 }

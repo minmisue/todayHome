@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -192,9 +193,9 @@
 		</div>
 
 		<%-- 상품 옵션 및 버튼 --%>
-		<div class="flex-col" style="margin-left: 35px">
+		<div class="flex-col" style="margin-left: 35px; flex: 1">
 			<div class="brand-name">영가구</div>
-			<div class="product-name">[리뷰 23,000개] 베가 폴라 투명 접이식의자 17colors</div>
+			<div class="product-name">${product.productName}</div>
 			<div class="rating">
 				<i class="bi bi-star-fill"></i>
 				<i class="bi bi-star-fill"></i>
@@ -204,9 +205,9 @@
 			</div>
 
 			<div class="flex-col" style="margin-top: 8px">
-				<div class="sale-percent">41%</div>
+				<div class="sale-percent">${product.discountPercent}%</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
-					<div class="price">25,600</div>
+					<div class="price">${product.price}</div>
 					<div style="font-size: 24px">원</div>
 				</div>
 			</div>
@@ -214,7 +215,7 @@
 			<div class="flex-row" style="padding: 20px 0; font-size: 14px">
 				<div style="width: 42px; color: #828c94">배송</div>
 				<div class="flex-col" style="flex: 1; gap: 5px">
-					<div style="font-weight: 750;">무료배송</div>
+					<div style="font-weight: 750;">${product.deliveryCost} 원</div>
 					<div>일반택배</div>
 					<div style="color: #757575"><i class="bi bi-check"></i>제주도/도서산간 지역 5,000원</div>
 					<div style="background-color: #F7F8FA; height: 40px; margin-top: 10px; border-radius: 5px; align-items: center; padding: 10px 20px">
@@ -230,25 +231,28 @@
 
 			<hr>
 
-			<div class="flex-row brand-home">
+			<div class="flex-row brand-home" >
 				<div><i class="bi bi-shop"></i> <span class="brand-home-name">테팔</span></div>
 				<div class="brand-home-btn">브랜드 홈 <i class="bi bi-chevron-right"></i></div>
 			</div>
 
-			<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; margin-top: 15px; margin-bottom: 30px; padding: 0 20px">
-				<option selected="" value="" disabled="">색상</option>
-				<option value="0">투명 (PET) (25,600원)</option>
-				<option value="1">**라탄/투명(PC) (48,900원)</option>
-				<option value="2">**라탄/틴트브라운(PC) (48,900원)</option>
-				<option value="3">크림 (PET) (25,600원)</option>
-				<option value="4">투명민트 (PET) (25,600원)</option>
-				<option value="5">다크블루 (PET) (25,600원)</option>
-				<option value="6">투명브라운 (PET) (25,600원)</option>
-				<option value="7">다크브라운 (PET) (25,600원)</option>
-				<option value="8">투명핑크 (PET) (25,600원)</option>
-			</select>
 
-			<div class="flex-row" style="justify-content: space-between">
+			<c:forEach items="${mainOptionList}" var="mainOption">
+
+				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px; margin-top: 10px">
+					<option selected="" value="" disabled="">${mainOption.optionName}</option>
+					<option value="0">투명 (PET) (25,600원)</option>
+					<option value="1">**라탄/투명(PC) (48,900원)</option>
+					<option value="2">**라탄/틴트브라운(PC) (48,900원)</option>
+					<option value="3">크림 (PET) (25,600원)</option>
+					<option value="4">투명민트 (PET) (25,600원)</option>
+					<option value="5">다크블루 (PET) (25,600원)</option>
+					<option value="6">투명브라운 (PET) (25,600원)</option>
+					<option value="7">다크브라운 (PET) (25,600원)</option>
+					<option value="8">투명핑크 (PET) (25,600원)</option>
+				</select>
+			</c:forEach>
+			<div class="flex-row" style="justify-content: space-between; margin-top: 30px; ">
 				<div style="margin-bottom: 20px; font-weight: 600">주문금액</div>
 				<div style="font-size: 20px; line-height: 28px; font-weight: 700">0원</div>
 			</div>
@@ -259,6 +263,11 @@
 			</div>
 		</div>
 	</div>
+
+	<c:forEach var="stock" items="${mainOptionList}">
+		<p>${stock}</p>
+	</c:forEach>
+
 
 	<div class="sub-menubar-container" style="margin: 50px 0px 30px 0px; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
 		<div class="sub-menubar" style="padding: 0 55px">

@@ -458,17 +458,27 @@
                 clearOptions();
 				return
 			}
+			// 다음 메인옵션이 있는 경우
 
 			let currentSubOptionId = $(this).val();
 
-            let nextSubOptions = stockList.find(function (stock) {
-                return stock.subOptionId1 === currentSubOptionId && stock.quantity !== 0
+            let nextSubOptions = stockList.filter(function (stock) {
+                return parseInt(stock.subOptionId1) === parseInt(currentSubOptionId) && parseInt(stock.quantity) !== 0
             });
-            console.log(nextSubOptions)
 
-            console.log(stockList)
+            console.log('nextSubOptions : ' + nextSubOptions)
 
-            $(selectOptions[i + 1]).children().show();
+			let optionTag = `<option selected="" value="" disabled="">` + nextSubOptions[0].mainOptionName2 + `</option>`
+
+            for (const nextSubOption of nextSubOptions) {
+                optionTag +=
+					`
+						<option value="` + nextSubOption.subOptionId2 + `">` + nextSubOption.subOptionName2 + ` (` + nextSubOption.optionPrice + `원) </option>
+					`
+            }
+
+            // $(selectOptions[i + 1]).children().show();
+            $(selectOptions[i + 1]).html(optionTag).show()
         });
     }
 

@@ -166,4 +166,9 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public List<ProductStock> getStockListByProductId(Long productId) throws Exception {
 		return commonDAO.selectList("productManagement.getStockListByProductId", productId);
 	}
+
+	@Override
+	public ProductStock getStockByStockId(Long stockId) throws Exception {
+		return commonDAO.selectOne("productManagement.getStockByStockId", stockId);
+	}
 }

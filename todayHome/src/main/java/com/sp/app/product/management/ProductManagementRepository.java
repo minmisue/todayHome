@@ -66,6 +66,9 @@ public interface ProductManagementRepository {
 	// stock 리스트 반환
 	List<ProductStock> getStockListByProductId(Long productId) throws Exception;
 
+	// stockId로 stock 리스트 반환 (상위 옵션, 이름 포함)
+	ProductStock getStockByStockId(Long stockId) throws Exception;
+
 	// stock 수정
 
 	// stock 삭제

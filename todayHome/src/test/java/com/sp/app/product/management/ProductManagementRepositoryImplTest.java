@@ -467,4 +467,12 @@ public class ProductManagementRepositoryImplTest {
 			System.out.println(stock);
 		}
 	}
+
+	@Test
+	public void getStockByStockId() throws Exception {
+		Long stockId = 92L;
+
+		ProductStock stock = productManagementRepository.getStockByStockId(stockId);
+		System.out.println(stock);
+	}
 }

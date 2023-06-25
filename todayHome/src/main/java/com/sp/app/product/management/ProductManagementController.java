@@ -2,6 +2,8 @@ package com.sp.app.product.management;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sp.app.cart.CartService;
+import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductMainOption;
 import com.sp.app.domain.product.ProductStock;
@@ -23,6 +25,9 @@ public class ProductManagementController {
 
 	@Autowired
 	private SellerService sellerService;
+
+	@Autowired
+	private CartService cartService;
 
 
 	@GetMapping("product")
@@ -100,5 +105,13 @@ public class ProductManagementController {
 //		model.addAttribute("seller", seller);
 
 		return "shop/product-detail";
+	}
+
+	@PostMapping
+	public String addProductToCart() {
+		new Cart();
+//		cartService.createProduct();
+
+		return null;
 	}
 }

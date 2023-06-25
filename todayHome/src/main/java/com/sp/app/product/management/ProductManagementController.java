@@ -82,12 +82,12 @@ public class ProductManagementController {
 
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
-
-		try {
-//			sellerService.getSellerBySellerId(sellerId);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+//		Seller seller;
+//		try {
+//			seller = sellerService.getSellerBySellerId(sellerId);
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
 
 		List<ProductStock> stockList = productManagementService.getStockListByProductId(productId);
 		int mainOptionCnt = productManagementService.getMainOptionCnt(productId);
@@ -97,7 +97,7 @@ public class ProductManagementController {
 		model.addAttribute("stockList", stockList);
 		model.addAttribute("mainOptionCnt", mainOptionCnt);
 		model.addAttribute("mainOptionList", mainOptionList);
-//		model.addAttribute("seller", seller)
+//		model.addAttribute("seller", seller);
 
 		return "shop/product-detail";
 	}

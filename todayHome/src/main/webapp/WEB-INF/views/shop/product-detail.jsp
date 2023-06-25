@@ -147,6 +147,42 @@
 		.bookmark-icon:hover {
             cursor: pointer;
         }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .btnChange {
+			border: none;
+			width: 18px;
+			background-color: white;
+			font-size: 19px;
+        }
+
+		.btnChange:hover , .option-quantity:hover {
+            cursor: pointer;
+			color: #97999B;
+        }
+
+        .option-quantity {
+			border: none;
+			font-size: 14px;
+        }
+
+        .edit-quantity-container {
+			border: 1px solid #DBDDE0;
+			border-radius: 4px;
+			padding: 7px 6px;
+			background-color: white;
+			text-align: center;
+        }
+
+		.option-price-container {
+            font-weight: 600;
+			line-height: 20px;
+        }
 	</style>
 </head>
 <body>
@@ -185,11 +221,13 @@
 						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/5.webp">
 				</div>
 			</div>
-
-			<div style="flex: 1">
-				<img class="product-img"
-					 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
+			<div style="flex: 1;">
+				<div style="aspect-ratio: 1/1">
+					<img class="product-img"
+						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
+				</div>
 			</div>
+
 		</div>
 
 		<%-- 상품 옵션 및 버튼 --%>
@@ -245,6 +283,9 @@
 					</c:forEach>
 				</select>
 			</c:forEach>
+
+			<div class="flex-col selected-option-container"></div>
+
 			<div class="flex-row" style="justify-content: space-between; margin-top: 30px; ">
 				<div style="margin-bottom: 20px; font-weight: 600">주문금액</div>
 				<div style="font-size: 20px; line-height: 28px; font-weight: 700">0원</div>
@@ -252,14 +293,14 @@
 
 			<div class="flex-row" style="justify-content: space-between">
 				<button class="cart-btn">장바구니</button>
-				<button class="direct-purchase-btn">바로구매</button>
+				<button class="direct-purchase-btn" onclick="getSelectedOption()">바로구매</button>
 			</div>
 		</div>
 	</div>
 
-	<c:forEach var="stock" items="${mainOptionList}">
-		<p>${stock}</p>
-	</c:forEach>
+<%--	<c:forEach var="stock" items="${mainOptionList}">--%>
+<%--		<p>${stock}</p>--%>
+<%--	</c:forEach>--%>
 
 
 	<div class="sub-menubar-container" style="margin: 50px 0px 30px 0px; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
@@ -323,6 +364,188 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
+
+
+<script>
+	let selectOptions = $('.select-option');
+    let mainOptionCnt = ${mainOptionCnt};
+	<%--let stockList = ${stockList};--%>
+    <c:set var="productStocks" value="${stockList}" />
+
+    let stockList = [
+        <c:forEach items="${productStocks}" var="productStock" varStatus="status">{
+            stockId: ${productStock.stockId},
+            optionPrice: ${productStock.optionPrice},
+            quantity: ${productStock.quantity},
+            mainOptionId1: ${productStock.mainOptionId1},
+            mainOptionId2: ${productStock.mainOptionId2},
+            subOptionId1: ${productStock.subOptionId1},
+            subOptionId2: ${productStock.subOptionId2},
+            subOptionName1: '${productStock.subOptionName1}',
+            subOptionName2: '${productStock.subOptionName2}',
+            mainOptionName1: '${productStock.mainOptionName1}',
+            mainOptionName2: '${productStock.mainOptionName2}',
+            productId: ${productStock.productId}
+        }<c:if test="${not status.last}">,</c:if>
+        </c:forEach>
+    ];
+
+
+
+    // 처음 시작시 첫번째 옵션을 제외하고 하위옵션 선택 불가
+    $(function () {
+        disableExceptFirstOption();
+    });
+
+    function disableExceptFirstOption() {
+        let notFirst = selectOptions.not(':first');
+        for (const x of notFirst) {
+            $(x).children().hide()
+        }
+    }
+
+    function getSelectedOption() {
+        // 선택된 옵션 아이디를 조회
+		let selectedOptionList = [];
+
+        for (const option of selectOptions) {
+            let optionId = $(option).val();
+            let optionName = $(option).find('option:selected').text();
+            selectedOptionList.push([optionId, optionName]);
+        }
+
+        return selectedOptionList;
+    }
+
+    // 옵션 초기화
+    function clearOptions() {
+        for (const option of selectOptions) {
+            $(option).html($(option).html())
+        }
+    }
+
+    // 각 옵션 선택 리스너
+    for (let i = 0; i < mainOptionCnt; i++) {
+        selectOptions[i].addEventListener('change', function () {
+
+            // 마지막 옵션을 선택한 경우
+            if (i === mainOptionCnt-1) {
+                console.log('옵션 모두 선택 완료!')
+
+				let selectedOption = getSelectedOption();
+
+                console.log(selectedOption)
+
+                console.log('[0][0]' + selectedOption[0][0] + ' [1][0]' + selectedOption[1][0])
+
+				let selectOptionInfo
+
+				if (mainOptionCnt === 0) {
+                    selectOptionInfo = stockList[0];
+                } else if (mainOptionCnt === 1) {
+                    stockList.find(function (item) {
+                        selectOptionInfo = parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]);
+                    })
+				} else if (mainOptionCnt === 2) {
+                    selectOptionInfo = stockList.find(function (item) {
+                        return parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]) && parseInt(item.subOptionId2) === parseInt(selectedOption[1][0])
+                    })
+				}
+
+                console.log(selectOptionInfo)
+                addSelectedOption(selectOptionInfo)
+
+                clearOptions();
+				return
+			}
+
+			let currentSubOptionId = $(this).val();
+
+            let nextSubOptions = stockList.find(function (stock) {
+                return stock.subOptionId1 === currentSubOptionId && stock.quantity !== 0
+            });
+            console.log(nextSubOptions)
+
+            console.log(stockList)
+
+            $(selectOptions[i + 1]).children().show();
+        });
+    }
+
+    function addSelectedOption(stock) {
+
+        let optionNameBundle
+
+        if (mainOptionCnt === 0) {
+            return
+		} else {
+			optionNameBundle = stock.mainOptionName1 + ': ' + stock.subOptionName1
+		}
+
+        if (mainOptionCnt === 2) {
+			optionNameBundle += ' / ' + stock.mainOptionName2 + ': ' + stock.subOptionName2
+		}
+
+        let obj =
+			`
+				<div class="selected-option" style="background-color: #F8F9FA; padding: 12px; margin-top: 10px; border-radius: 4px">
+					<div style="font-size: 14px; line-height: 18px; padding: 0 24px 10px 0; rgb(47, 52, 56);">
+			` +
+				optionNameBundle
+			+ `
+				</div>
+					<div class="flex-row" style="margin-top: 12px; align-items: end; justify-content: space-between">
+						<div class="edit-quantity-container" style="display: flex; flex-direction: row; align-items: center" id="quantityBundle">
+							<i class="bi bi-dash-lg btnChange minus" onclick="$.clickChangeBtn(this, ` + stock.stockId + `)"></i>
+							<div class="option-quantity" style="width: 40px; text-align: center" >1</div>
+							<input id="optionQuantityInput" type="hidden" value="1">
+							<i class="bi bi-plus-lg btnChange plus" onclick="$.clickChangeBtn(this, ` + stock.stockId + `)"></i>
+						</div>
+						<div class="option-price-container"><span class="option-price">` + stock.optionPrice + `</span> 원</div>
+					</div>
+				</div>
+			`
+		$('.selected-option-container').append(obj)
+    }
+
+
+    $.clickChangeBtn = function (obj, stockId) {
+        let stock = stockList.find(function (name) {
+            return name.stockId === stockId
+        });
+
+        let min = 1;
+        let optionQuantityInput = $(obj).parent().find('input')
+        let optionQuantityDisplay = $(obj).parent().find('.option-quantity')
+        let remainQuantity = stock.quantity;
+        let changeNum = optionQuantityInput.val();
+        let price = stock.optionPrice;
+        let optionPrice = $(obj).parent().next().find('.option-price')
+
+        if ($(obj).hasClass('plus')) {
+            console.log('plus')
+            changeNum++;
+        } else {
+            console.log('minus')
+            changeNum--;
+        }
+
+        console.log('changeNum = ' + changeNum);
+        console.log('price = ' + price)
+        console.log('remainQuantity = ' + remainQuantity)
+
+        if (changeNum > remainQuantity) {
+            alert('최대 수량보다 많이 담을 수 없습니다.')
+        } else if (changeNum < min) {
+            alert('1개보다 적게 담을 수 없습니다.')
+        } else {
+            optionQuantityInput.val(changeNum);
+            optionQuantityDisplay.text(changeNum);
+            optionPrice.text(changeNum * price)
+        }
+    };
+
+</script>
 
 <script>
 	// 미리보기 이미지 오버시 이미지 변경 스크립트

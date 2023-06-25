@@ -114,12 +114,12 @@ public class ProductManagementController {
                                    int quantity, Long productId) {
 		Long memberId = sessionInfo.getMemberId();
 
-		Cart cart = new Cart();
-		cart.setMemberId(memberId);
-		cart.setQuantity();
-		cart.setProductId();
-
-		cartService.createProduct();
+//		Cart cart = new Cart();
+//		cart.setMemberId(memberId);
+//		cart.setQuantity();
+//		cart.setProductId();
+//
+//		cartService.createProduct();
 
 		return null;
 	}

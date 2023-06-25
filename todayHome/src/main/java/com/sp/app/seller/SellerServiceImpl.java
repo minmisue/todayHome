@@ -90,11 +90,11 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public List<Seller> getSellerBySellerId(Long sellerId) throws Exception {
-		List<Seller> seller = null;
+	public Seller getSellerBySellerId(Long sellerId) throws Exception {
+		Seller seller = null;
 		
 		try {
-			seller = sellerRepository.getSellerBySellerId(sellerId);
+			seller = sellerRepository.getSellerBySellerId(sellerId); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

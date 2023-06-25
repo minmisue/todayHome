@@ -50,8 +50,8 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public List<Seller> getSellerBySellerId(Long sellerId) throws Exception {
-		return commonDAO.selectList("seller.getSellerBySellerId", sellerId);
+	public Seller getSellerBySellerId(Long sellerId) throws Exception {
+		return commonDAO.selectOne("seller.getSellerBySellerId", sellerId);
 		
 		
 	}

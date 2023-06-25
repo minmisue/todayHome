@@ -25,5 +25,5 @@ public interface SellerService {
     int getSellerCountByStatus(int status) throws Exception;
     
   //판매자 아이디로 판매자 조회
-    List<Seller> getSellerBySellerId(Long sellerId) throws Exception;
+    Seller getSellerBySellerId(Long sellerId) throws Exception;
 }

@@ -427,9 +427,11 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 				if (productMainOption == null) {
 					break;
 				}
-				productMainOptions.add(productMainOption);
-
 				parentOptionId = productMainOption.getMainOptionId();
+				List<ProductSubOption> subOptions = productManagementRepository.getSubOptionsByMainOptionId(parentOptionId);
+				productMainOption.setSubOptions(subOptions);
+
+				productMainOptions.add(productMainOption);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);

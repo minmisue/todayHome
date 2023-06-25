@@ -237,19 +237,12 @@
 			</div>
 
 
-			<c:forEach items="${mainOptionList}" var="mainOption">
-
-				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px; margin-top: 10px">
+			<c:forEach var="mainOption" items="${mainOptionList}" >
+				<select class="form-control select-option" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px; margin-top: 10px">
 					<option selected="" value="" disabled="">${mainOption.optionName}</option>
-					<option value="0">투명 (PET) (25,600원)</option>
-					<option value="1">**라탄/투명(PC) (48,900원)</option>
-					<option value="2">**라탄/틴트브라운(PC) (48,900원)</option>
-					<option value="3">크림 (PET) (25,600원)</option>
-					<option value="4">투명민트 (PET) (25,600원)</option>
-					<option value="5">다크블루 (PET) (25,600원)</option>
-					<option value="6">투명브라운 (PET) (25,600원)</option>
-					<option value="7">다크브라운 (PET) (25,600원)</option>
-					<option value="8">투명핑크 (PET) (25,600원)</option>
+					<c:forEach var="subOption" items="${mainOption.subOptions}">
+						<option value="${subOption.subOptionId}">${subOption.subOptionName}</option>
+					</c:forEach>
 				</select>
 			</c:forEach>
 			<div class="flex-row" style="justify-content: space-between; margin-top: 30px; ">
@@ -300,6 +293,7 @@
 			<div class="flex-col" style="width: 100%; position: sticky; top: 205px; justify-content: space-between; height: 74vh;">
 				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px">
 					<option selected="" value="" disabled="">색상</option>
+
 					<option value="0">투명 (PET) (25,600원)</option>
 					<option value="1">**라탄/투명(PC) (48,900원)</option>
 					<option value="2">**라탄/틴트브라운(PC) (48,900원)</option>

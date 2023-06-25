@@ -48,4 +48,11 @@ public class SellerRepositoryImpl implements SellerRepository{
 		return commonDAO.selectOne("seller.getSellerCount", status);
 
 	}
+
+	@Override
+	public List<Seller> getSellerBySellerId(Long sellerId) throws Exception {
+		return commonDAO.selectList("seller.getSellerBySellerId", sellerId);
+		
+		
+	}
 }

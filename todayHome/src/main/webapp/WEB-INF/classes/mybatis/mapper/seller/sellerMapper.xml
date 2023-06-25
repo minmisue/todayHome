@@ -87,4 +87,15 @@
 		FROM seller_status
 		WHERE status = #{status}	  
 	</select>
+	
+<!-- 판매자 아이디로 판매자 리스트 -->
+	<select id="getSellerBySellerId" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
+		SELECT brand_name AS brandName, business_number AS businessNumber, 
+  		 seller_name AS sellerName,tel,email,
+  		 representative_name AS representativeName,presentation,
+  		 accumulated_amount AS accumulatedAmount, to_char(reg_date, 'YYYY-MM-DD') AS regDate
+  		From seller
+  		WHERE seller_id=#{seller_id}
+	
+	</select>
 </mapper>

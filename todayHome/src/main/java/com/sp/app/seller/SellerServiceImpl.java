@@ -88,4 +88,17 @@ public class SellerServiceImpl implements SellerService {
 	    
 	    return count;
 	}
+
+	@Override
+	public List<Seller> getSellerBySellerId(Long sellerId) throws Exception {
+		List<Seller> seller = null;
+		
+		try {
+			seller = sellerRepository.getSellerBySellerId(sellerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return seller;
+	}
 }

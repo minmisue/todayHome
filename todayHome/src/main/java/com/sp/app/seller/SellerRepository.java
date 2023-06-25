@@ -23,5 +23,8 @@ public interface SellerRepository {
     
     //판매자 상태가 0,1,2,3 인 사람 각각 카운트. ok
     int getSellerCountByStatus(int status) throws Exception;
+    
+    //판매자 아이디로 판매자 조회
+    List<Seller> getSellerBySellerId(Long sellerId) throws Exception;
 
 }

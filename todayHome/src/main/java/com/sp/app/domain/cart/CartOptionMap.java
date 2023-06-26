@@ -1,7 +1,5 @@
 package com.sp.app.domain.cart;
 
-import java.util.List;
-
 public class CartOptionMap {
 	private Long stockId;
 	private Long price;

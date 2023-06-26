@@ -23,29 +23,29 @@ public class CartServiceImpl implements CartService{
 	public void createProduct(Cart cart){		
 		try {
 			
-			Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getStockId());
-			int tot = 0;
-			int inputQuantity = cart.getQuantity();
-			tot = inputQuantity;
-			boolean status = quantity > 0 && quantity != null;
-			
-			// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
-			if(status) {
-				tot += quantity;	
-			}
-			
-			// 재고 확인
-			if(cartManagementRepository.checkQuantity(cart.getStockId(), tot) == 0) {
-				return;
-			}
-			
-			// true 면 장바구니에 수량만 변경
-			if (status) {
-				cartManagementRepository.updateProduct(cart.getCartId(), tot);
-				return;
-			}
-			
-			cartManagementRepository.createProduct(cart);
+//			Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getStockId());
+//			int tot = 0;
+//			//int inputQuantity = cart.getQuantity();
+//			tot = inputQuantity;
+//			boolean status = quantity > 0 && quantity != null;
+//			
+//			// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
+//			if(status) {
+//				tot += quantity;	
+//			}
+//			
+//			// 재고 확인
+//			if(cartManagementRepository.checkQuantity(cart.getStockId(), tot) == 0) {
+//				return;
+//			}
+//			
+//			// true 면 장바구니에 수량만 변경
+//			if (status) {
+//				cartManagementRepository.updateProduct(cart.getCartId(), tot);
+//				return;
+//			}
+//			
+//			cartManagementRepository.createProduct(cart);
 		}catch (RuntimeException e1) {
 			throw e1;
 		}catch (Exception e) {

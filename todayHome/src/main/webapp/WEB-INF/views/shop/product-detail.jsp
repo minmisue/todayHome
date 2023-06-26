@@ -275,12 +275,15 @@
 			</div>
 
 
-			<c:forEach var="mainOption" items="${mainOptionList}" >
+			<c:forEach var="mainOption" items="${mainOptionList}" varStatus="status">
 				<select class="form-control select-option" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px; margin-top: 10px">
 					<option selected="" value="" disabled="">${mainOption.optionName}</option>
-					<c:forEach var="subOption" items="${mainOption.subOptions}">
-						<option value="${subOption.subOptionId}">${subOption.subOptionName}</option>
-					</c:forEach>
+
+					<c:if test="${status.index == 0}">
+						<c:forEach var="subOption" items="${mainOption.subOptions}">
+							<option value="${subOption.subOptionId}">${subOption.subOptionName}</option>
+						</c:forEach>
+					</c:if>
 				</select>
 			</c:forEach>
 
@@ -394,7 +397,7 @@
 
     // 처음 시작시 첫번째 옵션을 제외하고 하위옵션 선택 불가
     $(function () {
-        disableExceptFirstOption();
+        // disableExceptFirstOption();
     });
 
     function disableExceptFirstOption() {

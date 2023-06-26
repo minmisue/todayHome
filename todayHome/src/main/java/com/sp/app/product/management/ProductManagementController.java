@@ -10,12 +10,26 @@ import com.sp.app.domain.product.ProductMainOption;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.seller.SellerService;
+import org.apache.poi.util.StringUtil;
+import org.apache.tiles.request.ApplicationContext;
+import org.apache.xmlbeans.ResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +46,6 @@ public class ProductManagementController {
 	@Autowired
 	private CartService cartService;
 
-
 	@GetMapping("product")
 	public String addProductForm(Model model) {
 		// 임시 셀러 아이디
@@ -48,32 +61,63 @@ public class ProductManagementController {
 			@RequestParam List<String> mainOptionName,
 			@RequestParam String subOptionName,
 			@RequestParam List<Integer> stockPrice,
-			@RequestParam List<Integer> stockQuantity
-	) {
+			@RequestParam List<Integer> stockQuantity,
+			@RequestParam MultipartFile[] contentImg,
+			@RequestParam MultipartFile[] productImg
+			) {
+//
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		System.out.println("product = " + product);
+//		System.out.println("mainOptionName = " + mainOptionName);
+//		System.out.println("subOptionName = " + subOptionName);
+//		System.out.println("stockPrice = " + stockPrice);
+//		System.out.println("stockQuantity = " + stockQuantity);
+//		String[][] readSubNamesList;
+//
+//		try {
+//			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
+//		} catch (JsonProcessingException e) {
+//			throw new RuntimeException(e);
+//		}
+//
+//		for (String[] subNames : readSubNamesList) {
+//			for (String subName : subNames) {
+//				System.out.print(subName + " ");
+//			}
+//			System.out.println();
+//		}
+//
+//		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		System.out.println("product = " + product);
-		System.out.println("mainOptionName = " + mainOptionName);
-		System.out.println("subOptionName = " + subOptionName);
-		System.out.println("stockPrice = " + stockPrice);
-		System.out.println("stockQuantity = " + stockQuantity);
-		String[][] readSubNamesList;
 
 		try {
-			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
+			String uploadDir = "/Users/kun/Downloads/saveTest";
 
-		for (String[] subNames : readSubNamesList) {
-			for (String subName : subNames) {
-				System.out.print(subName + " ");
+			for (MultipartFile img : productImg) {
+				LocalDateTime now = LocalDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+				String fileName = now.format(formatter);
+
+				try {
+					String contentType = img.getContentType();
+					String[] split = contentType.split("/");
+
+					Path filePath = Path.of(uploadDir + File.separator + fileName + "." + split[1]);
+
+					Files.copy(img.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			System.out.println();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
+//		for (MultipartFile img : contentImg) {
+//			System.out.println(img.getOriginalFilename());
+//
+//		}
 
 		return "redirect:/home";
 	}

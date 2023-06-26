@@ -335,12 +335,13 @@
 <%--					<input type="file" class="form-control" aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="picture" id="productImgInput">--%>
 <%--				</div>--%>
 
-				<div class="input-group" style="flex: 1; margin-top: 35px;">
-					<input type="file" class="form-control" id="imgInput"
-						   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="picture" multiple="multiple" >
-				</div>
-
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
+
+				<div style="margin-top: 35px; font-weight: 700;">상품 이미지</div>
+				<div class="input-group" style="flex: 1; margin-top: 10px;">
+					<input type="file" class="form-control" id="productImgInput"
+						   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="productImg" multiple="multiple" >
+				</div>
 
 				<%-- 이미지 미리보기 --%>
 				<div style="margin-top: 35px;">
@@ -355,12 +356,11 @@
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
-				<div style="margin-top: 35px;">옵션 설정</div>
+				<div style="margin-top: 35px; font-weight: 700;">옵션 설정</div>
 				<input type="hidden" name="mainOptionName" id="mainOptionName">
 				<input type="hidden" name="subOptionName" id="subOptionName">
 
-				<div class="form-container" style="margin-top: 35px;" >
-<%--					<div id="formContainer" class="form-box">--%>
+				<div class="form-container" style="margin-top: 15px;" >
 						<div class="form-object option-container" style="flex-direction: column;">
 							<div class="flex-col main-option" style="width: 100%; align-items: end">
 								<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
@@ -375,14 +375,12 @@
 								</div>
 							</div>
 						</div>
-<%--					</div>--%>
-<%--					<i class="bi bi-plus-square-fill" id="addSchoolName"></i>--%>
-					<button type="button" id="addSchoolName" class="plus-btn">옵션 추가</button>
+					<button type="button" id="addMainOption" class="plus-btn">옵션 추가</button>
 				</div>
 				<div style="margin-top: 10px; display: flex; flex-direction: row; justify-content: right">
 					<div class="option-submit-btn" onclick="displayOptions();">등록 완료</div>
 				</div>
-				<div style="margin-top: 35px;">옵션별 재고 설정</div>
+				<div style="margin-top: 35px; font-weight: 700;">옵션별 재고 설정</div>
 
 				<div class="stock-container">
 					<div class="flex-row stock-input-container" id="mainOptionNames">
@@ -405,7 +403,13 @@
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
 				<label style="margin-top: 35px;">
-					상품 설명
+					<div style="margin-top: 35px; font-weight: 700;">상품 상세 이미지 및 설명</div>
+					<div class="input-group" style="flex: 1; margin-top: 10px;">
+						<input type="file" class="form-control" id="contentImgInput"
+							   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="contentImg" multiple="multiple" >
+					</div>
+
+
 					<textarea class="form-control" style="margin-top: 5px;" name="content"></textarea>
 				</label>
 
@@ -631,7 +635,7 @@
 
 
 <script>
-    let addMainOptionBtn = document.getElementById('addSchoolName');
+    let addMainOptionBtn = document.getElementById('addMainOption');
 
     addMainOptionBtn.addEventListener('click', function () {
         let tag =

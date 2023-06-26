@@ -2,10 +2,14 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
+	
 	<!-- 장바구니 담기 -->
-	<insert id="insertCart" parameterType="com.sp.app.domain.cart.Cart">
+	<insert id="insertCart" parameterType="com.sp.app.domain.cart.Cart">	
+		<selectKey keyProperty="cartId" resultType="Long" order="BEFORE">
+            SELECT SEQ_CART.NEXTVAL as cartId FROM DUAL
+        </selectKey>
 		INSERT INTO cart(cart_id,member_id,product_id,reg_date) 
-    			VALUES(seq_cart.NEXTVAL,#{memberId},#{productId},SYSDATE)
+    			VALUES(#{cartId},#{memberId},#{productId},SYSDATE)
 	</insert>
 	
 	<!-- 상품별 옵션 담기 -->

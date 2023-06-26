@@ -14,11 +14,21 @@ public class Cart {
 	private String productName; // 상품이름
 	private String brandName;// 브랜드 이름
 	private String saveName; // 사진 저장 이름
-	//private Long price; // 상품 기본가격
+	private Long price; // 상품 기본가격
 	private Double discountPercent; // 할인율
 	private Long deliveryCost; // 배달비
 
 	
+	public Long getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+
+
 	private List<CartOptionMap> stockList;
 
 

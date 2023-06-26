@@ -1,6 +1,7 @@
 package com.sp.app.domain.cart;
 
 public class CartOptionMap {
+	private Long cartId;
 	private Long stockId;
 	private Long price;
 	private Long quantity;
@@ -12,6 +13,15 @@ public class CartOptionMap {
 		this.stockId = stockId;
 		this.price = price;
 		this.quantity = quantity;
+	}
+
+	
+	public Long getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
 	}
 
 	public Long getStockId() {

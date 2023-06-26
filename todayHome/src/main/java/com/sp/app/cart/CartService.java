@@ -7,10 +7,10 @@ import com.sp.app.domain.cart.Stock;
 
 public interface CartService {
 	// 장바구니 넣기
-	public void createCart(Cart cart);
+	public void createCart(Cart cart) throws Exception;
 	
 	// 장바구니 업데이트
-	public void updateCartQuantity(Long cartId, int quantity);
+	//public void updateCartQuantity(Long cartId, int quantity);
 	
 	// 장바구니 취소
 	public void deleteCart(List<Long> cartIdList);
@@ -19,7 +19,7 @@ public interface CartService {
 	public List<Cart> getCartList(Long memberId);
 	
 	// 재고체크
-	public Boolean checkQuantity(Long stockId, int quantity);
+	public Boolean checkQuantity(Long stockId, Long quantity);
 	
 	// 장바구니에 담긴 상품의 옵션 아이디
 	public List<Stock> getStockId(Long cartId);

@@ -34,9 +34,13 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 			commonDAO.insertData("cart.insertCartStock",dto);
 		}
 	}
+	
+	public void createCartStock(CartOptionMap cartOptionMap) throws Exception {
+		commonDAO.insertData("cart.insertCartStock",cartOptionMap);
+	}
 
 	@Override
-	public void updateCartQuantity(Long cartId, int quantity) throws Exception {
+	public void updateCartQuantity(Long cartId, Long quantity) throws Exception {
 		
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("cartId", cartId);
@@ -58,7 +62,7 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public Integer checkQuantity(Long stockId, int quantity) throws Exception {
+	public Integer checkQuantity(Long stockId, Long quantity) throws Exception {
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("stockId", stockId);
 		map.put("quantity", quantity);

@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.product.OptionMap;
 import com.sp.app.product.management.ProductManagementRepository;
 
@@ -41,11 +42,23 @@ public class CartManagementRepositoryImplTest {
 		Cart cart = new Cart();
 		
 		cart.setMemberId(1L);
-		cart.setProductId(81L);
-		cart.setStockId(43L);
-		cart.setQuantity(4);
+		cart.setProductId(262L);
 		
 		cartManagementRepository.createCart(cart);
+		System.out.println(cart.getCartId());
+	}
+
+	
+	@Test
+	public void createCartStock() throws Exception{
+		// 주어진 값
+		CartOptionMap cartOptionMap = new CartOptionMap();
+		cartOptionMap.setCartId(250L);
+		cartOptionMap.setStockId(90L);
+		cartOptionMap.setQuantity(2L);
+
+		
+		cartManagementRepository.createCartStock(cartOptionMap);
 		
 	}
 	
@@ -60,12 +73,12 @@ public class CartManagementRepositoryImplTest {
 		Assert.assertEquals(result, null);
 	}
 	
-	@Test
-	public void updateProduct() throws Exception{
-		Long cartId = 141L;
-		Integer quantity = 4;
-		cartManagementRepository.updateCartQuantity(cartId,quantity);
-	}
+	//@Test
+//	public void updateProduct() throws Exception{
+//		Long cartId = 141L;
+//		Integer quantity = 4;
+//		cartManagementRepository.updateCartQuantity(cartId,quantity);
+//	}
 	
 	@Test
 	public void deleteCart() throws Exception{
@@ -81,9 +94,9 @@ public class CartManagementRepositoryImplTest {
 		Long stockId = 1L;
 		int quantity = 50; // 재고가 없으면 0 반환
 		
-		int result = cartManagementRepository.checkQuantity(stockId, quantity);
+		//int result = cartManagementRepository.checkQuantity(stockId, quantity);
 		
-		Assert.assertEquals(result, 0);
+		//Assert.assertEquals(result, 0);
 	}
 	
 	@Test

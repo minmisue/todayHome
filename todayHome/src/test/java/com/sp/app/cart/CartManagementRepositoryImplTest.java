@@ -45,7 +45,7 @@ public class CartManagementRepositoryImplTest {
 		cart.setStockId(43L);
 		cart.setQuantity(4);
 		
-		cartManagementRepository.createProduct(cart);
+		cartManagementRepository.createCart(cart);
 		
 	}
 	
@@ -64,7 +64,7 @@ public class CartManagementRepositoryImplTest {
 	public void updateProduct() throws Exception{
 		Long cartId = 141L;
 		Integer quantity = 4;
-		cartManagementRepository.updateProduct(cartId,quantity);
+		cartManagementRepository.updateCartQuantity(cartId,quantity);
 	}
 	
 	@Test

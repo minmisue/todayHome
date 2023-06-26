@@ -92,4 +92,15 @@ public class SellerRepositoryImplTest{
 		 int seller = sellerRepository.getSellerCountByStatus(status); 
 		 System.out.println("Seller: " + seller);
 	}
+	
+	
+	@Test 
+	public void getSellerBySellerId() throws Exception{
+		Long sellerId=2L;
+		
+		Seller seller = sellerRepository.getSellerBySellerId(sellerId);
+		
+		System.out.println(seller);
+	
+	}
 }

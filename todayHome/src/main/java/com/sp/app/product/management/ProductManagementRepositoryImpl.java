@@ -41,7 +41,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public void increaseImgSequences(Map<String, Object> map) throws Exception {
+	public void increaseImgSequences(Long productId, int sequence) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("sequence", sequence);
+
 		commonDAO.updateData("productManagement.increaseImgSequences", map);
 	}
 
@@ -161,5 +165,10 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	@Override
 	public List<ProductStock> getStockListByProductId(Long productId) throws Exception {
 		return commonDAO.selectList("productManagement.getStockListByProductId", productId);
+	}
+
+	@Override
+	public ProductStock getStockByStockId(Long stockId) throws Exception {
+		return commonDAO.selectOne("productManagement.getStockByStockId", stockId);
 	}
 }

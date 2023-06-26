@@ -140,9 +140,9 @@
 
     <select id="getStockListByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
         SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
-               subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
-               subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
-               sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
+                subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
+                subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
+                sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
         FROM
             (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
                     pso2.option_detail_name AS subOptionName2,
@@ -155,6 +155,26 @@
                 JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
                 JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
         WHERE pmo.product_id = #{productId}
+        ORDER BY subOptionId1, subOPtionId2
+    </select>
+
+    <select id="getStockByStockId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
+        SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
+                subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
+                subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
+                sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
+        FROM
+            (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
+                pso2.option_detail_name AS subOptionName2,
+                pso.option_id AS option_id1, pso2.option_id AS option_id2,
+                option_price AS optionPrice, pso.option_detail_id as subOptionId1,
+                pso2.option_detail_id AS subOPtionId2, QUANTITY
+                FROM stock s
+                JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id
+                WHERE STOCK_ID = #{stockId}) sb
+                JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
+                JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
         ORDER BY subOptionId1, subOPtionId2
     </select>
 </mapper>

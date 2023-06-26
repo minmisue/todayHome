@@ -234,7 +234,7 @@
 
 		<%-- 오늘의 딜 상품 4개 --%>
 		<div class="grid-col-4">
-			<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product'">
+			<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/seller/product/268'">
 				<div class="today-deal-img-container">
 					<img class="today-deal-product-img"
 						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">

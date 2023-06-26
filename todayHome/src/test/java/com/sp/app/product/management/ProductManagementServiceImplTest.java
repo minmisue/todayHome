@@ -2,6 +2,7 @@ package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductImg;
+import com.sp.app.domain.product.ProductStock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,10 +43,22 @@ public class ProductManagementServiceImplTest {
 		List<ProductImg> contentImgList = new ArrayList<>();
 		insertExampleImgData(productImgList, contentImgList);
 
-		Product product = new Product(1L, 4L, "샘플 상품", productImgList, contentImgList, "hello");
+		Product product = new Product(1L, 4L, "샘플 상품2", productImgList, contentImgList, "hello");
 
-		productManagementService.createProduct(product);
+		productManagementService.createProduct(product, null, null, null, null);
 
+	}
+
+	private static void sampleStockList(List<ProductStock> stockList) {
+		stockList.add(new ProductStock(1200, 39));
+		stockList.add(new ProductStock(1500, 88));
+		stockList.add(new ProductStock(2200, 20));
+		stockList.add(new ProductStock(3200, 13));
+		stockList.add(new ProductStock(2100, 2));
+		stockList.add(new ProductStock(5200, 7));
+		stockList.add(new ProductStock(2200, 20));
+		stockList.add(new ProductStock(1200, 33));
+		stockList.add(new ProductStock(600, 11));
 	}
 
 	private static void insertExampleImgData(List<ProductImg> productImgList, List<ProductImg> contentImgList) {

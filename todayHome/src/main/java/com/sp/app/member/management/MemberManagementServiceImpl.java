@@ -38,62 +38,94 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 	
 	@Override
 	public void insertMember(Member member) throws Exception {
+			
 		
+		try {
+			Long memberId = memberManagementRepository.getMemberSeq();
+			member.setMemberId(memberId);
+			
+			
+			memberManagementRepository.insertMember(member);
+			
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	
 	}
 
 	@Override
 	public void insertMemberDetail(Member member) throws Exception {
-		
+		memberManagementRepository.insertMemberDetail(member);
 		
 	}
 
 	@Override
 	public void insertMemberAll(Member member) throws Exception {
-		// TODO Auto-generated method stub
+		memberManagementRepository.insertMemberAll(member);
 		
 	}
 
 	@Override
-	public int emailCheck(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean emailCheck(String email) throws Exception {
+		int result = memberManagementRepository.emailCheck(email);	
+//		boolean check;
+//		if(result == 1 ) {
+//			check = true;
+//		} else {
+//			check = false;
+//		}
+//		
+//	
+//		return check;
+		
+		if(result == 1 ) {
+			return true;
+		} 
+		
+		return false;
+		
 	}
 
 	@Override
 	public Member readMemberById(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Member readMemberByEmail(String email) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
-		// TODO Auto-generated method stub
+		return memberManagementRepository.readMemberById(memberId);
 		
 	}
 
 	@Override
-	public Member updateMember(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Member readMemberByEmail(String email) throws Exception {
+		return memberManagementRepository.readMemberByEmail(email);
 	}
 
 	@Override
-	public Member updateMemberDetail(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean updateMemberEnabled(Long memberId, int enabled) throws Exception {
+		
+		return true;
 	}
 
 	@Override
-	public Member updateAddress(Member member) throws Exception {
+	public boolean updateMember(Member member) throws Exception {
+		
+		 int result = memberManagementRepository.updateMember(member);
+		
+			 return true;
+		 }
+		
+		
+	
+
+	@Override
+	public boolean updateMemberDetail(Member member) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return true;
+	}
+
+	@Override
+	public boolean updateAddress(Member member) throws Exception {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 	@Override

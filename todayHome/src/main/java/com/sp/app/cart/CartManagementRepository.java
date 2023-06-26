@@ -3,14 +3,15 @@ package com.sp.app.cart;
 import java.util.List;
 
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.Stock;
 
 public interface CartManagementRepository {
 	
 	// 장바구니 넣기
-	public void createProduct(Cart cart) throws Exception;
+	public void createCart(Cart cart) throws Exception;
 	
 	// 장바구니 업데이트
-	public void updateProduct(Long cartId,int quantity) throws Exception;
+	public void updateCartQuantity(Long cartId, int quantity) throws Exception;
 	
 	// 장바구니 취소
 	public void deleteCart(List<Long> cartIdList) throws Exception;
@@ -24,8 +25,9 @@ public interface CartManagementRepository {
 	// 장바구니에 담겨있는지 확인
 	public Integer checkCartProduct(Long memberId, Long stockId) throws Exception;
 	
-	// 이미 담겨있는 장바구니 수량 확인
-//	public Integer checkCartProductQuantity
+	// 장바구니에 담긴 상품의 옵션 확인
+	public List<Stock> getStockId(Long cartId) throws Exception;
+
 
 
 }

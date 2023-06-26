@@ -4,28 +4,38 @@
 <mapper namespace="cart">
 	<!-- 장바구니 담기 -->
 	<insert id="insertCart" parameterType="com.sp.app.domain.cart.Cart">
-		INSERT INTO cart(cart_id,member_id,product_id,stock_id,quantity,reg_date) 
-    			VALUES(seq_cart.NEXTVAL,#{memberId},#{productId},#{stockId},#{quantity},SYSDATE)
+		INSERT INTO cart(cart_id,member_id,product_id,reg_date) 
+    			VALUES(seq_cart.NEXTVAL,#{memberId},#{productId},SYSDATE)
+	</insert>
+	
+	<!-- 상품별 옵션 담기 -->
+	<insert id="insertCartStock" parameterType="com.sp.app.domain.cart.CartOptionMap">
+		INSERT INTO cart_stock_bundle(cart_id,stock_id,quantity) VALUES (#{cartId},#{stockId},#{quantity})
 	</insert>
 	
 	<!-- 장바구니 리스트(회원 별) -->
-	<select id="selectList" parameterType="map" resultType="com.sp.app.domain.cart.Cart">
-		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId, s.stock_id stockId,
-			    p.product_name productName, p.price price, c.quantity quantity,
-			    sl.seller_name sellerName, option_price optionPrice,
+	<select id="selectList" parameterType="Long" resultType="com.sp.app.domain.cart.Cart">
+		SELECT c.cart_id cartId, c.member_id memberId, c.product_id productId,
+			    p.product_name productName, p.price price,
+			    sl.brand_name brandName,
 			    discount_percent discountPercent, 
 			    delivery_cost deliveryCost,
-		        s.option_detail_id optionDetailId, s.option_detail_id2 optionDetailId2,pi.save_name save_name
+		        pi.save_name saveName
 		FROM cart c
 		JOIN member m ON m.member_id = c.member_id
 		JOIN product p ON c.product_id = p.product_id
 		JOIN product_img pi ON p.product_id = pi.product_id
-		JOIN stock s ON c.stock_id = s.stock_id
 		JOIN seller sl ON p.seller_id = sl.seller_id
-		WHERE pi.sequence = 1 AND m.member_id = #{memberId}
+		WHERE pi.sequence = 0 AND pi.type = 0 AND m.member_id = #{memberId}
+		ORDER BY c.reg_date DESC
 	</select>
 
-	<!-- 장바구니 삭제 -->
+	<!-- 하나의 상품 별 선택한 전체 옵션 -->
+	<select id="selectListStock" parameterType="Long" resultType="com.sp.app.domain.cart.Stock">
+		select stock_id stockId, quantity from cart_stock_bundle where cart_id = #{cartId}
+	</select>
+	
+	<!-- 장바구니 삭제 (옵션전체다 삭제)-->
 	<delete id="deleteCart" parameterType="java.util.List">
 		DELETE FROM cart WHERE cart_id IN
 				<foreach item="cartId" index="index" collection="list"
@@ -34,8 +44,13 @@
 				</foreach>
 	</delete>
 	
+	<!-- 장바구니 삭제(상품 당 옵션하나만 삭제)-->
+	<delete id="deleteCartStock" parameterType="java.util.List">
+		DELETE FROM cart_stock_bundle WHERE stock_id = #{stockId} AND product_id = #{productId}
+	</delete>
+	
 	<update id="updateQuantity" parameterType="map">
-			UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
+			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stockId = #{stockId}
 	</update>
 	
 	<!-- 장바구니담기전 재고 체크 0이면 재고 없음-->
@@ -50,8 +65,9 @@
 	<!-- 장바구니에 담긴 상품인지 확인 - 있으면 quantity 이 없음 -->
 	<select id="checkCartProduct" parameterType="map" resultType="Integer">
 		SELECT quantity
-		FROM cart
-		where member_id = #{memberId} AND product_id = #{productId} AND stock_id = #{stockId}
+		FROM cart c
+        JOIN cart_stock_bundle csb ON c.cart_id = csb.cart_id
+		where c.member_id= #{memberId} AND  c.product_id = #{productId} AND stock_id = #{stockId}
 	</select>
 		
 </mapper>

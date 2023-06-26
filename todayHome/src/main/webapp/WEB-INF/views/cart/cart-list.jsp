@@ -155,6 +155,8 @@
 		
 	});
     
+    
+
 </script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -186,9 +188,10 @@
 					</div>
 				</div>
 
-				<c:forEach step="1" begin="1" end="15">
+				<c:forEach var="dto" items="${cartList}" varStatus="status">
+
 					<div class="flex-col cart-item-container" style="margin-bottom: 30px;">
-						<div class="flex-col" style="justify-content: center; align-items: center; border-bottom: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px; font-weight: 500;"><div>데데리트 배송</div></div>
+						<div class="flex-col" style="justify-content: center; align-items: center; border-bottom: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px; font-weight: 500;"><div>${dto.brandName} 배송</div></div>
 
 						<div class="flex-row" style="gap: 10px; padding: 15px">
 							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" name="checkList" value="">
@@ -210,29 +213,31 @@
 											<img class="cart-img" src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/productions/168256978840040031.jpg">
 										</div>
 										<div class="flex-col" style="flex: 1; gap: 5px">
-											<div style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">미드센추리 스테인레스 이동식 수납 카트 2size</div>
+											<div style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">${dto.productName}</div>
 											<div class="flex-row" style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px">
-												<div>배송비 3,000원</div>
+												<div>배송비 ${dto.deliveryCost}원</div>
 											</div>
 										</div>
 									</div>
-									<div class="flex-col" style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
-										<div class="flex-row" style="justify-content: space-between; align-items: center">
-											<div style="font-size: 14px; line-height: 18px; color: #2F3438">대형(25cm)</div>
-											<i class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
-										</div>
-										<div class="flex-row" style="justify-content: space-between; align-items: center">
-											<div class="flex-row" style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
-												<div class="quantity-btn minus-btn"><i class="bi bi-dash"></i></div>
-												<div class="quantity-value">1</div>
-												<div class="quantity-btn plus-btn"><i class="bi bi-plus"></i></div>
+								
+									<c:forEach var="vo" items="${optionList}"  varStatus="status">
+										<div class="flex-col" style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
+											<div class="flex-row" style="justify-content: space-between; align-items: center">
+												<div style="font-size: 14px; line-height: 18px; color: #2F3438">
+													
+												</div>
+												<i class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
 											</div>
-<%--											<input class="form-control" type="number" style="width: 80px; height: 34px;">--%>
-
-
-											<div style="line-height: 20px; font-weight: 700; "><span>33,800</span>원</div>
+											<div class="flex-row" style="justify-content: space-between; align-items: center">
+												<div class="flex-row" style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
+													<div class="quantity-btn minus-btn"><i class="bi bi-dash"></i></div>
+													<div class="quantity-value">1</div>
+													<div class="quantity-btn plus-btn"><i class="bi bi-plus"></i></div>
+												</div>
+												<div style="line-height: 20px; font-weight: 700; "><span>33,800</span>원</div>
+											</div>
 										</div>
-									</div>
+									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row" style="gap: 5px; font-size: 12px; letter-spacing: -.4px; font-weight: 400; color: #424242; padding: 5px 0">
 											<div>옵션변경</div>

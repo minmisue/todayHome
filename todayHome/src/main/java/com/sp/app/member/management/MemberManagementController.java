@@ -41,7 +41,17 @@ public class MemberManagementController {
 				
 		return "redirect:/home";
 	}
-	
-	
-	
+
+	@PostMapping("logout")
+	public String logoutSubmit(HttpSession session) {
+		
+	 session.invalidate();
+	 
+	 
+	 return "redirect:/";   
+	 
+	}
+
 }
+	
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+	<!-- 주문 묶음 테이블 insert -->
+	<insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
+		INSERT INTO ORDER_BUNDLE(ORDER_BUNDLE_ID, MEMBER_ID, REG_DATE, RECEIVE_NAME, TEL, POST_NUM, ADDRESS2, ADDRESS1, USED_POINT, PAY_METHOD) 
+		 VALUES (SEQ_ORDER_BUNDLE.nextval,#{memberId},SYSDATE,#{receiveName},#{tel},#{postNum},#{address2},#{address1},#{usedPoint},#{payMethod})
+	</insert>
+	
+	<!-- 주문아이템 테이블 insert -->
+	<insert id="insertOrderItem" parameterType="com.sp.app.domain.order.Order">
+		INSERT INTO ORDER_ITEM(ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, COUPON_ID, QUANTITY, PRICE, FINAL_PRICE, DISCOUNT_PRICE, STOCK_ID, FINAL_TOT_PRICE, FINAL_DISCOUNT_PRICE, FINAL_DELIVERY_COST)
+		 VALUES (SEQ_ORDER_ITEM.nextval,#{orderId},#{productId},#{couponId, jdbcType=INTEGER},#{quantity},#{price},#{finalPrice},#{discountPrice},#{stockId},#{finalTotPrice},#{finalDiscountPrice},#{finalDeliveryCost})
+	</insert>
+	
+	<!-- 주문 상태 테이블 insert -->
+	<insert id="insertOrderStatus">
+		INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
+		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
+	</insert>
+	
+	
+</mapper>
+

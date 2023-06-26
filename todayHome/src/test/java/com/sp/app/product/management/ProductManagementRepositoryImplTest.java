@@ -90,13 +90,13 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void getProductById() throws Exception {
 		// 주어진 값
-		Long productId = 161L;
+		Long productId = 268L;
 
 		// 테스트 할 메소드
 		Product result = productManagementRepository.getProductById(productId);
 
 		// 결과
-//		log.info("result = {}", result);
+		System.out.println(result);
 	}
 
 	@Test
@@ -120,11 +120,7 @@ public class ProductManagementRepositoryImplTest {
 		int sequence = 2;
 
 		// 테스트 할 메소드
-		Map<String, Object> map = new HashMap<>();
-		map.put("productId", productId);
-		map.put("sequence", sequence);
-
-		productManagementRepository.increaseImgSequences(map);
+		productManagementRepository.increaseImgSequences(productId, sequence);
 
 		// 결과
 		List<ProductImg> productImgList = productManagementRepository.getProductImgList(productId);
@@ -356,7 +352,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getOptionMapByStockId() throws Exception {
-		Long stockId = 21L;
+		Long stockId = 42L;
 
 		List<OptionMap> optionMap = productManagementRepository.getOptionMapByStockId(stockId);
 
@@ -450,8 +446,8 @@ public class ProductManagementRepositoryImplTest {
 
 		for (Long option1 : subOptionIdList1) {
 			for (Long option2 : subOptionIdList2) {
-				// 10개의 숫자 출력 예시
-				int randomNumber = ThreadLocalRandom.current().nextInt(10, 361) * 100;
+				// 랜덤 숫자
+				int randomNumber = ThreadLocalRandom.current().nextInt(10, 500) * 100;
 
 				ProductStock stock = new ProductStock(randomNumber, quantity, option1, option2);
 				productManagementRepository.insertStock(stock);
@@ -463,12 +459,20 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getStockListByProductId() throws Exception {
-		Long productId = 247L;
+		Long productId = 268L;
 
 		List<ProductStock> stockList = productManagementRepository.getStockListByProductId(productId);
 
 		for (ProductStock stock : stockList) {
 			System.out.println(stock);
 		}
+	}
+
+	@Test
+	public void getStockByStockId() throws Exception {
+		Long stockId = 92L;
+
+		ProductStock stock = productManagementRepository.getStockByStockId(stockId);
+		System.out.println(stock);
 	}
 }

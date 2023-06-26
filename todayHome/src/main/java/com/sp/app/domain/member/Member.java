@@ -30,6 +30,16 @@ public class Member {
 		this.nickName = nickName;
 		this.password = password;
 	}
+	
+	
+
+	public Member(String email, String nickName, String password) {
+		super();
+		this.email = email;
+		this.nickName = nickName;
+		this.password = password;
+	}
+
 
 	@Override
 	public String toString() {

@@ -67,11 +67,12 @@ public class MemberManagementController {
 			@RequestParam String password,
 			@RequestParam String nickName
 			,Model model) {
-//		Member member = new Member(email,nickName,password);
+
+		Member member = new Member(email,nickName,password);
 		
 		
 		try {
-//			memberManagementService.insertMemberAll(member);
+			memberManagementService.insertMemberAll(member);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

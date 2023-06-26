@@ -41,7 +41,7 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 			Long memberId = memberManagementRepository.getMemberSeq();
 			member.setMemberId(memberId);
 
-			memberManagementRepository.insertMember(member);
+			memberManagementRepository.insertMemberAll(member);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -76,4 +76,16 @@ public class ProductManagementServiceImplTest {
 		contentImgList.add(new ProductImg("21234", 1));
 		contentImgList.add(new ProductImg("31234", 1));
 	}
+
+	@Test
+	public void updateStockQuantity() {
+		productManagementService.updateStockQuantity(92L, 45);
+	}
+
+	@Test
+	public void getQuantityByStockId() {
+		int quantityByStockId = productManagementService.getQuantityByStockId(92L);
+
+		System.out.println(quantityByStockId);
+	}
 }

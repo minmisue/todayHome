@@ -80,8 +80,8 @@
 		UPDATE ADDRESS_BUNDLE set POST_NUM = #{postNum}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2}
 		where MEMBER_ID = #{memberId}
     </update>
-       
-    
+
+
 	
 
 </mapper>

@@ -74,5 +74,7 @@ public interface ProductManagementRepository {
 	// stock 삭제
 
 	// 재고 변경
+	void updateStockQuantity(Long stockId, int quantity) throws Exception;
 
+	int getQuantityByStockId(Long stockId) throws Exception;
 }

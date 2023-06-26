@@ -67,4 +67,8 @@ public interface ProductManagementService {
 	List<ProductMainOption> getMainOptionListByProductId(Long productId);
 
 	ProductStock getStockByStockId(Long stockId);
+
+	void updateStockQuantity(Long stockId, int quantity);
+
+	int getQuantityByStockId(Long stockId);
 }

@@ -448,4 +448,22 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public void updateStockQuantity(Long stockId, int quantity) {
+		try {
+			productManagementRepository.updateStockQuantity(stockId, quantity);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public int getQuantityByStockId(Long stockId) {
+		try {
+			return productManagementRepository.getQuantityByStockId(stockId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

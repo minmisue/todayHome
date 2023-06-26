@@ -28,6 +28,9 @@ public class MemberManagementController {
 	@PostMapping("login")
 	public String loginSubmit(HttpSession httpSession, @RequestParam String email, @RequestParam String password) {
 		Member member = memberManagementService.login(email, password);
+
+		System.out.println(member);
+
 		if (member == null) {
 			return "redirect:/login";
 		}
@@ -69,7 +72,7 @@ public class MemberManagementController {
 			,Model model) {
 
 		Member member = new Member(email,nickName,password);
-		
+		System.out.println(member);
 		
 		try {
 			memberManagementService.insertMemberAll(member);

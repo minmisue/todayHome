@@ -41,7 +41,7 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 			Long memberId = memberManagementRepository.getMemberSeq();
 			member.setMemberId(memberId);
 
-			memberManagementRepository.insertMemberAll(member);
+			memberManagementRepository.insertMember(member);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,8 +59,16 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 
 	@Override
 	public void insertMemberAll(Member member) throws Exception {
-		memberManagementRepository.insertMemberAll(member);
+		try {
+			Long memberId = memberManagementRepository.getMemberSeq();
+			member.setMemberId(memberId);
 
+			memberManagementRepository.insertMemberAll(member);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override

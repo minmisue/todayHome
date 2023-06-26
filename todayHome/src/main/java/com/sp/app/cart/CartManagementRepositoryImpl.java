@@ -29,10 +29,7 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 			return;
 		}
 		
-		// 옵션 insert
-		for(CartOptionMap dto : stockList) {
-			commonDAO.insertData("cart.insertCartStock",dto);
-		}
+
 	}
 	
 	public void createCartStock(CartOptionMap cartOptionMap) throws Exception {

@@ -1,46 +1,42 @@
 package com.sp.app.event.board;
 
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.board.EventBoard;
 
+@Repository
 public class EventBoardRepositoryImpl implements EventBoardRepository{
 
+	@Autowired
+	private CommonDAO commonDAO;
+	
 	@Override
 	public void insertEventBoard(EventBoard eventboard) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void insertEventImg(Map<String, Object> imgMap) throws Exception {
-		// TODO Auto-generated method stub
-		
+		commonDAO.insertData("eventboard.insertEventBoard", eventboard);
 	}
 
 	@Override
 	public void updateEventBoard(EventBoard eventboard) throws Exception {
-		// TODO Auto-generated method stub
-		
+		commonDAO.updateData("eventboard.updateEventBoard",eventboard);
 	}
 
 	@Override
 	public void deleteEventBoard(Long eventBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		
+		commonDAO.deleteData("eventboard.updateEventBoard",eventBoardId);
 	}
 
 	@Override
-	public List<EventBoard> getAllEventBoard() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EventBoard> getAllEventBoard() throws Exception{
+		return commonDAO.selectList("eventboard.getAllEventBoard");
 	}
 
 	@Override
 	public EventBoard getEventBoardById(Long eventBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return commonDAO.selectOne("eventboard.getEventBoardById",eventBoardId);
 	}
 
 }

@@ -110,25 +110,15 @@ public class HomeController {
 		return "mypage/all-view";
 	}
 	
-	@GetMapping("mypage/notice")
-	public String myPageNotice() {
-		return "mypage/notice-board";
-	}
-
 	@GetMapping("mypage/alert")
 	public String myPageAlert() {
 		return "mypage/my-alert";
 	}
+	/*
+	 * @GetMapping("event/list") public String eventList() { return
+	 * "event/event-list"; }
+	 */
 
-	@GetMapping("event/list")
-	public String eventList() {
-		return "event/event-list";
-	}
-
-	@GetMapping("event/detail")
-	public String eventDetail() {
-		return "event/event-detail";
-	}
 	
 	@GetMapping("customerCenter")
 	public String customerCenter() {

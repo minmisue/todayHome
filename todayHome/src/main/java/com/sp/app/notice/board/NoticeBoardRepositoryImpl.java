@@ -31,12 +31,12 @@ public class NoticeBoardRepositoryImpl implements NoticeBoardRepository{
 
 	@Override
 	public List<NoticeBoard> getAllNoticeBoard() throws Exception{
-		return commonDAO.selectList("noticeBoard.getAllNoticeBoard");
+		return commonDAO.selectList("noticeboard.getAllNoticeBoard");
 	}
 
 	@Override
 	public NoticeBoard getNoticeBoardById(Long noticeBoardId) throws Exception{
-		return commonDAO.selectOne("noticeBoard.getNoticeBoardById", noticeBoardId);
+		return commonDAO.selectOne("noticeboard.getNoticeBoardById", noticeBoardId);
 	}
 
 }

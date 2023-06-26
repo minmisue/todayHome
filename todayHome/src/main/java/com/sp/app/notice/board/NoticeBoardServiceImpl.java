@@ -37,9 +37,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService{
 		List<NoticeBoard> noticeboardlist = null;
 		
 		try {
-			
 			noticeboardlist = noticeboardRepository.getAllNoticeBoard();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

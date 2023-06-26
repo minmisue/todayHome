@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
@@ -137,19 +138,21 @@ $(".css-gtmo6i").on("click",function () {
 			<section class="css-1garijz">
 			<h5 class="css-yxjd3y">무엇을 도와드릴까요 ? </h5>
 			<div class="accordion" id="accordionExample">
+			<c:forEach var="notice" items="${noticelist}" varStatus="status">
 			  <div class="accordion-item">
 			    <h2 class="accordion-header">
-			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+			      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#notice${notice.noticeBoardId}" aria-expanded="false" aria-controls="notice${notice.noticeBoardId}">
 					<span class="css-axiq8h css-q6kosl">Q</span>&nbsp;
-					<span class="question-textquestion-text">주문 내역은 어떻게 확인할 수 있나요?</span>
+					<span class="question-textquestion-text">${notice.subject }</span>
 			      </button>
 			    </h2>
-			    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+			    <div id="notice${notice.noticeBoardId}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 			      <div class="accordion-body">
-			      우측 상단 프로필 사진을 클릭 후 [나의쇼핑]을 통해 확인 가능합니다
+			      ${notice.content }
 			      </div>
 			    </div>
 			  </div>
+			 </c:forEach>
 			</div>
 			</section>
 		</div>

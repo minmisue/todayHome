@@ -1,75 +1,79 @@
 package com.sp.app.member.management;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sp.app.domain.member.Member;
 
 @Service
-public class MemberManagementServiceImpl implements MemberManagementService{
+public class MemberManagementServiceImpl implements MemberManagementService {
 
-	
 	@Autowired
 	MemberManagementRepository memberManagementRepository;
-	
+
 	@Override
 	public Member login(String email, String password) {
 		Member member;
-		
+
 		try {
 			member = memberManagementRepository.readMemberByEmail(email);
-			
-			if(member == null) {
+
+			if (member == null) {
 				return null;
-			} 
-			
-			if(! password.equals(member.getPassword())) {
+			}
+
+			if (!password.equals(member.getPassword())) {
 				return null;
 			}
 			return member;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public void insertMember(Member member) throws Exception {
-			
-		
+
 		try {
 			Long memberId = memberManagementRepository.getMemberSeq();
 			member.setMemberId(memberId);
-			
-			
+
 			memberManagementRepository.insertMember(member);
-			
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
-		
-	
+
 	}
 
 	@Override
 	public void insertMemberDetail(Member member) throws Exception {
+
 		memberManagementRepository.insertMemberDetail(member);
-		
+
 	}
 
 	@Override
 	public void insertMemberAll(Member member) throws Exception {
-		memberManagementRepository.insertMemberAll(member);
-		
+		try {
+			Long memberId = memberManagementRepository.getMemberSeq();
+			member.setMemberId(memberId);
+
+			memberManagementRepository.insertMemberAll(member);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public boolean emailCheck(String email) throws Exception {
-		int result = memberManagementRepository.emailCheck(email);	
+		int result = memberManagementRepository.emailCheck(email);
 //		boolean check;
 //		if(result == 1 ) {
 //			check = true;
@@ -79,19 +83,19 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 //		
 //	
 //		return check;
-		
-		if(result == 1 ) {
+
+		if (result == 1) {
 			return true;
-		} 
-		
+		}
+
 		return false;
-		
+
 	}
 
 	@Override
 	public Member readMemberById(Long memberId) throws Exception {
 		return memberManagementRepository.readMemberById(memberId);
-		
+
 	}
 
 	@Override
@@ -101,37 +105,49 @@ public class MemberManagementServiceImpl implements MemberManagementService{
 
 	@Override
 	public boolean updateMemberEnabled(Long memberId, int enabled) throws Exception {
+		int result = memberManagementRepository.updateMemberEnabled(memberId, enabled);
 		
-		return true;
+		if(result == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean updateMember(Member member) throws Exception {
-		
-		 int result = memberManagementRepository.updateMember(member);
-		
-			 return true;
-		 }
-		
-		
-	
+
+		int result = memberManagementRepository.updateMember(member);
+
+		if (result == 1) {
+			return true;
+		}
+		return false;
+
+	}
 
 	@Override
 	public boolean updateMemberDetail(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return true;
+		int result = memberManagementRepository.updateMemberDetail(member);
+
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean updateAddress(Member member) throws Exception {
-		// TODO Auto-generated method stub
-		return true;
+		int result = memberManagementRepository.updateMemberDetail(member);
+		
+		if(result == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public void insertAddress(Member member) throws Exception {
-
+		memberManagementRepository.insertAddress(member);
 	}
-
 
 }

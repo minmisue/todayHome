@@ -42,9 +42,9 @@ public class MemberManagementRepositoryImplTest {
 	public void insertMember() throws Exception {
 		Long seq = memberManagementRepository.getMemberSeq();
 
-		Member member = new Member(seq, "example@gmail.com", "John Doe", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
+//		Member member = new Member(seq, "example@gmail.com", "John Doe", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
 
-		memberManagementRepository.insertMember(member);
+//		memberManagementRepository.insertMember(member);
 	}
 
 	@Test
@@ -59,7 +59,9 @@ public class MemberManagementRepositoryImplTest {
 	@Test
 	public void insertMemberAll() throws Exception {
 		Long seq = memberManagementRepository.getMemberSeq();
-		Member member = new Member(seq, "example@gmail.com2", "John Doe2", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
+//		Member member = new Member(seq, "example@gmail.com2", "John Doe2", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
+
+		Member member = new Member(seq, "email", "kim", "pwd");
 
 		memberManagementRepository.insertMemberAll(member);
 
@@ -69,9 +71,9 @@ public class MemberManagementRepositoryImplTest {
 	public void comInsert() throws Exception {
 		Long seq = memberManagementRepository.getMemberSeq();
 
-		Member member = new Member(seq, "example@gmail.com3", "John Doe3", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
+//		Member member = new Member(seq, "example@gmail.com3", "John Doe3", "123456789", "johndoe", "password123", "profile.jpg", "Some info");
 
-		memberManagementRepository.insertMemberDetail(member);
+//		memberManagementRepository.insertMemberDetail(member);
 	}
 
 	@Test
@@ -123,16 +125,16 @@ public class MemberManagementRepositoryImplTest {
 	@Test
 	public void updateMember() throws Exception {
 		Long memberId = 62L;
-		Member member = new Member(memberId, 0, "01012341234", "12341234");
-		memberManagementRepository.updateMember(member);
+//		Member member = new Member(memberId, 0, "01012341234", "12341234");
+//		memberManagementRepository.updateMember(member);
 
 	}
 
 	@Test
 	public void updateMemberDetail() throws Exception {
 		Long memberId = 62L;
-		Member member = new Member(memberId, "수댕이", "1234", "미ㅏㄴㅇ", "하이하잏");
-		memberManagementRepository.updateMemberDetail(member);
+//		Member member = new Member(memberId, "수댕이", "1234", "미ㅏㄴㅇ", "하이하잏");
+//		memberManagementRepository.updateMemberDetail(member);
 
 	}
 

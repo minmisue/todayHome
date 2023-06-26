@@ -8,8 +8,8 @@
     </select>
 
     <insert id="insertMember" parameterType="com.sp.app.domain.member.Member">
-		INSERT INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
-		VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
+		INSERT INTO MEMBER (MEMBER_ID, EMAIL, NAME, TEL)
+		VALUES (#{memberId}, #{email},#{name, jdbcType=VARCHAR},#{tel, jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertMemberDetail" parameterType="com.sp.app.domain.member.Member">
@@ -20,10 +20,10 @@
 	
     <update id="insertMemberAll" parameterType="com.sp.app.domain.member.Member">
 		INSERT ALL
-			INTO MEMBER (MEMBER_ID, MEMBER_ROLE_ID, EMAIL, NAME, TEL)
-			VALUES (#{memberId}, #{memberRoleId},#{email},#{name},#{tel})
-			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
+			INTO MEMBER (MEMBER_ID, EMAIL, NAME, TEL)
+			VALUES (#{memberId} ,#{email},#{name, jdbcType=VARCHAR},#{tel, jdbcType=VARCHAR})
+			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO)
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
 		SELECT * FROM dual    
     </update>
     

@@ -65,7 +65,7 @@ input[type="password"], input[type="text"] {
 	line-height: 30px;
 }
 
-input[type="email"] {
+input[id="email"],input[id="email-domain"] {
 	width: 135px;
 	padding: 0 15px;
 	border: 1px solid #ccc;
@@ -138,9 +138,9 @@ function toggleAll() {
 <body>
 	<div class="main">
 		<h1>회원가입</h1>
-		
 
-		<form class="main-form" action="/register" method="post">
+		<form class="main-form" action="${pageContext.request.contextPath}/join" method="post">
+			<div style="text-align: center; margin-bottom: 20px; color: orange">${msg }</div>
 			<div class="sns-login">
 				SNS계정으로 간편하게 회원가입
 			</div>
@@ -148,9 +148,9 @@ function toggleAll() {
 
 			<label class="label1" for="email">이메일</label>
 			<div class="memberinfo">
-				<input type="email" id="email" name="email" placeholder="이메일" required>
+				<input type="text" id="email" name="email" placeholder="이메일" required>
 				  <span class="email-separator">@</span> 
-				<input type="email"	id="email-domain" name="email-domain" placeholder="입력해주세요" required>
+				<input type="text"	id="email-domain" name="email-domain" placeholder="입력해주세요" required>
 			</div>
 
 			<button class="email-certify" type="button">이메일 인증하기</button>
@@ -169,7 +169,7 @@ function toggleAll() {
 			<div class="memberinfo">
 				<label for="nickname">닉네임</label>
 				<div class="check">다른 유저와 겹치지 않도록 입력해주세요. (2~15자)</div>
-				<input type="text" id="nickname" name="nickname" placeholder="별명(2~15자)" required>
+				<input type="text" id="nickname" name="nickName" placeholder="별명(2~15자)" required>
 			</div>
 
 			<div>
@@ -197,12 +197,12 @@ function toggleAll() {
 				
 				<div class="terms">	
 					<input type="checkbox" id="marketing" name="marketing" > <label for="marketing">개인정보 마케팅 활용 동의</label>
-					<label class="select">(필수)</label>
+					<label class="select">(선택)</label>
 				</div>
 				
 				<div class="terms">
 					<input type="checkbox" id="event" name="event"> <label for="event">이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신</label>
-					<label class="select">(필수)</label>
+					<label class="select">(선택)</label>
 				</div>
 			</div>
 

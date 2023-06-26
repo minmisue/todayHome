@@ -60,7 +60,7 @@
         // 여기에서 메뉴 선택
 		// 첫번째 파라미터 (커뮤니티, 쇼핑 중 선택)
 		// 두번째 파라미터 (서브 메뉴 중 몇번째인지 선택)
-        selectCurrentMenu(1, 1)
+        selectCurrentMenu(1, 5)
     });
 </script>
 
@@ -69,7 +69,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="event-detail-container">
-				<img class="event-detail-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/contests/contest_description/168506661020155400.jpg?w=2560&webp=1">
+				${eventBoard.content }
 			
 			<div class="reply">
 				<form name="replyForm" method="post">

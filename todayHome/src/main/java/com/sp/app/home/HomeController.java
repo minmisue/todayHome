@@ -119,21 +119,11 @@ public class HomeController {
 	public String myPageAlert() {
 		return "mypage/my-alert";
 	}
+	/*
+	 * @GetMapping("event/list") public String eventList() { return
+	 * "event/event-list"; }
+	 */
 
-	@GetMapping("event/list")
-	public String eventList() {
-		return "event/event-list";
-	}
-
-	@GetMapping("event/detail")
-	public String eventDetail() {
-		return "event/event-detail";
-	}
-	
-	@GetMapping("event/write")
-	public String eventWrite() {
-		return "event/event-write";
-	}
 	
 	@GetMapping("customerCenter")
 	public String customerCenter() {

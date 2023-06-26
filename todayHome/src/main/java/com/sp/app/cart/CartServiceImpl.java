@@ -36,9 +36,7 @@ public class CartServiceImpl implements CartService{
 			// 옵션 넣기
 			for(CartOptionMap dto : stockList) {
 				
-				
 				dto.setCartId(cartId);
-				
 				
 				Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),dto.getStockId());
 				

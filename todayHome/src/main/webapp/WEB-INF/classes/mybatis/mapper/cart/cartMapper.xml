@@ -71,7 +71,7 @@
 		SELECT quantity
 		FROM cart c
         JOIN cart_stock_bundle csb ON c.cart_id = csb.cart_id
-		where c.member_id= #{memberId} AND  c.product_id = #{productId} AND stock_id = #{stockId}
+		where c.member_id= #{memberId} AND stock_id = #{stockId}
 	</select>
 		
 </mapper>

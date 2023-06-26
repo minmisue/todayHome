@@ -24,11 +24,6 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	public void createCart(Cart cart) throws Exception {
 		commonDAO.insertData("cart.insertCart", cart);
 		
-		List<CartOptionMap> stockList = cart.getStockList();
-		if(stockList == null) {
-			return;
-		}
-		
 
 	}
 	

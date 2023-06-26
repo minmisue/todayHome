@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
-import com.sp.app.domain.cart.Stock;
 
 
 @Repository
@@ -32,9 +31,10 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void updateCartQuantity(Long stockId, Long quantity) throws Exception {
+	public void updateCartQuantity(Long cartId,Long stockId, Long quantity) throws Exception {
 		
 		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("cartId", cartId);
 		map.put("stockId", stockId);
 		map.put("quantity", quantity);
 		
@@ -72,11 +72,21 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 		return commonDAO.selectOne("cart.checkCartProduct", map);
 	}
 
+//	@Override
+//	public List<Stock> getStockId(Long cartId) throws Exception{
+//		 List<Stock> stockIdList = commonDAO.selectList("cart.selectListStock", cartId);
+//		
+//		return stockIdList;		
+//	}
+
 	@Override
-	public List<Stock> getStockId(Long cartId) throws Exception{
-		 List<Stock> stockIdList = commonDAO.selectList("cart.selectListStock", cartId);
+	public Long checkCart(Long memberId, Long productId) throws Exception {
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+
+		map.put("productId", productId);
 		
-		return stockIdList;		
+		return commonDAO.selectOne("cart.checkCart", map);
 	}
 
 }

@@ -54,7 +54,7 @@
 <!--	</delete>-->
 	
 	<update id="updateQuantity" parameterType="map">
-			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stock_id = #{stockId}
+			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stock_id = #{stockId} AND cart_id = #{cartId}
 	</update>
 	
 	<!-- 장바구니담기전 재고 체크 0이면 재고 없음-->
@@ -72,6 +72,10 @@
 		FROM cart c
         JOIN cart_stock_bundle csb ON c.cart_id = csb.cart_id
 		where c.member_id= #{memberId} AND stock_id = #{stockId}
+	</select>
+	
+	<select id="checkCart" parameterType="map" resultType="Long">
+		SELECT CART_ID FROM CART WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productId}
 	</select>
 		
 </mapper>

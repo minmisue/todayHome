@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
-import com.sp.app.domain.cart.Stock;
 import com.sp.app.product.management.ProductManagementRepository;
 
 
@@ -21,12 +21,21 @@ public class CartServiceImpl implements CartService{
 	ProductManagementRepository productManagementRepository;
 	
 	@Override
+	@Transactional
 	public void createCart(Cart cart) throws Exception{
 
 
 		try {
-			// cart 테이블에 먼저 insert
-			cartManagementRepository.createCart(cart);
+			
+			// 카트에 담겨져있으면 cart에 insert 안함			
+			Long cartId = null;
+			if(cartManagementRepository.checkCart(cart.getMemberId(), cart.getProductId()) != null){
+				cartId = cartManagementRepository.checkCart(cart.getMemberId(), cart.getProductId());
+			} else {
+				cartManagementRepository.createCart(cart);
+				cartId = cart.getCartId();
+			}
+			
 
 			Long tot = 0L;
 			Long memberId = cart.getMemberId();
@@ -34,7 +43,7 @@ public class CartServiceImpl implements CartService{
 			List<CartOptionMap> stockList = cart.getStockList();
 			System.out.println(stockList);
 
-			Long cartId = cart.getCartId();
+			
 
 			System.out.println(cartId);
 
@@ -54,17 +63,23 @@ public class CartServiceImpl implements CartService{
 				System.out.println("tot = " + tot);
 				System.out.println("status = " + status);
 				System.out.println("quantity = " + quantity);
+				System.out.println("cartId = " + cartId);
 //
 //				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
 				if(status) {
 					tot += quantity;
-					cartManagementRepository.updateCartQuantity(stockId, tot);
+					// 업데이트 해준다음에 나옴
+					if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
+						throw new RuntimeException("재고가 없습니다");
+					}
+					cartManagementRepository.updateCartQuantity(cartId,stockId, tot);
+					return;
 				}
 //
 				// 재고가 없으면 0
-//				if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
-//					throw new RuntimeException("재고가 없습니다");
-//				}
+				if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
+					throw new RuntimeException("재고가 없습니다");
+				}
 //
 				cartManagementRepository.createCartStock(stock);
 			}
@@ -118,17 +133,17 @@ public class CartServiceImpl implements CartService{
 		return false;
 	}
 
-	@Override
-	public List<Stock> getStockId(Long cartId) {
-		List<Stock> stockIdList = null;
-		try {
-			stockIdList =  cartManagementRepository.getStockId(cartId);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return stockIdList;
-	}
+//	@Override
+//	public List<Stock> getStockId(Long cartId) {
+//		List<Stock> stockIdList = null;
+//		try {
+//			stockIdList =  cartManagementRepository.getStockId(cartId);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return stockIdList;
+//	}
 
 }

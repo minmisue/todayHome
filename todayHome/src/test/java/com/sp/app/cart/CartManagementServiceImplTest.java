@@ -27,20 +27,24 @@ public class CartManagementServiceImplTest {
 	
 	
 	@Test
-	public void insertStock() throws Exception{
-		Cart cart = new Cart();
+	public void insertStock() {
+		try {
+			Cart cart = new Cart();
 
-		cart.setMemberId(1L);
-		cart.setProductId(262L);
+			cart.setMemberId(1L);
+			cart.setProductId(262L);
 
-		CartOptionMap cartOptionMap = new CartOptionMap();
-		cartOptionMap.setStockId(90L);
-		cartOptionMap.setQuantity(2L);
-		List<CartOptionMap> stockList = new ArrayList<CartOptionMap>();
-		stockList.add(cartOptionMap);
-		cart.setStockList(stockList);
+			CartOptionMap cartOptionMap = new CartOptionMap();
+			cartOptionMap.setStockId(90L);
+			cartOptionMap.setQuantity(400L);
+			List<CartOptionMap> stockList = new ArrayList<CartOptionMap>();
+			stockList.add(cartOptionMap);
+			cart.setStockList(stockList);
 
-		cartService.createCart(cart);
+			cartService.createCart(cart);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 
 	}

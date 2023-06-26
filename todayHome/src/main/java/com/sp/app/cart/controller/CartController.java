@@ -1,6 +1,5 @@
 package com.sp.app.cart.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
-import com.sp.app.domain.cart.Stock;
 import com.sp.app.domain.common.SessionInfo;
-import com.sp.app.domain.product.OptionMap;
-import com.sp.app.domain.product.ProductStock;
 import com.sp.app.product.management.ProductManagementService;
 
 @Controller("cart.cartController")
@@ -46,16 +42,16 @@ public class CartController {
 			++idx;
 			Long cartId = dto.getCartId();
 			
-			List<Stock> stockIdList = cartservice.getStockId(cartId);
-			
-			
-			List<ProductStock> optionList = new ArrayList<ProductStock>();
-			for(Stock vo : stockIdList) {
-				optionList.add(productservice.getStockByStockId(vo.getStockId()));
-			}
-			
+//			List<Stock> stockIdList = cartservice.getStockId(cartId);
+//			
+//			
+//			List<ProductStock> optionList = new ArrayList<ProductStock>();
+//			for(Stock vo : stockIdList) {
+//				optionList.add(productservice.getStockByStockId(vo.getStockId()));
+//			}
+//			
 //			String name  = "optionList"+idx;
-			model.addAttribute("optionList",optionList);
+			//model.addAttribute("optionList",optionList);
 			
 		}
 			

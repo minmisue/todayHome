@@ -102,4 +102,26 @@ public class SellerServiceImpl implements SellerService {
 		}
 		return seller; 
 	}
+
+	@Override
+	public Seller login(String email, String password) {
+		Seller seller;
+		
+		try {
+			seller = sellerRepository.getSellerByEmail(email);
+			if(seller == null) {
+				return null;
+			} 
+			
+			if(! password.equals(seller.getPassword())) {
+				return null;
+			}
+			return seller;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

@@ -104,7 +104,8 @@
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/all">마이페이지</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/production-review/write">나의 쇼핑</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/picture/write">판매자 신청</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/seller/join">판매자 신청</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/seller/login">판매자 페이지</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/notice">고객센터</a></li>
 						<li><a class="dropdown-item" href="javascript:void(0)" onclick="logout()" >로그아웃</a></li>
 					</ul>

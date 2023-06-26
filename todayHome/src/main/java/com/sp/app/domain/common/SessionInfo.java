@@ -4,8 +4,15 @@ public class SessionInfo {
 	private Long memberId;
 	private String userNickname;
 	private Integer userRole;
+	private Long sellerId;
+	private int status;
 
-	public SessionInfo() {
+
+
+	public SessionInfo(Long sellerId,int status) {
+		super();
+		this.sellerId=sellerId;
+		this.status=status;
 	}
 
 	public SessionInfo(Long memberId, String userNickname, Integer userRole) {
@@ -38,6 +45,20 @@ public class SessionInfo {
 	public void setUserRole(Integer userRole) {
 		this.userRole = userRole;
 	}
+	public Long getSellerId() {
+		return sellerId;
+	}
 
+	public void setSellerId(Long sellerId) {
+		this.sellerId = sellerId;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	
 }

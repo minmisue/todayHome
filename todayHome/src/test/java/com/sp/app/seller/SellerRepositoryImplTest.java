@@ -103,4 +103,13 @@ public class SellerRepositoryImplTest{
 		System.out.println(seller);
 	
 	}
+	@Test
+	public void getSellerByEmail() throws Exception{
+		String email= "test@";
+		
+		Seller seller = sellerRepository.getSellerByEmail(email);
+		
+		System.out.println(seller);
+		
+	}
 }

@@ -26,4 +26,6 @@ public interface SellerService {
     
   //판매자 아이디로 판매자 조회
     Seller getSellerBySellerId(Long sellerId) throws Exception;
+    
+    Seller login(String email,String password);
 }

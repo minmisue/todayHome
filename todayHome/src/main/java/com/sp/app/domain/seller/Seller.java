@@ -54,6 +54,10 @@ public class Seller {
 		this.status =status;
 	}
 	
+	public Seller(Long sellerId,Long memberId,String brandName,String password,String businessNumber,String sellerName,String tel,String email,String representativeName,String presentation, Long accumulatedAmount,String regDate,int status) {
+
+	}
+	
 	public Seller(Long sellerId, String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate,int status) {
 
 	}

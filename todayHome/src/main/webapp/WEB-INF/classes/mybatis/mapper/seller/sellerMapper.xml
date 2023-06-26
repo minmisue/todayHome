@@ -97,4 +97,15 @@
   		From seller
   		WHERE seller_id=#{seller_id}	
 	</select>
+<!-- 판매자 이메일로 판매자 리스트 -->
+	<select id="getSellerByEmail" parameterType="String" resultType="com.sp.app.domain.seller.Seller">
+		SELECT s.seller_id AS sellerId,s.member_id AS memberId, s.brand_name AS brandName,s.password AS password, s.business_number AS businessNumber, 
+  			s.seller_name AS sellerName, s.tel AS tel, s.email AS email,
+  		 	s.representative_name AS representativeName, s.presentation AS presentation,
+  		 	s.accumulated_amount AS accumulatedAmount, to_char(s.reg_date, 'YYYY-MM-DD') AS regDate,
+  		 	ss.status AS status
+  		FROM seller s
+  		JOIN seller_status ss ON s.seller_id = ss.seller_id
+		WHERE s.email = #{email}
+	</select>
 </mapper>

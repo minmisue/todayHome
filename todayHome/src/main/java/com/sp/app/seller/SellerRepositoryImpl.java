@@ -55,4 +55,10 @@ public class SellerRepositoryImpl implements SellerRepository{
 		 
 		
 	}
+
+	@Override
+	public Seller getSellerByEmail(String email) throws Exception {
+		 
+		return commonDAO.selectOne("seller.getSellerByEmail",email);
+	}
 }

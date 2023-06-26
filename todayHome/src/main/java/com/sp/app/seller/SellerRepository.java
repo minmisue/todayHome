@@ -3,6 +3,7 @@ package com.sp.app.seller;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.app.domain.member.Member;
 import com.sp.app.domain.seller.Seller;
 
 public interface SellerRepository {
@@ -27,4 +28,5 @@ public interface SellerRepository {
     //판매자 아이디로 판매자 조회
     Seller getSellerBySellerId(Long sellerId) throws Exception; 
 
+    Seller getSellerByEmail(String email) throws Exception;
 }

@@ -29,7 +29,7 @@ public interface CartManagementRepository {
 	public Integer checkCartProduct(Long memberId, Long stockId) throws Exception;
 	
 	// 장바구니에 담긴 상품의 옵션 확인
-	//public List<Stock> getStockId(Long cartId) throws Exception;
+	public List<CartOptionMap> getStockId(Long cartId) throws Exception;
 
 	public Long checkCart(Long memberId, Long productId) throws Exception;
 

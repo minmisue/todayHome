@@ -133,17 +133,17 @@ public class CartServiceImpl implements CartService{
 		return false;
 	}
 
-//	@Override
-//	public List<Stock> getStockId(Long cartId) {
-//		List<Stock> stockIdList = null;
-//		try {
-//			stockIdList =  cartManagementRepository.getStockId(cartId);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		return stockIdList;
-//	}
+	@Override
+	public List<CartOptionMap> getStockId(Long cartId) {
+		List<CartOptionMap> stockIdList = null;
+		try {
+			stockIdList =  cartManagementRepository.getStockId(cartId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return stockIdList;
+	}
 
 }

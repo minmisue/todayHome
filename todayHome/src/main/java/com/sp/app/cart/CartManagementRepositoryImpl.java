@@ -72,12 +72,12 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 		return commonDAO.selectOne("cart.checkCartProduct", map);
 	}
 
-//	@Override
-//	public List<Stock> getStockId(Long cartId) throws Exception{
-//		 List<Stock> stockIdList = commonDAO.selectList("cart.selectListStock", cartId);
-//		
-//		return stockIdList;		
-//	}
+	@Override
+	public List<CartOptionMap> getStockId(Long cartId) throws Exception{
+		 List<CartOptionMap> stockIdList = commonDAO.selectList("cart.selectListStock", cartId);
+		
+		return stockIdList;		
+	}
 
 	@Override
 	public Long checkCart(Long memberId, Long productId) throws Exception {

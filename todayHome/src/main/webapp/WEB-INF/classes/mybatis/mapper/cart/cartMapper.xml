@@ -33,11 +33,13 @@
 		WHERE pi.sequence = 0 AND pi.type = 0 AND m.member_id = #{memberId}
 		ORDER BY c.reg_date DESC
 	</select>
-
+ 	
 	<!-- 하나의 상품 별 선택한 전체 옵션 -->
-	<select id="selectListStock" parameterType="Long" resultType="com.sp.app.domain.cart.Stock">
+
+	<select id="selectListStock" parameterType="Long" resultType="com.sp.app.domain.cart.CartOptionMap">
 		select stock_id stockId, quantity from cart_stock_bundle where cart_id = #{cartId}
 	</select>
+
 	
 	<!-- 장바구니 삭제 (옵션전체다 삭제)-->
 	<delete id="deleteCart" parameterType="java.util.List">

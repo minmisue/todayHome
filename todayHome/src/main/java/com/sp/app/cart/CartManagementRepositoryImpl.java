@@ -32,10 +32,10 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void updateCartQuantity(Long cartId, Long quantity) throws Exception {
+	public void updateCartQuantity(Long stockId, Long quantity) throws Exception {
 		
 		Map<String , Object> map = new HashMap<String, Object>();
-		map.put("cartId", cartId);
+		map.put("stockId", stockId);
 		map.put("quantity", quantity);
 		
 		commonDAO.updateData("cart.updateQuantity", map);

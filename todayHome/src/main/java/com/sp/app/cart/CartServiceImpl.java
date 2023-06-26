@@ -22,42 +22,53 @@ public class CartServiceImpl implements CartService{
 	
 	@Override
 	public void createCart(Cart cart) throws Exception{
+
+
 		try {
 			// cart 테이블에 먼저 insert
 			cartManagementRepository.createCart(cart);
-			
+
 			Long tot = 0L;
-			
+			Long memberId = cart.getMemberId();
+
 			List<CartOptionMap> stockList = cart.getStockList();
-			
+			System.out.println(stockList);
+
 			Long cartId = cart.getCartId();
+
 			System.out.println(cartId);
-			
+
 			// 옵션 넣기
-			for(CartOptionMap dto : stockList) {
-				
-				dto.setCartId(cartId);
-				
-				Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),dto.getStockId());
-				
-				Long inputQuantity = dto.getQuantity();
+			for(CartOptionMap stock : stockList) {
+				Long stockId = stock.getStockId();
+				stock.setCartId(cartId);
+				System.out.println("stock = " + stock);
+
+				Integer quantity = cartManagementRepository.checkCartProduct(memberId, stockId);
+
+				Long inputQuantity = stock.getQuantity();
 				tot = inputQuantity;
-				boolean status = quantity > 0 && quantity != null;
-				
-				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
+
+				boolean status = quantity != null;
+
+				System.out.println("tot = " + tot);
+				System.out.println("status = " + status);
+				System.out.println("quantity = " + quantity);
+//
+//				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
 				if(status) {
 					tot += quantity;
-					cartManagementRepository.updateCartQuantity(cartId, tot);
-				} 
-				
-				// 재고가 없으면 0 
-				if(cartManagementRepository.checkQuantity(dto.getStockId(),tot) == 0) {
-					throw new RuntimeException("재고가 없습니다");
+					cartManagementRepository.updateCartQuantity(stockId, tot);
 				}
-				
-				cartManagementRepository.createCartStock(dto);
+//
+				// 재고가 없으면 0
+//				if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
+//					throw new RuntimeException("재고가 없습니다");
+//				}
+//
+				cartManagementRepository.createCartStock(stock);
 			}
-			
+
 		}catch (Exception e) {
 			throw e;
 		}

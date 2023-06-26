@@ -6,6 +6,16 @@ public class CartOptionMap {
 	private Long price;
 	private Long quantity;
 
+	@Override
+	public String toString() {
+		return "CartOptionMap{" +
+				"cartId=" + cartId +
+				", stockId=" + stockId +
+				", price=" + price +
+				", quantity=" + quantity +
+				'}';
+	}
+
 	public CartOptionMap() {
 	}
 

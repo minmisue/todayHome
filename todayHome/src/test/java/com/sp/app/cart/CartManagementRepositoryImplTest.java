@@ -29,13 +29,6 @@ public class CartManagementRepositoryImplTest {
 	@Autowired
 	ProductManagementRepository productManagementRepository;
 	
-	
-	@Test
-	public void insertStock() throws Exception{
-		productManagementRepository.insertStock(null);
-	}
-	
-	
 	@Test
 	public void createCart() throws Exception{
 		// 주어진 값
@@ -53,7 +46,7 @@ public class CartManagementRepositoryImplTest {
 	public void createCartStock() throws Exception{
 		// 주어진 값
 		CartOptionMap cartOptionMap = new CartOptionMap();
-		cartOptionMap.setCartId(250L);
+		cartOptionMap.setCartId(255L);
 		cartOptionMap.setStockId(90L);
 		cartOptionMap.setQuantity(2L);
 

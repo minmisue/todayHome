@@ -49,12 +49,12 @@
 	</delete>
 	
 	<!-- 장바구니 삭제(상품 당 옵션하나만 삭제)-->
-	<delete id="deleteCartStock" parameterType="java.util.List">
-		DELETE FROM cart_stock_bundle WHERE stock_id = #{stockId} AND product_id = #{productId}
-	</delete>
+<!--	<delete id="deleteCartStock" parameterType="java.util.List">-->
+<!--		DELETE FROM cart_stock_bundle WHERE stock_id = #{stockId} AND product_id = #{productId}-->
+<!--	</delete>-->
 	
 	<update id="updateQuantity" parameterType="map">
-			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stockId = #{stockId}
+			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stock_id = #{stockId}
 	</update>
 	
 	<!-- 장바구니담기전 재고 체크 0이면 재고 없음-->

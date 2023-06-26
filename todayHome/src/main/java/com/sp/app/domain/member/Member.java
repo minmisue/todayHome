@@ -23,16 +23,14 @@ public class Member {
 	public Member() {
 	}
 
-	
 
-	public Member(String email, String nickName, String password) {
-		super();
+	public Member(Long memberId, String email, String nickName, String password) {
+		this.memberId = memberId;
 		this.email = email;
 		this.nickName = nickName;
 		this.password = password;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Member{" +

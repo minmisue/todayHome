@@ -22,8 +22,8 @@
 		INSERT ALL
 			INTO MEMBER (MEMBER_ID, EMAIL, NAME, TEL)
 			VALUES (#{memberId} ,#{email},#{name, jdbcType=VARCHAR},#{tel, jdbcType=VARCHAR})
-			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
+			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO)
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
 		SELECT * FROM dual    
     </update>
     

@@ -3,7 +3,6 @@ package com.sp.app.member.management;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -56,12 +55,12 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	}
 
 	@Override
-	public void updateMemberEnabled(Long memberId, int enabled) throws Exception {
+	public int updateMemberEnabled(Long memberId, int enabled) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("memberId", memberId);
 		map.put("enabled", enabled);
 		
-		commonDAO.updateData("management.updateMemberEnabled",map);
+		return commonDAO.updateData("management.updateMemberEnabled",map);
 	}
 
 	@Override

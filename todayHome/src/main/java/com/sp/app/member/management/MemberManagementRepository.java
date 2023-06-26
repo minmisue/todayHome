@@ -19,7 +19,7 @@ public interface MemberManagementRepository {
 	
 	Member readMemberByEmail(String email) throws Exception;
 	
-	void updateMemberEnabled(Long memberId, int enabled) throws Exception;
+	int updateMemberEnabled(Long memberId, int enabled) throws Exception;
 	
 	int updateMember(Member member) throws Exception;
 	

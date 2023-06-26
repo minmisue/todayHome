@@ -17,46 +17,22 @@ public class Member {
 	private String address2;
 	private int remainPoint;
 
-	public Member(Long memberId, int memberRoleId, String name, String tel) {
-		this.memberId = memberId;
-		this.memberRoleId = memberRoleId;
-		this.name = name;
-		this.tel = tel;
-	}
+	
 
-	public Member(Long memberId, String nickName, String password, String profileImgName, String info) {
-		this.memberId = memberId;
-		this.nickName = nickName;
-		this.password = password;
-		this.profileImgName = profileImgName;
-		this.info = info;
-	}
-
-	public Member(Long memberId, String postNum, String address1, String address2) {
-		this.memberId = memberId;
-		this.postNum = postNum;
-		this.address1 = address1;
-		this.address2 = address2;
-	}
 
 	public Member() {
 	}
 
-	public Member(Long memberId) {
-		this.memberId = memberId;
-	}
+	
 
-	public Member(Long memberId, String email, String name, String tel, String nickName, String password, String profileImgName, String info) {
-		this.memberId = memberId;
+	public Member(String email, String nickName, String password) {
+		super();
 		this.email = email;
-		this.name = name;
-		this.tel = tel;
 		this.nickName = nickName;
 		this.password = password;
-		this.profileImgName = profileImgName;
-		this.info = info;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Member{" +

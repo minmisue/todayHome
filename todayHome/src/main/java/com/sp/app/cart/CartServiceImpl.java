@@ -20,7 +20,7 @@ public class CartServiceImpl implements CartService{
 	ProductManagementRepository productManagementRepository;
 	
 	@Override
-	public void createProduct(Cart cart){		
+	public void createCart(Cart cart){
 		try {
 			
 //			Integer quantity = cartManagementRepository.checkCartProduct(cart.getMemberId(),cart.getStockId());
@@ -54,9 +54,9 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public void updateProduct(Long cartId, int quantity) {
+	public void updateCartQuantity(Long cartId, int quantity) {
 		try {
-			cartManagementRepository.updateProduct(cartId,quantity);
+			cartManagementRepository.updateCartQuantity(cartId,quantity);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

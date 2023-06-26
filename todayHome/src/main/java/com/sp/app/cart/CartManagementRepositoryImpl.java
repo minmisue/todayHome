@@ -20,13 +20,13 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	private CommonDAO commonDAO;
 	
 	@Override
-	public void createProduct(Cart cart) throws Exception {
+	public void createCart(Cart cart) throws Exception {
 		commonDAO.insertData("cart.insertCart", cart);
 		
 	}
 
 	@Override
-	public void updateProduct(Long cartId, int quantity) throws Exception {
+	public void updateCartQuantity(Long cartId, int quantity) throws Exception {
 		
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("cartId", cartId);

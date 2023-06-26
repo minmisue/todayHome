@@ -7,10 +7,10 @@ import com.sp.app.domain.cart.Stock;
 
 public interface CartService {
 	// 장바구니 넣기
-	public void createProduct(Cart cart);
+	public void createCart(Cart cart);
 	
 	// 장바구니 업데이트
-	public void updateProduct(Long cartId, int quantity);
+	public void updateCartQuantity(Long cartId, int quantity);
 	
 	// 장바구니 취소
 	public void deleteCart(List<Long> cartIdList);

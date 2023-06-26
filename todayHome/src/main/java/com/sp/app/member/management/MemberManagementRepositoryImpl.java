@@ -84,4 +84,10 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	public void insertAddress(Member member) throws Exception {
 		commonDAO.updateData("management.insertAddress",member);
 	}
+
+	@Override
+	public int nickNameCheck(String nickName) throws Exception {
+		return commonDAO.selectOne("management.nickNameCheck",nickName );
+		
+	}
 }

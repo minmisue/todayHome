@@ -32,6 +32,13 @@
 		from MEMBER
 		where EMAIL = #{email}
     </select>
+    
+     <select id="nickNameCheck" parameterType="String" resultType="int">
+		select count(*)
+		from MEMBER_DETAIL
+		where nickName = #{nickName}
+    </select>
+
 	
 	<select id="readMemberById" parameterType="Long" resultType="com.sp.app.domain.member.Member">
 		SELECT m.MEMBER_ID as memberId, MEMBER_ROLE_ID as memberRoleId, EMAIL, NAME, TEL, POST_NUM as postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE as regDate, PROFILE_IMG_NAME as profileImgName, INFO

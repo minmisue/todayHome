@@ -15,6 +15,8 @@ public interface MemberManagementRepository {
 	
 	int emailCheck(String email) throws Exception;
 	
+	int nickNameCheck(String nickName) throws Exception;
+	
 	Member readMemberById(Long memberId) throws Exception;
 	
 	Member readMemberByEmail(String email) throws Exception;

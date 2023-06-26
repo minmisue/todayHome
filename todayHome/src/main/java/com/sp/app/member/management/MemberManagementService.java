@@ -13,6 +13,8 @@ public interface MemberManagementService {
 	
 	boolean emailCheck(String email) throws Exception;
 	
+	boolean nickNameCheck(String nickName) throws Exception;
+	
 	Member readMemberById(Long memberId) throws Exception;
 	
 	Member readMemberByEmail(String email) throws Exception;

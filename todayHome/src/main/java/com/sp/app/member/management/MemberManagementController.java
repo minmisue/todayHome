@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
@@ -82,6 +83,29 @@ public class MemberManagementController {
 		
 
 		return "redirect:/home";
+	}
+	
+	@GetMapping("member/email-check")
+	@ResponseBody
+	public boolean emailCheck(@RequestParam("email") String email) {
+		
+		try {
+			return memberManagementService.emailCheck(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	@GetMapping("member/nickName-check")
+	@ResponseBody
+	public boolean nickNameCheck(@RequestParam("nickName") String nickName) {
+		
+		try {
+			return memberManagementService.nickNameCheck(nickName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

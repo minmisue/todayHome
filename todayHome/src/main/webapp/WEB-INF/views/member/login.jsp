@@ -148,7 +148,7 @@
 
 		<div class="yeah">
 			<a class="pr_" href="">비밀번호 재설정</a>
-			<a class="mn_" href="">회원가입</a>
+			<a class="mn_" href="${pageContext.request.contextPath}/join">회원가입</a>
 		</div>
 	</form>
 

@@ -150,4 +150,19 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 		memberManagementRepository.insertAddress(member);
 	}
 
+	@Override
+	public boolean nickNameCheck(String nickName) throws Exception {
+		int result = memberManagementRepository.nickNameCheck(nickName);
+		if (result == 1) {
+			return true;
+		}
+			return false;
+	}
+
+		
+	
+
+
+	
+
 }

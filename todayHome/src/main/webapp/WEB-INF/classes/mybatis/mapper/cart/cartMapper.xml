@@ -9,7 +9,7 @@
 	</insert>
 	
 	<!-- 상품별 옵션 담기 -->
-	<insert id="insertCartStock" parameterType="com.sp.app.domain.cart.Cart">
+	<insert id="insertCartStock" parameterType="com.sp.app.domain.cart.CartOptionMap">
 		INSERT INTO cart_stock_bundle(cart_id,stock_id,quantity) VALUES (#{cartId},#{stockId},#{quantity})
 	</insert>
 	
@@ -50,7 +50,7 @@
 	</delete>
 	
 	<update id="updateQuantity" parameterType="map">
-			UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
+			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stockId = #{stockId}
 	</update>
 	
 	<!-- 장바구니담기전 재고 체크 0이면 재고 없음-->

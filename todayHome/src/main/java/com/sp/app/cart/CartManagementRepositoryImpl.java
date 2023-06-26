@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.cart.Stock;
 
 
@@ -23,6 +24,15 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	public void createCart(Cart cart) throws Exception {
 		commonDAO.insertData("cart.insertCart", cart);
 		
+		List<CartOptionMap> stockList = cart.getStockList();
+		if(stockList == null) {
+			return;
+		}
+		
+		// 옵션 insert
+		for(CartOptionMap dto : stockList) {
+			commonDAO.insertData("cart.insertCartStock",dto);
+		}
 	}
 
 	@Override

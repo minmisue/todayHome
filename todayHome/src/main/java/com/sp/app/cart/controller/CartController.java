@@ -36,7 +36,8 @@ public class CartController {
 		
 		// 전체 장바구니 리스트 가져옴
 		List<Cart> cartList = cartservice.getCartList(info.getMemberId());
-		
+
+		System.out.println(cartList);
 		
 		for(Cart cart : cartList) {
 			Long cartId = cart.getCartId();

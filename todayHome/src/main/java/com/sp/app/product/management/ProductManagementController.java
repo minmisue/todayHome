@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
+import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductMainOption;
@@ -30,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -170,35 +172,38 @@ public class ProductManagementController {
 	public String addProductToCart(
 			@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo,
 			@RequestBody Map<String, Object> data) {
+		Cart cart = new Cart();
+
 		Long memberId = sessionInfo.getMemberId();
 
-		System.out.println(memberId);
 		System.out.println(data);
 
-		System.out.println(data.get("productId"));
-		List<List<Long>> options = (List<List<Long>>) data.get("selectedOptions");
+		Long productId = Long.valueOf((String) data.get("productId"));
+		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
 
-		for (List<Long> option : options) {
-			System.out.print("stockId = " + option.get(0));
-			System.out.println(" quantity = " + option.get(1));
+		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
 
+		for (List<Object> option : options) {
+			Long stockId = Long.valueOf((String) option.get(0));
+			Long quantity = Long.valueOf((String) option.get(1));
+
+			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
 		}
-//		System.out.println(o);
 
-//		for (Map<String, Long> stringLongMap : o) {
-//			Long stockId = stringLongMap.get("stockId");
-//			Long quantity = stringLongMap.get("quantity");
-//
-//			System.out.println("stockId : " + stockId + " quantity" + quantity);
-//		}
+//		Cart cart = new Cart(memberId, productId, cartOptionMapList);
+
+		cart.setProductId(productId);
+		cart.setMemberId(memberId);
+		cart.setStockList(cartOptionMapList);
+
+		System.out.println(cart.getMemberId());
 
 
-//		Cart cart = new Cart();
-//		cart.setMemberId(memberId);
-//		cart.setQuantity(quantity);
-//		cart.setProductId(productId);
-//
-//		cartService.createProduct(cart);
+		try {
+			cartService.createCart(cart);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "ok";
 	}

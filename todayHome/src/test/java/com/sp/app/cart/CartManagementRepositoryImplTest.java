@@ -105,5 +105,14 @@ public class CartManagementRepositoryImplTest {
 		}
 		
 	}
-	
+
+	@Test
+	public void cartList() throws Exception {
+		Long memberId = 161L;
+		List<Cart> cartList = cartManagementRepository.getCartList(memberId);
+		for (Cart cart : cartList) {
+			System.out.println(cart);
+		}
+
+	}
 }

@@ -9,7 +9,7 @@ public class Cart {
 	private Long memberId;
 	private Long productImgId;
 	private Long stockId;
-	
+
 	private Long productId;
 	//private int quantity; // 수량
 	private String regDate; // 담은 날짜
@@ -19,20 +19,45 @@ public class Cart {
 	private Long price; // 상품 기본가격
 	private Double discountPercent; // 할인율
 	private Long deliveryCost; // 배달비
-
-	
 	private List<CartOptionMap> stockList;
 	private List<ProductStock> productStockList;
-	
+
+	@Override
+	public String toString() {
+		return "Cart{" +
+				"cartId=" + cartId +
+				", memberId=" + memberId +
+				", productImgId=" + productImgId +
+				", stockId=" + stockId +
+				", productId=" + productId +
+				", regDate='" + regDate + '\'' +
+				", productName='" + productName + '\'' +
+				", brandName='" + brandName + '\'' +
+				", saveName='" + saveName + '\'' +
+				", price=" + price +
+				", discountPercent=" + discountPercent +
+				", deliveryCost=" + deliveryCost +
+				", stockList=" + stockList +
+				", productStockList=" + productStockList +
+				'}';
+	}
+
+	public Cart(Long memberId, Long productId, List<CartOptionMap> stockList) {
+		this.memberId = memberId;
+		this.productId = productId;
+		this.stockList = stockList;
+	}
+
+	public Cart() {
+	}
+
 	public List<ProductStock> getProductStockList() {
 		return productStockList;
 	}
 
-
 	public void setProductStockList(List<ProductStock> productStockList) {
 		this.productStockList = productStockList;
 	}
-
 
 	public Long getPrice() {
 		return price;
@@ -42,8 +67,6 @@ public class Cart {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
-
-
 
 
 	public Long getCartId() {
@@ -165,5 +188,5 @@ public class Cart {
 		this.stockList = stockList;
 	}
 
-	
+
 }

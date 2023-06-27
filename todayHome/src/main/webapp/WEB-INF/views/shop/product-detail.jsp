@@ -658,7 +658,7 @@
         let msg = "상품을 장바구니에 저장합니다."
 
         if (!confirm(msg)) {
-            return false;
+            return;
         }
 
         let selectedOptions = getAllSelectedOptions();

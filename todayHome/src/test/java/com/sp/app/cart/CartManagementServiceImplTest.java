@@ -45,7 +45,15 @@ public class CartManagementServiceImplTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	@Test
+	public void cartList() {
+		Long memberId = 161L;
+		List<Cart> cartList = cartService.getCartList(memberId);
+		for (Cart cart : cartList) {
+			System.out.println(cart);
+		}
 
 	}
 }

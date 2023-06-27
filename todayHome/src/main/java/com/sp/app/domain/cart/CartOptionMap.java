@@ -6,6 +6,8 @@ public class CartOptionMap {
 	private Long price;
 	private Long quantity;
 
+
+
 	@Override
 	public String toString() {
 		return "CartOptionMap{" +
@@ -17,6 +19,11 @@ public class CartOptionMap {
 	}
 
 	public CartOptionMap() {
+	}
+
+	public CartOptionMap(Long stockId, Long quantity) {
+		this.stockId = stockId;
+		this.quantity = quantity;
 	}
 
 	public CartOptionMap(Long stockId, Long price, Long quantity) {

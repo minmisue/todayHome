@@ -294,69 +294,12 @@ tbody{
 			</div>
 			<div class="container seller-layout_body">
 				<form class="" method="post">
-					<div class="sales-form_section">
-						<div class="row">
-							<div class="offset-1 col-10">
-								<p class="sales-form_section_title">회사 정보</p>
-							</div>
-						</div>
-						<div class="row sales-form_form-group">
-							<div class="offset-1 col-2">
-								<label class="sales-form_form-label"> 회사 이름 <span
-									class="sales-form_form-group_required">*</span>
-								</label>
-							</div>
-							<div class="col-8">
-								<div class="sales-form_form-control-wrap">
-									<input type="text" id="" name="" class="form-control"
-										placeholder="오늘의집" style="width: 100%;">
-									<p class="sales-form_form-description">※사업자등록증의 법인명 또는 상호명을
-										입력하세요.</p>
-								</div>
-							</div>
-						</div>
-						<div class="row sales-form_form-group">
-							<div class="offset-1 col-2">
-								<label class="sales-form_form-label"> 사업자 등록번호 <span
-									class="sales-form_form-group_required">*</span>
-								</label>
-							</div>
-							<div class="col-8">
-								<div class="sales-form_form-control-wrap">
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="123"> <span class="sales-form_divider">-</span>
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="45"> <span class="sales-form_divider">-</span>
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="67890">
-									<button class="btn btn-sm btn-priority"
-										style="margin-left: 5px; width: 90px;" type="button">사업자
-										확인</button>
-								</div>
-							</div>
-						</div>
-					<div class="row sales-form_form-group">
-						<div class="offset-1 col-2">
-							<label class="sales-form_form-label"> 대표브랜드 이름 <span
-								class="sales-form_form-group_required">*</span>
-							</label>
-						</div>
-						<div class="col-8">
-							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="오늘의집 가구" style="width: 100%;">
-							</div>
-						</div>
-					</div>
-						
-						<div class="seller-layout_divider">
-							<hr class="col-10 seller-layout_hr">
-						</div>
+
 
 						<div class="offset-1 col-10">
 							<p class="sales-form_section_title">영업담당자 정보</p>
 						</div>
-					</div>
+					
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 이름 <span
@@ -434,7 +377,6 @@ tbody{
 					</div>
 				</form>
 			</div>
-		</div>
 	</div>
 
 

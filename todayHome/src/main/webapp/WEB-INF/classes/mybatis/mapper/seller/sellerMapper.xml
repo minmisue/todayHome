@@ -14,9 +14,9 @@
 	
 <!-- 판매자 정보 수정 -->	
 	<update id="updateSeller" parameterType="com.sp.app.domain.seller.Seller">
-		UPDATE SELLER SET brand_name=#{brandName}, password=#{password},
+		UPDATE SELLER SET password=#{password},
 			seller_name=#{sellerName},tel=#{tel},
-			email=#{email}, representative_name=#{representativeName},
+			email=#{email}
 			presentation=#{presentation, jdbcType=VARCHAR},reg_date=SYSDATE
 		WHERE seller_id=#{sellerId}	
 	</update>

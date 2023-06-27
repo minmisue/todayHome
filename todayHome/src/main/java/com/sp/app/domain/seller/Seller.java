@@ -30,15 +30,13 @@ public class Seller {
 	}
 	
 
-	public Seller(Long sellerId,String brandName, String password, String sellerName,
-			String tel, String email, String representativeName, String presentation) {
+	public Seller(Long sellerId, String password, String sellerName,
+			String tel, String email,String presentation) {
 		this.sellerId = sellerId;
-		this.brandName = brandName;
 		this.password = password;
 		this.sellerName = sellerName;
 		this.tel = tel;
 		this.email = email;
-		this.representativeName = representativeName;
 		this.presentation = presentation;
 	}
 

@@ -202,7 +202,7 @@
         // 0 이면 아무것도 하이리이팅 X
         // 두번째 파라미터에 null 입력시 서브메뉴 없앰
         selectCurrentMenu(0, null)
-    });
+    });s
 </script>
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>

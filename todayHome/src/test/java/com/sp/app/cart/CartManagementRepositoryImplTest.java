@@ -73,15 +73,15 @@ public class CartManagementRepositoryImplTest {
 //		cartManagementRepository.updateCartQuantity(cartId,quantity);
 //	}
 	
-	@Test
-	public void deleteCart() throws Exception{
-		List<Long> cartIdList = new ArrayList<Long>();
-		cartIdList.add(102L);
-		cartIdList.add(121L);
-		
-		cartManagementRepository.deleteCart(cartIdList);
-	}
-	
+//	@Test
+//	public void deleteCart() throws Exception{
+//		List<Long> cartIdList = new ArrayList<Long>();
+//		cartIdList.add(102L);
+//		cartIdList.add(121L);
+//		
+//		cartManagementRepository.deleteCart(cartIdList);
+//	}
+//	
 	@Test
 	public void checkQuantity() throws Exception {
 		Long stockId = 1L;

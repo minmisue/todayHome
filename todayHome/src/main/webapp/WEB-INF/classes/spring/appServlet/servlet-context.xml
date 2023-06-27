@@ -30,16 +30,17 @@
     <aop:config proxy-target-class="true">
         <aop:pointcut id="controllerOperation" expression="execution(public * com.sp.app..*Controller.*(..))"/>
     </aop:config>
-
-    <!-- 타일즈 환경 설정 -->
-<!--    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">-->
-<!--        <beans:property name="definitions">-->
-<!--            <beans:list>-->
-<!--                <beans:value>/WEB-INF/classes/spring/tiles-defs.xml</beans:value>-->
-<!--            </beans:list>-->
-<!--        </beans:property>-->
-<!--    </beans:bean>-->
-
+   
+   
+     <!-- 타일즈 환경 설정 	
+    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <beans:property name="definitions">
+            <beans:list>
+                <beans:value>/WEB-INF/classes/spring/tiles-defs.xml</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+ -->
     <!-- 뷰 -->
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <beans:property name="order" value="1"/>

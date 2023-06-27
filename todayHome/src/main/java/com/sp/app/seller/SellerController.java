@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.seller.Seller;
 
 @Controller
@@ -44,16 +43,38 @@ public class SellerController {
 		
 		Long sellerId = seller.getSellerId();
 		int status = seller.getStatus();
+		String sellerName = seller.getSellerName();
 		
-		SessionInfo sessionInfo = new SessionInfo(sellerId,status);
+		SellerSessionInfo sellerSessionInfo = new SellerSessionInfo(sellerId,status,sellerName);
 		
-		httpSession.setAttribute("sessionInfo", sessionInfo);
+		httpSession.setAttribute("sessionInfo", sellerSessionInfo);
 		
-		return "redirect:/home";
+		return "redirect:/seller";
 	}
 	
 	@GetMapping("seller/complete")
 	public String sellerSubmitComplete() {
 		return "seller/join/complete";
+	}
+	@PostMapping("seller/logout")
+	public String logoutSubmit(HttpSession session) {
+		
+	 session.invalidate();
+	 
+	 
+	 return "redirect:/seller/login";   
+	 
+	}
+	
+	@GetMapping("seller/update")
+	public String sellerUpdate() {
+		
+		return "seller/join/seller-update";		
+	}
+	
+	@PostMapping("seller/update")
+	public String sellerUpdateOk() {
+		
+		return "redirect:/seller";
 	}
 }

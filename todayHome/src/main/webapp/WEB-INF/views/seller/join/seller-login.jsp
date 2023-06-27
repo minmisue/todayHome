@@ -127,7 +127,31 @@
             bottom: 0;
             position: absolute;
         }
-
+		.cp-loginpage_join_hr{
+			display: flex;
+			align-items: center;
+			color: #939393;
+			font-size: 14px;
+			margin: 30px 0 8px;
+		}
+		.cp-loginpage_join_hr:before{
+			content: "";
+			flex-grow: 1;
+			background: #939393;
+			height: 1px;
+			font-size: 0;
+			line-height: 0;
+			margin: 0;
+		}
+		.cp-loginpage_join_hr:after{
+			content: "";
+			flex-grow: 1;
+			background: #939393;
+			height: 1px;
+			font-size: 0;
+			line-height: 0;
+			margin: 0;
+		}		
 	</style>
 </head>
 <body>
@@ -147,10 +171,19 @@
 
 
 		<div class="yeah">
-			<a class="pr_" href="">비밀번호 재설정</a>
+			<a class="pr_" href="">비밀번호 찾기</a>
+			<a class="pr_" href="">아이디 찾기</a>
 		</div>
-	</form>
-
+	
+		<div class="cp-loginpage_join_hr">
+			<span class="cp-loginpage_join_hr_title">판매자가 아니신가요?</span>
+		</div>
+		<div>
+		<button class="login-btn" onclick="location.href='${pageContext.request.contextPath}/seller/join'">
+			판매자 회원가입
+		</button>
+		</div>
+		</form >
 	<footer class="good">
 		<div>
 			bucketplace, Co., Ltd. ". ALL Rights Reserved"

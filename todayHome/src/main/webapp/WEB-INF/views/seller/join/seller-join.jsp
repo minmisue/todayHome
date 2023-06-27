@@ -280,7 +280,6 @@ tbody{
 		
 	</script>
 
-	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 
 	<div class="main-container">
 		<div class="content">

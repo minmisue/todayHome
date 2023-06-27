@@ -33,4 +33,6 @@ public interface CartManagementRepository {
 
 	public Long checkCart(Long memberId, Long productId) throws Exception;
 
+	// 상품옵션가격 가져오기
+	public Long selectStockPrice(Long stockId) throws Exception;
 }

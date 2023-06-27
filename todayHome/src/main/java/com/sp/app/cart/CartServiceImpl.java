@@ -54,10 +54,12 @@ public class CartServiceImpl implements CartService{
 				System.out.println("stock = " + stock);
 
 				Integer quantity = cartManagementRepository.checkCartProduct(memberId, stockId);
-
+				
 				Long inputQuantity = stock.getQuantity();
 				tot = inputQuantity;
-
+				
+				Long price = cartManagementRepository.selectStockPrice(stockId);
+				
 				boolean status = quantity != null;
 
 				System.out.println("tot = " + tot);
@@ -68,6 +70,7 @@ public class CartServiceImpl implements CartService{
 //				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
 				if(status) {
 					tot += quantity;
+					stock.setPrice(price*tot);
 					// 업데이트 해준다음에 나옴
 					if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
 						throw new RuntimeException("재고가 없습니다");
@@ -75,7 +78,7 @@ public class CartServiceImpl implements CartService{
 					cartManagementRepository.updateCartQuantity(cartId,stockId, tot);
 					return;
 				}
-//
+
 				// 재고가 없으면 0
 				if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
 					throw new RuntimeException("재고가 없습니다");
@@ -144,6 +147,18 @@ public class CartServiceImpl implements CartService{
 		}
 		
 		return stockIdList;
+	}
+
+	@Override
+	public Long selectStockPrice(Long stockId) {
+		Long price = null;
+		try {
+			price = cartManagementRepository.selectStockPrice(stockId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return price;
 	}
 
 }

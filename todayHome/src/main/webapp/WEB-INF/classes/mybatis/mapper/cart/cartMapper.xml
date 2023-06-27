@@ -34,6 +34,14 @@
 		ORDER BY c.reg_date DESC
 	</select>
  	
+ 	<!-- 상품 옵션 가격 가져오기 -->
+ 	<select id="selectStockPrice" parameterType="Long" resultType="Long">
+	 	select OPTION_PRICE
+		from STOCK s JOIN CART_STOCK_BUNDLE CSB on s.STOCK_ID = CSB.STOCK_ID
+		where s.STOCK_ID = #{stockId}
+ 	</select>
+ 	
+ 	
 	<!-- 하나의 상품 별 선택한 전체 옵션 -->
 
 	<select id="selectListStock" parameterType="Long" resultType="com.sp.app.domain.cart.CartOptionMap">

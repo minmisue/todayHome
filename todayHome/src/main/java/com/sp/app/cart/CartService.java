@@ -23,4 +23,6 @@ public interface CartService {
 	
 	// 장바구니에 담긴 상품의 옵션 아이디
 	public List<CartOptionMap> getStockId(Long cartId);
+	
+	public Long selectStockPrice(Long stockId);
 }

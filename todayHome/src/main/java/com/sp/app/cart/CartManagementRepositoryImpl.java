@@ -89,4 +89,10 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 		return commonDAO.selectOne("cart.checkCart", map);
 	}
 
+	@Override
+	public Long selectStockPrice(Long stockId) throws Exception {
+
+		return commonDAO.selectOne("cart.selectStockPrice", stockId);
+	}
+
 }

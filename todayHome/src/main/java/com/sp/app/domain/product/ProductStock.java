@@ -3,7 +3,7 @@ package com.sp.app.domain.product;
 public class ProductStock {
 	private Long stockId;
 	private int optionPrice;
-	private int quantity;
+	private int quantity; // 보류
 	private Long mainOptionId1;
 	private Long mainOptionId2;
 	private Long subOptionId1;
@@ -13,7 +13,9 @@ public class ProductStock {
 	private String mainOptionName1;
 	private String mainOptionName2;
 	private Long productId;
-
+	private Long price;
+	private Long cartQuantity;
+	
 	public ProductStock() {
 	}
 
@@ -45,6 +47,24 @@ public class ProductStock {
 				", mainOptionName2='" + mainOptionName2 + '\'' +
 				", productId=" + productId +
 				'}';
+	}
+
+
+
+	public Long getCartQuantity() {
+		return cartQuantity;
+	}
+
+	public void setCartQuantity(Long cartQuantity) {
+		this.cartQuantity = cartQuantity;
+	}
+
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
 	}
 
 	public int getOptionPrice() {

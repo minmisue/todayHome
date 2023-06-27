@@ -47,9 +47,15 @@ public class CartController {
 			List<ProductStock> productStockList = new ArrayList<ProductStock>();
 			
 			for(CartOptionMap vo : stockIdList) {
-				System.out.println(vo.getStockId());
+				Long stockId = vo.getStockId();
 				
-				productStockList.add(productservice.getStockByStockId(vo.getStockId()));
+				Long quantity = vo.getQuantity();
+				
+				ProductStock productStock = productservice.getStockByStockId(stockId);
+				productStock.setPrice((productStock.getOptionPrice()+cart.getPrice())*quantity);
+				
+				productStock.setCartQuantity(quantity);
+				productStockList.add(productStock);
 			}
 			
 			cart.setProductStockList(productStockList);

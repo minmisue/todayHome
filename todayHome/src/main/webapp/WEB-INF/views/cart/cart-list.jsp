@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
 <head>
@@ -195,7 +196,7 @@
 
 
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
-
+					<input type="hidden" value="${cart.price}">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
 						<div class="flex-col"
@@ -229,14 +230,14 @@
 										</div>
 										<div class="flex-col" style="flex: 1; gap: 5px">
 											<div
-												style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">${dto.productName}</div>
+												style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">${cart.productName}</div>
 											<div class="flex-row"
 												style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px">
 												<div>배송비 ${cart.deliveryCost}원</div>
 											</div>
 										</div>
 									</div>
-
+									<c:set var="totDisCountPrice2" value="0"></c:set>
 									<c:forEach var="productStock" items="${cart.productStockList}"
 										varStatus="status">
 
@@ -246,7 +247,7 @@
 													style="justify-content: space-between; align-items: center">
 													<div
 														style="font-size: 14px; line-height: 18px; color: #2F3438">
-														${productStock.mainOptionName1 }: ${productStock.subOptionName1 },
+														${productStock.mainOptionName1 }: ${productStock.subOptionName1 }/
 														${productStock.mainOptionName2 }: ${productStock.subOptionName2 }</div>
 													<i class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
 												</div>
@@ -257,16 +258,22 @@
 														<div class="quantity-btn minus-btn">
 															<i class="bi bi-dash"></i>
 														</div>
-														<div class="quantity-value">1</div>
+														<div class="quantity-value">${productStock.cartQuantity }</div>
 														<div class="quantity-btn plus-btn">
 															<i class="bi bi-plus"></i>
 														</div>
 													</div>
 													<div style="line-height: 20px; font-weight: 700;">
-														<span>33,800</span>원
+													
+														<c:set var="productPrice" value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
+														<span><fmt:formatNumber value="${productPrice}"/></span>원
 													</div>
 												</div>
 											</div>
+											<c:set var="orignalTotPrice" value="${orignalTotPrice + productStock.price }"></c:set>
+											<c:set var="totPrice" value="${totPrice + productPrice}" />
+											<c:set var="totDisCountPrice" value="${totDisCountPrice + (productStock.price - productPrice) }"></c:set>
+										
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
@@ -277,19 +284,21 @@
 										</div>
 										<div
 											style="line-height: 20px; font-weight: 700; font-size: 17px">
-											<span>33,800원</span>
+											<span><fmt:formatNumber value="${totPrice}"/>원</span>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
+						
 						<div class="flex-col"
 							style="justify-content: center; align-items: center; border-top: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px;">
-							<div>배송비 3,000원</div>
+							<div>${cart.deliveryCost }원</div>
 						</div>
 					</div>
+					<c:set var="totDeliveryCost" value="${totDeliveryCost + cart.deliveryCost}" />
 				</c:forEach>
+				
 			</div>
 
 			<div
@@ -302,7 +311,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 상품 금액</div>
 								<div style="font-weight: 700;">
-									<span>92,000</span>원
+									<span><fmt:formatNumber value="${orignalTotPrice}"/></span>원
 								</div>
 							</div>
 
@@ -310,7 +319,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 배송비</div>
 								<div style="font-weight: 700;">
-									<span>+ 62,000</span>원
+									<span><fmt:formatNumber value="${totDeliveryCost}"/></span>원
 								</div>
 							</div>
 
@@ -318,7 +327,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 할인 금액</div>
 								<div style="font-weight: 700;">
-									<span>- 122,000</span>원
+									<span>- <fmt:formatNumber value="${totDisCountPrice}"/></span>원
 								</div>
 							</div>
 
@@ -326,7 +335,8 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 700; align-items: center; margin-top: 30px;">
 								<div style="">결제금액</div>
 								<div style="font-size: 24px">
-									<span>242,000</span>원
+									<c:set var="payPrice" value="${orignalTotPrice+ totDeliveryCost - totDisCountPrice}"></c:set>
+									<span><fmt:formatNumber value="${payPrice}"/></span>원
 								</div>
 							</div>
 						</div>

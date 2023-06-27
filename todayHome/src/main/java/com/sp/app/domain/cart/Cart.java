@@ -10,8 +10,7 @@ public class Cart {
 	private Long productImgId;
 	private Long stockId;
 
-	private Long productId;
-	//private int quantity; // 수량
+	private Long productId;	
 	private String regDate; // 담은 날짜
 	private String productName; // 상품이름
 	private String brandName;// 브랜드 이름

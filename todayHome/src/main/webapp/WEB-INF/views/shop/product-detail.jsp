@@ -168,6 +168,7 @@
 			width: 18px;
 			background-color: white;
 			font-size: 19px;
+			filter: ;
         }
 
 		.btnChange:hover , .option-quantity:hover {

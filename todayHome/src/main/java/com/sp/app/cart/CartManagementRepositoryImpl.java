@@ -43,8 +43,8 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	}
 
 	@Override
-	public void deleteCart(List<Long> cartIdList) throws Exception{
-		commonDAO.deleteData("cart.deleteCart", cartIdList);
+	public void deleteCart(Long cartId) throws Exception{
+		commonDAO.callUpdateProcedure("cart.deleteCart", cartId);
 	}
 
 	@Override
@@ -93,6 +93,11 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 	public Long selectStockPrice(Long stockId) throws Exception {
 
 		return commonDAO.selectOne("cart.selectStockPrice", stockId);
+	}
+
+	@Override
+	public void deleteStock(Long stockId) throws Exception {
+		commonDAO.deleteData("cart.deleteStock",stockId);
 	}
 
 }

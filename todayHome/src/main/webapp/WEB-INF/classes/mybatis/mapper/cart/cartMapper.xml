@@ -43,26 +43,22 @@
  	
  	
 	<!-- 하나의 상품 별 선택한 전체 옵션 -->
-
 	<select id="selectListStock" parameterType="Long" resultType="com.sp.app.domain.cart.CartOptionMap">
 		select stock_id stockId, quantity from cart_stock_bundle where cart_id = #{cartId}
 	</select>
 
 	
 	<!-- 장바구니 삭제 (옵션전체다 삭제)-->
-	<delete id="deleteCart" parameterType="java.util.List">
-		DELETE FROM cart WHERE cart_id IN
-				<foreach item="cartId" index="index" collection="list"
-						open="(" separator="," close=")">
-					#{cartId}
-				</foreach>
+	<delete id="deleteCart" parameterType="Long" statementType="CALLABLE">
+		{call deleteCart(#{cartId})}
 	</delete>
 	
-	<!-- 장바구니 삭제(상품 당 옵션하나만 삭제)-->
-<!--	<delete id="deleteCartStock" parameterType="java.util.List">-->
-<!--		DELETE FROM cart_stock_bundle WHERE stock_id = #{stockId} AND product_id = #{productId}-->
-<!--	</delete>-->
+	<!-- 상품의 옵션 삭제 -->
+	<delete id="deleteStock" parameterType="Long">
+		DELETE FROM cart_stock_bundle WHERE stock_id = #{stockId}
+	</delete>
 	
+	<!-- 상품 수량 업데이트 -->
 	<update id="updateQuantity" parameterType="map">
 			UPDATE cart_stock_bundle SET quantity = #{quantity} WHERE stock_id = #{stockId} AND cart_id = #{cartId}
 	</update>

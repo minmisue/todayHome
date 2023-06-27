@@ -107,6 +107,32 @@
 </head>
 <body>
 	<script>
+	
+	function ajaxFun(url, method, query, dataType, fn) {
+		$.ajax({
+			type:method,
+			url:url,
+			data:query,
+			dataType:dataType,
+			success:function(data) {
+				fn(data);
+			},
+			beforeSend:function(jqXHR) {
+				jqXHR.setRequestHeader("AJAX", true);
+			},
+			error:function(jqXHR) {
+				if(jqXHR.status === 403) {
+					login();
+					return false;
+				} else if(jqXHR.status === 400) {
+					alert("요청 처리가 실패 했습니다.");
+					return false;
+				}
+		    	
+				console.log(jqXHR.responseText);
+			}
+		});
+	}
 		$(function() {
 			// 여기에서 메뉴 선택
 			// 첫번째 파라미터 (커뮤니티, 쇼핑 중 선택)
@@ -139,22 +165,37 @@
 		// 체크된 값만 가져오기
 		// $(".클래스/#아이디").find('input:checked').each(function(index){}
 		$(function() {
-			$("#selected-product-delete")
-					.click(
+			$("#selected-product-delete").click(
 							function name() {
-								let checkListNum = $('input:checkbox[name=checkList]:checked').length;
-								if (checkListNum === 0) {
+
+								let checkListNum = $('input:checkbox[name=checkList]:checked');
+								if (checkListNum.length === 0) {
 									alert('선택된 상품이 없습니다');
 									return;
 								}
-								if (confirm('선택한 ' + checkListNum
+
+								var checkedCartIdList = [];
+
+								for (var i = 0; i < checkListNum.length; i++) {
+									if (checkListNum[i].checked) {
+										checkedCartIdList.push(checkListNum[i].value);
+									}
+								}
+								if (confirm('선택한 ' + checkListNum.length
 										+ '개의 상품을 삭제하시겠습니까?')) {
-									console.log('ok');
+									location.href = '${pageContext.request.contextPath}/cart/deleteCart?cartIdList='+ checkedCartIdList;
 								}
 
 							});
 
 		});
+
+		// 상품 옵션 하나만 삭제
+		function deleteStock(stockId) {
+			location.href = '${pageContext.request.contextPath}/cart/deleteStock?stockId='+ stockId;
+		}
+		
+		
 	</script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
@@ -193,9 +234,9 @@
 					</div>
 				</div>
 
-				
+
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
-				
+
 					<input type="hidden" value="${cart.price}">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
@@ -207,7 +248,7 @@
 						<div class="flex-row" style="gap: 10px; padding: 15px">
 							<input
 								class="form-check-input follow-check-input flex-check-default"
-								type="checkbox" name="checkList" value="">
+								type="checkbox" name="checkList" value="${cart.cartId}">
 
 							<div class="flex-row" style="width: 100%;">
 								<div class="flex-col" style="gap: 10px; width: 100%">
@@ -219,7 +260,7 @@
 											<div style="color: #65C2EC; font-weight: 700;">6/9 (금)
 												발송 예정</div>
 										</div>
-										<div>
+										<div id="deleteCart">
 											<i style="font-size: 22px; font-weight: 700" class="bi bi-x"></i>
 										</div>
 									</div>
@@ -237,45 +278,50 @@
 											</div>
 										</div>
 									</div>
-									
+
 									<c:set var="totPrice" value="0"></c:set>
-									
+
 									<c:forEach var="productStock" items="${cart.productStockList}"
 										varStatus="status">
 
-											<div class="flex-col"
-												style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
+										<div class="flex-col"
+											style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
+											<div class="flex-row"
+												style="justify-content: space-between; align-items: center">
+												<div
+													style="font-size: 14px; line-height: 18px; color: #2F3438">
+													${productStock.mainOptionName1 }:
+													${productStock.subOptionName1 } /
+													${productStock.mainOptionName2 }:
+													${productStock.subOptionName2 }</div>
+												<i onclick="deleteStock('${productStock.stockId}')"
+													class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
+											</div>
+											<div class="flex-row"
+												style="justify-content: space-between; align-items: center">
 												<div class="flex-row"
-													style="justify-content: space-between; align-items: center">
-													<div
-														style="font-size: 14px; line-height: 18px; color: #2F3438">
-														${productStock.mainOptionName1 }: ${productStock.subOptionName1 }/
-														${productStock.mainOptionName2 }: ${productStock.subOptionName2 }</div>
-													<i class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
+													style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
+													<div class="quantity-btn minus-btn">
+														<i class="bi bi-dash"></i>
+													</div>
+													<div class="quantity-value">${productStock.cartQuantity }</div>
+													<div class="quantity-btn plus-btn">
+														<i class="bi bi-plus"></i>
+													</div>
 												</div>
-												<div class="flex-row"
-													style="justify-content: space-between; align-items: center">
-													<div class="flex-row"
-														style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
-														<div class="quantity-btn minus-btn">
-															<i class="bi bi-dash"></i>
-														</div>
-														<div class="quantity-value">${productStock.cartQuantity }</div>
-														<div class="quantity-btn plus-btn">
-															<i class="bi bi-plus"></i>
-														</div>
-													</div>
-													<div style="line-height: 20px; font-weight: 700;">
-													
-														<c:set var="productPrice" value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
-														<span><fmt:formatNumber value="${productPrice}"/></span>원
-													</div>
+												<div style="line-height: 20px; font-weight: 700;">
+
+													<c:set var="productPrice"
+														value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
+													<span><fmt:formatNumber value="${productPrice}" /></span>원
 												</div>
 											</div>
-											<c:set var="orignalTotPrice" value="${orignalTotPrice + productStock.price }"></c:set>
-											<c:set var="totPrice" value="${totPrice + productPrice}" />
-											
-										
+										</div>
+										<c:set var="orignalTotPrice"
+											value="${orignalTotPrice + productStock.price }"></c:set>
+										<c:set var="totPrice" value="${totPrice + productPrice}" />
+
+
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
@@ -286,23 +332,25 @@
 										</div>
 										<div
 											style="line-height: 20px; font-weight: 700; font-size: 17px">
-											<span><fmt:formatNumber value="${totPrice}"/>원</span>
+											<span><fmt:formatNumber value="${totPrice}" />원</span>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="flex-col"
 							style="justify-content: center; align-items: center; border-top: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px;">
 							<div>${cart.deliveryCost }원</div>
 						</div>
 					</div>
 					<h2></h2>
-					<c:set var="totDisCountPrice" value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
-					<c:set var="totDeliveryCost" value="${totDeliveryCost + cart.deliveryCost}" />
+					<c:set var="totDisCountPrice"
+						value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
+					<c:set var="totDeliveryCost"
+						value="${totDeliveryCost + cart.deliveryCost}" />
 				</c:forEach>
-				
+
 			</div>
 
 			<div
@@ -315,7 +363,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 상품 금액</div>
 								<div style="font-weight: 700;">
-									<span><fmt:formatNumber value="${orignalTotPrice}"/></span>원
+									<span><fmt:formatNumber value="${orignalTotPrice}" /></span>원
 								</div>
 							</div>
 
@@ -323,7 +371,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 배송비</div>
 								<div style="font-weight: 700;">
-									<span><fmt:formatNumber value="${totDeliveryCost}"/></span>원
+									<span><fmt:formatNumber value="${totDeliveryCost}" /></span>원
 								</div>
 							</div>
 
@@ -331,7 +379,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 할인 금액</div>
 								<div style="font-weight: 700;">
-									<span>- <fmt:formatNumber value="${totDisCountPrice}"/></span>원
+									<span>- <fmt:formatNumber value="${totDisCountPrice}" /></span>원
 								</div>
 							</div>
 
@@ -339,8 +387,9 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 700; align-items: center; margin-top: 30px;">
 								<div style="">결제금액</div>
 								<div style="font-size: 24px">
-									<c:set var="payPrice" value="${orignalTotPrice+ totDeliveryCost - totDisCountPrice}"></c:set>
-									<span><fmt:formatNumber value="${payPrice}"/></span>원
+									<c:set var="payPrice"
+										value="${orignalTotPrice+ totDeliveryCost - totDisCountPrice}"></c:set>
+									<span><fmt:formatNumber value="${payPrice}" /></span>원
 								</div>
 							</div>
 						</div>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
@@ -67,5 +68,26 @@ public class CartController {
 		return "/cart/cart-list";
 	}
 	
+	// 상품의 옵션 삭제
+	@GetMapping("deleteStock")
+	public String deleteStock(
+			@RequestParam Long stockId
+			) {
+		cartservice.deleteStock(stockId);
+		
+		return "redirect:/cart/list";
+	}
+	
+	// 선택 or 전체 삭제
+	@GetMapping("deleteCart")
+	public String deleteCart(
+			@RequestParam List<Long> cartIdList) {
+		
+		for(Long cartId : cartIdList) {
+			cartservice.deleteCart(cartId);
+		}
+		
+		return "redirect:/cart/list";
+	}
 
 }

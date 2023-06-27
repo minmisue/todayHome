@@ -1,6 +1,7 @@
 package com.sp.app.cart;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,18 +42,12 @@ public class CartServiceImpl implements CartService{
 			Long memberId = cart.getMemberId();
 
 			List<CartOptionMap> stockList = cart.getStockList();
-			System.out.println(stockList);
-
-			
-
-			System.out.println(cartId);
 
 			// 옵션 넣기
 			for(CartOptionMap stock : stockList) {
 				Long stockId = stock.getStockId();
 				stock.setCartId(cartId);
-				System.out.println("stock = " + stock);
-
+		
 				Integer quantity = cartManagementRepository.checkCartProduct(memberId, stockId);
 				
 				Long inputQuantity = stock.getQuantity();
@@ -62,12 +57,8 @@ public class CartServiceImpl implements CartService{
 				
 				boolean status = quantity != null;
 
-				System.out.println("tot = " + tot);
-				System.out.println("status = " + status);
-				System.out.println("quantity = " + quantity);
-				System.out.println("cartId = " + cartId);
-//
-//				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
+
+				// 이미 상품이 장바구니에 있는경우 -> 현재 수량과 받은 수량을 더해서 설정
 				if(status) {
 					tot += quantity;
 					stock.setPrice(price*tot);
@@ -83,7 +74,7 @@ public class CartServiceImpl implements CartService{
 				if(cartManagementRepository.checkQuantity(stock.getStockId(),tot) == 0) {
 					throw new RuntimeException("재고가 없습니다");
 				}
-//
+
 				cartManagementRepository.createCartStock(stock);
 			}
 
@@ -92,19 +83,11 @@ public class CartServiceImpl implements CartService{
 		}
 	}
 
-//	@Override
-//	public void updateCartQuantity(Long cartId, int quantity) {
-//		try {
-//			cartManagementRepository.updateCartQuantity(cartId,quantity);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	@Override
-	public void deleteCart(List<Long> cartIdList) {
+	public void deleteCart(Long cartId) {
 		try {
-			cartManagementRepository.deleteCart(cartIdList);
+			cartManagementRepository.deleteCart(cartId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,5 +143,37 @@ public class CartServiceImpl implements CartService{
 		}
 		return price;
 	}
+
+	@Override
+	public void deleteStock(Long stockId) {
+		try {
+			cartManagementRepository.deleteStock(stockId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	@Override
+	public void checkQuantityUpdate(Map<String, Object> map) {
+		try {
+			Long stockId = (Long)map.get("stockId");
+			Long cartId = (Long)map.get("cartId");
+			Long quantity = (Long)map.get("quantity");
+			
+			
+			if(cartManagementRepository.checkQuantity(stockId, quantity) == 0) {
+				throw new RuntimeException("재고가 없습니다");
+			}
+			
+			cartManagementRepository.updateCartQuantity(cartId, stockId, quantity);;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
 
 }

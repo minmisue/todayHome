@@ -17,7 +17,10 @@ public interface CartManagementRepository {
 	public void updateCartQuantity(Long cartId,Long stockId, Long quantity) throws Exception;
 	
 	// 장바구니 취소
-	public void deleteCart(List<Long> cartIdList) throws Exception;
+	public void deleteCart(Long cartId) throws Exception;
+	
+	// 장바구니 상품의 옵션 삭제
+	public void deleteStock(Long stockId) throws Exception;
 	
 	// 회원 별 장바구니 리스트
 	public List<Cart> getCartList(Long memberId) throws Exception;

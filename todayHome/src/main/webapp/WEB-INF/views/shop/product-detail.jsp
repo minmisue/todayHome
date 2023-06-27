@@ -69,6 +69,7 @@
         .product-name {
             font-size: 22px;
             font-weight: 400;
+			flex: 1;
         }
 
         .sale-percent {
@@ -88,6 +89,14 @@
             margin-top: 12px;
             color: #64C2EB;
         }
+
+		.bi-bookmark-fill {
+            color: #64C2EB;
+		}
+		
+		.bookmark-btn:hover {
+            cursor: pointer;
+		}
 
         .product-content > img {
             width: 100%;
@@ -194,7 +203,23 @@
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
 
-<div class="main-container">
+<div class="main-container" style="position: relative">
+
+	<button type="button" class="btn btn-primary" id="liveToastBtn" onclick="hello()">Show live toast</button>
+
+	<div class="position-fixed toast-container p-3" style="z-index: 11; bottom: 0; left: 0">
+		<div id="insertScrapToast" style="transition: 0.5s" data-bs-delay="1000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-body">
+				스크랩했습니다
+			</div>
+		</div>
+
+		<div id="deleteScrapToast" style="transition: 0.5s" data-bs-delay="1000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-body">
+				스크랩북에서 삭제했습니다.
+			</div>
+		</div>
+	</div>
 
 	<div class="content flex-row">
 		<%-- 상품 사진 --%>
@@ -233,7 +258,13 @@
 		<%-- 상품 옵션 및 버튼 --%>
 		<div class="flex-col" style="margin-left: 35px; flex: 1">
 			<div class="brand-name">영가구</div>
-			<div class="product-name">${product.productName}</div>
+			<div class="flex-row" style="">
+				<div class="product-name">${product.productName}</div>
+				<div class="flex-col" style="justify-content: center; align-items: center; padding: 5px 5px; margin-left: 15px">
+					<div><i class="bi bi-bookmark bookmark-btn" style="font-size: 25px" onclick="scrapProduct()"></i></div>
+					<div style="margin-top: 2px; font-size: 11px; line-height: 14px; letter-spacing: -.3px; color: #424242">111</div>
+				</div>
+			</div>
 			<div class="rating">
 				<i class="bi bi-star-fill"></i>
 				<i class="bi bi-star-fill"></i>
@@ -356,7 +387,7 @@
 					</div>
 
 					<div class="flex-row">
-						<div class="bookmark-icon"><i class="bi bi-bookmark"></i></div>
+						<div class="bookmark-icon" onclick="scrapProduct()"><i class="bi bi-bookmark bookmark-btn"></i></div>
 						<button class="cart-btn" onclick="getAllSelectedOptions()">장바구니</button>
 						<button class="direct-purchase-btn">바로구매</button>
 					</div>
@@ -372,6 +403,9 @@
 <script>
 	let selectOptions = $('.select-option');
     let mainOptionCnt = ${mainOptionCnt};
+    let scrapStatus = false;
+    let isLogin = false;
+
 	<%--let stockList = ${stockList};--%>
     <c:set var="productStocks" value="${stockList}" />
 
@@ -398,6 +432,9 @@
     // 처음 시작시 첫번째 옵션을 제외하고 하위옵션 선택 불가
     $(function () {
         // disableExceptFirstOption();
+		scrapStatus = ${isScrap};
+		changeBookmarkBtn();
+        isLogin = ${not empty sessionScope.sessionInfo}
     });
 
     function disableExceptFirstOption() {
@@ -634,7 +671,7 @@
         }
 
         $.ajax({
-            url: "${pageContext.request.contextPath}/seller/product/cart",
+            url: "${pageContext.request.contextPath}/product/cart",
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json; charset=utf-8',
@@ -682,6 +719,64 @@
             }
         }
     });
+
+    function changeBookmarkBtn() {
+        let bookMarkBtn = $('.bookmark-btn');
+        if (scrapStatus) {
+            for (const x of bookMarkBtn) {
+                $(x).removeClass('bi-bookmark').addClass('bi-bookmark-fill');
+            }
+        } else {
+            for (const x of bookMarkBtn) {
+                $(x).removeClass('bi-bookmark-fill').addClass('bi-bookmark');
+            }
+		}
+    }
+
+    // 상품 스크랩
+    function scrapProduct() {
+        if (!isLogin) {
+            alert("로그인이 필요한 서비스입니다.");
+            return
+		}
+
+		let productId = '${product.productId}';
+
+        scrapStatus = !scrapStatus;
+        changeBookmarkBtn();
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/product/scrap",
+            type: 'POST',
+            data: 'productId=' + productId,
+            dataType: 'text',
+            success: function(response) {
+                if (response === 'false') {
+                    alert("서버와의 연결이 불안정합니다.");
+                } else {
+					showToast()
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+    }
+</script>
+
+<script>
+
+    function showToast() {
+        let elementById
+
+        if (!scrapStatus) {
+            elementById = document.getElementById('deleteScrapToast');
+        } else {
+            elementById = document.getElementById('insertScrapToast');
+        }
+        let instance = bootstrap.Toast.getOrCreateInstance(elementById);
+        instance.show()
+    }
 </script>
 </body>
 </html>

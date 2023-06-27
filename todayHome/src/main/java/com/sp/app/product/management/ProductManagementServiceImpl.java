@@ -276,27 +276,27 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public void insertScrapProduct(Long memberId, Long productId)  {
+	public void scrapProduct(Long memberId, Long productId) throws Exception {
 		try {
-			productManagementRepository.insertScrapProduct(memberId, productId);
+			int isScrap = productManagementRepository.isScrapProduct(memberId, productId);
+			if (isScrap == 0) {
+				// 스크랩이 안되어있는 경우 -> 스크랩
+				productManagementRepository.insertScrapProduct(memberId, productId);
+			} else {
+				productManagementRepository.deleteScrapProduct(memberId, productId);
+			}
+
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void deleteScrapProduct(Long memberId, Long productId)  {
+	public boolean isScrapProduct(Long memberId, Long productId)  {
 		try {
-			productManagementRepository.deleteScrapProduct(memberId, productId);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+			int isScrap = productManagementRepository.isScrapProduct(memberId, productId);
 
-	@Override
-	public int isScrapProduct(Long memberId, Long productId)  {
-		try {
-			return productManagementRepository.isScrapProduct(memberId, productId);
+			return isScrap == 1;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

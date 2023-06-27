@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("seller")
+@RequestMapping()
 public class ProductManagementController {
 
 	@Autowired
@@ -46,7 +46,7 @@ public class ProductManagementController {
 	@Autowired
 	private CartService cartService;
 
-	@GetMapping("product")
+	@GetMapping("seller/product")
 	public String addProductForm(Model model) {
 		// 임시 셀러 아이디
 		model.addAttribute("sellerId", 1L);
@@ -55,7 +55,7 @@ public class ProductManagementController {
 		return "seller/product/add-product-form";
 	}
 
-	@PostMapping("post-product")
+	@PostMapping("seller/post-product")
 	public String addProductSubmit(
 			@ModelAttribute Product product,
 			@RequestParam List<String> mainOptionName,
@@ -130,10 +130,19 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("product/{productId}")
-	public String productDetail(@PathVariable Long productId, Model model) {
+	public String productDetail(@SessionAttribute(value = "sessionInfo", required = false) SessionInfo sessionInfo,@PathVariable Long productId, Model model) {
+
+		Long memberId;
+		boolean isScrap = false;
+		if (sessionInfo != null) {
+			memberId = sessionInfo.getMemberId();
+			isScrap = productManagementService.isScrapProduct(memberId, productId);
+
+		}
 
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
+
 //		Seller seller;
 //		try {
 //			seller = sellerService.getSellerBySellerId(sellerId);
@@ -149,11 +158,13 @@ public class ProductManagementController {
 		model.addAttribute("stockList", stockList);
 		model.addAttribute("mainOptionCnt", mainOptionCnt);
 		model.addAttribute("mainOptionList", mainOptionList);
+		model.addAttribute("isScrap", isScrap);
 //		model.addAttribute("seller", seller);
 
 		return "shop/product-detail";
 	}
 
+	// 장바구니 버튼 클릭
 	@PostMapping("product/cart")
 	@ResponseBody
 	public String addProductToCart(
@@ -190,5 +201,22 @@ public class ProductManagementController {
 //		cartService.createProduct(cart);
 
 		return "ok";
+	}
+
+	@ResponseBody
+	@PostMapping("product/scrap")
+	public boolean scrapProduct(@RequestParam Long productId, @SessionAttribute(value = "sessionInfo", required = false) SessionInfo sessionInfo) {
+		if (sessionInfo == null) {
+			return false;
+		}
+		Long memberId = sessionInfo.getMemberId();
+
+		try {
+			productManagementService.scrapProduct(memberId, productId);
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -30,11 +30,9 @@ public interface ProductManagementService {
 
 	void deleteProduct(Long productId);
 
-	void insertScrapProduct(Long memberId, Long productId) ;
+	void scrapProduct(Long memberId, Long productId) throws Exception;
 
-	void deleteScrapProduct(Long memberId, Long productId) ;
-
-	int isScrapProduct(Long memberId, Long productId) ;
+	boolean isScrapProduct(Long memberId, Long productId) ;
 
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);

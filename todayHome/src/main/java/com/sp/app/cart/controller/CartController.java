@@ -52,7 +52,7 @@ public class CartController {
 				Long quantity = vo.getQuantity();
 				
 				ProductStock productStock = productservice.getStockByStockId(stockId);
-				productStock.setPrice((productStock.getOptionPrice()+cart.getPrice())*quantity);
+				productStock.setPrice(productStock.getOptionPrice()*quantity);
 				
 				productStock.setCartQuantity(quantity);
 				productStockList.add(productStock);

@@ -193,9 +193,9 @@
 					</div>
 				</div>
 
-
-
+				
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
+				
 					<input type="hidden" value="${cart.price}">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
@@ -237,7 +237,9 @@
 											</div>
 										</div>
 									</div>
-									<c:set var="totDisCountPrice2" value="0"></c:set>
+									
+									<c:set var="totPrice" value="0"></c:set>
+									
 									<c:forEach var="productStock" items="${cart.productStockList}"
 										varStatus="status">
 
@@ -272,7 +274,7 @@
 											</div>
 											<c:set var="orignalTotPrice" value="${orignalTotPrice + productStock.price }"></c:set>
 											<c:set var="totPrice" value="${totPrice + productPrice}" />
-											<c:set var="totDisCountPrice" value="${totDisCountPrice + (productStock.price - productPrice) }"></c:set>
+											
 										
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
@@ -296,6 +298,8 @@
 							<div>${cart.deliveryCost }원</div>
 						</div>
 					</div>
+					<h2></h2>
+					<c:set var="totDisCountPrice" value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
 					<c:set var="totDeliveryCost" value="${totDeliveryCost + cart.deliveryCost}" />
 				</c:forEach>
 				

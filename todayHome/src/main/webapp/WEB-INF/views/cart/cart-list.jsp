@@ -194,13 +194,13 @@
 
 
 
-				<c:forEach var="dto" items="${cartList}" varStatus="status">
+				<c:forEach var="cart" items="${cartList}" varStatus="status">
 
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
 						<div class="flex-col"
 							style="justify-content: center; align-items: center; border-bottom: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px; font-weight: 500;">
-							<div>${dto.brandName}배송</div>
+							<div>${cart.brandName}배송</div>
 						</div>
 
 						<div class="flex-row" style="gap: 10px; padding: 15px">
@@ -232,18 +232,13 @@
 												style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">${dto.productName}</div>
 											<div class="flex-row"
 												style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px">
-												<div>배송비 ${dto.deliveryCost}원</div>
+												<div>배송비 ${cart.deliveryCost}원</div>
 											</div>
 										</div>
 									</div>
 
-									<c:forEach var="productEntry" items="${ProductStockMap}"
+									<c:forEach var="productStock" items="${cart.productStockList}"
 										varStatus="status">
-											<script type="text/javascript">
-												alert('${productEntry.value}');
-											</script>
-										
-										<c:forEach var="stock" items="${productEntry.value}">
 
 											<div class="flex-col"
 												style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
@@ -251,8 +246,8 @@
 													style="justify-content: space-between; align-items: center">
 													<div
 														style="font-size: 14px; line-height: 18px; color: #2F3438">
-														${stock.mainOptionName1 }: ${stock.subOptionName1 },
-														${stock.mainOptionName2 }: ${stock.subOptionName2 }</div>
+														${productStock.mainOptionName1 }: ${productStock.subOptionName1 },
+														${productStock.mainOptionName2 }: ${productStock.subOptionName2 }</div>
 													<i class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
 												</div>
 												<div class="flex-row"
@@ -272,7 +267,6 @@
 													</div>
 												</div>
 											</div>
-										</c:forEach>
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"

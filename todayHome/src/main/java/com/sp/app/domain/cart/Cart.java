@@ -2,6 +2,8 @@ package com.sp.app.domain.cart;
 
 import java.util.List;
 
+import com.sp.app.domain.product.ProductStock;
+
 public class Cart {
 	private Long cartId;
 	private Long memberId;
@@ -19,6 +21,19 @@ public class Cart {
 	private Long deliveryCost; // 배달비
 
 	
+	private List<CartOptionMap> stockList;
+	private List<ProductStock> productStockList;
+	
+	public List<ProductStock> getProductStockList() {
+		return productStockList;
+	}
+
+
+	public void setProductStockList(List<ProductStock> productStockList) {
+		this.productStockList = productStockList;
+	}
+
+
 	public Long getPrice() {
 		return price;
 	}
@@ -29,7 +44,6 @@ public class Cart {
 	}
 
 
-	private List<CartOptionMap> stockList;
 
 
 	public Long getCartId() {

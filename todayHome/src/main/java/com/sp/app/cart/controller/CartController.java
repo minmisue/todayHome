@@ -1,9 +1,7 @@
 package com.sp.app.cart.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,25 +37,24 @@ public class CartController {
 		// 전체 장바구니 리스트 가져옴
 		List<Cart> cartList = cartservice.getCartList(info.getMemberId());
 		
-		Map<String, List<ProductStock>> map = new HashMap<String, List<ProductStock>>();
 		
-		for(Cart dto : cartList) {
-			Long cartId = dto.getCartId();
+		for(Cart cart : cartList) {
+			Long cartId = cart.getCartId();
 			
 			List<CartOptionMap> stockIdList = cartservice.getStockId(cartId);
 			
+			List<ProductStock> productStockList = new ArrayList<ProductStock>();
 			
-			List<ProductStock> optionList = new ArrayList<ProductStock>();
 			for(CartOptionMap vo : stockIdList) {
 				System.out.println(vo.getStockId());
-				optionList.add(productservice.getStockByStockId(vo.getStockId()));
+				
+				productStockList.add(productservice.getStockByStockId(vo.getStockId()));
 			}
 			
-			String cartIdToStr = String.valueOf(cartId);
-			map.put(cartIdToStr, optionList);
+			cart.setProductStockList(productStockList);
+			
 		}
 		
-		model.addAttribute("ProductStockMap", map);
 		model.addAttribute("cartList", cartList);
 		
 		return "/cart/cart-list";

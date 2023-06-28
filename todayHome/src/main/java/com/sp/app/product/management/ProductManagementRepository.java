@@ -38,6 +38,8 @@ public interface ProductManagementRepository {
 
 	int isScrapProduct(Long memberId, Long productId) throws Exception;
 
+	int scrapCnt(Long productId) throws Exception;
+
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);
 

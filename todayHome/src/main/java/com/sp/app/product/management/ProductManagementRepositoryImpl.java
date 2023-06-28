@@ -99,6 +99,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public int scrapCnt(Long productId) throws Exception {
+		return commonDAO.selectOne("productManagement.scrapCnt", productId);
+	}
+
+	@Override
 	public ProductMainOption getOptionsById(Long productId) {
 		return null;
 	}

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -193,6 +194,13 @@
             font-weight: 600;
 			line-height: 20px;
         }
+
+        .toast-theme {
+            background-color: #303438;
+            padding: 5px 15px;
+            color: white;
+            transition: 0.5s;
+        }
 	</style>
 </head>
 <body>
@@ -206,21 +214,18 @@
 
 <div class="main-container" style="position: relative">
 
-	<button type="button" class="btn btn-primary" id="liveToastBtn" onclick="hello()">Show live toast</button>
-
+	<%-- 스크랩 토스트 --%>
 	<div class="position-fixed bottom-0 start-50 translate-middle-x toast-container p-3" style="z-index: 11;">
-		<div id="insertScrapToast" style="background-color: #303438; padding: 10px 15px; color: white; transition: 0.5s" data-bs-delay="3000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+		<div id="insertScrapToast" data-bs-delay="3000" class="toast hide toast-theme" role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="toast-body flex-row" style="justify-content: space-between">
 				<div>
 					스크랩했습니다
 				</div>
-				<div style="">
-					스크랩북 보기
-				</div>
+				<a href="#" style="text-decoration: none; color: #63BDE6; font-weight: 650;">스크랩북 보기</a>
 			</div>
 		</div>
 
-		<div id="deleteScrapToast" style="transition: 0.5s" data-bs-delay="3000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+		<div id="deleteScrapToast" style="transition: 0.5s" data-bs-delay="3000" class="toast hide toast-theme" role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="toast-body">
 				스크랩북에서 삭제했습니다.
 			</div>
@@ -263,12 +268,12 @@
 
 		<%-- 상품 옵션 및 버튼 --%>
 		<div class="flex-col" style="margin-left: 35px; flex: 1">
-			<div class="brand-name">영가구</div>
+			<div class="brand-name">${seller.brandName}</div>
 			<div class="flex-row" style="">
 				<div class="product-name">${product.productName}</div>
 				<div class="flex-col" style="justify-content: center; align-items: center; padding: 5px 5px; margin-left: 15px">
 					<div><i class="bi bi-bookmark bookmark-btn" style="font-size: 25px" onclick="scrapProduct()"></i></div>
-					<div style="margin-top: 2px; font-size: 11px; line-height: 14px; letter-spacing: -.3px; color: #424242">111</div>
+					<div style="margin-top: 2px; font-size: 11px; line-height: 14px; letter-spacing: -.3px; color: #424242">${scrapCnt}</div>
 				</div>
 			</div>
 			<div class="rating">
@@ -282,7 +287,7 @@
 			<div class="flex-col" style="margin-top: 8px">
 				<div class="sale-percent">${product.discountPercent}%</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
-					<div class="price">${product.price}</div>
+					<div class="price"><fmt:formatNumber value="${product.price}"/></div>
 					<div style="font-size: 24px">원</div>
 				</div>
 			</div>
@@ -290,7 +295,7 @@
 			<div class="flex-row" style="padding: 20px 0; font-size: 14px">
 				<div style="width: 42px; color: #828c94">배송</div>
 				<div class="flex-col" style="flex: 1; gap: 5px">
-					<div style="font-weight: 750;">${product.deliveryCost} 원</div>
+					<div style="font-weight: 750;"><fmt:formatNumber value="${product.deliveryCost}"/> 원</div>
 					<div>일반택배</div>
 					<div style="color: #757575"><i class="bi bi-check"></i>제주도/도서산간 지역 5,000원</div>
 					<div style="background-color: #F7F8FA; height: 40px; margin-top: 10px; border-radius: 5px; align-items: center; padding: 10px 20px">
@@ -307,13 +312,12 @@
 			<hr>
 
 			<div class="flex-row brand-home" >
-				<div><i class="bi bi-shop"></i> <span class="brand-home-name">테팔</span></div>
+				<div><i class="bi bi-shop"></i> <span class="brand-home-name">${seller.brandName}</span></div>
 				<div class="brand-home-btn">브랜드 홈 <i class="bi bi-chevron-right"></i></div>
 			</div>
 
-
 			<c:forEach var="mainOption" items="${mainOptionList}" varStatus="status">
-				<select class="form-control select-option" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px; margin-top: 10px">
+				<select class="form-control select-option" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 15px; font-size: 15px; margin-top: 10px; ">
 					<option selected="" value="" disabled="">${mainOption.optionName}</option>
 
 					<c:if test="${status.index == 0}">
@@ -372,7 +376,7 @@
 
 		<div style="flex: 1; padding: 0 40px;">
 			<div class="flex-col" style="width: 100%; position: sticky; top: 205px; justify-content: space-between; height: 74vh;">
-				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 20px">
+				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 10px; font-size: 15px">
 					<option selected="" value="" disabled="">색상</option>
 
 					<option value="0">투명 (PET) (25,600원)</option>
@@ -443,10 +447,11 @@
         isLogin = ${not empty sessionScope.sessionInfo}
     });
 
+    // 첫번째 옵션 제외 옵션 삭제
     function disableExceptFirstOption() {
         let notFirst = selectOptions.not(':first');
         for (const x of notFirst) {
-            $(x).children().hide()
+            $(x).children().not(':first').remove()
         }
     }
 
@@ -468,6 +473,8 @@
         for (const option of selectOptions) {
             $(option).html($(option).html())
         }
+
+        disableExceptFirstOption()
     }
 
     // 각 옵션 선택 리스너
@@ -514,8 +521,8 @@
                 displayTotalPrice()
 				return
 			}
-			// 다음 메인옵션이 있는 경우
 
+			// 다음 메인옵션이 있는 경우
 			let currentSubOptionId = $(this).val();
 
             let nextSubOptions = stockList.filter(function (stock) {
@@ -529,7 +536,7 @@
             for (const nextSubOption of nextSubOptions) {
                 optionTag +=
 					`
-						<option value="` + nextSubOption.subOptionId2 + `">` + nextSubOption.subOptionName2 + ` (` + nextSubOption.optionPrice + `원) </option>
+						<option value="` + nextSubOption.subOptionId2 + `">` + nextSubOption.subOptionName2 + ` (` + nextSubOption.optionPrice.toLocaleString('ko-KR') + `원) </option>
 					`
             }
 
@@ -569,7 +576,7 @@
 							<input id="optionQuantityInput" type="hidden" value="1">
 							<i class="bi bi-plus-lg btnChange plus" onclick="$.clickChangeBtn(this, ` + stock.stockId + `)"></i>
 						</div>
-						<div class="option-price-container"><span class="option-price">` + stock.optionPrice + `</span> 원</div>
+						<div class="option-price-container"><span class="option-price">` + stock.optionPrice.toLocaleString('ko-KR') + `</span> 원</div>
 					</div>
 				</div>
 			`
@@ -638,13 +645,13 @@
         let totalPrice = 0
 
         for (const option of selectedOptions) {
-            totalPrice += parseInt($(option).find('.option-price').text());
+            totalPrice += parseInt($(option).find('.option-price').text().replaceAll(',',''));
         }
 
         let totalPriceOut = $('.total-price');
 
         for (const totalPriceObj of totalPriceOut) {
-			$(totalPriceObj).text(totalPrice)
+			$(totalPriceObj).text(totalPrice.toLocaleString('ko-kr'))
         }
     }
 

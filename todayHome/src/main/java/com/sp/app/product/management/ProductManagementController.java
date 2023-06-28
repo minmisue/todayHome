@@ -136,21 +136,22 @@ public class ProductManagementController {
 
 		Long memberId;
 		boolean isScrap = false;
+
 		if (sessionInfo != null) {
 			memberId = sessionInfo.getMemberId();
 			isScrap = productManagementService.isScrapProduct(memberId, productId);
-
 		}
 
+		int scrapCnt = productManagementService.scrapCnt(productId);
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
 
-//		Seller seller;
-//		try {
-//			seller = sellerService.getSellerBySellerId(sellerId);
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		}
+		Seller seller;
+		try {
+			seller = sellerService.getSellerBySellerId(sellerId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
 		List<ProductStock> stockList = productManagementService.getStockListByProductId(productId);
 		int mainOptionCnt = productManagementService.getMainOptionCnt(productId);
@@ -161,7 +162,8 @@ public class ProductManagementController {
 		model.addAttribute("mainOptionCnt", mainOptionCnt);
 		model.addAttribute("mainOptionList", mainOptionList);
 		model.addAttribute("isScrap", isScrap);
-//		model.addAttribute("seller", seller);
+		model.addAttribute("scrapCnt", scrapCnt);
+		model.addAttribute("seller", seller);
 
 		return "shop/product-detail";
 	}

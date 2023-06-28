@@ -303,6 +303,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
+	public int scrapCnt(Long productId) {
+		try {
+			return productManagementRepository.scrapCnt(productId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public ProductMainOption getOptionsById(Long productId) {
 		return productManagementRepository.getOptionsById(productId);
 	}

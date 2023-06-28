@@ -4,22 +4,37 @@
 <mapper namespace="order">
 	<!-- 주문 묶음 테이블 insert -->
 	<insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
-		INSERT INTO ORDER_BUNDLE(ORDER_BUNDLE_ID, MEMBER_ID, REG_DATE, RECEIVE_NAME, TEL, POST_NUM, ADDRESS2, ADDRESS1, USED_POINT, PAY_METHOD) 
-		 VALUES (SEQ_ORDER_BUNDLE.nextval,#{memberId},SYSDATE,#{receiveName},#{tel},#{postNum},#{address2},#{address1},#{usedPoint},#{payMethod})
+		<selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
+            SELECT SEQ_ORDER_BUNDLE.NEXTVAL as orderBundleId FROM DUAL
+        </selectKey>
+		INSERT INTO ORDER_BUNDLE(ORDER_BUNDLE_ID, MEMBER_ID, REG_DATE, RECEIVE_NAME, 
+					TEL, POST_NUM, ADDRESS2, ADDRESS1, USED_POINT, 
+					PAY_METHOD,FINAL_TOT_PRICE,FINAL_DISCOUNT_PRICE,FINAL_DELIVERY_COST) 
+		 VALUES (#{orderBundleId},#{memberId},SYSDATE,
+		 		#{receiveName},#{tel},#{postNum},#{address2},
+		 		#{address1},#{usedPoint},#{payMethod},#{finalTotPrice},
+		 		#{finalDiscountPrice},#{finalDeliveryCost})
 	</insert>
 	
 	<!-- 주문아이템 테이블 insert -->
-	<insert id="insertOrderItem" parameterType="com.sp.app.domain.order.Order">
-		INSERT INTO ORDER_ITEM(ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, COUPON_ID, QUANTITY, PRICE, FINAL_PRICE, DISCOUNT_PRICE, STOCK_ID, FINAL_TOT_PRICE, FINAL_DISCOUNT_PRICE, FINAL_DELIVERY_COST)
-		 VALUES (SEQ_ORDER_ITEM.nextval,#{orderId},#{productId},#{couponId, jdbcType=INTEGER},#{quantity},#{price},#{finalPrice},#{discountPrice},#{stockId},#{finalTotPrice},#{finalDiscountPrice},#{finalDeliveryCost})
+	<insert id="insertOrderItem" parameterType="com.sp.app.domain.order.OrderDetail">
+		<selectKey keyProperty="orderItemId" resultType="Long" order="BEFORE">
+            SELECT SEQ_ORDER_ITEM.NEXTVAL as orderItemId FROM DUAL
+        </selectKey>
+		INSERT INTO ORDER_ITEM(ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, COUPON_ID,PRICE, FINAL_PRICE, DISCOUNT_PERCENT)
+		 VALUES (#{orderItemId},#{orderBundleId},#{productId},#{couponId, jdbcType=INTEGER},#{originalPrice},#{finalPrice},#{disCountPercent})
+	</insert>
+	
+	<!-- 상품 옵션 테이블 insert -->
+	<insert id="insertOrderItemStock" parameterType="com.sp.app.domain.order.OrderItemStock" >
+		INSERT INTO order_item_stock_bundle(order_item_id,stock_id,quantity,price) VALUES (#{orderItemId},#{stockId},#{quantity},#{price})
 	</insert>
 	
 	<!-- 주문 상태 테이블 insert -->
-	<insert id="insertOrderStatus">
+	<insert id="insertOrderStatus" parameterType="com.sp.app.domain.order.OrderDetail">
 		INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
 		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
 	</insert>
-	
 	
 </mapper>
 

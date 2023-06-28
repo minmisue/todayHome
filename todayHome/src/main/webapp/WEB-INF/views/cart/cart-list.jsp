@@ -396,7 +396,7 @@
 					</div>
 
 					<div class="purchase-btn"
-						onclick="location.href='${pageContext.request.contextPath}/payment'">
+						onclick="location.href='${pageContext.request.contextPath}/payment/list'">
 						1개 상품 구매하기</div>
 				</div>
 			</div>

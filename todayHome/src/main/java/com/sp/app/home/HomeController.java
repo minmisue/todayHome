@@ -65,11 +65,11 @@ public class HomeController {
 		return "community/houseWarming/house-warming-list";
 	}
 
-	@GetMapping("payment")
-	public String paymentForm() {
-		return "payment/payment-page";
-	}
-	
+//	@GetMapping("payment")
+//	public String paymentForm() {
+//		return "payment/payment-page";
+//	}
+//	
 	@GetMapping("member/new")
 	public String newMember() {
 		return "member/join-member";

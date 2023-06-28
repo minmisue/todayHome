@@ -1,4 +1,4 @@
-package com.sp.app.order;
+package com.sp.app.domain.order;
 
 public class OrderState {
 	// 주문상태 정보

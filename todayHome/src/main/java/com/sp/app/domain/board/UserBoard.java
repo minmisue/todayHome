@@ -2,6 +2,8 @@ package com.sp.app.domain.board;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 public class UserBoard {
     private Long userBoardId;
@@ -15,8 +17,30 @@ public class UserBoard {
 	private int replyCount;
 	private int boardLikeCount;
 	private int boardScrapCount;
-	private String presentationImgName;
+	private String imgName;
+	private String nickName;
+	private String profileImgName;
 	private List<BoardContent> boardContentList;
+	private MultipartFile selectFile;
+
+	public UserBoard() {
+		
+	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "UserBoard [userBoardId=" + userBoardId + ", memberId=" + memberId + ", categoryId=" + categoryId
+				+ ", subject=" + subject + ", createdDate=" + createdDate + ", ipAddress=" + ipAddress + ", hitCount="
+				+ hitCount + ", boardType=" + boardType + ", replyCount=" + replyCount + ", boardLikeCount="
+				+ boardLikeCount + ", boardScrapCount=" + boardScrapCount + ", imgName=" + imgName + ", nickName="
+				+ nickName + ", profileImgName=" + profileImgName + ", boardContentList=" + boardContentList
+				+ ", selectFile=" + selectFile + "]";
+	}
+
+
 
 
 	public Long getUserBoardId() {
@@ -107,12 +131,28 @@ public class UserBoard {
 		this.boardScrapCount = boardScrapCount;
 	}
 
-	public String getPresentationImgName() {
-		return presentationImgName;
+	public String getImgName() {
+		return imgName;
 	}
 
-	public void setPresentationImgName(String presentationImgName) {
-		this.presentationImgName = presentationImgName;
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
 	}
 
 	public List<BoardContent> getBoardContentList() {
@@ -122,4 +162,13 @@ public class UserBoard {
 	public void setBoardContentList(List<BoardContent> boardContentList) {
 		this.boardContentList = boardContentList;
 	}
+	
+	public MultipartFile getSelectFile() {
+		return selectFile;
+	}
+
+	public void setSelectFile(MultipartFile selectFile) {
+		this.selectFile = selectFile;
+	}
+
 }

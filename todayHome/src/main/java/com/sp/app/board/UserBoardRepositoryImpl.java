@@ -3,11 +3,15 @@ package com.sp.app.board;
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.board.BoardContent;
 import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.ListBoard;
+import com.sp.app.domain.board.ProductTag;
 import com.sp.app.domain.board.UserBoard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserBoardRepositoryImpl implements UserBoardRepository{
@@ -17,130 +21,222 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 
 	@Override
 	public void createBoard(UserBoard userBoard) throws Exception {
-
-		Long seq = commonDAO.selectOne("userBoard.seq");
-
-		userBoard.setUserBoardId(seq);
-
-		commonDAO.insertData("userBoard.createUserBoard", userBoard);
+		commonDAO.insertData("userBoard.createBoard", userBoard);
 	}
 
 	@Override
 	public void insertContent(BoardContent boardContent) throws Exception {
-		
-		Long seq = commonDAO.selectOne("userBoard.seq");
-		
-		boardContent.setUserBoardContentId(seq);
-		
 		commonDAO.insertData("userBoard.insertContent", boardContent);
 	}
-	
+
 	@Override
-	public int getBoardCount(UserBoard userBoard) {
-		// TODO Auto-generated method stub
+	public void insertProduct(ProductTag productTag) throws Exception {
+		commonDAO.insertData("userBoard.insertProduct", productTag);
+	}
+
+	@Override
+	public int dataCount(UserBoard userBoard) {//
 		return 0;
 	}
 
 	@Override
-	public UserBoard getBoardById(Long userBoardId) {
+	public UserBoard readBoard(Long userBoardId) throws Exception {
+		
+		return commonDAO.selectOne("userBoard.readBoard", userBoardId);
+	}
+
+	@Override
+	public List<BoardContent> readContent(Long userBoardId) throws Exception {
+		return commonDAO.selectList("userBoard.readContent", userBoardId);
+	}
+	
+	@Override
+	public List<ProductTag> readProduct(Long userBoardContentId) throws Exception {
+		return commonDAO.selectList("userBoard.readProduct", userBoardContentId);
+	}
+
+	@Override
+	public void updateHitCount(Long userBoardId) throws Exception {
+		commonDAO.updateData("userBoard.updateHitCount", userBoardId);
+	}
+
+	@Override
+	public List<ListBoard> listBoard() throws Exception {
+		return commonDAO.selectList("userBoard.listBoard");
+	}
+
+	@Override
+	public List<UserBoard> readOtherBoard(Long memberId) throws Exception {
+		return commonDAO.selectList("userBoard.readOtherBoard", memberId);
+	}
+
+	@Override
+	public void updateBoardContent(BoardContent boardContent) throws Exception {
+		commonDAO.updateData("userBoard.updateBoardContent", boardContent);
+	}
+	
+	@Override
+	public void deleteBoardProduct(Long productId, Long userBoardContentId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("userBoardContentId", userBoardContentId);
+		
+		commonDAO.deleteData("userBoard.deleteBoardProduct", map);
+	}
+
+	@Override
+	public void deleteBoard(Long userBoardId) throws Exception {
+		commonDAO.deleteData("userBoard.deleteBoard", userBoardId);
+		
+	}
+
+	@Override
+	public void insertBoardLike(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+
+		commonDAO.insertData("userBoard.insertBoardLike", map);
+	}
+
+	@Override
+	public void deleteBoardLike(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+
+		commonDAO.insertData("userBoard.deleteBoardLike", map);
+		
+	}
+
+	@Override
+	public int boardLikeCount(Long userBoardId) throws Exception {
+		return commonDAO.selectOne("userBoard.boardLikeCount", userBoardId);
+	}
+
+	@Override
+	public boolean userBoardLiked(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+		
+		boolean result = false;
+		UserBoard userBoard = commonDAO.selectOne("userBoard.userBoardLiked", map);
+		if(userBoard != null) {
+			result = true; 
+		}
+		
+		return result;
+	}
+
+	@Override
+	public void insertScrapLike(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+
+		commonDAO.insertData("userBoard.insertScrapLike", map);
+		
+	}
+
+	@Override
+	public void deleteBoardScrap(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+
+		commonDAO.insertData("userBoard.deleteScrapLike", map);
+		
+	}
+
+	@Override
+	public int boardScrapCount(Long userBoardId) throws Exception {
+		return commonDAO.selectOne("userBoard.boardScrapCount", userBoardId);
+	}
+
+	@Override
+	public boolean userBoardScraped(Long userBoardId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardId", userBoardId);
+		map.put("memberId", memberId);
+		
+		boolean result = false;
+		UserBoard userBoard = commonDAO.selectOne("userBoard.userScrapLiked", map);
+		if(userBoard != null) {
+			result = true; 
+		}
+		
+		return result;
+	}
+	
+
+	@Override
+	public void insertComment(Comment comment) throws Exception {
+		commonDAO.insertData("userBoard.insertComment", comment);
+	}
+
+	@Override
+	public void deleteComment(Long userBoardCommentId) throws Exception {
+		commonDAO.deleteData("userBoard.deleteComment", userBoardCommentId);
+	}
+
+	@Override
+	public int commentCount(Long userBoardId) throws Exception {
+		return commonDAO.selectOne("userBoard.commentCount", userBoardId);
+	}
+
+	@Override
+	public List<Comment> listComment(Long userBoardId) throws Exception {
+		return commonDAO.selectList("userBoard.listComment", userBoardId);
+	}
+
+	@Override
+	public List<Comment> listCommentAnswer() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<UserBoard> getAllBoards() {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardCommentId", userBoardCommentId);
+		map.put("memberId", memberId);
+
+		commonDAO.insertData("userBoard.insertCommentLike", map);		
 	}
 
 	@Override
-	public void updateBoard(UserBoard board) {
-		// TODO Auto-generated method stub
-
+	public void deleteCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardCommentId", userBoardCommentId);
+		map.put("memberId", memberId);
+		
+		commonDAO.deleteData("userBoard.deleteCommentLike", map);
 	}
 
 	@Override
-	public void deleteBoard(Long userBoardId) {
-		// TODO Auto-generated method stub
-
+	public int commentLikeCount(Long userBoardCommentId) throws Exception {
+		return commonDAO.selectOne("userBoard.commentLikeCount", userBoardCommentId);
 	}
-
+	
 	@Override
-	public void addLikeToBoard(Long userBoardId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeLikeFromBoard(Long userBoardId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addScrabToBoard(Long userBoardId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeScrabFromBoard(Long userBoardId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addCommentToBoard(Long userBoardId, Comment content) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteComment(Long commentId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateComment(Long commentId, Comment updatedComment) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getCommentCount(Long userBoardId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void addLikeToComment(Long commentId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeLikeFromComment(Long commentId, Long memberId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getCommentLikeCount(Long commentId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isCommentLikedByUser(Long commentId, Long memberId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean userCommentLiked(Long userBoardCommentId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardCommentId", userBoardCommentId);
+		map.put("memberId", memberId);
+		
+		boolean result = false;
+		Comment comment = commonDAO.selectOne("userBoard.userCommentLiked", map);
+		if(comment != null) {
+			result = true; 
+		}
+		
+		return result;
 	}
 
 	
 
-
-
-
+	
+	
 
 }

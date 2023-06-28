@@ -5,13 +5,40 @@ import java.util.List;
 public class BoardContent {
 	private Long userBoardContentId;
 	private Long userBoardId;
-	private Long categoryId;
+	private Long userBoardContentCategoryId;
 	private String content;
 	private int contentSequence;
 	private String imgName;
 	List<ProductTag> productTagList;
 	
+	public BoardContent() {
+		
+	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "BoardContent [userBoardContentId=" + userBoardContentId + ", userBoardId=" + userBoardId
+				+ ", userBoardContentCategoryId=" + userBoardContentCategoryId + ", content=" + content
+				+ ", contentSequence=" + contentSequence + ", imgName=" + imgName + ", productTagList=" + productTagList
+				+ "]";
+	}
+
+
+
+	public BoardContent(Long userBoardId, Long userBoardContentCategoryId, String content, int contentSequence,
+			String imgName) {
+		super();
+		this.userBoardId = userBoardId;
+		this.userBoardContentCategoryId = userBoardContentCategoryId;
+		this.content = content;
+		this.contentSequence = contentSequence;
+		this.imgName = imgName;
+	}
+
+
+
 	public Long getUserBoardContentId() {
 		return userBoardContentId;
 	}
@@ -28,12 +55,12 @@ public class BoardContent {
 		this.userBoardId = userBoardId;
 	}
 
-	public Long getCategoryId() {
-		return categoryId;
+	public Long getUserBoardContentCategoryId() {
+		return userBoardContentCategoryId;
 	}
 
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
+	public void setUserBoardContentCategoryId(Long userBoardContentCategoryId) {
+		this.userBoardContentCategoryId = userBoardContentCategoryId;
 	}
 
 	public String getContent() {

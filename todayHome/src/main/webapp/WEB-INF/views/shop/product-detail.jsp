@@ -208,14 +208,19 @@
 
 	<button type="button" class="btn btn-primary" id="liveToastBtn" onclick="hello()">Show live toast</button>
 
-	<div class="position-fixed toast-container p-3" style="z-index: 11; bottom: 0; left: 0">
-		<div id="insertScrapToast" style="transition: 0.5s" data-bs-delay="1000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-			<div class="toast-body">
-				스크랩했습니다
+	<div class="position-fixed bottom-0 start-50 translate-middle-x toast-container p-3" style="z-index: 11;">
+		<div id="insertScrapToast" style="background-color: #303438; padding: 10px 15px; color: white; transition: 0.5s" data-bs-delay="3000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-body flex-row" style="justify-content: space-between">
+				<div>
+					스크랩했습니다
+				</div>
+				<div style="">
+					스크랩북 보기
+				</div>
 			</div>
 		</div>
 
-		<div id="deleteScrapToast" style="transition: 0.5s" data-bs-delay="1000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+		<div id="deleteScrapToast" style="transition: 0.5s" data-bs-delay="3000" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="toast-body">
 				스크랩북에서 삭제했습니다.
 			</div>

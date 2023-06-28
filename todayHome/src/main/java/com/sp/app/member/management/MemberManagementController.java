@@ -68,11 +68,14 @@ public class MemberManagementController {
 	@PostMapping("join")
 	public String joinSubmit( 
 			@RequestParam String email,
+			@RequestParam String emailDomain,
 			@RequestParam String password,
 			@RequestParam String nickName
 			,Model model) {
+		
+		String emailSum = email.trim() + "@" + emailDomain.trim();
 
-		Member member = new Member(email,nickName,password);
+		Member member = new Member(emailSum,nickName,password);
 		System.out.println(member);
 		
 		try {
@@ -105,6 +108,24 @@ public class MemberManagementController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	@GetMapping("resetPasswordForm")
+	public String resetPasswordForm() {
+		return "member/resetPassword";
+	}
+	
+	@GetMapping("resetPassword")
+	@ResponseBody
+	public boolean resetPasswordSubmit(@RequestParam("email") String email) {
+	
+		try {
+			return memberManagementService.emailCheck(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 	

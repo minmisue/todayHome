@@ -11,10 +11,11 @@
 	<title>회원가입</title>
 	<style>
         body {
+        	padding: 50px 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 1000px;
+            
         }
 
         .main {
@@ -47,7 +48,11 @@
         }
 
         .memberinfo {
-            margin-bottom: 30px;
+            margin-top: 25px;
+        }
+        
+        button {
+        	margin-top: 12px;
         }
 
         .terms {
@@ -59,25 +64,8 @@
             font-weight: bold;
         }
 
-        input[type="password"], input[type="text"] {
-            width: 330px;
-            padding: 0 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            line-height: 30px;
-        }
-
-        input[id="email"], input[id="email-domain"] {
-            width: 135px;
-            padding: 0 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            line-height: 30px;
-            margin-top: 12px;
-        }
-
         input[name="confirm"] {
-            margin-top: 12px;
+            margin-top: 5px;
         }
 
         .email-separator {
@@ -86,7 +74,7 @@
         }
 
         .email-certify {
-            margin-bottom: 12px;
+            
         }
 
         .check {
@@ -142,6 +130,7 @@
             const f = document.memberForm;
             let str;
 
+            
             if (emailValidateStatus === false) {
                 str = "이메일 인증이 실행되지 않았습니다.";
                 alert(str)
@@ -166,6 +155,25 @@
                 f.confirm.focus();
                 return;
             }
+            
+            var checkbox = document.getElementById("age")
+            if(! checkbox.checked){
+            	alert("필수약관에 동의해야 합니다.");
+                return false; // 폼 제출을 중단합니다.
+            }
+            
+            var checkbox = document.getElementById("terms-agreement")
+            if(! checkbox.checked){
+            	alert("필수약관에 동의해야 합니다.");
+                return false; // 폼 제출을 중단합니다.
+            }
+
+            
+            var checkbox = document.getElementById("privacy")
+            if(! checkbox.checked){
+            	alert("필수약관에 동의해야 합니다.");
+                return false; // 폼 제출을 중단합니다.
+            }
 
 
             f.action = "${pageContext.request.contextPath}/join";
@@ -175,7 +183,7 @@
         function emailCheckOk() {
 
             let email1 = document.getElementById('email');
-            let email2 = document.getElementById('email-domain');
+            let email2 = document.getElementById('emailDomain');
 
             let str = email1.value.trim();
             if (!str) {
@@ -263,37 +271,47 @@
 		<div class="sns-login">SNS계정으로 간편하게 회원가입</div>
 		<hr>
 
-		<label class="label1" for="email">이메일</label>
-		<div class="memberinfo">
-			<input type="text" id="email" name="email" placeholder="이메일을"
-				   required> <span class="email-separator">@</span> <input
-				type="text" id="email-domain" name="email-domain"
-				placeholder="입력해주세요" required>
-			<input type="hidden" id="eamail1" name="email1">
+		
+		<div class="memberinfo flex-col" >
+			<label class="label1" for="email">이메일</label>
+			
+			<div style="display: flex; flex-direction: row; align-items: center; gap:5px; margin-top:5px ">  
+				<input class="form-control" type="text" id="email" name="email" placeholder="이메일"required style=""> 
+				<span class="email-separator">@</span> 
+				<select id="emailDomain" name="emailDomain" class="form-control select-option" style="border: 1px solid #DBDBDB; height: 40px; padding: 0 10px; ">
+					<option selected="selected" value="0" disabled="disabled">선택해주세요.</option>
+					<option value="naver.com">naver.com</option>
+					<option value="hanmail.net">hanmail.net</option>
+					<option value="gamil.com">gamil.com</option>
+					<option value="nate.com">nate.com</option>
+					<option value="hotmail.com">hotmail.com</option>
+					<option value="outlook.com">outlook.com</option>
+					<option value="icloud.com">icloud.com</option>
+					<option value="">직접입력</option>
+				</select>
+			</div>
 		</div>
 
 		<button class="email-certify" type="button" onclick="emailCheckOk();">이메일
 			인증하기
 		</button>
 
-		<div class="memberinfo">
+		<div class="memberinfo flex-col" >
 			<label for="password">비밀번호 <br></label>
 			<div class="check">영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</div>
-			<input type="password" id="password" name="password"
+			<input type="password" class="form-control" id="password" name="password"
 				   placeholder="비밀번호" required>
 		</div>
 
-		<div class="memberinfo">
-			<label for="confirm">비밀번호 확인</label> <input type="password"
-														id="confirm" name="confirm"
-														placeholder="비밀번호 확인"
-														required>
+		<div class="memberinfo flex-col">
+			<label for="confirm">비밀번호 확인</label> 
+			<input class="form-control" type="password" id="confirm" name="confirm" placeholder="비밀번호 확인" required>
 		</div>
 
-		<div class="memberinfo">
+		<div class="memberinfo flex-col">
 			<label for="nickname">닉네임</label>
 			<div class="check">다른 유저와 겹치지 않도록 입력해주세요. (2~15자)</div>
-			<input type="text" id="nickName" name="nickName"
+			<input class="form-control" type="text" id="nickName" name="nickName"
 				   placeholder="별명(2~15자)" required>
 		</div>
 		<button class="nickName-certify" type="button" onclick="nickNameCheckOk();">
@@ -303,8 +321,8 @@
 		<div>
 			<div class="terms-all">
 				<input type="checkbox" id="all" name="all" onclick="toggleAll()">
-				<label for="all">전체 동의</label> <label class="select">선택항목에
-				대한 동의 포함</label>
+				<label for="all" style="margin-top: 20px">전체 동의</label> 
+				<label class="select">선택항목에 대한 동의 포함</label>
 			</div>
 
 			<hr>

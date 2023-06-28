@@ -84,42 +84,17 @@
 		  cursor: pointer;
 		
         }
+        
+		#uploadedImagesContainer > img {
+		width: 300px; /* 원하는 고정 가로 크기 */
+		height: 300px; /* 원하는 고정 세로 크기 */
+		overflow: hidden;
+		position: relative;
+		}
 	</style>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-function sendOk() {
-    const f = document.housePictureBoardForm;
-	let str;
-	
-    str = f.subject.value.trim();
-    if(!str) {
-        alert("제목을 입력하세요. ");
-        f.subject.focus();
-        return;
-    }
 
-    str = f.content.value.trim();
-    if(!str) {
-        alert("내용을 입력하세요. ");
-        f.content.focus();
-        return;
-    }
-
-    f.action = "${pageContext.request.contextPath}/board/${mode}";
-    f.submit();
-}
-//파일 선택 창의 파일명을 표시하는 함수
-$(document).ready(function() {
-    $('.custom-file-input input[type="file"]').change(function() {
-        var fileName = $(this).val().split('\\').pop();
-        $(this).next('label').text(fileName);
-    });
-});
-
-
-</script>
 
 <header>
 	<div class="menubar-container">
@@ -141,20 +116,24 @@ $(document).ready(function() {
 </header>
 
 <div class="main-container" >
+
 	<div class="content" style="max-width: 970px">
 		<form name="housePictureBoardForm" method="post">
+			
 			<div class="flex-row">
-				<div class="flex-col upload-img-container">
+				<div class="flex-col upload-img-container" id="uploadContainer">
 					<img style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
 					<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
 					<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
 					<div class="custom-file-input">
 						<input type="file" name="selectFile" id="selectFile" class="photoAttach">
-						 <label for="selectFile">PC에서 불러오기</label>
+						<label for="selectFile">PC에서 불러오기</label>
 					</div>
 				</div>
+				<div id="uploadedImagesContainer"></div>
+				
 				<div class="flex-col" style="flex: 1; padding-left: 20px;">
-					<textarea class="photointroduction"  placeholder="어떤 사진인지 짧은 소개로 시작해보세요.">${content.content}</textarea>
+					<textarea class="photointroduction" name="content" id="content" placeholder="어떤 사진인지 짧은 소개로 시작해보세요.">${boardContent.content}</textarea>
 					<select style="margin-top: 15px; padding: 10px 15px; border: 1px solid rgb(218, 221, 224); border-radius: 4px; font-size: 15px">
 						<option style="color: rgb(194, 200, 204)">공간 정보 추가</option>
 						<option value="1">원룸</option>
@@ -173,12 +152,54 @@ $(document).ready(function() {
 						<option value="14">외관,기타</option>
 					</select>
 				</div>
+				  <div class="flex-col" style="padding-left: 20px;">
+    </div>
 			</div>
 		</form>
 	</div>
 </div>
 
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+function sendOk() {
+    const f = document.housePictureBoardForm;
+	let str;
+
+    str = f.content.value.trim();
+    if(!str) {
+        alert("내용을 입력하세요. ");
+        f.content.focus();
+        return;
+    }	
+
+    f.action = "${pageContext.request.contextPath}/community/picture/write";
+    f.submit();
+}
+
+//파일 선택 창의 파일명을 표시하는 함수
+$(document).ready(function () {
+	$('.custom-file-input input[type="file"]').change(function () {
+		var files = this.files;
+		if (files.length > 0) {
+			var container = $('#uploadContainer');
+			container.hide(); // 컨테이너 숨김
+
+			var imageContainer = $('#uploadedImagesContainer');
+			imageContainer.empty(); // 기존의 이미지를 모두 제거
+
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var image = $('<img>').attr('src', e.target.result);
+					imageContainer.append(image);
+				};
+				reader.readAsDataURL(file);
+			}
+		}
+	});
+});
+
 
 
 </script>

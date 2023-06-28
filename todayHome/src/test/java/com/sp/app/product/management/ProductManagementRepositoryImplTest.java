@@ -469,6 +469,14 @@ public class ProductManagementRepositoryImplTest {
 	}
 
 	@Test
+	public void scrapCnt() throws Exception {
+		Long productId = 268L;
+
+		int cnt = productManagementRepository.scrapCnt(productId);
+		System.out.println(cnt);
+	}
+
+	@Test
 	public void getStockByStockId() throws Exception {
 		Long stockId = 92L;
 

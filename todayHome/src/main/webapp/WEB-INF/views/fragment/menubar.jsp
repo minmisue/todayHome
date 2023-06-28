@@ -80,7 +80,7 @@
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 && not empty sessionScope.sessionInfo}">
 				<i class="bi bi-bookmark menubar-icon"></i>
-				<i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/mypage/alert'"></i>
+				<i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/notification'"></i>
 			</c:if>
             <%--            --%>
 

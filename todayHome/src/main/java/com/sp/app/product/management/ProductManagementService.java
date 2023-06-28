@@ -34,6 +34,8 @@ public interface ProductManagementService {
 
 	boolean isScrapProduct(Long memberId, Long productId) ;
 
+	int scrapCnt(Long productId);
+
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);
 

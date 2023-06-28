@@ -5,15 +5,19 @@
 	<select id="seq" resultType="Long">
 		SELECT seq_user_board.NEXTVAL FROM dual
 	</select>
-	
-	<insert id="createUserBoard" parameterType="com.sp.app.domain.board.UserBoard">
-		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, created_date, hitCount, ip_address)
-		VALUES (#{userBoardId}, #{memberId}, #{boardTypeId}, SYSDATE, 0, 111.222.333.444)
+		<insert id="createBoard" parameterType="com.sp.app.domain.board.UserBoard">
+		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, subject, created_date, hit_Count, ip_address)
+		VALUES (seq_user_board.NEXTVAL, #{memberId}, #{boardType}, #{subject, jdbcType=VARCHAR},  SYSDATE, 0, '111.222.333.444')
 	</insert>
 	
 	<insert id="insertContent" parameterType="com.sp.app.domain.board.BoardContent">
-		INSERT INTO USER_BOARD_CONTENT(user_board_id, category_id, content, content_sequence, img_name)
-		VALUES (#{userBoardId}, #{categoryId}, #{content}, seq_user_board_content.NEXTVAL, imgName)
+		INSERT INTO USER_BOARD_CONTENT(user_board_id, user_board_content_id, user_board_content_category_id, content, content_sequence, img_name)
+		VALUES (#{userBoardId}, SEQ_USER_BOARD_CONTENT.NEXTVAL, #{userBoardContentCategoryId}, #{content}, #{contentSequence}, #{imgName})
+	</insert>
+	
+	<insert id="insertProduct" parameterType="com.sp.app.domain.board.ProductTag">
+		INSERT INTO USER_BOARD_PRODUCT(product_id, user_board_content_id, x_coordinate, y_coordinate)
+		VALUES (#{productId}, #{userBoardContentId}, #{xCoordinate}, #{yCoordinate})
 	</insert>
 	
 	<!-- 데이터 개수 -->
@@ -23,26 +27,209 @@
 	</select>
 	
 	<select id="listBoard" parameterType="map" resultType="com.sp.app.domain.board.ListBoard">
-		SELECT user_board_id, nickname, b.member_id, 
-				hitCount, replyCount, boardLikeCount, boardScrapCount,
-				profile_img_name, 
-				(SELECT content from user_board_content WHERE content_sequence = '1' ) as content , 
-				(SELECT img_name from user_board_content WHERE content_sequence = '1') as imgName,
-				(SELECT content FROM user_board_comment WHERE user_board_id = b.user_board_id ORDER BY reg_date DESC FETCH FIRST 1 ROW ONLY) as commentContent
-		FROM user_board b
-		JOIN member m ON b.member_id = m.member_id
-		JOIN user_board_content ct ON b.user_board_id = ct.user_board_id
-		JOIN user_board_comment cm ON b.user_board_id = cm.user_board_id
-		ORDER BY user_board_id DESC
-		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+		   SELECT b.user_board_id as userBoardId, m.nickname, b.member_id as memberId, 
+				b.hit_count as hitCount, 
+				m.profile_img_name as profileImgName, 
+				bsc.boardScrapCount,
+				blc.boardLikeCount,
+				brc.replyCount,
+				ct.content, 
+				ct.img_name as imgName,
+				(
+					SELECT content
+					FROM user_board_comment
+					WHERE user_board_id = b.user_board_id
+					ORDER BY reg_date DESC
+					FETCH FIRST 1 ROW ONLY
+				) as commentContent
+			FROM user_board b
+			JOIN member_detail m ON b.member_id = m.member_id
+			LEFT OUTER JOIN user_board_content ct ON b.user_board_id = ct.user_board_id
+			LEFT OUTER JOIN (
+				SELECT user_board_id, COUNT(*) as boardScrapCount
+				FROM user_board_scrap 
+				GROUP BY user_board_id
+			) bsc ON b.user_board_id = bsc.user_board_id
+			LEFT OUTER JOIN (
+				SELECT user_board_id, COUNT(*) as boardLikeCount
+				FROM user_board_like 
+				GROUP BY user_board_id
+			) blc ON b.user_board_id = blc.user_board_id
+			LEFT OUTER JOIN (
+				SELECT user_board_id, COUNT(*) as replyCount
+				FROM user_board_comment 
+				WHERE parent_comment_id IS NULL
+				GROUP BY user_board_id
+			) brc ON b.user_board_id = brc.user_board_id
+			WHERE content_sequence = 0
+			ORDER BY b.user_board_id DESC
+			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
-	<select id="readBoard" parameterType="Long" resultType="com.sp.app.board.Board">
-		SELECT boardNum, b.userId, userName, subject, content, groupNum, 
-				depth, orderNo, parent, reg_date, hitCount
-		FROM board b
-		JOIN  member1 m ON b.userId = m.userId
-		WHERE boardNum = #{boardNum}                       
+	<select id="readBoard" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">
+		SELECT b.user_board_id as userBoardId, b.member_Id as memberId, nickname, subject,
+				hit_count as hitCount, boardLikeCount, boardScrapCount, profile_img_name as profileImgName
+		FROM user_board b
+		JOIN member_detail m ON b.member_Id = m.member_Id
+		LEFT OUTER JOIN (
+			SELECT user_board_id, COUNT(*) boardScrapCount FROM user_board_scrap 
+			GROUP BY user_board_id
+		) bsc ON b.user_board_id = bsc.user_board_id
+		LEFT OUTER JOIN (
+			SELECT user_board_id, COUNT(*) boardLikeCount FROM user_board_like 
+			GROUP BY user_board_id
+		) blc ON b.user_board_id = blc.user_board_id
+		WHERE b.user_board_id = #{userBoardId}                       
+	</select>
+	
+	<select id="readContent" parameterType="Long" resultType="com.sp.app.domain.board.BoardContent">
+		SELECT ub.user_board_id as userBoardId, ubc.user_board_content_id as userBoardContentId, content, content_sequence as contentSequence, img_name as imgName, user_board_content_category_id as userBoardContentCategoryId
+			FROM user_board ub
+			JOIN user_board_content ubc ON ub.user_board_id = ubc.user_board_id
+		WHERE	ub.user_board_id = #{userBoardId}
+	</select>
+	
+	<select id="readProduct" parameterType="Long" resultType="com.sp.app.domain.board.ProductTag">
+		select pbp.user_board_content_id as userBoardContentId, pbp.product_id as productId, x_coordinate as xCoordinate, y_coordinate as yCoordinate, product_name as productName, price, save_name as saveName, brand_name as brandName
+			from user_board_product pbp
+			JOIN user_board_content ubc ON pbp.user_board_content_id = ubc.user_board_content_id
+			JOIN product p ON pbp.product_id = p.product_id
+			JOIN product_img pi ON p.product_id = pi.product_id
+			JOIN seller s2 ON p.seller_id = s2.seller_id
+		WHERE pbp.user_board_content_id = #{user_board_content_id} AND sequence=0 AND TYPE=0
+	</select>
+	
+	<update id="updateHitCount" parameterType="Long">
+		UPDATE user_board SET hit_count=hit_count+1 WHERE user_board_id = #{userBoardId}
+	</update>
+	
+	<!-- 글쓴이가 쓴 다른 게시글 -->
+	<select id="readOtherBoard" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
+	SELECT b.user_board_id as userBoardId,  img_Name as imgName
+		FROM user_board b
+		JOIN member m ON b.member_id= m.member_id
+        JOIN user_board_content bc ON b.user_board_id = bc.user_board_id
+		WHERE b.member_id = #{memberId} AND content_sequence= '0'
+		ORDER BY user_board_id ASC
+	</select>
+	
+	<!-- 수정 -->
+	<update id="updateBoardContent" parameterType="com.sp.app.domain.board.BoardContent">
+		UPDATE user_board_content SET content=#{content},
+				content_sequence=#{contentSequence}, user_board_content_category_id=#{userBoardContentCategoryId},
+				img_name=#{imgName}
+		WHERE user_board_content_id = #{userBoardContentId}
+	</update>
+	
+	<delete id="deleteBoardProduct" parameterType="map">
+		DELETE FROM user_board_product WHERE product_id=#{productId} AND user_board_content_id=#{userBoardContentId}
+	</delete>
+	
+	
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="Long">
+		DELETE FROM user_board WHERE user_board_id = #{userBoardId}
+	</delete>
+	
+	<!-- 게시 글 좋아요 추가 -->
+	<insert id="insertBoardLike" parameterType="map">
+		INSERT INTO user_board_like(user_board_id, member_id) VALUES (#{userBoardId}, #{memberId})
+	</insert>
+	
+	<!-- 게시 글 좋아요 삭제 -->
+	<delete id="deleteBoardLike" parameterType="map">
+		DELETE FROM user_board_like WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
+	</delete>
+	
+	<!-- 게시글 좋아요 개수 -->
+	<select id="boardLikeCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*) FROM user_board_Like WHERE user_board_id=#{userBoardId}
+	</select>
+	
+	<!-- 게시글 좋아요 여부 -->
+	<select id="userBoardLiked" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
+		SELECT user_board_id as userBoardId, member_id as memberId FROM user_board_like WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
+	</select>
+	
+	<!-- 게시글 스크랩 추가 -->
+	<insert id="insertBoardScrap" parameterType="map">
+		INSERT INTO user_board_scrap(user_board_id, member_id) VALUES (#{userBoardId}, #{memberId})
+	</insert>
+	
+	<!-- 게시글 스크랩 삭제 -->
+	<delete id="deleteBoardScrap" parameterType="map">
+		DELETE FROM user_board_scrap WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
+	</delete>
+	
+	<!-- 게시글 스크랩 개수 -->
+	<select id="boardScrapCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*) FROM user_board_scrap WHERE user_board_id=#{userBoardId}
+	</select>
+	
+	<!-- 게시글 스크랩 여부 -->
+	<select id="userBoardScraped" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
+		SELECT user_board_id, member_id FROM user_board_scrap WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
+	</select>
+	
+	<!-- 댓글 -->
+	<insert id="insertComment" parameterType="com.sp.app.domain.board.Comment">
+		INSERT INTO user_board_comment (user_board_comment_id, user_board_id, member_id, content, parent_comment_id, reg_date)
+		VALUES (SEQ_USER_BOARD_COMMENT.NEXTVAL, #{userBoardId}, #{memberId}, #{content}, #{parentCommentId, jdbcType=VARCHAR}, SYSDATE)
+	</insert>
+	
+	<select id="commentCount" parameterType="Long" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM user_board_comment
+		WHERE user_board_id=#{userBoardId} AND parent_comment_id IS null
+	</select>
+	
+	<!-- 댓글리스트 -->
+	<select id="listComment" parameterType="Long" resultType="com.sp.app.domain.board.Comment">
+		SELECT c.user_board_comment_id as userBoardCommentId, c.member_id as memberId, m.nickname, c.user_board_id as userBoardId, c.content, c.reg_date as regDate,
+		  NVL(ci.comment_like_count, 0) AS likeCount, PROFILE_IMG_NAME as profileImgName
+		FROM user_board_comment c
+		JOIN member_detail m ON c.member_id = m.member_id
+		LEFT JOIN (
+		  SELECT user_board_comment_id, COUNT(*) AS comment_like_count
+		  FROM user_board_comment_like
+		  GROUP BY user_board_comment_id
+		) ci ON c.user_board_comment_id = ci.user_board_comment_id
+		WHERE c.user_board_id = #{userBoardId} AND c.parent_comment_id IS NULL
+		ORDER BY c.user_board_comment_id DESC
+	</select>
+	
+	<delete id="deleteComment" parameterType="map">
+		DELETE FROM user_board_comment
+		WHERE user_board_comment_id=#{userBoardCommentId}
+			OR parent_comment_id=#{userBoardCommentId}
+	</delete>
+	
+	<!-- 댓글의 답글 리스트 -->
+	<select id="listCommentAnswer" parameterType="map" resultType="com.sp.app.domain.board.Comment">
+		SELECT user_board_comment_id, user_board_id, c.member_id, nickname, content, c.reg_date, parent_comment_id
+		FROM user_board_comment c
+		JOIN member_detail m ON c.user_board_comment_id = m.member_id
+		WHERE parent_comment_id = #{parentCommentId}
+		ORDER BY user_board_comment_id DESC
+	</select>
+	
+	<insert id="insertCommentLike" parameterType="map">
+		INSERT INTO user_board_comment_like(user_board_comment_id, member_Id)
+		VALUES (#{userBoardCommentId}, #{memberId})
+	</insert>
+	
+	<delete id="deleteCommentLike" parameterType="map">
+		DELETE FROM user_board_comment_like WHERE user_board_comment_id = #{userBoardCommentId} AND member_id = #{memberId}
+	</delete>
+	
+	<!-- 댓글 좋아요 개수 -->
+	<select id="commentLikeCount" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*)	FROM user_board_comment_like WHERE user_board_comment_id = #{userBoardCommentId}
+	</select>
+	
+	<!-- 댓글 좋아요 여부 -->
+	<select id="userCommentLiked" parameterType="map" resultType="com.sp.app.domain.board.Comment">
+		SELECT user_board_comment_id as userBoardCommentId, member_id as memberId FROM user_board_comment_like WHERE user_board_comment_id = #{userBoardCommentId} AND member_id = #{memberId}
 	</select>
 	
 </mapper>

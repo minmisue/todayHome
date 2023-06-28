@@ -185,4 +185,10 @@
     <select id="getQuantityByStockId" parameterType="Long" resultType="int">
         SELECT quantity FROM stock WHERE stock_id = #{stockId}
     </select>
+
+    <select id="scrapCnt" parameterType="Long" resultType="int">
+        SELECT count(*) AS cnt
+        FROM product_scrap
+        WHERE product_id = #{productId}
+    </select>
 </mapper>

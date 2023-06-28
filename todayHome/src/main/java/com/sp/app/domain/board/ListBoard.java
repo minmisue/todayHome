@@ -13,7 +13,22 @@ public class ListBoard {
 	private String imgName;
 	private String commentContent;
 	
+	public ListBoard() {
+		
+	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "ListBoard [userBoardId=" + userBoardId + ", nickname=" + nickname + ", memberId=" + memberId
+				+ ", hitCount=" + hitCount + ", replyCount=" + replyCount + ", boardLikeCount=" + boardLikeCount
+				+ ", boardScrapCount=" + boardScrapCount + ", profileImgName=" + profileImgName + ", content=" + content
+				+ ", imgName=" + imgName + ", commentContent=" + commentContent + "]";
+	}
+
+
+
 	public Long getUserBoardId() {
 		return userBoardId;
 	}

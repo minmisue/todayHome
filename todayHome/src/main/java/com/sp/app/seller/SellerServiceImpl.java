@@ -124,4 +124,13 @@ public class SellerServiceImpl implements SellerService {
 		
 		return null;
 	}
+	
+	@Override
+	public boolean businessNumberCheck(String businessNumber) throws Exception {
+		int result = sellerRepository.businessNumberCheck(businessNumber);
+		if (result == 1) {
+			return true;
+		}
+			return false;
+	}
 }

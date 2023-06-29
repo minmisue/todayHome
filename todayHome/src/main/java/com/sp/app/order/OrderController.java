@@ -1,4 +1,4 @@
-package com.sp.app.cart.controller;
+package com.sp.app.order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,32 +10,37 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.member.Member;
 import com.sp.app.domain.product.ProductStock;
+import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.product.management.ProductManagementService;
 
-@Controller("cart.cartController")
-@RequestMapping("/cart/*")
-public class CartController {
+@Controller("order.orderController")
+@RequestMapping("/payment/*")
+public class OrderController {
+	@Autowired
+	CartService cartservice;
 	
 	@Autowired
-	private CartService cartservice;
+	ProductManagementService productservice;
 	
 	@Autowired
-	private ProductManagementService productservice;
+	MemberManagementService memberservie;
+	
 	@GetMapping("list")
-	public String listCart(HttpSession session,
+	public String listCartOrder(HttpSession session,
 			Model model) throws Exception {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
 		
+		Long memberId = info.getMemberId();
 		// 전체 장바구니 리스트 가져옴
-		List<Cart> cartList = cartservice.getCartList(info.getMemberId());
+		List<Cart> cartList = cartservice.getCartList(memberId);
 
 		System.out.println(cartList);
 		
@@ -62,31 +67,12 @@ public class CartController {
 			
 		}
 		
+		
+		Member member = memberservie.readMemberById(memberId);
+		
+		model.addAttribute("member", member);
 		model.addAttribute("cartList", cartList);
-		
-		return "/cart/cart-list";
+		model.addAttribute("msg","ㅎㅇㅎㅇ");
+		return "/payment/payment-page";
 	}
-	
-	// 상품의 옵션 삭제
-	@GetMapping("deleteStock")
-	public String deleteStock(
-			@RequestParam Long stockId
-			) {
-		cartservice.deleteStock(stockId);
-		
-		return "redirect:/cart/list";
-	}
-	
-	// 선택 or 전체 삭제
-	@GetMapping("deleteCart")
-	public String deleteCart(
-			@RequestParam List<Long> cartIdList) {
-		
-		for(Long cartId : cartIdList) {
-			cartservice.deleteCart(cartId);
-		}
-		
-		return "redirect:/cart/list";
-	}
-
 }

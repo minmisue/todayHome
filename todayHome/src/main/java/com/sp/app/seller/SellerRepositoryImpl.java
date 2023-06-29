@@ -61,4 +61,10 @@ public class SellerRepositoryImpl implements SellerRepository{
 		 
 		return commonDAO.selectOne("seller.getSellerByEmail",email);
 	}
+
+	@Override
+	public int businessNumberCheck(String businessNumber) throws Exception {
+		
+		return commonDAO.selectOne("seller.businessNumberCheck",businessNumber);
+	}
 }

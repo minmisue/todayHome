@@ -1,11 +1,11 @@
 package com.sp.app.product.review;
 
-
 import com.sp.app.domain.product.ProductReview;
 
 import java.util.List;
 
-public interface ProductReviewRepository {
+public interface ProductReviewService {
+
 	void createReview(ProductReview productReview) throws Exception;
 
 	void updateReview(ProductReview productReview) throws Exception;

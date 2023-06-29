@@ -32,7 +32,7 @@
     </aop:config>
    
    
-     <!-- 타일즈 환경 설정 	
+     <!-- 타일즈 환경 설정 	-->
     <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <beans:property name="definitions">
             <beans:list>
@@ -40,7 +40,7 @@
             </beans:list>
         </beans:property>
     </beans:bean>
- -->
+
     <!-- 뷰 -->
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <beans:property name="order" value="1"/>

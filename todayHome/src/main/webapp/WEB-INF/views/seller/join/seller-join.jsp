@@ -277,7 +277,49 @@ tbody{
 </head>
 <body>
 	<script>
-		
+	
+    function sellerOk() {
+        const f = document.sellerForm;
+        let str;
+        f.action = "${pageContext.request.contextPath}/seller/join";
+        f.submit();
+    }
+    function busineesNumberCheckOk() {
+
+        let businessNumber = document.getElementById('businessNumber');
+
+        let str = businessNumber.value;
+        if (!str) {
+            alert("사업자 번호를 입력하세요. ");
+            businessNumber.focus();
+            return;
+        }
+
+        if (!/^.{2,15}$/.test(str)) {
+            alert("사업자 번호를 다시 입력하세요. ");
+            businessNumber.focus();
+            return;
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/seller/businessNumber-check",
+            type: 'GET',
+            data: 'businessNumber=' + businessNumber.value,
+            dataType: 'text',
+            success: function (response) {
+                if (response === 'true') {
+                    alert('이미 존재하는 사업자 번호 입니다.')
+                } else {
+                    alert('사용 가능한 사업자 번호 입니다.')
+					businessNumber.readOnly = true;
+                    businessNumberValidateStatus = true;
+                }
+            },
+            error: function (xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+    }
 	</script>
 
 
@@ -302,7 +344,7 @@ tbody{
 				</div>
 			</div>
 			<div class="container seller-layout_body">
-				<form class="" method="post">
+				<form class="" method="post" name="sellerForm">
 					<div class="sales-form_section">
 						<div class="row">
 							<div class="offset-1 col-10">
@@ -317,8 +359,8 @@ tbody{
 							</div>
 							<div class="col-8">
 								<div class="sales-form_form-control-wrap">
-									<input type="text" id="" name="" class="form-control"
-										placeholder="오늘의집" style="width: 100%;">
+									<input type="text" id="representativeName" name="representativeName" class="form-control"
+										placeholder="오늘의집" style="width: 100%;" required="required">
 									<p class="sales-form_form-description">※사업자등록증의 법인명 또는 상호명을
 										입력하세요.</p>
 								</div>
@@ -332,14 +374,14 @@ tbody{
 							</div>
 							<div class="col-8">
 								<div class="sales-form_form-control-wrap">
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="123"> <span class="sales-form_divider">-</span>
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="45"> <span class="sales-form_divider">-</span>
-									<input type="tel" id="" name="" class="form-control"
-										placeholder="67890">
+									<input type="text" id="businessNumber" name="businessNumber" class="form-control"
+										placeholder="123" required="required"> <span class="sales-form_divider">-</span>
+									<input type="text" id="businessNumber" name="businessNumber" class="form-control"
+										placeholder="45" required="required"> <span class="sales-form_divider">-</span>
+									<input type="text" id="businessNumber" name="businessNumber" class="form-control"
+										placeholder="67890" required="required">
 									<button class="btn btn-sm btn-priority"
-										style="margin-left: 5px; width: 90px;" type="button">사업자
+										style="margin-left: 5px; width: 90px;" type="button" onclick="businessNumberCheckOk();">사업자
 										확인</button>
 								</div>
 							</div>
@@ -352,8 +394,8 @@ tbody{
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="오늘의집 가구" style="width: 100%;">
+								<input type="text" id="brandName" name="brandName" class="form-control"
+									placeholder="오늘의집 가구" style="width: 100%;" required="required">
 							</div>
 						</div>
 					</div>
@@ -374,8 +416,8 @@ tbody{
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="집냥이" style="width: 100%;">
+								<input type="text" id="sellerName" name="sellerName" class="form-control"
+									placeholder="집냥이" style="width: 100%;" required="required">
 							</div>
 						</div>
 					</div>
@@ -387,13 +429,13 @@ tbody{
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="tel" id="" name="" class="form-control"
-									placeholder="010" style="width: 30%;"> <span
-									class="sales-form_divider">-</span> <input type="tel" id=""
-									name="" class="form-control" placeholder="1234"
-									style="width: 30%;"> <span class="sales-form_divider">-</span>
-								<input type="tel" id="" name="" class="form-control"
-									placeholder="5678" style="width: 30%;">
+								<input type="tel" id="tel" name="tel" class="form-control"
+									placeholder="010" style="width: 30%;" required="required"> <span
+									class="sales-form_divider">-</span> <input type="tel" id="tel"
+									name="tel" class="form-control" placeholder="1234"
+									style="width: 30%;" required="required"> <span class="sales-form_divider">-</span>
+								<input type="tel" id="tel" name="tel" class="form-control"
+									placeholder="5678" style="width: 30%;" required="required">
 							</div>
 						</div>
 					</div>
@@ -405,8 +447,8 @@ tbody{
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="zipnyang@ohou.se" style="width: 100%;">
+								<input type="text" id="email" name="email" class="form-control"
+									placeholder="zipnyang@ohou.se" style="width: 100%;" required="required">
 							</div>
 						</div>
 					</div>
@@ -418,8 +460,8 @@ tbody{
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="6자이상" style="width: 100%;">
+								<input type="text" id="password" name="password" class="form-control"
+									placeholder="6자이상" style="width: 100%;" required="required">
 							</div>
 						</div>
 					</div>	
@@ -430,7 +472,7 @@ tbody{
 							</label>
 						</div>
 						<div class="col-8">
-							<textarea class="form-control" placeholder="판매자에 대한 설명을 입력해주세요."  style="width: 100%;"></textarea>
+							<textarea id="presentation" name="presentation" class="form-control" placeholder="판매자에 대한 설명을 입력해주세요."  style="width: 100%;" required="required"></textarea>
 						</div>
 					</div>
 									
@@ -482,7 +524,7 @@ tbody{
 					</div>
 					
 					<div class="sales-form_btn-apply">
-						<button class="btn btn-lg btn-priority" type="submit">입점신청 완료</button>
+						<button class="btn btn-lg btn-priority" type="submit" onclick="sellerOk();">입점신청 완료</button>
 					</div>
 				</form>
 			</div>

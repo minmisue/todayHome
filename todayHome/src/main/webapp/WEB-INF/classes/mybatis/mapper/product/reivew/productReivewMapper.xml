@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productReview">
+    <insert id="createReview" parameterType="com.sp.app.domain.product.ProductReview">
+        INSERT INTO product_review (product_review_id, member_id, product_id, rating, content, review_img_name)
+        VALUES (seq_product_review.nextval, #{memberId}, #{productId}, #{rating}, #{content}, #{reviewImgName , jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateReview" parameterType="com.sp.app.domain.product.ProductReview">
+        UPDATE product_review SET rating = #{rating}, content = #{content}, review_img_name = #{reviewImgName} WHERE product_review_id = #{reviewId}
+    </update>
+
+    <delete id="deleteReview" parameterType="Long">
+        DELETE product_review WHERE member_id = #{memberId} AND product_review_id = #{reviewId}
+    </delete>
+
+    <select id="findReviewsByMemberId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
+        SELECT product_review_id AS reviewId, pr.member_id AS memberId, nickname, profile_img_name AS profileImgName, product_id AS productId, rating, content, pr.reg_date AS regDate, review_img_name AS reviewImgName
+        FROM product_review pr
+        JOIN member m ON pr.member_id = m.member_id
+        JOIN member_detail md ON m.member_id = md.member_id
+        WHERE pr.MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="findReviewsByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
+        SELECT product_review_id AS productReviewId, pr.member_id AS memberId, nickname, profile_img_name AS profileImgName, product_id AS productId, rating, content, pr.reg_date AS regDate, review_img_name AS reviewImgName
+        FROM product_review pr
+        JOIN member m ON pr.member_id = m.member_id
+        JOIN member_detail md ON m.member_id = md.member_id
+        WHERE PRODUCT_ID = #{productId}
+    </select>
+
+    <select id="getAverageRatingByProductId" parameterType="Long" resultType="Float">
+        SELECT ROUND(AVG(rating) * 2 ,0) / 2 AS rating
+        FROM product_review
+        WHERE product_id = #{productId}
+    </select>
+</mapper>
+

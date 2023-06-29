@@ -12,6 +12,10 @@ public class SessionInfo {
 		this.userRole = userRole;
 	}
 
+	public SessionInfo(Long memberId) {
+		this.memberId=memberId;
+	}
+
 	public Long getMemberId() {
 		return memberId;
 	}

@@ -1,28 +1,71 @@
 package com.sp.app.domain.product;
 
 public class ProductReview {
-	private Long writerId;
+	private Long reviewId;
+	private Long memberId;
+	private String nickName;
+	private String profileImgName;
 	private Long productId;
-	private String username;
-	private Double rating;
-	private String createdDate;
+	private Float rating;
+	private String regDate;
 	private String content;
+	private String reviewImgName;
 
-	public ProductReview(Long writerId, Long productId, String username, Double rating, String createdDate, String content) {
-		this.writerId = writerId;
+	public ProductReview() {
+	}
+
+	public ProductReview(Long memberId, Long productId, Float rating, String content, String reviewImgName) {
+		this.memberId = memberId;
 		this.productId = productId;
-		this.username = username;
 		this.rating = rating;
-		this.createdDate = createdDate;
 		this.content = content;
+		this.reviewImgName = reviewImgName;
 	}
 
-	public Long getWriterId() {
-		return writerId;
+	public ProductReview(Long reviewId, Float rating, String content, String reviewImgName) {
+		this.reviewId = reviewId;
+		this.rating = rating;
+		this.content = content;
+		this.reviewImgName = reviewImgName;
 	}
 
-	public void setWriterId(Long writerId) {
-		this.writerId = writerId;
+	@Override
+	public String toString() {
+		return "ProductReview{" +
+				"reviewId=" + reviewId +
+				", memberId=" + memberId +
+				", nickName='" + nickName + '\'' +
+				", profileImgName='" + profileImgName + '\'' +
+				", productId=" + productId +
+				", rating=" + rating +
+				", createdDate='" + regDate + '\'' +
+				", content='" + content + '\'' +
+				", reviewImgName='" + reviewImgName + '\'' +
+				'}';
+	}
+
+	public Long getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
 	}
 
 	public Long getProductId() {
@@ -33,28 +76,20 @@ public class ProductReview {
 		this.productId = productId;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public Double getRating() {
+	public Float getRating() {
 		return rating;
 	}
 
-	public void setRating(Double rating) {
+	public void setRating(Float rating) {
 		this.rating = rating;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public String getRegDate() {
+		return regDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 
 	public String getContent() {
@@ -63,5 +98,13 @@ public class ProductReview {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getReviewImgName() {
+		return reviewImgName;
+	}
+
+	public void setReviewImgName(String reviewImgName) {
+		this.reviewImgName = reviewImgName;
 	}
 }

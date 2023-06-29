@@ -147,7 +147,9 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void deleteStock(Long stockId) {
 		try {
+			
 			cartManagementRepository.deleteStock(stockId);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

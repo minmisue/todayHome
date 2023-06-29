@@ -98,14 +98,17 @@ public class CartController {
 	
 	@PostMapping("checkQuantityUpdate")
 	@ResponseBody
-	public String checkQuantityUpdate(
+	public Map<String, Object> checkQuantityUpdate(
 			@RequestBody Map<String, Object> map
 			) {
 		
+		Map<String, Object> model = new HashMap<String, Object>();
 		
 		cartservice.checkQuantityUpdate(map);
 		
-		return "state";
+		model.put("quantity", map.get("quantity"));
+		
+		return model;
 	
 	}
 

@@ -1,18 +1,17 @@
 package com.sp.app.board;
 
 
-import com.sp.app.common.CommonDAO;
-import com.sp.app.common.FileManager;
-import com.sp.app.domain.board.BoardContent;
-import com.sp.app.domain.board.Comment;
-import com.sp.app.domain.board.ProductTag;
-import com.sp.app.domain.board.UserBoard;
-
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.sp.app.common.FileManager;
+import com.sp.app.domain.board.BoardContent;
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.ListBoard;
+import com.sp.app.domain.board.ProductTag;
+import com.sp.app.domain.board.UserBoard;
 
 @Service
 public class UserBoardServiceImpl implements UserBoardService{
@@ -20,28 +19,30 @@ public class UserBoardServiceImpl implements UserBoardService{
 	private UserBoardRepository userBoardRepository;
 	
 	@Autowired
-	private CommonDAO commonDAO;
-	
-	@Autowired
 	private FileManager fileManager;
 	
 	@Override
-	public void createBoard(UserBoard userBoard, BoardContent boardContent, ProductTag productTag, String pathname) throws Exception {
+	public void createBoard(UserBoard userBoard, List<BoardContent> boardContentList, List<List<ProductTag>> productTagListList, String pathname) throws Exception {
 		try {
-			String saveFilename = fileManager.doFileUpload(userBoard.getSelectFile(), pathname);
-			if(saveFilename != null) {
-				userBoard.setImgName(saveFilename);
-			}
+			Long userBoardId = userBoard.getUserBoardId();
 			userBoardRepository.createBoard(userBoard); // 시퀀스 반환
-			// seq
 			
+			for (int i = 0; i < boardContentList.size(); i++) {
+				BoardContent boardContent = boardContentList.get(i);
+				List<ProductTag> productTagList = productTagListList.get(i);
+				
+				
+				boardContent.setUserBoardId(userBoardId);
+				userBoardRepository.insertContent(boardContent);
+				Long BoarContentId = boardContent.getUserBoardContentId();
+				
+				for (ProductTag  productTag : productTagList) {
+//					productTagList
+					productTag.setUserBoardContentId(BoarContentId);
+					userBoardRepository.insertProduct(productTag);
+				}
+			}
 			
-			userBoardRepository.insertContent(boardContent);
-			userBoardRepository.insertProduct(productTag);
-			
-		//	commonDAO.insertData("userBoard.createBoard", userBoard);
-		//	commonDAO.insertData("userBoard.insertContent", boardContent);
-		//	commonDAO.insertData("userBoard.insertProduct", productTag);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,19 +51,25 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public List<UserBoard> listBoard(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int dataCount(Map<String, Object> map) {
+	public int dataCount(UserBoard userBoard) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public UserBoard readBoard(Long userBoardId) {
+	public UserBoard readBoard(Long userBoardId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BoardContent> readContent(Long userBoardId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProductTag> readProduct(Long userBoardContentId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -74,67 +81,79 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public UserBoard readOtherBoard(Map<String, Object> map) {
+	public List<ListBoard> listBoard() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateBoard(UserBoard dto, String pathname) throws Exception {
+	public List<UserBoard> readOtherBoard(Long memberId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateBoardContent(BoardContent boardContent) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteBoard(Long userBoardId, String pathname, String memberId) throws Exception {
+	public void deleteBoardProduct(Long productId, Long userBoardContentId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void insertBoardLike(Map<String, Object> map) throws Exception {
+	public void deleteBoard(Long userBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteBoardLike(Map<String, Object> map) throws Exception {
+	public void insertBoardLike(Long userBoardId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public int boardLikeCount(Long userBoardId) {
+	public void deleteBoardLike(Long userBoardId, Long memberId) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int boardLikeCount(Long userBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean userBoardLiked(Map<String, Object> map) {
+	public boolean userBoardLiked(Long userBoardId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public void insertBoardScrap(Map<String, Object> map) throws Exception {
+	public void insertScrapLike(Long userBoardId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteBoardScrap(Map<String, Object> map) throws Exception {
+	public void deleteBoardScrap(Long userBoardId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public int boardScrapCount(Long userBoardId) {
+	public int boardScrapCount(Long userBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean userBoardScraped(Map<String, Object> map) {
+	public boolean userBoardScraped(Long userBoardId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -146,49 +165,52 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public List<Comment> listComment(Map<String, Object> map) {
+	public void deleteComment(Long commentId) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public int commentCount(Map<String, Object> map) {
+	public int commentCount(Long userBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void deleteComment(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Comment> listCommentAnswer(Map<String, Object> map) {
+	public List<Comment> listComment(Long userBoardId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void insertCommentLike(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Map<String, Object> commentLikeCount(Map<String, Object> map) {
+	public List<Comment> listCommentAnswer() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean userCommentLiked(Map<String, Object> map) {
+	public void insertCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int commentLikeCount(Long userBoardCommentId) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean userCommentLiked(Long userBoardCommentId, Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-
 
 }
 

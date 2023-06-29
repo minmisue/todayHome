@@ -52,7 +52,8 @@
       	    padding: 10px 15px; 
       	    border: 1px solid rgb(218, 221, 224); 
       	    border-radius: 4px; 
-      	    min-height: 150px
+      	    min-height: 150px;
+      	    resize: none;
         }
         
         .photoAttach{
@@ -91,6 +92,14 @@
 		overflow: hidden;
 		position: relative;
 		}
+		
+		.contentCategory {
+		margin-top: 15px; 
+		padding: 10px 15px; 
+		border: 1px solid rgb(218, 221, 224); 
+		border-radius: 4px; 
+		font-size: 15px
+		}
 	</style>
 </head>
 <body>
@@ -104,13 +113,7 @@
 
 		<div class="menubar-item-bundle" style="gap: 18px">
 			<button type="button" class="abledButton" onclick="sendOk();">올리기</button>
-		</div>
-	</div>
-
-	<div class="sub-menubar-container" style="display: block">
-		<div class="sub-menubar sub-menubar-write">
-			<div class="sub-item selected-sub-item" onclick="location.href='#'">사진</div>
-			<div class="sub-item" onclick="location.href='#'">동영상</div>
+			<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
 		</div>
 	</div>
 </header>
@@ -118,49 +121,62 @@
 <div class="main-container" >
 
 	<div class="content" style="max-width: 970px">
-		<form name="housePictureBoardForm" method="post">
-			
-			<div class="flex-row">
-				<div class="flex-col upload-img-container" id="uploadContainer">
-					<img style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
-					<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
-					<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
-					<div class="custom-file-input">
-						<input type="file" name="selectFile" id="selectFile" class="photoAttach">
-						<label for="selectFile">PC에서 불러오기</label>
-					</div>
-				</div>
-				<div id="uploadedImagesContainer"></div>
+		<div id="formContainer">
+			<form name="housePictureBoardForm" method="post" enctype="multipart/form-data">
 				
-				<div class="flex-col" style="flex: 1; padding-left: 20px;">
-					<textarea class="photointroduction" name="content" id="content" placeholder="어떤 사진인지 짧은 소개로 시작해보세요.">${boardContent.content}</textarea>
-					<select style="margin-top: 15px; padding: 10px 15px; border: 1px solid rgb(218, 221, 224); border-radius: 4px; font-size: 15px">
-						<option style="color: rgb(194, 200, 204)">공간 정보 추가</option>
-						<option value="1">원룸</option>
-						<option value="2">거실</option>
-						<option value="3">침실</option>
-						<option value="4">주방</option>
-						<option value="5">욕실</option>
-						<option value="6">아이방</option>
-						<option value="7">드레스룸</option>
-						<option value="8">서재,작업실</option>
-						<option value="9">베란다</option>
-						<option value="10">사무공간</option>
-						<option value="11">상업공간</option>
-						<option value="12">가구,소품</option>
-						<option value="13">현관</option>
-						<option value="14">외관,기타</option>
-					</select>
+				<div class="flex-row">
+					<div class="flex-col upload-img-container" id="uploadContainer">
+						<img style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
+						<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
+						<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
+						<div class="custom-file-input">
+							<input type="file" name="selectFile" id="selectFile" accept="image/*" class="photoAttach">
+							<label for="selectFile">PC에서 불러오기</label>
+						</div>
+					</div>
+					<div id="uploadedImagesContainer"></div>
+					
+					<div class="flex-col" style="flex: 1; padding-left: 20px;">
+						<textarea class="photointroduction" name="content" id="content" placeholder="어떤 사진인지 짧은 소개로 시작해보세요.">${boardContent.content}</textarea>
+						<select class="contentCategory" name="userBoardContentCategoryId" id="userBoardContentCategoryId">
+							<option style="color: rgb(194, 200, 204)">공간 정보 추가</option>
+							<option value="1">원룸</option>
+							<option value="2">거실</option>
+							<option value="3">침실</option>
+							<option value="4">주방</option>
+							<option value="5">욕실</option>
+							<option value="6">아이방</option>
+							<option value="7">드레스룸</option>
+							<option value="8">서재,작업실</option>
+							<option value="9">베란다</option>
+							<option value="10">사무공간</option>
+							<option value="11">상업공간</option>
+							<option value="12">가구,소품</option>
+							<option value="13">현관</option>
+							<option value="14">외관,기타</option>
+						</select>
+					</div>
+					  <div class="flex-col" style="padding-left: 20px;"> </div>
 				</div>
-				  <div class="flex-col" style="padding-left: 20px;">
-    </div>
-			</div>
-		</form>
+			</form>
+		</div>
+		  <button type="button" onclick="addForm()">사진 추가하기</button>
 	</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+var formCount = 1;
+
+function addForm() {
+  var formContainer = $('#formContainer');
+  var newForm = $('<div>').append($('#formContainer form:first-child').clone());
+  newForm.find('input[type="file"]').val(''); // 새로운 폼의 파일 선택 값 초기화
+  formContainer.append(newForm);
+
+  formCount++;
+}
+
 function sendOk() {
     const f = document.housePictureBoardForm;
 	let str;
@@ -172,7 +188,13 @@ function sendOk() {
         return;
     }	
 
-    f.action = "${pageContext.request.contextPath}/community/picture/write";
+    if(!f.selectFile.value) {
+    	alert("이미지 파일을 추가하세요.");
+    	f.selectFile.focus();
+    	return;
+    }
+
+    f.action = "${pageContext.request.contextPath}/community/picture/${mode}";
     f.submit();
 }
 

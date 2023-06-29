@@ -21,7 +21,8 @@ public class UserBoard {
 	private String nickName;
 	private String profileImgName;
 	private List<BoardContent> boardContentList;
-	private MultipartFile selectFile;
+	
+	
 
 	public UserBoard() {
 		
@@ -37,7 +38,7 @@ public class UserBoard {
 				+ hitCount + ", boardType=" + boardType + ", replyCount=" + replyCount + ", boardLikeCount="
 				+ boardLikeCount + ", boardScrapCount=" + boardScrapCount + ", imgName=" + imgName + ", nickName="
 				+ nickName + ", profileImgName=" + profileImgName + ", boardContentList=" + boardContentList
-				+ ", selectFile=" + selectFile + "]";
+				+ "]";
 	}
 
 
@@ -163,12 +164,5 @@ public class UserBoard {
 		this.boardContentList = boardContentList;
 	}
 	
-	public MultipartFile getSelectFile() {
-		return selectFile;
-	}
-
-	public void setSelectFile(MultipartFile selectFile) {
-		this.selectFile = selectFile;
-	}
 
 }

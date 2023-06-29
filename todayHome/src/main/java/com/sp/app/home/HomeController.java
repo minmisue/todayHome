@@ -44,7 +44,8 @@ public class HomeController {
 	public String following() {
 		return "community/following/following";
 	}
-
+	
+	/*
 	@GetMapping("community/picture/list")
 	public String pictureList() {
 		return "community/picture/picture-list";
@@ -59,6 +60,7 @@ public class HomeController {
 	public String pictureArticle() {
 		return "community/picture/picture-article";
 	}
+	*/
 
 	@GetMapping("community/house-warming/list")
 	public String houseHowList() {

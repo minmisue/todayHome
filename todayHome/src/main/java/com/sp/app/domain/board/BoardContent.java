@@ -2,6 +2,8 @@ package com.sp.app.domain.board;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardContent {
 	private Long userBoardContentId;
 	private Long userBoardId;
@@ -9,6 +11,10 @@ public class BoardContent {
 	private String content;
 	private int contentSequence;
 	private String imgName;
+	private List<MultipartFile> addFiles;
+	
+	private MultipartFile thumbnailFile;
+
 	List<ProductTag> productTagList;
 	
 	public BoardContent() {
@@ -94,4 +100,22 @@ public class BoardContent {
 	public void setProductTagList(List<ProductTag> productTagList) {
 		this.productTagList = productTagList;
 	}
+
+	public List<MultipartFile> getAddFiles() {
+		return addFiles;
+	}
+
+	public void setAddFiles(List<MultipartFile> addFiles) {
+		this.addFiles = addFiles;
+	}
+
+	public MultipartFile getThumbnailFile() {
+		return thumbnailFile;
+	}
+
+	public void setThumbnailFile(MultipartFile thumbnailFile) {
+		this.thumbnailFile = thumbnailFile;
+	}
+	
+	
 }

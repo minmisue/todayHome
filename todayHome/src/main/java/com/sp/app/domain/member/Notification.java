@@ -78,9 +78,18 @@ public class Notification {
 	public Notification() {
 		
 	}
-	
+
+	public Notification(Long memberId, int type, String message, String parameter1, String parameter2, String parameter3) {
+		this.memberId = memberId;
+		this.type = type;
+		this.message = message;
+		this.parameter1 = parameter1;
+		this.parameter2 = parameter2;
+		this.parameter3 = parameter3;
+	}
+
 	public Notification(Long notificationId, Long memberId, int type, String message, String parameter1,
-			String parameter2, String parameter3) {
+	                    String parameter2, String parameter3) {
 	
 		this.notificationId = notificationId;
 		this.memberId = memberId;

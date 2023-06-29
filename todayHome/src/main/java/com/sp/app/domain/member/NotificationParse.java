@@ -2,6 +2,7 @@ package com.sp.app.domain.member;
 
 public class NotificationParse {
 
+	// 자기가 아니라 다른사람 아이디 인거임.
 	private Long memberId;
 	private String nickName;
 	private String profileImgName;

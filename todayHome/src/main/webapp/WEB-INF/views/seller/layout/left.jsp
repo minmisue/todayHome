@@ -6,6 +6,14 @@
 
 <script type="text/javascript">
 // 메뉴 활성화
+  $(document).ready(function() {
+    $('#sellerLogout').click(function(e) {
+      e.preventDefault(); // Prevent the default click behavior
+      
+      // Submit the form programmatically
+      $('#logoutForm').submit();
+    });
+  });
 $(function(){
     var url = window.location.pathname;
     var urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
@@ -65,14 +73,17 @@ $(function(){
 			<h1>판매자 페이지</h1>
 		</div>
 		<div class="header-right">
+		<form id="logoutForm" action="${pageContext.request.contextPath}/seller/logout" method="post">
+ 	 <input type="hidden" name="_method" value="post">
 			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/person.png');"></span>
 			<span class="roll-user">
 				<label class="roll">판매자</label>
-				<label class="user">
-					<span class="name">${sessionScope.seller.sellerName} 님</span>
-					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+				<label class="user">					
+					<span class="name">${sessionScope.sellerSessionInfo.sellerName}님</span>
+					<a href="${pageContext.request.contextPath}/seller/logout" id="sellerLogout" title="sellerLogout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 				</label>
 			</span>
+			</form>
 		</div>
 	</div>
 
@@ -82,7 +93,7 @@ $(function(){
 	<ul id="js-menu" class="menu">
 	
 		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/admin" class="menu--link" title="Home">
+			<a href="${pageContext.request.contextPath}/seller" class="menu--link" title="Home">
 				<i class="menu--icon  fa-fw fa-solid fa-house"></i>
 				<span class="menu--label">Home</span>
 			</a>
@@ -139,7 +150,7 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">정산 리스트</a>
+					<a href="<c:url value='/seller/adjustment/adjustment'/>" class="sub_menu--link">정산 리스트</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">매출 리스트</a>
@@ -183,12 +194,15 @@ $(function(){
 				</li>
 			</ul>
 		</li>	
-			
+
 		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/seller/login" class="menu--link" title="Logout">
-				<i class="menu--icon fa-fw fa-solid fa-lock-open"></i>
-				<span class="menu--label">Logout</span>
-			</a>
+		<form id="logoutForm" action="${pageContext.request.contextPath}/seller/logout" method="post">
+ 	 <input type="hidden" name="_method" value="post">
+				<a href="${pageContext.request.contextPath}/seller/logout" id="sellerLogout" class="menu--link" title="sellerLogout">
+					<i class="menu--icon fa-fw fa-solid fa-lock-open"></i>
+					<span class="menu--label">Logout</span>
+				</a>
+		</form>
 		</li>
 	</ul>
 

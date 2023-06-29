@@ -5,8 +5,8 @@
 <!-- 판매자 회원가입 -->
 	<update id="createSeller" parameterType="com.sp.app.domain.seller.Seller">
  		 INSERT ALL
-    		INTO seller (seller_id, member_id, brand_name, password, business_number, seller_name, tel, email, representative_name, presentation, reg_date)
-    		VALUES (SEQ_SELLER.NEXTVAL, #{memberId}, #{brandName}, #{password}, #{businessNumber}, #{sellerName}, #{tel}, #{email}, #{representativeName}, #{presentation}, SYSDATE)
+    		INTO seller (seller_id, member_id, representative_name, business_number,brand_name,seller_name, tel, email, password,presentation, reg_date)
+    		VALUES (SEQ_SELLER.NEXTVAL, #{memberId}, #{representativeName}, #{businessNumber}, #{brandName}, #{sellerName}, #{tel}, #{email}, #{password},#{presentation}, SYSDATE)
     		INTO seller_status (seller_id, status)
     		VALUES (SEQ_SELLER.CURRVAL, 0)
   		SELECT * FROM dual
@@ -108,4 +108,10 @@
   		JOIN seller_status ss ON s.seller_id = ss.seller_id
 		WHERE s.email = #{email}
 	</select>
+	
+	<select id="businessNumberCheck" parameterType="String" resultType="int">
+		select count(*)
+		from SELLER
+		where business_number = #{businessNumber}
+    </select>
 </mapper>

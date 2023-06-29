@@ -29,4 +29,6 @@ public interface SellerRepository {
     Seller getSellerBySellerId(Long sellerId) throws Exception; 
 
     Seller getSellerByEmail(String email) throws Exception;
+
+	int businessNumberCheck(String businessNumber) throws Exception;
 }

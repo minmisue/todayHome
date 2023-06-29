@@ -28,4 +28,7 @@ public interface SellerService {
     Seller getSellerBySellerId(Long sellerId) throws Exception;
     
     Seller login(String email,String password);
+    
+   //사업자 번호 확인
+    public boolean businessNumberCheck(String buisnessNumber) throws Exception;
 }

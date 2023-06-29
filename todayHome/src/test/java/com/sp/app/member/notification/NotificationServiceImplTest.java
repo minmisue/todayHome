@@ -54,6 +54,7 @@ public class NotificationServiceImplTest {
 		String param1 = "2"; // 댓글 남긴 멤버 아이디
 		String param2 = "1"; // 댓글 남긴 유저 보드 아이디.
 
+
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
 		notificationService.createNotification(notification);

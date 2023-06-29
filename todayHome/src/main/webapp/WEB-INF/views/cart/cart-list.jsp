@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/fragment/static-header.jsp" />
@@ -195,6 +196,36 @@
 			location.href = '${pageContext.request.contextPath}/cart/deleteStock?stockId='+ stockId;
 		}
 		
+		$(function() {
+			let cartIdList = $("input[name=cartId]");
+			for(i=0;i<cartIdList.length;i++){
+				cartId = cartIdList[i].value;
+				stockList = document.querySelectorAll('.stockList' + cartId);
+				
+				
+				for(j=0;j<stockList.length;j++){
+					let priceList = stockList[j].querySelectorAll('input[name=price]');
+					let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
+					let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
+					totprice = 0
+					for(k=0;k<priceList.length;k++){
+						let price = Number(priceList[k].value);
+						let disCountPercent = Number(disCountPercentList[k].value);
+						let cartQuantity = Number(cartQuantityList[k].value);
+						if(disCountPercent === 0){
+							totprice += price * cartQuantity
+						} else {
+							totprice += price * ((100-disCountPercent)/100) * cartQuantity;
+						}		
+
+					}
+					stockList[j].querySelector(".productPrice").innerHTML = totprice;
+				}
+				
+			}
+
+		});
+		
 		
 	</script>
 
@@ -237,7 +268,7 @@
 
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
 
-					<input type="hidden" value="${cart.price}">
+					<input type="hidden" value="${cart.cartId}" name="cartId">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
 						<div class="flex-col"
@@ -280,10 +311,17 @@
 									</div>
 
 									<c:set var="totPrice" value="0"></c:set>
-
+									<c:set var="deliveryCost" value="0"></c:set>
 									<c:forEach var="productStock" items="${cart.productStockList}"
 										varStatus="status">
-
+									<div class="stockList${cart.cartId}">
+										<!-- 자바스크립트 계산을 위한 input태그 -->
+										<input type="hidden" value="${cart.discountPercent}"  name="discountPercent">
+										<!-- 상품 원래가격 -->
+										<input type="hidden" value="${productStock.price}"  name="price">
+										<!-- 옵션 별 수량-->
+										<input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity">
+										
 										<div class="flex-col"
 											style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
 											<div class="flex-row"
@@ -304,24 +342,23 @@
 													<div class="quantity-btn minus-btn">
 														<i class="bi bi-dash"></i>
 													</div>
-													<div class="quantity-value">${productStock.cartQuantity }</div>
+													<div class="quantity-value">${productStock.cartQuantity}</div>
 													<div class="quantity-btn plus-btn">
 														<i class="bi bi-plus"></i>
 													</div>
 												</div>
 												<div style="line-height: 20px; font-weight: 700;">
 
-													<c:set var="productPrice"
-														value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
-													<span><fmt:formatNumber value="${productPrice}" /></span>원
+													<span class="productPrice"></span>원
 												</div>
 											</div>
+										</div>
 										</div>
 										<c:set var="orignalTotPrice"
 											value="${orignalTotPrice + productStock.price }"></c:set>
 										<c:set var="totPrice" value="${totPrice + productPrice}" />
-
-
+										<c:set var="deliveryCost" value="${deliveryCost + cart.deliveryCost}"></c:set>	
+											
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
@@ -341,14 +378,13 @@
 
 						<div class="flex-col"
 							style="justify-content: center; align-items: center; border-top: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px;">
-							<div>${cart.deliveryCost }원</div>
+							<div>${deliveryCost}원</div>
 						</div>
 					</div>
-					<h2></h2>
+
 					<c:set var="totDisCountPrice"
 						value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
-					<c:set var="totDeliveryCost"
-						value="${totDeliveryCost + cart.deliveryCost}" />
+					<c:set var="totDeliveryCost" value="${totDeliveryCost + deliveryCost}" />
 				</c:forEach>
 
 			</div>
@@ -397,7 +433,7 @@
 
 					<div class="purchase-btn"
 						onclick="location.href='${pageContext.request.contextPath}/payment/list'">
-						1개 상품 구매하기</div>
+						${fn:length(cartList) }개 상품 구매하기</div>
 				</div>
 			</div>
 

@@ -169,7 +169,7 @@ public class CartServiceImpl implements CartService{
 				throw new RuntimeException("재고가 없습니다");
 			}
 			
-			cartManagementRepository.updateCartQuantity(cartId, stockId, quantity);;
+			cartManagementRepository.updateCartQuantity(cartId, stockId, quantity);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

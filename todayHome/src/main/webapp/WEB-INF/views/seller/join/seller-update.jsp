@@ -300,68 +300,63 @@ tbody{
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 이름 <span
-								class="sales-form_form-group_required">*</span>
+								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="집냥이" style="width: 100%;">
+								<input type="text" id="sellerName" name="sellerName" class="form-control"
+									value="${seller.sellerName}" style="width: 100%;" >
 							</div>
 						</div>
 					</div>
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 전화번호 <span
-								class="sales-form_form-group_required">*</span>
+								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="tel" id="" name="" class="form-control"
-									placeholder="010" style="width: 30%;"> <span
-									class="sales-form_divider">-</span> <input type="tel" id=""
-									name="" class="form-control" placeholder="1234"
-									style="width: 30%;"> <span class="sales-form_divider">-</span>
-								<input type="tel" id="" name="" class="form-control"
-									placeholder="5678" style="width: 30%;">
+								<input type="tel" id="tel" name="tel" class="form-control"
+									value="${seller.tel}" style="width: 100%;">
 							</div>
 						</div>
 					</div>
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 이메일 <span
-								class="sales-form_form-group_required">*</span>
+								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="zipnyang@ohou.se" style="width: 100%;">
+								<input type="text" id="email" name="email" class="form-control"
+									value="${seller.email}" style="width: 100%;">
 							</div>
 						</div>
 					</div>
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 비밀번호 <span
-								class="sales-form_form-group_required">*</span>
+								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="" name="" class="form-control"
-									placeholder="6자이상" style="width: 100%;">
+								<input type="text" id="password" name="password" class="form-control"
+									value="${seller.password}" style="width: 100%;">
 							</div>
 						</div>
 					</div>	
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 판매자 소개 <span
-								class="sales-form_form-group_required">*</span>
+								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
-							<textarea cols="60" class="form-control" placeholder="판매자에 대한 설명을 입력해주세요."  style="width: 100%; height: 100px;"></textarea>
+							<textarea id="presentation" name="presentation" cols="60" class="form-control" style="width: 100%; height: 100px;">${seller.presentation}</textarea>
 						</div>
 					</div>
 									

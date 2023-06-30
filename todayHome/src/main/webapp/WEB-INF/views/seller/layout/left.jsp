@@ -8,12 +8,12 @@
 // 메뉴 활성화
   $(document).ready(function() {
     $('#sellerLogout').click(function(e) {
-      e.preventDefault(); // Prevent the default click behavior
-      
-      // Submit the form programmatically
+      e.preventDefault(); 
+
       $('#logoutForm').submit();
     });
   });
+
 $(function(){
     var url = window.location.pathname;
     var urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
@@ -74,7 +74,7 @@ $(function(){
 		</div>
 		<div class="header-right">
 		<form id="logoutForm" action="${pageContext.request.contextPath}/seller/logout" method="post">
- 	 <input type="hidden" name="_method" value="post">
+ 	
 			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/person.png');"></span>
 			<span class="roll-user">
 				<label class="roll">판매자</label>
@@ -194,16 +194,6 @@ $(function(){
 				</li>
 			</ul>
 		</li>	
-
-		<li class="menu--item">
-		<form id="logoutForm" action="${pageContext.request.contextPath}/seller/logout" method="post">
- 	 <input type="hidden" name="_method" value="post">
-				<a href="${pageContext.request.contextPath}/seller/logout" id="sellerLogout" class="menu--link" title="sellerLogout">
-					<i class="menu--icon fa-fw fa-solid fa-lock-open"></i>
-					<span class="menu--label">Logout</span>
-				</a>
-		</form>
-		</li>
 	</ul>
 
 	<button id="collapse_menu" class="collapse_menu">

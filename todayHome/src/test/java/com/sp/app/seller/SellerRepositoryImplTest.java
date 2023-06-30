@@ -65,7 +65,7 @@ public class SellerRepositoryImplTest{
 	
 	@Test
     public void UpdateSeller() throws Exception {
-        Seller seller = new Seller(4L,"1234", "테스트", "123409874654", "test@","테스트");
+        Seller seller = new Seller(4L,"테스트", "123409874654", "test@","1234","테스트");
 
 
         sellerRepository.updateSeller(seller);

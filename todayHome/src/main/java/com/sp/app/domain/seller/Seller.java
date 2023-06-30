@@ -15,6 +15,10 @@ public class Seller {
 	private int status;
 	private String regDate;
 		
+	public Seller() {
+	    
+	}
+	
 	public Seller(Long memberId, String brandName, String password, String businessNumber, String sellerName,
 			String tel, String email, String representativeName, String presentation) {
 		this.memberId = memberId;
@@ -59,8 +63,12 @@ public class Seller {
 	public Seller(Long sellerId, String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate,int status) {
 
 	}
-	public Seller(String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate) {
+	public Seller(Long sellerId,String brandName, String businessNumber, String sellerName, String tel, String email, String representativeName, String presentation,Long accumulatedAmount, String regDate) {
 
+	}
+	
+	public Seller(String sellerName, String tel, String email, String password, String presentation) {
+		
 	}
 
 	public Long getSellerId() {

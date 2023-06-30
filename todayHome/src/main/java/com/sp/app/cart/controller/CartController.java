@@ -35,7 +35,7 @@ public class CartController {
 	private ProductManagementService productservice;
 	@GetMapping("list")
 	public String listCart(HttpSession session,
-			Model model) throws Exception {
+			Model model) {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
 		
@@ -98,19 +98,34 @@ public class CartController {
 	
 	@PostMapping("checkQuantityUpdate")
 	@ResponseBody
-	public Map<String, Object> checkQuantityUpdate(
-			@RequestBody Map<String, Object> map
-			) {
+	public Map<String, String> checkQuantityUpdate(
+			@RequestParam Map<String, Object> map) {
 		
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, String> model = new HashMap<String, String>();
 		
 		cartservice.checkQuantityUpdate(map);
-		
-		model.put("quantity", map.get("quantity"));
+		model.put("state", "true");
 		
 		return model;
-	
 	}
+	
+//	@GetMapping("checkQuantityUpdate")
+//	public String checkQuantityUpdate(
+//			@RequestParam Long stockId,
+//			@RequestParam Long cartId,
+//			@RequestParam Long quantity
+//			) {
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		map.put("stockId", stockId);
+//		map.put("cartId", cartId);
+//		map.put("quantity", quantity);
+//		
+//		cartservice.checkQuantityUpdate(map);
+//		
+//		return "redirect:/cart/list";
+//	}
 
 
 }

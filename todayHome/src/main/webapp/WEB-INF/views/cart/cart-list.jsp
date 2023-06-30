@@ -104,7 +104,38 @@
 #selected-product-delete:hover {
 	cursor: pointer;
 }
+
+
 </style>
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		//contentType : "application/json;charset=UTF-8",
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<script>
@@ -171,19 +202,37 @@
 			location.href = '${pageContext.request.contextPath}/cart/deleteStock?stockId='+ stockId;
 		}
 		
-		function minus(stockId,cartId,quantity) {
-			const $EL = $(this);
-			-- quantity;
+		
+		function minus(stockId,cartId,quantity,event) {
+			let adjquantity = event.target.parentNode.nextSibling.nextSibling.innerHTML;
+
+			if(quantity <= 1){
+				alert('상품은 한개 이상 담아야합니다.');
+				return;
+			}
+			-- adjquantity;
+			//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+			
+
 			let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
-			let query = 'stockId=' + stockId + '&cartId=' + cartId + '&quantity=' + quantity;
-			alert(query);
-			const fn = function(data) {
-				alert('ok');
-				$EL.next().html(data.quantity);
-		};
-			ajaxFun(url, "post", query, "json", fn);
+			let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+			event.target.parentNode.nextSibling.nextSibling.innerHTML ="";
+			event.target.parentNode.nextSibling.nextSibling.innerHTML=adjquantity;
+		
+			//event.target.parentNode.nextSibling.innerText ='';
+			//event.target.parentNode.nextSibling. = "80"; 
+//			const fn = function(data) {
+//				alert($EL.siblings('.cartQuantity').value)
+//			};
+			//ajaxFun(url, "post", query, "json", fn);
 		}
 		
+		function plus(stockId,cartId,quantity) {
+
+			++ quantity;
+			
+			location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+		}
 		$(function() {
 			let cartIdList = $("input[name=cartId]");
 			// 상품
@@ -237,6 +286,7 @@
 			
 		});
 		
+
 		
 		
 	</script>
@@ -325,15 +375,14 @@
 
 									<c:set var="totPrice" value="0"></c:set>
 									<c:set var="deliveryCost" value="0"></c:set>
-									<c:forEach var="productStock" items="${cart.productStockList}"
-										varStatus="status">
+									<c:forEach var="productStock" items="${cart.productStockList}">
 									<div class="stockList${cart.cartId}">
 										<!-- 자바스크립트 계산을 위한 input태그 -->
 										<input type="hidden" value="${cart.discountPercent}"  name="discountPercent">
 										<!-- 상품 원래가격 -->
 										<input type="hidden" value="${productStock.price}"  name="price">
 										<!-- 옵션 별 수량-->
-										<input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity">
+										<!-- <input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity"> -->
 										
 										<div class="flex-col"
 											style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
@@ -352,11 +401,12 @@
 												style="justify-content: space-between; align-items: center">
 												<div class="flex-row"
 													style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
-													<div class="quantity-btn minus-btn" onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}')">
+													<div class="quantity-btn minus-btn" onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
 														<i class="bi bi-dash"></i>
 													</div>
 													<div class="quantity-value">${productStock.cartQuantity}</div>
-													<div class="quantity-btn plus-btn">
+													<input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity" id="cartQuantity${stockId}">
+													<div class="quantity-btn plus-btn" onclick="plus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}')">
 														<i class="bi bi-plus"></i>
 													</div>
 												</div>

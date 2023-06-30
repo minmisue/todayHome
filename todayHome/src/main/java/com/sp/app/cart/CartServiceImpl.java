@@ -160,10 +160,9 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void checkQuantityUpdate(Map<String, Object> map) {
 		try {
-			Long stockId = (Long)map.get("stockId");
-			Long cartId = (Long)map.get("cartId");
-			Long quantity = (Long)map.get("quantity");
-			
+			Long stockId = Long.parseLong(((String)map.get("stockId")));
+			Long cartId = Long.parseLong(((String)map.get("cartId")));
+			Long quantity = Long.parseLong(((String)map.get("quantity")));
 			
 			if(cartManagementRepository.checkQuantity(stockId, quantity) == 0) {
 				throw new RuntimeException("재고가 없습니다");

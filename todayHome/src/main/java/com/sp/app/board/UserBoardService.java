@@ -10,7 +10,7 @@ import com.sp.app.domain.board.UserBoard;
 
 public interface UserBoardService {
 		//게시글 등록
-		void createBoard(UserBoard userBoard, List<BoardContent> boardContentList, List<List<ProductTag>> productTagListList, String pathname) throws Exception;
+		void createBoard(UserBoard userBoard, String pathname) throws Exception;
 		
 		// 게시글 개수 조회
 	    int dataCount(UserBoard userBoard) throws Exception;

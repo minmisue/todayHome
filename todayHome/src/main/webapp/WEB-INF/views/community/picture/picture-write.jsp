@@ -100,6 +100,25 @@
 		border-radius: 4px; 
 		font-size: 15px
 		}
+		 .image-container {
+            position: relative;
+            display: inline-block;
+             cursor: pointer;
+        }
+        
+          /* 이미지 스타일 */
+        .image-container img {
+            width: 300px; /* 원하는 고정 가로 크기 */
+		height: 300px; /* 원하는 고정 세로 크기 */
+        }
+
+	      .marker {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #35c5f0;
+            border-radius: 50%;
+            }
 	</style>
 </head>
 <body>
@@ -155,6 +174,7 @@
 							<option value="13">현관</option>
 							<option value="14">외관,기타</option>
 						</select>
+					  <input type="text" id="coordinateOutput" name="coordinateOutput">
 					</div>
 					  <div class="flex-col" style="padding-left: 20px;"> </div>
 				</div>
@@ -171,7 +191,9 @@ var formCount = 1;
 function addForm() {
   var formContainer = $('#formContainer');
   var newForm = $('<div>').append($('#formContainer form:first-child').clone());
-  newForm.find('input[type="file"]').val(''); // 새로운 폼의 파일 선택 값 초기화
+  newForm.find('input[type="file"]').val(''); 
+  newForm.find("input[name=content]").removeAttr('value');
+  newForm.find("input[name=content]").val('');
   formContainer.append(newForm);
 
   formCount++;
@@ -224,6 +246,61 @@ $(document).ready(function () {
 
 
 
+$(document).ready(function() {
+	  var coordinates = []; // 좌표를 저장할 배열
+	  var markerCounter = 1; // 마커 개수를 저장할 변수
+
+	  
+	  // 이미지 클릭 이벤트 리스너 등록
+	  $('#uploadedImagesContainer').on('click', 'img', function(event) {
+	    var offsetX = event.offsetX; // 클릭된 위치의 x좌표
+	    var offsetY = event.offsetY; // 클릭된 위치의 y좌표
+
+	    // 좌표를 배열에 추가
+		 coordinates.push({
+				id: markerCounter,
+				x: offsetX,
+				y: offsetY
+			});
+	    
+	
+	    // 배열 출력
+	    outputCoordinates();
+	    
+	    // 마커 추가
+        addMarker(offsetX, offsetY);
+
+        // 마커 개수 증가
+        markerCounter++;
+	  });
+
+	  // 좌표 배열을 출력하는 함수
+	  function outputCoordinates() {
+	    var outputElement = $('#coordinateOutput');
+	    outputElement.empty(); // 기존 내용 초기화
+
+	    var coordinateText = coordinates.map(function(coordinate) {
+	      return 'x:' + coordinate.x + ' y:' + coordinate.y;
+	    }).join(', ');
+
+	    outputElement.val(coordinateText);
+	  }
+	  
+	  function addMarker(x, y) {
+		    var marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.left = x + 'px';
+            marker.style.top = y + 'px';
+
+            var imageContainer = document.createElement('div');
+            imageContainer.className = 'image-container';
+            var uploadedImage = document.querySelector('#uploadedImagesContainer img');
+            imageContainer.appendChild(uploadedImage.cloneNode(true));
+            imageContainer.appendChild(marker);
+
+            uploadedImage.parentNode.replaceChild(imageContainer, uploadedImage);
+	  }
+	});
 </script>
 </body>
 </html>

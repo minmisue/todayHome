@@ -10,12 +10,12 @@
 		VALUES (seq_user_board.NEXTVAL, #{memberId}, #{boardType}, #{subject, jdbcType=VARCHAR},  SYSDATE, 0, '111.222.333.444')
 	</insert>
 	
-	<insert id="insertContent" parameterType="com.sp.app.domain.board.BoardContent">
+	<insert id="insertContent" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD_CONTENT(user_board_id, user_board_content_id, user_board_content_category_id, content, content_sequence, img_name)
 		VALUES (#{userBoardId}, SEQ_USER_BOARD_CONTENT.NEXTVAL, #{userBoardContentCategoryId}, #{content}, #{contentSequence}, #{imgName})
 	</insert>
 	
-	<insert id="insertProduct" parameterType="com.sp.app.domain.board.ProductTag">
+	<insert id="insertProduct" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD_PRODUCT(product_id, user_board_content_id, x_coordinate, y_coordinate)
 		VALUES (#{productId}, #{userBoardContentId}, #{xCoordinate}, #{yCoordinate})
 	</insert>
@@ -82,14 +82,14 @@
 		WHERE b.user_board_id = #{userBoardId}                       
 	</select>
 	
-	<select id="readContent" parameterType="Long" resultType="com.sp.app.domain.board.BoardContent">
+	<select id="readContent" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">
 		SELECT ub.user_board_id as userBoardId, ubc.user_board_content_id as userBoardContentId, content, content_sequence as contentSequence, img_name as imgName, user_board_content_category_id as userBoardContentCategoryId
 			FROM user_board ub
 			JOIN user_board_content ubc ON ub.user_board_id = ubc.user_board_id
 		WHERE	ub.user_board_id = #{userBoardId}
 	</select>
 	
-	<select id="readProduct" parameterType="Long" resultType="com.sp.app.domain.board.ProductTag">
+	<select id="readProduct" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">
 		select pbp.user_board_content_id as userBoardContentId, pbp.product_id as productId, x_coordinate as xCoordinate, y_coordinate as yCoordinate, product_name as productName, price, save_name as saveName, brand_name as brandName
 			from user_board_product pbp
 			JOIN user_board_content ubc ON pbp.user_board_content_id = ubc.user_board_content_id
@@ -114,7 +114,7 @@
 	</select>
 	
 	<!-- 수정 -->
-	<update id="updateBoardContent" parameterType="com.sp.app.domain.board.BoardContent">
+	<update id="updateBoardContent" parameterType="com.sp.app.domain.board.UserBoard">
 		UPDATE user_board_content SET content=#{content},
 				content_sequence=#{contentSequence}, user_board_content_category_id=#{userBoardContentCategoryId},
 				img_name=#{imgName}

@@ -1,17 +1,16 @@
 package com.sp.app.board;
 
-import com.sp.app.common.CommonDAO;
-import com.sp.app.domain.board.BoardContent;
-import com.sp.app.domain.board.Comment;
-import com.sp.app.domain.board.ListBoard;
-import com.sp.app.domain.board.ProductTag;
-import com.sp.app.domain.board.UserBoard;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.ListBoard;
+import com.sp.app.domain.board.UserBoard;
 
 @Repository
 public class UserBoardRepositoryImpl implements UserBoardRepository{
@@ -25,13 +24,13 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void insertContent(BoardContent boardContent) throws Exception {
-		commonDAO.insertData("userBoard.insertContent", boardContent);
+	public void insertContent(UserBoard userBoard) throws Exception {
+		commonDAO.insertData("userBoard.insertContent", userBoard);
 	}
 
 	@Override
-	public void insertProduct(ProductTag productTag) throws Exception {
-		commonDAO.insertData("userBoard.insertProduct", productTag);
+	public void insertProduct(UserBoard userBoard) throws Exception {
+		commonDAO.insertData("userBoard.insertProduct", userBoard);
 	}
 
 	@Override
@@ -46,12 +45,12 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public List<BoardContent> readContent(Long userBoardId) throws Exception {
+	public List<UserBoard> readContent(Long userBoardId) throws Exception {
 		return commonDAO.selectList("userBoard.readContent", userBoardId);
 	}
 	
 	@Override
-	public List<ProductTag> readProduct(Long userBoardContentId) throws Exception {
+	public List<UserBoard> readProduct(Long userBoardContentId) throws Exception {
 		return commonDAO.selectList("userBoard.readProduct", userBoardContentId);
 	}
 
@@ -71,8 +70,8 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void updateBoardContent(BoardContent boardContent) throws Exception {
-		commonDAO.updateData("userBoard.updateBoardContent", boardContent);
+	public void updateBoardContent(UserBoard userBoard) throws Exception {
+		commonDAO.updateData("userBoard.updateBoardContent", userBoard);
 	}
 	
 	@Override

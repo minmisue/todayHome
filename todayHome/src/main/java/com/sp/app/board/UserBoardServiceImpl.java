@@ -22,11 +22,13 @@ public class UserBoardServiceImpl implements UserBoardService{
 	private FileManager fileManager;
 	
 	@Override
-	public void createBoard(UserBoard userBoard, List<BoardContent> boardContentList, List<List<ProductTag>> productTagListList, String pathname) throws Exception {
+	public void createBoard(UserBoard userBoard, String pathname) throws Exception {
 		try {
 			Long userBoardId = userBoard.getUserBoardId();
 			userBoardRepository.createBoard(userBoard); // 시퀀스 반환
 			
+				
+			/*
 			for (int i = 0; i < boardContentList.size(); i++) {
 				BoardContent boardContent = boardContentList.get(i);
 				List<ProductTag> productTagList = productTagListList.get(i);
@@ -42,7 +44,7 @@ public class UserBoardServiceImpl implements UserBoardService{
 					userBoardRepository.insertProduct(productTag);
 				}
 			}
-			
+			*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();

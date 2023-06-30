@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.sp.app.domain.board.BoardContent;
 import com.sp.app.domain.board.Comment;
 import com.sp.app.domain.board.ListBoard;
-import com.sp.app.domain.board.ProductTag;
 import com.sp.app.domain.board.UserBoard;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -55,13 +53,13 @@ public class UserBoardRepositoryImplTest {
 		for (int i=0; i<2; i++) {
 			String imgName = "imgTest";
 			
-			BoardContent boardContent = new BoardContent();
-			boardContent.setUserBoardContentCategoryId(1L);
-			boardContent.setContent("아아");
-			boardContent.setUserBoardId(boardId);
-			boardContent.setImgName(imgName + i);
-			boardContent.setContentSequence(i);
-			userBoardRepository.insertContent(boardContent);
+			UserBoard userBoard = new UserBoard();
+			userBoard.setUserBoardContentCategoryId(1L);
+			userBoard.setContent("아아");
+			userBoard.setUserBoardId(boardId);
+			userBoard.setImgName(imgName + i);
+			userBoard.setContentSequence(i);
+			userBoardRepository.insertContent(userBoard);
 						
 		}
 	}
@@ -71,12 +69,12 @@ public class UserBoardRepositoryImplTest {
 		Long userBoardContentId = 38L;
 		
 		for (int i=0; i<3; i++) {
-			ProductTag productTag = new ProductTag();
-			productTag.setProductId(262L + i);
-			productTag.setUserBoardContentId(userBoardContentId);
-			productTag.setxCoordinate(2.3F);
-			productTag.setyCoordinate(-3.2F);
-			userBoardRepository.insertProduct(productTag);
+			UserBoard userBoard = new UserBoard();
+			userBoard.setProductId(262L + i);
+			userBoard.setUserBoardContentId(userBoardContentId);
+			userBoard.setxCoordinate(2.3F);
+			userBoard.setyCoordinate(-3.2F);
+			userBoardRepository.insertProduct(userBoard);
 		}
 	}
 	
@@ -98,16 +96,16 @@ public class UserBoardRepositoryImplTest {
 	public void readContent() throws Exception{
 		Long userBoardId = 3L;
 		
-		List<BoardContent> boardContent = userBoardRepository.readContent(userBoardId);
-		System.out.println(boardContent);
+		List<UserBoard> userBoard = userBoardRepository.readContent(userBoardId);
+		System.out.println(userBoard);
 	}
 	
 	@Test
 	public void readProduct() throws Exception{
 		Long userBoardContentId = 38L;
 		
-		List<ProductTag> productTag = userBoardRepository.readProduct(userBoardContentId);
-		System.out.println(productTag);
+		List<UserBoard> userBoard = userBoardRepository.readProduct(userBoardContentId);
+		System.out.println(userBoard);
 	}
 	
 	@Test
@@ -128,14 +126,14 @@ public class UserBoardRepositoryImplTest {
 	@Test
 	public void updateBoardContent() throws Exception{
 		Long userBoardContentId = 38L;
-		BoardContent boardContent = new BoardContent();
-		boardContent.setContent("수정!");
-		boardContent.setContentSequence(2);
-		boardContent.setUserBoardContentCategoryId(3L);
-		boardContent.setImgName("사진수정");
-		boardContent.setUserBoardContentId(userBoardContentId);
+		UserBoard userBoard = new UserBoard();
+		userBoard.setContent("수정!");
+		userBoard.setContentSequence(2);
+		userBoard.setUserBoardContentCategoryId(3L);
+		userBoard.setImgName("사진수정");
+		userBoard.setUserBoardContentId(userBoardContentId);
 		
-		userBoardRepository.updateBoardContent(boardContent);
+		userBoardRepository.updateBoardContent(userBoard);
 	
 	}
 	@Test

@@ -1,14 +1,12 @@
 package com.sp.app.board;
 
-import com.sp.app.domain.board.BoardContent;
-import com.sp.app.domain.board.Comment;
-import com.sp.app.domain.board.ListBoard;
-import com.sp.app.domain.board.ProductTag;
-import com.sp.app.domain.board.UserBoard;
-
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.ListBoard;
+import com.sp.app.domain.board.UserBoard;
 
 @Repository
 public interface UserBoardRepository {
@@ -17,9 +15,9 @@ public interface UserBoardRepository {
 	void createBoard(UserBoard userBoard) throws Exception;
 	
 	//내용 등록
-	void insertContent(BoardContent boardContent) throws Exception;
+	void insertContent(UserBoard userBoard) throws Exception;
 	
-	void insertProduct(ProductTag productTag) throws Exception;
+	void insertProduct(UserBoard userBoard) throws Exception;
 
 	// 게시글 개수 조회
     int dataCount(UserBoard userBoard) throws Exception;
@@ -28,10 +26,10 @@ public interface UserBoardRepository {
     UserBoard readBoard(Long userBoardId) throws Exception;
     
     // 게시글 내용 조회
-    List<BoardContent> readContent(Long userBoardId) throws Exception;
+    List<UserBoard> readContent(Long userBoardId) throws Exception;
     
     // 내용 상품 조회
-    List<ProductTag> readProduct(Long userBoardContentId) throws Exception;
+    List<UserBoard> readProduct(Long userBoardContentId) throws Exception;
     
     // 조회수
     void updateHitCount(Long userBoardId) throws Exception;
@@ -43,7 +41,7 @@ public interface UserBoardRepository {
     List<UserBoard> readOtherBoard(Long memberId) throws Exception;
 
     // 게시글 수정
-    void updateBoardContent(BoardContent boardContent) throws Exception;
+    void updateBoardContent(UserBoard userBoard) throws Exception;
 
     void deleteBoardProduct(Long productId, Long userBoardContentId) throws Exception;
     

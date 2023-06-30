@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/fragment/static-header.jsp" />
@@ -103,36 +104,42 @@
 #selected-product-delete:hover {
 	cursor: pointer;
 }
+
+
 </style>
+<script type="text/javascript">
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		//contentType : "application/json;charset=UTF-8",
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<script>
 	
-	function ajaxFun(url, method, query, dataType, fn) {
-		$.ajax({
-			type:method,
-			url:url,
-			data:query,
-			dataType:dataType,
-			success:function(data) {
-				fn(data);
-			},
-			beforeSend:function(jqXHR) {
-				jqXHR.setRequestHeader("AJAX", true);
-			},
-			error:function(jqXHR) {
-				if(jqXHR.status === 403) {
-					login();
-					return false;
-				} else if(jqXHR.status === 400) {
-					alert("요청 처리가 실패 했습니다.");
-					return false;
-				}
-		    	
-				console.log(jqXHR.responseText);
-			}
-		});
-	}
 		$(function() {
 			// 여기에서 메뉴 선택
 			// 첫번째 파라미터 (커뮤니티, 쇼핑 중 선택)
@@ -196,6 +203,92 @@
 		}
 		
 		
+		function minus(stockId,cartId,quantity,event) {
+			let adjquantity = event.target.parentNode.nextSibling.nextSibling.innerHTML;
+
+			if(quantity <= 1){
+				alert('상품은 한개 이상 담아야합니다.');
+				return;
+			}
+			-- adjquantity;
+			//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+			
+
+			let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
+			let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+			event.target.parentNode.nextSibling.nextSibling.innerHTML ="";
+			event.target.parentNode.nextSibling.nextSibling.innerHTML=adjquantity;
+		
+			//event.target.parentNode.nextSibling.innerText ='';
+			//event.target.parentNode.nextSibling. = "80"; 
+//			const fn = function(data) {
+//				alert($EL.siblings('.cartQuantity').value)
+//			};
+			//ajaxFun(url, "post", query, "json", fn);
+		}
+		
+		function plus(stockId,cartId,quantity) {
+
+			++ quantity;
+			
+			location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+		}
+		$(function() {
+			let cartIdList = $("input[name=cartId]");
+			// 상품
+			// 총 상품 금액 - 원래 금액
+			let finalCartPriceOriginal = 0;
+			let finalCartPrice = 0;
+			for(i=0;i<cartIdList.length;i++){
+				cartId = cartIdList[i].value;
+				stockList = document.querySelectorAll('.stockList' + cartId);
+				
+	
+				let totPriceOriginal = 0;
+				let totPrice = 0;
+
+				// 옵션				
+				for(j=0;j<stockList.length;j++){
+					let priceList = stockList[j].querySelectorAll('input[name=price]');
+					let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
+					let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
+					// 할인 전 가격
+					let productStockPriceOriginal = 0;
+					// 할인 후 가격
+					let productStockPrice = 0;
+					// 옵션상세
+					for(k=0;k<priceList.length;k++){
+						let price = Number(priceList[k].value);
+						let disCountPercent = Number(disCountPercentList[k].value);
+						let cartQuantity = Number(cartQuantityList[k].value);
+						productStockPriceOriginal += price * cartQuantity;
+						
+						productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
+						
+						totPrice += productStockPrice;
+						totPriceOriginal += productStockPriceOriginal;
+					}
+					stockList[j].querySelector(".productPrice").innerHTML = productStockPrice.toLocaleString();
+				}
+				finalCartPriceOriginal += totPriceOriginal;
+				finalCartPrice += totPrice;
+				document.querySelector(".totPrice"+cartId).innerHTML = totPrice.toLocaleString();
+			}
+
+			let totDisCountPrice= finalCartPriceOriginal - finalCartPrice
+			document.querySelector(".finalCartPrice").innerHTML = finalCartPriceOriginal.toLocaleString();
+			document.querySelector(".totDisCountPrice").innerHTML = '-' +  (totDisCountPrice.toLocaleString());
+			
+			//document.querySelector(".finalDeliveryCost").innerHTML = finalDeliveryCost;
+			let totDeliveryCost = Number(document.querySelector('.finalDeliveryCost').innerText);
+			//alert(totDeliveryCost);
+			document.querySelector(".payPrice").innerHTML = (finalCartPriceOriginal + totDeliveryCost - totDisCountPrice).toLocaleString();
+			
+		});
+		
+
+		
+		
 	</script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
@@ -237,7 +330,8 @@
 
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
 
-					<input type="hidden" value="${cart.price}">
+					<input type="hidden" value="${cart.cartId}" name="cartId">
+					<input type="hidden" value="${cart.deliveryCost}" name="deliveryCost${cart.cartId}">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
 						<div class="flex-col"
@@ -280,10 +374,16 @@
 									</div>
 
 									<c:set var="totPrice" value="0"></c:set>
-
-									<c:forEach var="productStock" items="${cart.productStockList}"
-										varStatus="status">
-
+									<c:set var="deliveryCost" value="0"></c:set>
+									<c:forEach var="productStock" items="${cart.productStockList}">
+									<div class="stockList${cart.cartId}">
+										<!-- 자바스크립트 계산을 위한 input태그 -->
+										<input type="hidden" value="${cart.discountPercent}"  name="discountPercent">
+										<!-- 상품 원래가격 -->
+										<input type="hidden" value="${productStock.price}"  name="price">
+										<!-- 옵션 별 수량-->
+										<!-- <input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity"> -->
+										
 										<div class="flex-col"
 											style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
 											<div class="flex-row"
@@ -301,27 +401,24 @@
 												style="justify-content: space-between; align-items: center">
 												<div class="flex-row"
 													style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
-													<div class="quantity-btn minus-btn">
+													<div class="quantity-btn minus-btn" onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
 														<i class="bi bi-dash"></i>
 													</div>
-													<div class="quantity-value">${productStock.cartQuantity }</div>
-													<div class="quantity-btn plus-btn">
+													<div class="quantity-value">${productStock.cartQuantity}</div>
+													<input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity" id="cartQuantity${stockId}">
+													<div class="quantity-btn plus-btn" onclick="plus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}')">
 														<i class="bi bi-plus"></i>
 													</div>
 												</div>
 												<div style="line-height: 20px; font-weight: 700;">
 
-													<c:set var="productPrice"
-														value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
-													<span><fmt:formatNumber value="${productPrice}" /></span>원
+													<span class="productPrice"></span>원
 												</div>
 											</div>
 										</div>
-										<c:set var="orignalTotPrice"
-											value="${orignalTotPrice + productStock.price }"></c:set>
-										<c:set var="totPrice" value="${totPrice + productPrice}" />
-
-
+										</div>
+										<c:set var="deliveryCost" value="${deliveryCost + cart.deliveryCost}"></c:set>	
+											
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
@@ -332,7 +429,7 @@
 										</div>
 										<div
 											style="line-height: 20px; font-weight: 700; font-size: 17px">
-											<span><fmt:formatNumber value="${totPrice}" />원</span>
+											<span class="totPrice${cart.cartId}">원</span>
 										</div>
 									</div>
 								</div>
@@ -341,14 +438,11 @@
 
 						<div class="flex-col"
 							style="justify-content: center; align-items: center; border-top: #F5F5F5 2px solid; padding: 10px 0; font-size: 15px;">
-							<div>${cart.deliveryCost }원</div>
+							<div>${deliveryCost}원</div>
 						</div>
 					</div>
-					<h2></h2>
-					<c:set var="totDisCountPrice"
-						value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
-					<c:set var="totDeliveryCost"
-						value="${totDeliveryCost + cart.deliveryCost}" />
+
+					<c:set var="totDeliveryCost" value="${totDeliveryCost + deliveryCost}" />
 				</c:forEach>
 
 			</div>
@@ -363,7 +457,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 상품 금액</div>
 								<div style="font-weight: 700;">
-									<span><fmt:formatNumber value="${orignalTotPrice}" /></span>원
+									<span class="finalCartPrice"></span>원
 								</div>
 							</div>
 
@@ -371,7 +465,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 배송비</div>
 								<div style="font-weight: 700;">
-									<span><fmt:formatNumber value="${totDeliveryCost}" /></span>원
+									<span class="finalDeliveryCost">${totDeliveryCost}</span>원
 								</div>
 							</div>
 
@@ -379,7 +473,7 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div style="font-weight: 400">총 할인 금액</div>
 								<div style="font-weight: 700;">
-									<span>- <fmt:formatNumber value="${totDisCountPrice}" /></span>원
+									<span class="totDisCountPrice"></span>원
 								</div>
 							</div>
 
@@ -387,9 +481,8 @@
 								style="justify-content: space-between; font-size: 15px; font-weight: 700; align-items: center; margin-top: 30px;">
 								<div style="">결제금액</div>
 								<div style="font-size: 24px">
-									<c:set var="payPrice"
-										value="${orignalTotPrice+ totDeliveryCost - totDisCountPrice}"></c:set>
-									<span><fmt:formatNumber value="${payPrice}" /></span>원
+
+									<span class="payPrice"></span>원
 								</div>
 							</div>
 						</div>
@@ -397,7 +490,7 @@
 
 					<div class="purchase-btn"
 						onclick="location.href='${pageContext.request.contextPath}/payment/list'">
-						1개 상품 구매하기</div>
+						${fn:length(cartList) }개 상품 구매하기</div>
 				</div>
 			</div>
 

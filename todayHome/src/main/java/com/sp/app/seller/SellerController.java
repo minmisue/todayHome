@@ -84,6 +84,7 @@ public class SellerController {
 	public String sellerSubmitComplete() {
 		return "seller/join/complete";
 	}
+	
 	@PostMapping("seller/logout")
 	public String logoutSubmit(HttpSession httpSession) {
 		
@@ -96,13 +97,25 @@ public class SellerController {
 	}
 	
 	@GetMapping("seller/update")
-	public String sellerUpdate() {
+	public String sellerUpdate(Model model,HttpSession httpSession) throws Exception {
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+		Long sellerId = sellerSessionInfo.getSellerId();
+		Seller seller = sellerService.getSellerBySellerId(sellerId);
 		
+		model.addAttribute("seller", seller);
 		return ".seller.join.seller-update";		
 	}
 	
 	@PostMapping("seller/update")
-	public String sellerUpdateOk() {
+	public String sellerUpdateOk(Seller seller,HttpSession httpSession) throws Exception{
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+		Long sellerId = sellerSessionInfo.getSellerId();
+		seller.setSellerId(sellerId);
+		try {
+			// 수정 하기
+			sellerService.updateSeller(seller);
+		} catch (Exception e) {
+		}
 		
 		return "redirect:/seller";
 	}

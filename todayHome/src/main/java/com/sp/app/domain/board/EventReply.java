@@ -4,9 +4,23 @@ public class EventReply {
 	private Long eventBoardCommentId;
 	private Long eventBoardId;
 	private Long memberId;
+	private String name;
 	private String content;
 	private String regDate;
+	private int dataCount;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getDataCount() {
+		return dataCount;
+	}
+	public void setDataCount(int dataCount) {
+		this.dataCount = dataCount;
+	}
 	public Long getEventBoardCommentId() {
 		return eventBoardCommentId;
 	}

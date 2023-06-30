@@ -1,7 +1,9 @@
 package com.sp.app.cart.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
@@ -30,7 +35,7 @@ public class CartController {
 	private ProductManagementService productservice;
 	@GetMapping("list")
 	public String listCart(HttpSession session,
-			Model model) throws Exception {
+			Model model) {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
 		
@@ -52,8 +57,10 @@ public class CartController {
 				Long quantity = vo.getQuantity();
 				
 				ProductStock productStock = productservice.getStockByStockId(stockId);
-				productStock.setPrice(productStock.getOptionPrice()*quantity);
+				// 그냥 옵션 가격
+				productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
 				
+				// 수량
 				productStock.setCartQuantity(quantity);
 				productStockList.add(productStock);
 			}
@@ -88,5 +95,37 @@ public class CartController {
 		
 		return "redirect:/cart/list";
 	}
+	
+	@PostMapping("checkQuantityUpdate")
+	@ResponseBody
+	public Map<String, String> checkQuantityUpdate(
+			@RequestParam Map<String, Object> map) {
+		
+		Map<String, String> model = new HashMap<String, String>();
+		
+		cartservice.checkQuantityUpdate(map);
+		model.put("state", "true");
+		
+		return model;
+	}
+	
+//	@GetMapping("checkQuantityUpdate")
+//	public String checkQuantityUpdate(
+//			@RequestParam Long stockId,
+//			@RequestParam Long cartId,
+//			@RequestParam Long quantity
+//			) {
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		map.put("stockId", stockId);
+//		map.put("cartId", cartId);
+//		map.put("quantity", quantity);
+//		
+//		cartservice.checkQuantityUpdate(map);
+//		
+//		return "redirect:/cart/list";
+//	}
+
 
 }

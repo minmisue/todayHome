@@ -6,4 +6,50 @@
 		INSERT INTO qna_board (qna_board_id, qna_category_id, member_id, subject, content, created_date)
 		VALUES (seq_qna_board.NEXTVAL, #{qnaCategoryId}, #{memberId}, #{subject}, #{content}, #{createdDate})
 	</insert>
+	
+	<update id="updateQnaBoard" parameterType="com.sp.app.domain.board.QnaBoard">
+		UPDATE qna_board
+		SET subject = #{subject}, content = #{content}
+		WHERE qna_board_id = #{qnaBoardId}
+	</update>
+	
+	<delete id="deleteQnaBoard" parameterType="long">
+		DELETE FROM qna_board WHERE qna_board_id = #{qnaBoardId}
+	</delete>
+	
+	<select id="getAllQnaBoard" resultType="com.sp.app.domain.board.QnaBoard">
+		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
+		FROM qna_board
+	</select>
+	
+	<select id="getQnaBoardById" parameterType="long" resultType="com.sp.app.domain.board.QnaBoard">
+		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
+		FROM qna_board
+		WHERE qna_board_id = #{qnaBoardId}
+	</select>
+	
+	<select id="getCategoryQnaBoardById" parameterType="long" resultType="com.sp.app.domain.board.QnaBoard">
+		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
+		FROM qna_board
+		WHERE qna_category_id = #{qnaCategoryId}
+	</select>
+	
+	<insert id="insertQnaCategory" parameterType="com.sp.app.domain.board.QnaCategory">
+		INSERT INTO qna_category (qna_category_id, qna_category_name) VALUES (#{qnaCategoryId}, #{qnaCategoryName})
+	</insert>
+	
+	<update id="updateQnaCategory" parameterType="com.sp.app.domain.board.QnaCategory">
+		UPDATE qna_category
+		SET qna_category_name = #{qnaCategoryName}
+		WHERE qna_category_id = #{qnaCategoryId}
+	</update>
+	
+	<delete id="deleteQnaCategory" parameterType="long">
+		DELETE FROM qna_category WHERE qna_category_id = #{qnaCategoryId}
+	</delete>
+	
+	<select id="getAllQnaCategory" resultType="com.sp.app.domain.board.QnaCategory">
+		SELECT qna_category_id as qnaCategoryId, qna_category_name as qnaCategoryName
+		FROM qna_category
+	</select>
 </mapper>

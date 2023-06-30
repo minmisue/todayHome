@@ -284,7 +284,7 @@ tbody{
         f.action = "${pageContext.request.contextPath}/seller/join";
         f.submit();
     }
-    function busineesNumberCheckOk() {
+    function businessNumberCheckOk() {
 
         let businessNumber = document.getElementById('businessNumber');
 

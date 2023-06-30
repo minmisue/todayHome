@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.domain.board.EventBoard;
+import com.sp.app.domain.board.EventReply;
 
 @Service
 public class EvnetBoardServiceImpl implements EventBoardService{
@@ -50,6 +51,31 @@ public class EvnetBoardServiceImpl implements EventBoardService{
 	@Override
 	public EventBoard getEventBoardById(Long eventBoardId) throws Exception {
 		return eventBoardRepository.getEventBoardById(eventBoardId);
+	}
+
+	@Override
+	public void insertEventReply(EventReply eventReply) throws Exception {
+		eventBoardRepository.insertEventReply(eventReply);
+	}
+
+	@Override
+	public List<EventReply> listReply(Long eventBoardId, int offset, int size) throws Exception {
+		return eventBoardRepository.listReply(eventBoardId,offset, size);
+	}
+
+	@Override
+	public int replyCount(Long eventBoardId) throws Exception {
+		return eventBoardRepository.replyCount(eventBoardId);
+	}
+
+	@Override
+	public void insertEventWinner(EventBoard winnerNumber) throws Exception {
+		eventBoardRepository.insertEventWinner(winnerNumber);
+	}
+
+	@Override
+	public List<EventBoard> eventWinnerMember(EventBoard eventBoard) throws Exception {
+		return eventBoardRepository.eventWinnerMember(eventBoard);
 	}
 
 }

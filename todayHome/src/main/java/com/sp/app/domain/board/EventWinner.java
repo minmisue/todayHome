@@ -3,8 +3,16 @@ package com.sp.app.domain.board;
 public class EventWinner {
 	private Long eventBoardId;
 	private Long memberId;
+	private String name;
 	private String regDate;
 	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Long getEventBoardId() {
 		return eventBoardId;
 	}

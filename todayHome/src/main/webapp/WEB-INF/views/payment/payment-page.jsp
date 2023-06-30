@@ -229,9 +229,10 @@ IMP.init("imp68385626"); // 예: imp00000000
   }
 </script>
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
+	<form action="">
 	<div class="main-container" style="margin-top: 110px;">
 		<div class="content flex-row">
-
+			
 			<div class="flex-col" style="width: 65%;">
 				<div style="padding-top: 40px; font-size: 24px; font-weight: bold;">주문/결제</div>
 
@@ -284,7 +285,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 					<div class="flex-col" style="gap: 15px; margin-top: 20px">
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">이름</div>
-							<input class="payment-form-grid-input" type="text">
+							<input class="payment-form-grid-input" type="text" name="name">
 						</div>
 
 						<div class="form-grid">
@@ -299,7 +300,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 							<div style="display: grid; grid-template-columns: 35% 65%;">
 								<div style="padding-right: 8px;">
 									<input style="width: 100%" class="payment-form-grid-input"
-										type="text">
+										type="text" name="tel">
 								</div>
 
 								<input class="payment-form-grid-input" type="text">
@@ -320,32 +321,33 @@ IMP.init("imp68385626"); // 예: imp00000000
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">배송지명</div>
 							<input class="payment-form-grid-input" type="text">
+
 						</div>
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">받는사람</div>
-							<input class="payment-form-grid-input" type="text">
+							<input class="payment-form-grid-input" type="text" name="receiveName">
 						</div>
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">휴대전화</div>
 							<div style="display: grid; grid-template-columns: 35% 65%;">
+<!-- 
 								<div style="padding-right: 8px;">
 									<input style="width: 100%" class="payment-form-grid-input"
 										type="text">
 								</div>
-
-								<input class="payment-form-grid-input" type="text">
+ -->
+								<input class="payment-form-grid-input" type="text" name="tel ">
 							</div>
 						</div>
 
 						<div class="form-grid">
-							<div class="payment-form-grid-input-label">주소찾기</div>
+							<div class="payment-form-grid-input-label">주소</div>
 							<div style="display: grid; grid-template-columns: 35% 65%;">
-								<div style="padding-right: 8px;">
-									<input style="width: 100%" class="payment-form-grid-input"
-										type="text">
-								</div>
+								<div><button type="button" onclick="daumPostcode()">주소찾기</button></div>
+								<div><input type="text" name="postNum" id="postNum"></div>
+								<div><input type="text" name="address1" id="address1"></div>
+								<div><input type="text" name="address2" id="address2"></div>
 
-								<input class="payment-form-grid-input" type="text">
 							</div>
 						</div>
 					</div>
@@ -416,7 +418,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 							<!-- 총상품 원래가격 -->
 							<c:set var="orignalTotPrice"
 								value="${orignalTotPrice + productStock.price }"></c:set>
-							<!-- 총상품 가격(오리지널) -->
+							<!-- 총상품 가격 -->
 							<c:set var="totPrice" value="${totPrice + productPrice}" />
 						<c:set var="totDeliveryCost"
 							value="${totDeliveryCost + cart.deliveryCost}" />
@@ -488,61 +490,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 					</div>
 				</div>
 
-				<div class="flex-col payment-obj-container">
-					<div class="flex-row" style="align-items: center">
-						<div class="payment-obj-label">결제 수단</div>
-					</div>
 
-					<div class="border-line" style="margin: 15px 0;"></div>
-
-
-					<div class="flex-col">
-						<div class="payment-method-bundle">
-							<%--						<div class="flex-col" style="border: 1px solid black; width: 100%; height: 100%; align-items: center; padding: 15px">--%>
-							<%--							<div style="font-size: 14px;">카드</div>--%>
-							<%--							<img src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"} style="height: 60px; width: 60px;">--%>
-							<%--						</div>--%>
-
-							<div class="flex-col payment-method-container">
-								<div style="font-size: 14px;">카드</div>
-								<img
-									src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"
-									style="height: 60px; width: 60px;">
-							</div>
-
-							<div class="flex-col payment-method-container">
-								<div style="font-size: 14px;">카드</div>
-								<img
-									src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"
-									style="height: 60px; width: 60px;">
-							</div>
-
-							<div class="flex-col payment-method-container">
-								<div style="font-size: 14px;">카드</div>
-								<img
-									src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"
-									style="height: 60px; width: 60px;">
-							</div>
-
-							<div class="flex-col payment-method-container">
-								<div style="font-size: 14px;">카드</div>
-								<img
-									src="https://image.ohou.se/i/bucketplace-v2-development/pg/168311599350498640.png?w=180&h=180&c=c&webp=1"
-									style="height: 60px; width: 60px;">
-							</div>
-
-						</div>
-
-						<div class="flex-col"
-							style="padding: 10px; background-color: #F8F9FA; margin-top: 15px; font-size: 13px; color: rgb(130, 140, 148)">
-							<div>- [6/5~11] 네이버페이 10만원이상 결제시 3,000P적립 + 신한카드로 10만원이상
-								결제시 3,000P적립 (총 6천P) (적립시점: 7/14일, 중도 취소분 미반영)</div>
-							<div>- 네이버페이 기본적립 (네이버쇼핑 유입1% / 기타경로 0.2%) + 충전포인트결제 1.5% +
-								소득공제</div>
-						</div>
-
-					</div>
-				</div>
 			</div>
 
 			<div style="flex: 1; padding-left: 40px; margin-top: 40px">
@@ -560,6 +508,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 								<div class="payment-result-label">총 상품 금액</div>
 								<div style="font-weight: 700;">
 									<span><fmt:formatNumber value="${totPrice}" /></span>원
+									<input type="hidden" name="${finalTotPrice }" value="${finalTotPrice }">
 								</div>
 							</div>
 
@@ -600,7 +549,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 
 								<div
 									style="text-align: right; font-size: 13px; color: rgb(66, 66, 66); line-height: 16px; margin-top: 5px;">
-									<span style="font-weight: bold"><span><fmt:formatNumber value="${totPrice*0.001}" /></span> P</span> 적립 예정
+									<span style="font-weight: bold"><span> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${totPrice*0.001}" /></span> P</span> 적립 예정
 								</div>
 							</div>
 						</div>
@@ -642,15 +591,59 @@ IMP.init("imp68385626"); // 예: imp00000000
 						</div>
 					</div>
 
-					<div class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="requestPay()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
-						<span onclick="requestPay()" >1,031,300</span>원 결제하기
+						<span><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+	    function daumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var fullAddr = ''; // 최종 주소 변수
+	                var extraAddr = ''; // 조합형 주소 변수
+	
+	                // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    fullAddr = data.roadAddress;
+	
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    fullAddr = data.jibunAddress;
+	                }
+	
+	                // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    //법정동명이 있을 경우 추가한다.
+	                    if(data.bname !== ''){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있을 경우 추가한다.
+	                    if(data.buildingName !== ''){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+	                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+	                }
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('postNum').value = data.zonecode; //5자리 새우편번호 사용
+	                document.getElementById('address1').value = fullAddr;
+	
+	                // 커서를 상세주소 필드로 이동한다.
+	                document.getElementById('address2').focus();
+	            }
+	        }).open();
+	    }
+	</script>
+</form>
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
 </body>
 </html>

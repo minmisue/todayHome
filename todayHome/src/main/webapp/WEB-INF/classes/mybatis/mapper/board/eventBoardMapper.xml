@@ -29,4 +29,46 @@
 		FROM event_board
 		WHERE event_board_id = #{eventBoardId}
 	</select>
+	
+	<insert id="insertEventReply" parameterType="com.sp.app.domain.board.EventReply">
+		INSERT INTO event_board_comment(event_board_comment_id, event_board_id, member_id, content, reg_date)
+		VALUES (seq_event_board_comment.NEXTVAL, #{eventBoardId}, #{memberId}, #{content}, SYSDATE)
+	</insert>
+	
+	<select id="eventListReply" parameterType="map" resultType="com.sp.app.domain.board.EventReply">
+		SELECT eb.event_board_id as eventBoardId, name, eb.member_id as memberId,ebc.content
+		FROM event_board eb
+		JOIN member m on eb.member_id = m.member_id
+		LEFT OUTER JOIN (SELECT event_board_id,content, EVENT_BOARD_COMMENT_ID
+		FROM event_board_comment
+		group by EVENT_BOARD_COMMENT_ID,event_board_id,content) ebc on eb.event_board_id = ebc.event_board_id
+		WHERE eb.event_board_id = #{eventBoardId}
+		ORDER BY event_board_comment_id DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+	</select>
+	
+	<select id="replyCount" parameterType="long" resultType="Integer">
+		SELECT count(*) as dataCount
+		FROM event_board_comment
+		WHERE event_board_id = #{eventBoardId}
+		GROUP BY event_board_id
+	</select>
+	
+	<select id="eventWinnerMember" parameterType="com.sp.app.domain.board.EventBoard" resultType="com.sp.app.domain.board.EventBoard">
+		SELECT event_board_id as eventBoardId, ew.member_id as memberId, name, reg_date as regDate
+		FROM event_winner ew
+		JOIN member m on ew.member_id = m.member_id
+		WHERE event_board_id = #{eventBoardId}
+	</select>
+	
+	<update id="insertEventWinner" parameterType="com.sp.app.domain.board.EventBoard">
+		<![CDATA[
+		INSERT INTO event_winner(event_board_id, member_id, reg_date)
+		SELECT event_board_id, member_id, SYSDATE FROM (SELECT distinct ebc.member_id, event_board_id, SYSDATE from event_board_comment ebc
+		JOIN member m on ebc.member_id = m.member_id
+		WHERE event_board_id = #{eventBoardId}
+		ORDER BY DBMS_RANDOM.VALUE)
+		WHERE rownum <= #{winnerNumber};
+		]]>
+	</update>
 </mapper>

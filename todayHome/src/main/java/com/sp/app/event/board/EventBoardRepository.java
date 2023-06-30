@@ -3,6 +3,7 @@ package com.sp.app.event.board;
 import java.util.List;
 
 import com.sp.app.domain.board.EventBoard;
+import com.sp.app.domain.board.EventReply;
 
 public interface EventBoardRepository {
 	void insertEventBoard(EventBoard eventboard) throws Exception;
@@ -14,4 +15,14 @@ public interface EventBoardRepository {
 	List<EventBoard> getAllEventBoard() throws Exception;
 	
 	EventBoard getEventBoardById(Long eventBoardId) throws Exception;
+	
+	void insertEventReply(EventReply eventReply) throws Exception;
+	
+	List<EventReply> listReply(Long eventBoardId, int offset, int size) throws Exception;
+	
+	int replyCount(Long eventBoardId) throws Exception;
+	
+	void insertEventWinner(EventBoard eventBoard) throws Exception;
+	
+	List<EventBoard> eventWinnerMember(EventBoard eventBoard) throws Exception;
 }

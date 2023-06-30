@@ -3,38 +3,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productReview">
     <insert id="createReview" parameterType="com.sp.app.domain.product.ProductReview">
-        INSERT INTO product_review (product_review_id, member_id, product_id, rating, content, review_img_name)
-        VALUES (seq_product_review.nextval, #{memberId}, #{productId}, #{rating}, #{content}, #{reviewImgName , jdbcType=VARCHAR})
+        insert INTO product_review (order_item_id, rating, content,review_img_name)
+        VALUES (#{orderItemId}, #{rating}, #{content}, #{reviewImgName , jdbcType=VARCHAR})
     </insert>
 
     <update id="updateReview" parameterType="com.sp.app.domain.product.ProductReview">
-        UPDATE product_review SET rating = #{rating}, content = #{content}, review_img_name = #{reviewImgName} WHERE product_review_id = #{reviewId}
+        UPDATE product_review SET rating = #{rating}, content = #{content}, review_img_name = #{reviewImgName} WHERE ORDER_ITEM_ID = #{orderItemId}
     </update>
 
     <delete id="deleteReview" parameterType="Long">
-        DELETE product_review WHERE member_id = #{memberId} AND product_review_id = #{reviewId}
+        DELETE
+        FROM product_review
+        WHERE order_item_id IN (
+            SELECT pr.order_item_id
+            FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            JOIN order_bundle ob ON oi.order_id = ob.order_bundle_id
+            WHERE oi.order_item_id = #{orderItemId} AND ob.member_id = #{memberId}
+        )
     </delete>
 
     <select id="findReviewsByMemberId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
-        SELECT product_review_id AS reviewId, pr.member_id AS memberId, nickname, profile_img_name AS profileImgName, product_id AS productId, rating, content, pr.reg_date AS regDate, review_img_name AS reviewImgName
+        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName, stock_id AS stockId
         FROM product_review pr
-        JOIN member m ON pr.member_id = m.member_id
-        JOIN member_detail md ON m.member_id = md.member_id
-        WHERE pr.MEMBER_ID = #{memberId}
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+        JOIN member_detail md ON ob.member_id = md.member_id
+        JOIN product p ON oi.product_id = p.product_id
+        JOIN order_item_stock_bundle ois ON oi.order_item_id = ois.order_item_id
+        WHERE md.MEMBER_ID = #{memberId}
     </select>
 
     <select id="findReviewsByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
-        SELECT product_review_id AS productReviewId, pr.member_id AS memberId, nickname, profile_img_name AS profileImgName, product_id AS productId, rating, content, pr.reg_date AS regDate, review_img_name AS reviewImgName
+        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName, stock_id AS stockId
         FROM product_review pr
-        JOIN member m ON pr.member_id = m.member_id
-        JOIN member_detail md ON m.member_id = md.member_id
-        WHERE PRODUCT_ID = #{productId}
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+        JOIN member_detail md ON ob.member_id = md.member_id
+        JOIN product p ON oi.product_id = p.product_id
+        JOIN order_item_stock_bundle ois ON oi.order_item_id = ois.order_item_id
+        WHERE oi.PRODUCT_ID = #{productId}
     </select>
 
     <select id="getAverageRatingByProductId" parameterType="Long" resultType="Float">
-        SELECT ROUND(AVG(rating) * 2 ,0) / 2 AS rating
-        FROM product_review
-        WHERE product_id = #{productId}
+        SELECT NVL(ROUND(AVG(rating) * 2 ,0) / 2, 0) AS rating
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        WHERE oi.product_id = #{productId}
+    </select>
+    
+    <select id="getComposableProductList" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
+        SELECT oi.order_item_id AS orderItemId, p.product_id AS productId, p.product_name AS productName, osb.stock_id AS stockId, brand_name AS brandName
+        FROM order_item oi
+        JOIN order_status os ON oi.order_item_id = os.order_item_id
+        JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+        JOIN product p ON oi.product_id = p.product_id
+        JOIN order_item_stock_bundle osb ON oi.order_item_id = osb.order_item_id
+        JOIN seller s2 ON p.seller_id = s2.seller_id
+        WHERE ob.member_id = #{memberId} AND status = 4 and
+                oi.order_item_id NOT IN (SELECT oi.order_item_id
+                FROM order_item oi
+                JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+                JOIN product_review pr ON oi.order_item_id = pr.order_item_id
+                WHERE ob.member_id = #{memberId})
     </select>
 </mapper>
 

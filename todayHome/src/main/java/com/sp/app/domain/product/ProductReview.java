@@ -1,7 +1,7 @@
 package com.sp.app.domain.product;
 
 public class ProductReview {
-	private Long reviewId;
+	private Long orderItemId;
 	private Long memberId;
 	private String nickName;
 	private String profileImgName;
@@ -10,6 +10,10 @@ public class ProductReview {
 	private String regDate;
 	private String content;
 	private String reviewImgName;
+	private String productName;
+	private Long stockId;
+	private String stockString;
+	private String brandName;
 
 	public ProductReview() {
 	}
@@ -22,26 +26,70 @@ public class ProductReview {
 		this.reviewImgName = reviewImgName;
 	}
 
-	public ProductReview(Long reviewId, Float rating, String content, String reviewImgName) {
-		this.reviewId = reviewId;
+	public ProductReview(Long orderItemId, Float rating, String content, String reviewImgName) {
+		this.orderItemId = orderItemId;
 		this.rating = rating;
 		this.content = content;
 		this.reviewImgName = reviewImgName;
 	}
 
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public Long getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
+	}
+
+	public String getStockString() {
+		return stockString;
+	}
+
+	public void setStockString(String stockString) {
+		this.stockString = stockString;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductReview{" +
-				"reviewId=" + reviewId +
+				"orderItemId=" + orderItemId +
 				", memberId=" + memberId +
 				", nickName='" + nickName + '\'' +
 				", profileImgName='" + profileImgName + '\'' +
 				", productId=" + productId +
 				", rating=" + rating +
-				", createdDate='" + regDate + '\'' +
+				", regDate='" + regDate + '\'' +
 				", content='" + content + '\'' +
 				", reviewImgName='" + reviewImgName + '\'' +
+				", productName='" + productName + '\'' +
+				", stockId=" + stockId +
+				", stockString='" + stockString + '\'' +
+				", brandName='" + brandName + '\'' +
 				'}';
+	}
+
+	public Long getOrderItemId() {
+		return orderItemId;
+	}
+
+	public void setOrderItemId(Long orderItemId) {
+		this.orderItemId = orderItemId;
 	}
 
 	public Long getMemberId() {

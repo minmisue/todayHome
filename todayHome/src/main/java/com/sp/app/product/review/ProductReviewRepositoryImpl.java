@@ -2,6 +2,7 @@ package com.sp.app.product.review;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.product.ProductReview;
+import com.sp.app.domain.product.ReviewProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +27,11 @@ public class ProductReviewRepositoryImpl implements ProductReviewRepository {
 	}
 
 	@Override
-	public void deleteReview(Long memberId, Long reviewId) throws Exception {
+	public void deleteReview(Long memberId, Long orderItemId) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 
 		map.put("memberId", memberId);
-		map.put("reviewId", reviewId);
+		map.put("orderItemId", orderItemId);
 
 		commonDAO.deleteData("productReview.deleteReview", map);
 	}
@@ -48,5 +49,10 @@ public class ProductReviewRepositoryImpl implements ProductReviewRepository {
 	@Override
 	public Float getAverageRatingByProductId(Long productId) throws Exception {
 		return commonDAO.selectOne("productReview.getAverageRatingByProductId", productId);
+	}
+
+	@Override
+	public List<ProductReview> getComposableProductList(Long memberId) throws Exception {
+		return commonDAO.selectList("productReview.getComposableProductList", memberId);
 	}
 }

@@ -7,65 +7,32 @@
 <title>Home</title>
 
 <style>
-.main-container.review-home {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+
+.select-btn {
+    width: 100px;
+    margin-right: 3px;
+    display: inline-block;
+    box-sizing: border-box;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 15px;
 }
 
 .best {
-	width: 120px;
-	margin-left: 8px;
-	display: inline-block;
-	box-sizing: border-box;
-	font-weight: 700;
-	text-align: center;
-	color: #dbdbdb;
-	cursor: pointer;
-	padding: 7px 9px;
-	background-color: #ffffff;
-	border-color: #dbdbdb;
-	border-style: solid;
-	border-radius: 4px;
+    color: #35c5f0;
+    background-color: #ffffff;
+    border: 1px solid #3fc5f0;
 }
 
 .fast {
-	width: 120px;
-	margin-left: 8px;
-	display: inline-block;
-	box-sizing: border-box;
-	font-weight: 700;
-	text-align: center;
-	color: #35c5f0;
-	cursor: pointer;
-	padding: 7px 9px;
-	background-color: #ffffff;
-	border-color: #35c5f0;
-	border-style: solid;
-	border-radius: 4px;
+    color: #dbdbdb;
+    background-color: #ffffff;
+    border: 1px solid #dbdbdb;
 }
 
-.review-home-search-form-input {
-	flex: 1;
-	height: 40px;
-	line-height: 40px;
-	font-size: 15px;
-}
-
-.review-home-search-form-input::placeholder {
-	color: #999;
-}
-
-.form-control {
-	width: 900px;
-	display: inline-block;
-}
-
-.product-content-flex {
-	display: flex;
-	align-items: center;
-}
 
 .product-text-container {
 	display: flex;
@@ -146,7 +113,7 @@
 	<div class="main-container">
 		<div class="content review-home">
 			<div class="review-home-search">
-				<button class="best" onclick="location.href='${pageContext.request.contextPath}/production-review/best';"> 베스트순</button>
+				<button class="best" onclick="location.href='${pageContext.request.contextPath}/reviews/my-reviews/best'"> 베스트순</button>
 				<button class="fast"> 최신순</button>
 					<div class="flex-col" style="margin-top: 30px; gap: 10px">
 						<%

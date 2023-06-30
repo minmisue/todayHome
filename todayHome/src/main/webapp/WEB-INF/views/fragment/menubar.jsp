@@ -161,7 +161,7 @@
             <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">나의 쇼핑
                 <div class="arrow-container"></div>
             </div>
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/production-review/write'">나의 리뷰
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/reviews/write'">나의 리뷰
                 <div class="arrow-container"></div>
             </div>
             <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/edit'">설정
@@ -195,8 +195,8 @@
 
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/production-review/write'">리뷰쓰기</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/production-review/best'">내가 작성한 리뷰</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/reviews/write'">리뷰쓰기</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/reviews/my-reviews/best'">내가 작성한 리뷰</div>
 		</div>
 	</div>
 

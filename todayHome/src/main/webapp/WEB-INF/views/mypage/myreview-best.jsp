@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <html>
 <head>
@@ -14,57 +16,27 @@
 	justify-content: center;
 }
 
-.best {
-	width: 120px;
-	margin-left: 8px;
-	display: inline-block;
-	box-sizing: border-box;
-	font-weight: 700;
-	text-align: center;
-	color: #35c5f0;
-	cursor: pointer;
-	padding: 7px 9px;
-	background-color: #ffffff;
-	border-color: #3fc5f0;
-	border-style: solid;
-	border-radius: 4px;
-}
-
-.fast {
-	width: 120px;
-	margin-left: 8px;
-	display: inline-block;
-	box-sizing: border-box;
-	font-weight: 700;
-	text-align: center;
-	color: #dbdbdb;
-	cursor: pointer;
-	padding: 7px 9px;
-	background-color: #ffffff;
-	border-color: #dbdbdb;
-	border-style: solid;
-	border-radius: 4px;
-}
-
-.review-home-search-form-input {
-	flex: 1;
-	height: 40px;
-	line-height: 40px;
+.select-btn {
+	width: 100px;
+    margin-right: 3px;
+    display: inline-block;
+    box-sizing: border-box;
+    font-weight: 700;
+    text-align: center;
+    padding: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
 	font-size: 15px;
+
+    color: #dbdbdb;
+    background-color: #ffffff;
+    border: 1px solid #dbdbdb;
 }
 
-.review-home-search-form-input::placeholder {
-	color: #999;
-}
-
-.form-control {
-	width: 900px;
-	display: inline-block;
-}
-
-.product-content-flex {
-	display: flex;
-	align-items: center;
+.selected {
+    color: #35c5f0;
+    background-color: #ffffff;
+    border: 1px solid #3fc5f0;
 }
 
 .product-text-container {
@@ -94,14 +66,11 @@
 .date {
 	font-size: 12px;
 	color: #dbdbdb;
+    margin-left: 10px;
 }
 
 .review {
 	font-size: 12px;
-}
-
-.review-home-search-form-wrap {
-	align-items: center;
 }
 
 .flex-row{
@@ -109,17 +78,7 @@
 }
 </style>
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const starIcons = document.querySelectorAll('.star-rating');
 
-		starIcons.forEach(function(starIcon, index) {
-			starIcon.addEventListener('click', function() {
-				for (let i = 0; i <= index; i++) {
-					starIcons[i].classList.add('filled');
-				}
-			});
-		});
-	});
 </script>
 
 </head>
@@ -139,49 +98,91 @@
 		});
 	</script>
 
-
-
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 
 	<div class="main-container">
 		<div class="content review-home">
 			<div class="review-home-search">
-				<button class="best"> 베스트순</button>
-				<button class="fast" onclick="location.href='${pageContext.request.contextPath}/production-review/fast';"> 최신순</button>
+				<button class="select-btn selected" onclick="bestPage(this)"> 베스트순</button>
+				<button class="select-btn" onclick="recentPage(this)"> 최신순</button>
 					<div class="flex-col" style="margin-top: 30px; gap: 10px">
-						<%
-						for (int i = 0; i < 15; i++) {
-						%>
-						<div class="product-container flex-row"
-							style="justify-content: space-between; width: 100%">
-							<div class="flex-row" style="gap: 15px; align-items: center;">
-								<div class="product-text-container">
-									<div class="product-text subject">[루메나][오늘의딜]WARMER POT
-										워머팟 미니 온풍기</div>
-									<div class="product-text name">WARMER POT 코튼화이트</div>
-									<div class="star-rating">
-										<i class="fas fa-star"></i> 
-										<i class="fas fa-star"></i> 
-										<i class="fas fa-star"></i> 
-										<i class="fas fa-star"></i> 
-										<i class="fas fa-star-half-alt"></i>
-										<span class="date"> 2023/06/12 | 오늘의집 리뷰</span>
+						<c:forEach items="${productList}" var="product">
+							<div class="product-container flex-row"
+								style="justify-content: space-between; width: 100%">
+								<div class="flex-row" style="gap: 15px; align-items: center;">
+									<div class="product-text-container">
+										<div class="product-text subject">${product.productName}</div>
+										<div class="product-text name">${product.stockString}</div>
+
+										<div class="star-rating">
+											<c:set var="rating" value="${product.rating}"/>
+											<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>
+											<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>
+
+											<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->
+											<c:if test="${!first.equals('0')}">
+												<c:forEach begin="1" end="${first}">
+													<i class="fa-solid fa-star"></i>
+												</c:forEach>
+											</c:if>
+
+											<c:if test="${!first.equals('5')}">
+												<!-- 소숫점 숫자가 0이 아니라면 반별 -->
+												<c:if test="${!second.equals('0')}">
+													<i class="fa-solid fa-star-half-stroke"></i>
+												</c:if>
+												<!-- 0이라면 빈별 -->
+												<c:if test="${second.equals('0')}">
+													<i class="fa-regular fa-star"></i>
+												</c:if>
+
+												<!-- 5 - (앞자리+1) -->
+												<c:if test="${!first.equals('4')}">
+													<c:forEach begin="1" end="${4-first}">
+														<i class="fa-regular fa-star"></i>
+													</c:forEach>
+												</c:if>
+											</c:if>
+											<span class="date"> ${product.regDate} | 오늘의집 리뷰</span>
+										</div>
+
+										<div class="product-text review">${product.content}</div>
 									</div>
-									<div class="product-text review">너무 좋아요.너무 하얘서 좋아요.따뜻해요</div>
+								</div>
+
+								<div class="flex-col"
+									style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
+									<div style="font-size: 14px">수정</div>
 								</div>
 							</div>
-	
-							<div class="flex-col"
-								style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
-								<div style="font-size: 14px">수정</div>
-							</div>
-						</div>
-						<% } %>
+						</c:forEach>
 					</div>
 			</div>
 		</div>
 	</div>
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
+<script>
+	let selectBtn = $('.select-btn');
+
+    function selectBtnClass(obj) {
+        for (const x of selectBtn) {
+            if (x === obj) {
+                $(x).addClass('selected')
+            } else {
+                $(x).removeClass('selected')
+            }
+        }
+    }
+
+    function recentPage(obj) {
+        selectBtnClass(obj)
+    }
+
+    function bestPage(obj) {
+        selectBtnClass(obj)
+    }
+</script>
+
 </body>
 </html>

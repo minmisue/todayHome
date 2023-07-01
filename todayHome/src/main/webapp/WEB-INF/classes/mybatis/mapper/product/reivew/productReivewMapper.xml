@@ -24,24 +24,22 @@
     </delete>
 
     <select id="findReviewsByMemberId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
-        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName, stock_id AS stockId
+        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
         JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
         JOIN member_detail md ON ob.member_id = md.member_id
         JOIN product p ON oi.product_id = p.product_id
-        JOIN order_item_stock_bundle ois ON oi.order_item_id = ois.order_item_id
         WHERE md.MEMBER_ID = #{memberId}
     </select>
 
     <select id="findReviewsByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
-        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName, stock_id AS stockId
+        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
         JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
         JOIN member_detail md ON ob.member_id = md.member_id
         JOIN product p ON oi.product_id = p.product_id
-        JOIN order_item_stock_bundle ois ON oi.order_item_id = ois.order_item_id
         WHERE oi.PRODUCT_ID = #{productId}
     </select>
 
@@ -53,12 +51,11 @@
     </select>
     
     <select id="getComposableProductList" parameterType="Long" resultType="com.sp.app.domain.product.ProductReview">
-        SELECT oi.order_item_id AS orderItemId, p.product_id AS productId, p.product_name AS productName, osb.stock_id AS stockId, brand_name AS brandName
+        SELECT oi.order_item_id AS orderItemId, p.product_id AS productId, p.product_name AS productName, brand_name AS brandName
         FROM order_item oi
         JOIN order_status os ON oi.order_item_id = os.order_item_id
         JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
         JOIN product p ON oi.product_id = p.product_id
-        JOIN order_item_stock_bundle osb ON oi.order_item_id = osb.order_item_id
         JOIN seller s2 ON p.seller_id = s2.seller_id
         WHERE ob.member_id = #{memberId} AND status = 4 and
                 oi.order_item_id NOT IN (SELECT oi.order_item_id
@@ -66,6 +63,20 @@
                 JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
                 JOIN product_review pr ON oi.order_item_id = pr.order_item_id
                 WHERE ob.member_id = #{memberId})
+    </select>
+
+    <select id="getStockIdListByOrderItemId" parameterType="Long" resultType="Long">
+        SELECT osb.stock_id
+        FROM order_item oi
+        JOIN order_item_stock_bundle osb ON oi.order_item_id = osb.order_item_id
+        WHERE oi.order_item_id = #{memberId}
+    </select>
+
+    <select id="getReviewCount" parameterType="Long" resultType="int">
+        SELECT count(*) cnt
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        WHERE oi.product_id = #{productId};
     </select>
 </mapper>
 

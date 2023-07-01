@@ -109,4 +109,15 @@ public class ProductReviewRepositoryImplTest {
 			System.out.println(productReview);
 		}
 	}
+
+	@Test
+	public void getStockIdListByOrderItemId() throws Exception {
+		Long stockItemId = 41L;
+
+		List<Long> stockList = productReviewRepository.getStockIdListByOrderItemId(stockItemId);
+
+		for (Long stockId : stockList) {
+			System.out.println(stockId);
+		}
+	}
 }

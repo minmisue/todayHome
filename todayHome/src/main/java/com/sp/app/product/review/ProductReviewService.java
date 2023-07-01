@@ -21,4 +21,6 @@ public interface ProductReviewService {
 
 	List<ProductReview> getComposableProductList(Long memberId) throws Exception;
 
+	List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception;
+
 }

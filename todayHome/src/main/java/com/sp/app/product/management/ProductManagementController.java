@@ -8,8 +8,10 @@ import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductMainOption;
+import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
+import com.sp.app.product.review.ProductReviewService;
 import com.sp.app.seller.SellerService;
 import org.apache.poi.util.StringUtil;
 import org.apache.tiles.request.ApplicationContext;
@@ -41,6 +43,9 @@ public class ProductManagementController {
 
 	@Autowired
 	private ProductManagementService productManagementService;
+
+	@Autowired
+	private ProductReviewService productReviewService;
 
 	@Autowired
 	private SellerService sellerService;
@@ -124,13 +129,6 @@ public class ProductManagementController {
 		return "redirect:/home";
 	}
 
-	@PostMapping("get-map-test")
-	@ResponseBody
-	public String test(@RequestBody List<Object> map) {
-		System.out.println(map);
-		return "ok";
-	}
-
 	@GetMapping("product/{productId}")
 	public String productDetail(@SessionAttribute(value = "sessionInfo", required = false) SessionInfo sessionInfo,@PathVariable Long productId, Model model) {
 
@@ -146,8 +144,12 @@ public class ProductManagementController {
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
 
+		List<ProductReview> reviewList;
+		Float rating;
 		Seller seller;
 		try {
+			 reviewList = productReviewService.findReviewsByProductId(productId);
+			 rating= productReviewService.getAverageRatingByProductId(productId);
 			seller = sellerService.getSellerBySellerId(sellerId);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -164,6 +166,8 @@ public class ProductManagementController {
 		model.addAttribute("isScrap", isScrap);
 		model.addAttribute("scrapCnt", scrapCnt);
 		model.addAttribute("seller", seller);
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("rating", rating);
 
 		return "shop/product-detail";
 	}

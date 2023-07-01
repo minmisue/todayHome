@@ -60,16 +60,30 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 	private List<ProductReview> generateStockStringToReviewList(List<ProductReview> productReviews) throws Exception {
 		for (ProductReview productReview : productReviews) {
-			Long stockId = productReview.getStockId();
-			ProductStock stock = productManagementRepository.getStockByStockId(stockId);
+			Long orderItemId = productReview.getOrderItemId();
+			StringBuilder stockString = new StringBuilder();
+			List<Long> stockIdList = productReviewRepository.getStockIdListByOrderItemId(orderItemId);
+			for (Long stockId : stockIdList) {
+				ProductStock stock = productManagementRepository.getStockByStockId(stockId);
 
-			String stockString = stock.getMainOptionName1() + ": " + stock.getSubOptionName1();
-			if (stock.getSubOptionId2() != null) {
-				stockString += " / " + stock.getMainOptionName2() + ": " + stock.getSubOptionName2();
+				stockString.append(stock.getMainOptionName1()).append(": ").append(stock.getSubOptionName1());
+
+				if (stock.getSubOptionId2() != null) {
+					stockString.append(" / ").append(stock.getMainOptionName2()).append(": ").append(stock.getSubOptionName2());
+				}
+
+				stockString.append(" | ");
 			}
-			productReview.setStockString(stockString);
+			stockString.delete(stockString.length() - 3, stockString.length());
+
+			productReview.setStockString(stockString.toString());
 		}
 
 		return productReviews;
+	}
+
+	@Override
+	public List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception {
+		return productReviewRepository.getStockIdListByOrderItemId(orderItemId);
 	}
 }

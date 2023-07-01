@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -201,6 +202,15 @@
             color: white;
             transition: 0.5s;
         }
+
+        .selected-review-btn {
+			color: #65C2EC;
+        }
+
+        .star-rating i {
+            color: #35c5f0;
+        }
+
 	</style>
 </head>
 <body>
@@ -319,7 +329,6 @@
 			<c:forEach var="mainOption" items="${mainOptionList}" varStatus="status">
 				<select class="form-control select-option" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 15px; font-size: 15px; margin-top: 10px; ">
 					<option selected="" value="" disabled="">${mainOption.optionName}</option>
-
 					<c:if test="${status.index == 0}">
 						<c:forEach var="subOption" items="${mainOption.subOptions}">
 							<option value="${subOption.subOptionId}">${subOption.subOptionName}</option>
@@ -347,9 +356,9 @@
 <%--	</c:forEach>--%>
 
 
-	<div class="sub-menubar-container" style="margin: 50px 0px 30px 0px; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
-		<div class="sub-menubar" style="padding: 0 55px">
-			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center">상품정보</div>
+	<div class="sub-menubar-container" style="margin: 50px 0 30px 0; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
+		<div class="sub-menubar" style="padding: 0 55px; height: 48px">
+			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center; margin-bottom: -1px;">상품정보</div>
 			<div class="sub-item" style="width: 130px; text-align: center">리뷰 <span class="count">23,222</span></div>
 			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>
 			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>
@@ -358,23 +367,163 @@
 
 	<div class="content flex-row">
 		<div class="flex-col product-content">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/1.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/5.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/6.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/7.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/8.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/9.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/10.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/11.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/12.jpg">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/13.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/14.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/15.avif">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/16.webp">
-			<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/17.webp">
+			<div class="content-img-container flex-col" style="width: 100%;">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/1.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/5.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/6.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/7.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/8.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/9.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/10.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/11.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/12.jpg">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/13.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/14.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/15.avif">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/16.webp">
+				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/17.webp">
+			</div>
+
+			<div class="product-review-container flex-col">
+				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px">
+					<div>리뷰</div>
+					<div style="color: #65C2EC">541</div>
+				</div>
+
+				<div class="flex-row" style="justify-content: space-between; background-color: #F7F8FA; padding: 25px 60px; align-items: center; border-radius: 4px; margin-top: 15px">
+					<div class="flex-row" style="font-size: 22px; align-items: center; color: #65C2EC">
+						<div class="star-rating" style="margin-right: 8px">
+							<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>
+							<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>
+
+							<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->
+							<c:if test="${!first.equals('0')}">
+								<c:forEach begin="1" end="${first}">
+									<i class="fa-solid fa-star"></i>
+								</c:forEach>
+							</c:if>
+
+							<c:if test="${!first.equals('5')}">
+								<!-- 소숫점 숫자가 0이 아니라면 반별 -->
+								<c:if test="${!second.equals('0')}">
+									<i class="fa-solid fa-star-half-stroke"></i>
+								</c:if>
+								<!-- 0이라면 빈별 -->
+								<c:if test="${second.equals('0')}">
+									<i class="fa-regular fa-star"></i>
+								</c:if>
+
+								<!-- 5 - (앞자리+1) -->
+								<c:if test="${!first.equals('4')}">
+									<c:forEach begin="1" end="${4-first}">
+										<i class="fa-regular fa-star"></i>
+									</c:forEach>
+								</c:if>
+							</c:if>
+						</div>
+						<span style="margin-left: 12px; font-size: 34px; font-weight: 700; color: black">
+							${rating}
+						</span>
+					</div>
+					<div style="border-right: 1px solid #EDEDED; height: 100%"></div>
+					<div class="flex-col" style="font-size: 12px; color: #9e9e9e; gap: 5px">
+						<div class="flex-row" style="align-items: center">
+							<div>5점</div><div style="width: 140px; height: 5px; background-color: #DBDCE0; margin: 0 10px; border-radius: 4px"></div><div>455</div>
+						</div>
+						<div class="flex-row" style="align-items: center">
+							<div>4점</div><div style="width: 140px; height: 5px; background-color: #DBDCE0; margin: 0 10px; border-radius: 4px"></div><div>455</div>
+						</div>
+						<div class="flex-row" style="align-items: center">
+							<div>3점</div><div style="width: 140px; height: 5px; background-color: #DBDCE0; margin: 0 10px; border-radius: 4px"></div><div>455</div>
+						</div>
+						<div class="flex-row" style="align-items: center">
+							<div>2점</div><div style="width: 140px; height: 5px; background-color: #DBDCE0; margin: 0 10px; border-radius: 4px"></div><div>455</div>
+						</div>
+						<div class="flex-row" style="align-items: center">
+							<div>1점</div><div style="width: 140px; height: 5px; background-color: #DBDCE0; margin: 0 10px; border-radius: 4px"></div><div>455</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex-row" style="font-size: 13px; font-weight: 700; gap: 10px; padding: 20px 0; border-top: #EDEDED; border-bottom: #EDEDED; border-style: solid; border-left: none; border-right: none; margin-top: 20px">
+					<div class="selected-review-btn">베스트순</div>
+					<div>최신순</div>
+				</div>
+
+				<div class="review-container flex-col">
+					<c:forEach items="${reviewList}" var="reivew">
+						<div class="review flex-col" style="font-size: 13px; margin-top: 20px; padding-bottom: 50px; border: solid #EDEDED; border-width: 0 0 1px 0; margin-bottom: 20px;">
+							<div class="profile flex-row" style="align-items: center">
+								<div class="user-profile-img">
+									<img style="width: 24px; height: 24px; object-fit: cover; border-radius: 12px" src="${pageContext.request.contextPath}/resources/picture/default-profile.png"/>
+								</div>
+								<div class="flex-col" style="margin-left: 10px;">
+									<div>
+										${reivew.nickName}
+									</div>
+									<div class="flex-row" style="gap: 5px">
+										<div class="star-rating" style="margin-right: 8px">
+											<c:set var="rating" value="${reivew.rating}"/>
+											<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>
+											<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>
+
+											<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->
+											<c:if test="${!first.equals('0')}">
+												<c:forEach begin="1" end="${first}">
+													<i class="fa-solid fa-star"></i>
+												</c:forEach>
+											</c:if>
+
+											<c:if test="${!first.equals('5')}">
+												<!-- 소숫점 숫자가 0이 아니라면 반별 -->
+												<c:if test="${!second.equals('0')}">
+													<i class="fa-solid fa-star-half-stroke"></i>
+												</c:if>
+												<!-- 0이라면 빈별 -->
+												<c:if test="${second.equals('0')}">
+													<i class="fa-regular fa-star"></i>
+												</c:if>
+
+												<!-- 5 - (앞자리+1) -->
+												<c:if test="${!first.equals('4')}">
+													<c:forEach begin="1" end="${4-first}">
+														<i class="fa-regular fa-star"></i>
+													</c:forEach>
+												</c:if>
+											</c:if>
+										</div>
+										<div>
+											${reivew.regDate}
+										</div>
+										<div>
+											∙
+										</div>
+										<div>
+											오늘의집 구매
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="review-product-info flex-col" style="border: solid #EDEDED; border-width: 0 0 0 3px; padding: 0 10px; font-size: 13px; margin-top: 15px;">
+								<div style="font-weight: 600;">
+									${reivew.productName}
+								</div>
+								<div>
+									${reivew.stockString}
+								</div>
+							</div>
+							<div class="review-img" style="margin-top: 20px;">
+								<img style="width: 112px; height: 112px; object-fit: cover; border-radius: 4px" src="${pageContext.request.contextPath}/resources/picture/default-profile.png"/>
+							</div>
+							<div class="review-content" style="margin-top: 30px; font-size: 15px">
+								${reivew.content}
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
 		</div>
 
-		<div style="flex: 1; padding: 0 40px;">
+		<div style="flex: 1; padding: 0 40px; margin-left: 20px">
 			<div class="flex-col" style="width: 100%; position: sticky; top: 205px; justify-content: space-between; height: 74vh;">
 				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 10px; font-size: 15px">
 					<option selected="" value="" disabled="">색상</option>

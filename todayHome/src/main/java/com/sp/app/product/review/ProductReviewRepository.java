@@ -20,4 +20,6 @@ public interface ProductReviewRepository {
 	Float getAverageRatingByProductId(Long productId) throws Exception;
 
 	List<ProductReview> getComposableProductList(Long memberId) throws Exception;
+
+	List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception;
 }

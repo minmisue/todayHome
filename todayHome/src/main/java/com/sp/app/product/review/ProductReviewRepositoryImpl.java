@@ -55,4 +55,9 @@ public class ProductReviewRepositoryImpl implements ProductReviewRepository {
 	public List<ProductReview> getComposableProductList(Long memberId) throws Exception {
 		return commonDAO.selectList("productReview.getComposableProductList", memberId);
 	}
+
+	@Override
+	public List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception {
+		return commonDAO.selectList("productReview.getStockIdListByOrderItemId", orderItemId);
+	}
 }

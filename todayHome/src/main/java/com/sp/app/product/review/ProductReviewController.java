@@ -26,7 +26,6 @@ public class ProductReviewController {
 
 	@GetMapping("write")
 	public String commentList(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo, Model model) {
-		System.out.println("hello");
 
 		Long memberId = sessionInfo.getMemberId();
 
@@ -39,7 +38,6 @@ public class ProductReviewController {
 		}
 
 		model.addAttribute("productList", productList);
-		System.out.println(productList);
 
 		return "mypage/review-form";
 	}

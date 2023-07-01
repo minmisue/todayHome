@@ -65,7 +65,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 			String stockString = stock.getMainOptionName1() + ": " + stock.getSubOptionName1();
 			if (stock.getSubOptionId2() != null) {
-				stockString += " / " + stock.getMainOptionName2() + ": " + stock.getSubOptionId2();
+				stockString += " / " + stock.getMainOptionName2() + ": " + stock.getSubOptionName2();
 			}
 			productReview.setStockString(stockString);
 		}

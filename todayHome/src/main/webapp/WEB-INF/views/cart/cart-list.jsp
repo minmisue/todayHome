@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/fragment/static-header.jsp" />
@@ -104,10 +104,62 @@
 #selected-product-delete:hover {
 	cursor: pointer;
 }
-
-
 </style>
 <script type="text/javascript">
+function totCal() {
+	let cartIdList = $("input[name=cartId]");
+	// 상품
+	// 총 상품 금액 - 원래 금액
+	let finalCartPriceOriginal = 0;
+	let finalCartPrice = 0;
+	for(i=0;i<cartIdList.length;i++){
+		cartId = cartIdList[i].value;
+		stockList = document.querySelectorAll('.stockList' + cartId);
+		
+
+		let totPriceOriginal = 0;
+		let totPrice = 0;
+
+		// 옵션				
+		for(j=0;j<stockList.length;j++){
+			let priceList = stockList[j].querySelectorAll('input[name=price]');
+			let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
+			let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
+			// 할인 전 가격
+			let productStockPriceOriginal = 0;
+			// 할인 후 가격
+			let productStockPrice = 0;
+			// 옵션상세
+			for(k=0;k<priceList.length;k++){
+				let price = Number(priceList[k].value);
+				let disCountPercent = Number(disCountPercentList[k].value);
+				let cartQuantity = Number(cartQuantityList[k].value);
+				productStockPriceOriginal += price * cartQuantity;
+				
+				productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
+				
+				totPrice += productStockPrice;
+				totPriceOriginal += productStockPriceOriginal;
+			}
+			stockList[j].querySelector(".productPrice").innerHTML = productStockPrice.toLocaleString();
+		}
+		finalCartPriceOriginal += totPriceOriginal;
+		finalCartPrice += totPrice;
+		document.querySelector(".totPrice"+cartId).innerHTML = totPrice.toLocaleString();
+	}
+
+	let totDisCountPrice= finalCartPriceOriginal - finalCartPrice
+	document.querySelector(".finalCartPrice").innerHTML = finalCartPriceOriginal.toLocaleString();
+	document.querySelector(".totDisCountPrice").innerHTML = '-' +  (totDisCountPrice.toLocaleString());
+	
+	//document.querySelector(".finalDeliveryCost").innerHTML = finalDeliveryCost;
+	let totDeliveryCost = Number(document.querySelector('.finalDeliveryCost').innerText);
+	//alert(totDeliveryCost);
+	document.querySelector(".payPrice").innerHTML = (finalCartPriceOriginal + totDeliveryCost - totDisCountPrice).toLocaleString();
+
+}
+
+
 
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
@@ -118,6 +170,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 		//contentType : "application/json;charset=UTF-8",
 		success:function(data) {
 			fn(data);
+			//totCal();
 		},
 		beforeSend:function(jqXHR) {
 			jqXHR.setRequestHeader("AJAX", true);
@@ -135,7 +188,60 @@ function ajaxFun(url, method, query, dataType, fn) {
 		}
 	});
 }
+
+$(function() {
+	totCal();
+})
 </script>
+	<script type="text/javascript">
+	function minus(stockId,cartId,quantity,event) {
+		let $quantity = event.target.parentNode.nextSibling.nextSibling.innerHTML;
+
+		if($quantity <= 1){
+			alert('상품은 한개 이상 담아야합니다.');
+			return;
+		}
+		-- $quantity;
+		//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+		
+
+		let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
+		let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + $quantity;
+
+		const fn = function(data) {
+
+			event.target.parentNode.nextSibling.nextSibling.innerHTML = '';
+			event.target.parentNode.nextSibling.nextSibling.innerHTML = $quantity;
+			$('input#cartQuantity'+stockId).val($quantity);
+			totCal();
+		};
+		ajaxFun(url, "post", query, "json", fn);
+	}
+	function plus(stockId,cartId,quantity,event) {
+		let $quantity = event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML;
+		
+		if($quantity < 1){
+			alert('상품은 한개 이상 담아야합니다.');
+			return;
+		}
+		++ $quantity;
+		//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
+		
+
+		let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
+		let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + $quantity;
+
+		const fn = function(data) {
+
+			event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML = '';
+			event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML = $quantity;
+			$('input#cartQuantity'+stockId).val($quantity);
+			totCal();
+		};
+		ajaxFun(url, "post", query, "json", fn);
+	}
+
+	</script>
 </head>
 <body>
 	<script>
@@ -201,90 +307,9 @@ function ajaxFun(url, method, query, dataType, fn) {
 		function deleteStock(stockId) {
 			location.href = '${pageContext.request.contextPath}/cart/deleteStock?stockId='+ stockId;
 		}
+
+
 		
-		
-		function minus(stockId,cartId,quantity,event) {
-			let adjquantity = event.target.parentNode.nextSibling.nextSibling.innerHTML;
-
-			if(quantity <= 1){
-				alert('상품은 한개 이상 담아야합니다.');
-				return;
-			}
-			-- adjquantity;
-			//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
-			
-
-			let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
-			let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
-			event.target.parentNode.nextSibling.nextSibling.innerHTML ="";
-			event.target.parentNode.nextSibling.nextSibling.innerHTML=adjquantity;
-		
-			//event.target.parentNode.nextSibling.innerText ='';
-			//event.target.parentNode.nextSibling. = "80"; 
-//			const fn = function(data) {
-//				alert($EL.siblings('.cartQuantity').value)
-//			};
-			//ajaxFun(url, "post", query, "json", fn);
-		}
-		
-		function plus(stockId,cartId,quantity) {
-
-			++ quantity;
-			
-			location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
-		}
-		$(function() {
-			let cartIdList = $("input[name=cartId]");
-			// 상품
-			// 총 상품 금액 - 원래 금액
-			let finalCartPriceOriginal = 0;
-			let finalCartPrice = 0;
-			for(i=0;i<cartIdList.length;i++){
-				cartId = cartIdList[i].value;
-				stockList = document.querySelectorAll('.stockList' + cartId);
-				
-	
-				let totPriceOriginal = 0;
-				let totPrice = 0;
-
-				// 옵션				
-				for(j=0;j<stockList.length;j++){
-					let priceList = stockList[j].querySelectorAll('input[name=price]');
-					let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
-					let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
-					// 할인 전 가격
-					let productStockPriceOriginal = 0;
-					// 할인 후 가격
-					let productStockPrice = 0;
-					// 옵션상세
-					for(k=0;k<priceList.length;k++){
-						let price = Number(priceList[k].value);
-						let disCountPercent = Number(disCountPercentList[k].value);
-						let cartQuantity = Number(cartQuantityList[k].value);
-						productStockPriceOriginal += price * cartQuantity;
-						
-						productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
-						
-						totPrice += productStockPrice;
-						totPriceOriginal += productStockPriceOriginal;
-					}
-					stockList[j].querySelector(".productPrice").innerHTML = productStockPrice.toLocaleString();
-				}
-				finalCartPriceOriginal += totPriceOriginal;
-				finalCartPrice += totPrice;
-				document.querySelector(".totPrice"+cartId).innerHTML = totPrice.toLocaleString();
-			}
-
-			let totDisCountPrice= finalCartPriceOriginal - finalCartPrice
-			document.querySelector(".finalCartPrice").innerHTML = finalCartPriceOriginal.toLocaleString();
-			document.querySelector(".totDisCountPrice").innerHTML = '-' +  (totDisCountPrice.toLocaleString());
-			
-			//document.querySelector(".finalDeliveryCost").innerHTML = finalDeliveryCost;
-			let totDeliveryCost = Number(document.querySelector('.finalDeliveryCost').innerText);
-			//alert(totDeliveryCost);
-			document.querySelector(".payPrice").innerHTML = (finalCartPriceOriginal + totDeliveryCost - totDisCountPrice).toLocaleString();
-			
-		});
 		
 
 		
@@ -331,7 +356,8 @@ function ajaxFun(url, method, query, dataType, fn) {
 				<c:forEach var="cart" items="${cartList}" varStatus="status">
 
 					<input type="hidden" value="${cart.cartId}" name="cartId">
-					<input type="hidden" value="${cart.deliveryCost}" name="deliveryCost${cart.cartId}">
+					<input type="hidden" value="${cart.deliveryCost}"
+						name="deliveryCost${cart.cartId}">
 					<div class="flex-col cart-item-container"
 						style="margin-bottom: 30px;">
 						<div class="flex-col"
@@ -373,52 +399,58 @@ function ajaxFun(url, method, query, dataType, fn) {
 										</div>
 									</div>
 
-									<c:set var="totPrice" value="0"></c:set>
+
 									<c:set var="deliveryCost" value="0"></c:set>
 									<c:forEach var="productStock" items="${cart.productStockList}">
-									<div class="stockList${cart.cartId}">
-										<!-- 자바스크립트 계산을 위한 input태그 -->
-										<input type="hidden" value="${cart.discountPercent}"  name="discountPercent">
-										<!-- 상품 원래가격 -->
-										<input type="hidden" value="${productStock.price}"  name="price">
-										<!-- 옵션 별 수량-->
-										<!-- <input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity"> -->
-										
-										<div class="flex-col"
-											style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
-											<div class="flex-row"
-												style="justify-content: space-between; align-items: center">
-												<div
-													style="font-size: 14px; line-height: 18px; color: #2F3438">
-													${productStock.mainOptionName1 }:
-													${productStock.subOptionName1 } /
-													${productStock.mainOptionName2 }:
-													${productStock.subOptionName2 }</div>
-												<i onclick="deleteStock('${productStock.stockId}')"
-													class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
-											</div>
-											<div class="flex-row"
-												style="justify-content: space-between; align-items: center">
-												<div class="flex-row"
-													style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
-													<div class="quantity-btn minus-btn" onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
-														<i class="bi bi-dash"></i>
-													</div>
-													<div class="quantity-value">${productStock.cartQuantity}</div>
-													<input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity" id="cartQuantity${stockId}">
-													<div class="quantity-btn plus-btn" onclick="plus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}')">
-														<i class="bi bi-plus"></i>
-													</div>
-												</div>
-												<div style="line-height: 20px; font-weight: 700;">
+										<div class="stockList${cart.cartId}">
+											<!-- 자바스크립트 계산을 위한 input태그 -->
+											<input type="hidden" value="${cart.discountPercent}"
+												name="discountPercent">
+											<!-- 상품 원래가격 -->
+											<input type="hidden" value="${productStock.price}"
+												name="price">
+											<!-- 옵션 별 수량-->
+											<!-- <input type="hidden" value="${productStock.cartQuantity}"  name="cartQuantity"> -->
 
-													<span class="productPrice"></span>원
+											<div class="flex-col"
+												style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
+												<div class="flex-row"
+													style="justify-content: space-between; align-items: center">
+													<div
+														style="font-size: 14px; line-height: 18px; color: #2F3438">
+														${productStock.mainOptionName1 }:
+														${productStock.subOptionName1 } /
+														${productStock.mainOptionName2 }:
+														${productStock.subOptionName2 }</div>
+													<i onclick="deleteStock('${productStock.stockId}')"
+														class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
+												</div>
+												<div class="flex-row"
+													style="justify-content: space-between; align-items: center">
+													<div class="flex-row"
+														style="border: 1px solid rgb(218, 221, 224); width: 84px; height: 34px; justify-content: space-around; background-color: white; align-items: center; border-radius: 4px; font-size: 14px">
+														<div class="quantity-btn minus-btn"
+															onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
+															<i class="bi bi-dash"></i>
+														</div>
+														<div class="quantity-value">${productStock.cartQuantity}</div>
+														<input type="hidden" value="${productStock.cartQuantity}"
+															name="cartQuantity" id="cartQuantity${productStock.stockId}">
+														<div class="quantity-btn plus-btn"
+															onclick="plus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
+															<i class="bi bi-plus"></i>
+														</div>
+													</div>
+													<div style="line-height: 20px; font-weight: 700;">
+
+														<span class="productPrice"></span>원
+													</div>
 												</div>
 											</div>
 										</div>
-										</div>
-										<c:set var="deliveryCost" value="${deliveryCost + cart.deliveryCost}"></c:set>	
-											
+										<c:set var="deliveryCost"
+											value="${deliveryCost + cart.deliveryCost}"></c:set>
+
 									</c:forEach>
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
@@ -442,7 +474,8 @@ function ajaxFun(url, method, query, dataType, fn) {
 						</div>
 					</div>
 
-					<c:set var="totDeliveryCost" value="${totDeliveryCost + deliveryCost}" />
+					<c:set var="totDeliveryCost"
+						value="${totDeliveryCost + deliveryCost}" />
 				</c:forEach>
 
 			</div>
@@ -495,7 +528,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 			</div>
 
 		</div>
-
+	
 	</div>
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />

@@ -22,7 +22,7 @@ public class MailController {
 	@ResponseBody
 	public boolean sendSubmit(@RequestParam String email) throws Exception {
 		
-		Mail mail = new Mail();      
+		Mail mail = new Mail();
 		mail.setReceiverEmail(email);
 		mail.setContent("인증번호입니다.");
 		mail.setSubject("인증메일");

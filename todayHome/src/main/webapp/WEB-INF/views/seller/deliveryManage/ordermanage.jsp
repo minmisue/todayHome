@@ -38,7 +38,7 @@
 
     orderForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
+       
       const orderNumber = document.getElementById('orderNumber').value;
 
       const order = {

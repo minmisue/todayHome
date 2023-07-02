@@ -140,4 +140,22 @@ public class SellerController {
 		model.addAttribute("seller", seller);
 	return "seller/status/status-check";
 	}
+	
+	@GetMapping("seller/deliveryManage")
+	public String deliveryManage() {
+		
+		return ".seller.deliveryManage.deliverymanage";
+	}
+	
+	@GetMapping("seller/orderManage")
+	public String orderManage() {
+		
+		return ".seller.deliveryManage.ordermanage";
+	}
+	
+	@GetMapping("seller/refund")
+	public String refundManage() {
+		
+		return ".seller.refund.refund";
+	}
 }

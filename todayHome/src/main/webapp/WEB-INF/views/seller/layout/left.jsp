@@ -106,7 +106,7 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">상품 등록</a>
+					<a href="<c:url value='/seller/product'/>" class="sub_menu--link">상품 등록</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">상품 수정</a>
@@ -128,23 +128,23 @@ $(function(){
 
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">배송조회/수정</a>
+					<a href="<c:url value='/seller/deliveryManage'/>" class="sub_menu--link">배송조회/수정</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">주문 조회</a>
+					<a href="<c:url value='/seller/orderManage'/>" class="sub_menu--link">주문 조회</a>
 				</li>
 			</ul>
 		</li>
 
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="반품/환불 관리">
+	        <a href="<c:url value='/seller/refund'/>" class="menu--link" title="반품/환불 관리">
 				<i class="menu--icon  fa-fw fa-solid fa-money-bill-transfer"></i>
 				<span class="menu--label">반품/환불 관리</span>
 			</a>
 		</li>
 
 		<li class="menu--item">
-	        <a href="${pageContext.request.contextPath}/seller/adjustment/list" class="menu--link" title="반품/환불 관리">
+	        <a href="<c:url value='/seller/adjustment/list'/>" class="menu--link" title="정산 현황">
 				<i class="menu--icon  fa-fw fa-solid fa-calculator"></i>
 				<span class="menu--label">정산 현황</span>
 			</a>

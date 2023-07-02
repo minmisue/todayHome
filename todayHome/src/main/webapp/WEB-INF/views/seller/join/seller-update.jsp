@@ -282,8 +282,8 @@ tbody{
 	<div class="main-container">
 		<div class="content">
 			<div class="container">
-				<div class="seller-layout_header">
-					<h1 class="seller-layout_header_title">판매자 수정</h1>
+				<div >
+					<h2 ><i class="menu--icon  fa-fw fa-solid fa-user-group"></i>판매자 수정</h2>
 				</div>
 				<div class="seller-layout_divider">
 					<hr class="col-10 seller-layout_hr">

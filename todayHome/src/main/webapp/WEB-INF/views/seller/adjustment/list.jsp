@@ -106,7 +106,7 @@ function search() {
 
 <div class="body-container">
   <div class="body-title">
-    <h1>정산 현황</h1>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-calculator"></i> 정산 현황 </h2>
   </div>
   
   <div class="search-container">

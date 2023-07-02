@@ -4,7 +4,16 @@ public class SellerSessionInfo {
 	private Long sellerId;
 	private int status;
 	private String sellerName;
+	private Long adjustmentId;
 	
+
+	public Long getAdjustmentId() {
+		return adjustmentId;
+	}
+
+	public void setAdjustmentId(Long adjustmentId) {
+		this.adjustmentId = adjustmentId;
+	}
 
 	public SellerSessionInfo(Long sellerId,int status,String sellerName) {
 		super();

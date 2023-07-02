@@ -32,7 +32,7 @@
                        <hr class="mt-4">
                        
 	                <div class="d-grid p-3">
-						<p class="text-center">김동규님의 판매자 신청이 완료되었습니다.</p>
+						<p class="text-center">판매자 신청이 완료되었습니다.</p>
 	                </div>
                        
                        <div class="d-grid">

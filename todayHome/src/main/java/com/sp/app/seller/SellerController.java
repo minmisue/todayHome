@@ -131,4 +131,13 @@ public class SellerController {
 		}
 		return false;
 	}
+	@GetMapping("seller/status")
+	public String statusCheck(Model model, HttpSession httpSession) throws Exception{
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+		Long sellerId = sellerSessionInfo.getSellerId();
+		Seller seller = sellerService.getSellerStatus(sellerId);
+		
+		model.addAttribute("seller", seller);
+	return "seller/status/status-check";
+	}
 }

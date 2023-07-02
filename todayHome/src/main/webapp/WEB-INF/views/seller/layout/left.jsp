@@ -143,20 +143,13 @@ $(function(){
 			</a>
 		</li>
 
-		<li class="menu--item menu--item__has_sub_menu">
-			<label class="menu--link" title="정산">
+		<li class="menu--item">
+	        <a href="${pageContext.request.contextPath}/seller/adjustment/list" class="menu--link" title="반품/환불 관리">
 				<i class="menu--icon  fa-fw fa-solid fa-calculator"></i>
-				<span class="menu--label">정산</span>
-			</label>
-			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="<c:url value='/seller/adjustment/adjustment'/>" class="sub_menu--link">정산 리스트</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">매출 리스트</a>
-				</li>
-			</ul>
+				<span class="menu--label">정산 현황</span>
+			</a>
 		</li>
+
 
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="고객 관리">
@@ -187,7 +180,7 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">상태 확인</a>
+					<a href="<c:url value='/seller/status'/>" class="sub_menu--link">상태 확인</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/seller/update'/>" class="sub_menu--link">판매자 정보 수정</a>

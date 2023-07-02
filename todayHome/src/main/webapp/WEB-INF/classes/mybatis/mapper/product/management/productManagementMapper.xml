@@ -191,4 +191,10 @@
         FROM product_scrap
         WHERE product_id = #{productId}
     </select>
+
+    <delete id="deleteProductImg" parameterType="map">
+        DELETE
+        FROM product_img
+        WHERE product_id = #{productId} AND type = #{type}
+    </delete>
 </mapper>

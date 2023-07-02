@@ -247,33 +247,35 @@
 		<div class="product-img-container flex-row">
 			<%-- 미리보기 --%>
 			<div class="flex-col preview-img-container-bundle">
-				<div class="preview-img-container selected-preview-img">
-					<img style="width: 100%; height: 100%"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
-				</div>
 
-				<div class="preview-img-container">
-					<img style="width: 100%; height: 100%"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/2.webp">
-				</div>
+				<c:forEach items="${product.productImgList}" var="productImg">
+					<div class="preview-img-container selected-preview-img">
+						<img style="width: 100%; height: 100%"
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${productImg.saveName}">
+					</div>
+				</c:forEach>
 
-				<div class="preview-img-container">
-					<img style="width: 100%; height: 100%"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/3.webp">
-				</div>
+<%--				<div class="preview-img-container">--%>
+<%--					<img style="width: 100%; height: 100%"--%>
+<%--						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/2.webp">--%>
+<%--				</div>--%>
 
-				<div class="preview-img-container">
-					<img style="width: 100%; height: 100%"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/5.webp">
-				</div>
+<%--				<div class="preview-img-container">--%>
+<%--					<img style="width: 100%; height: 100%"--%>
+<%--						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/3.webp">--%>
+<%--				</div>--%>
+
+<%--				<div class="preview-img-container">--%>
+<%--					<img style="width: 100%; height: 100%"--%>
+<%--						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/5.webp">--%>
+<%--				</div>--%>
 			</div>
 			<div style="flex: 1;">
 				<div style="aspect-ratio: 1/1">
 					<img class="product-img"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
+						 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.productImgList[0].saveName}">
 				</div>
 			</div>
-
 		</div>
 
 		<%-- 상품 옵션 및 버튼 --%>
@@ -368,24 +370,28 @@
 	<div class="content flex-row">
 		<div class="flex-col product-content">
 			<div class="content-img-container flex-col" style="width: 100%;">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/1.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/5.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/6.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/7.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/8.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/9.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/10.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/11.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/12.jpg">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/13.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/14.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/15.avif">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/16.webp">
-				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/17.webp">
+				<c:forEach items="${product.contentImgList}" var="productImg">
+					<img style="width: 100%; height: 100%"
+						 src="${pageContext.request.contextPath}/resources/picture/shop/product/content/${productImg.saveName}">
+				</c:forEach>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/1.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/5.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/6.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/7.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/8.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/9.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/10.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/11.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/12.jpg">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/13.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/14.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/15.avif">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/16.webp">--%>
+<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/17.webp">--%>
 			</div>
 
 			<div class="product-review-container flex-col">
-				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px">
+				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px; margin-top: 20px;">
 					<div>리뷰</div>
 					<div style="color: #65C2EC">541</div>
 				</div>

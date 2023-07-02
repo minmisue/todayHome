@@ -190,4 +190,13 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public int getQuantityByStockId(Long stockId) throws Exception {
 		return commonDAO.selectOne("productManagement.getQuantityByStockId", stockId);
 	}
+
+	@Override
+	public void deleteProductImg(Long productId, int type) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("type", type);
+
+		commonDAO.deleteData("productManagement.deleteProductImg", map);
+	}
 }

@@ -71,4 +71,6 @@ public interface ProductManagementService {
 	void updateStockQuantity(Long stockId, int quantity);
 
 	int getQuantityByStockId(Long stockId);
+
+	void deleteProductImg(Long productId, int type);
 }

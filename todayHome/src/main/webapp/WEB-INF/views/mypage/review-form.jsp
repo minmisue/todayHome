@@ -186,6 +186,22 @@
             padding: 10px 0;
             color: white;
         }
+
+        .photoAttach{
+            font-size: 14px;
+            font-weight: 350;
+            border-radius: 4px;
+            padding: 8px 20px;
+            border: none;
+            background-color: rgb(53, 197, 240);
+            color: white;
+        }
+
+        .custom-file-input {
+            position:  relative;
+            display: inline-block;
+            cursor: pointer;
+        }
 	</style>
 </head>
 <body>
@@ -272,6 +288,11 @@
 					</div>
 					<div class="review-picture-container" style="margin-top: 15px;">
 						<button type="button" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6">사진 첨부하기</button>
+					</div>
+
+					<div class="custom-file-input">
+						<input type="file" name="selectFile" id="selectFile" accept="image/*" class="photoAttach">
+						<label for="selectFile">사진 첨부하기</label>
 					</div>
 
 					<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>

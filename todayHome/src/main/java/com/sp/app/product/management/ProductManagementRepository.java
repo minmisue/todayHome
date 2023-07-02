@@ -79,4 +79,6 @@ public interface ProductManagementRepository {
 	void updateStockQuantity(Long stockId, int quantity) throws Exception;
 
 	int getQuantityByStockId(Long stockId) throws Exception;
+
+	void deleteProductImg(Long productId, int type) throws Exception;
 }

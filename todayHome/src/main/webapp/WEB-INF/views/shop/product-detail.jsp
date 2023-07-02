@@ -249,7 +249,7 @@
 			<div class="flex-col preview-img-container-bundle">
 
 				<c:forEach items="${product.productImgList}" var="productImg">
-					<div class="preview-img-container selected-preview-img">
+					<div class="preview-img-container">
 						<img style="width: 100%; height: 100%"
 							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${productImg.saveName}">
 					</div>
@@ -456,7 +456,7 @@
 				</div>
 
 				<div class="review-container flex-col">
-					<c:forEach items="${reviewList}" var="reivew">
+					<c:forEach items="${reviewList}" var="review">
 						<div class="review flex-col" style="font-size: 13px; margin-top: 20px; padding-bottom: 50px; border: solid #EDEDED; border-width: 0 0 1px 0; margin-bottom: 20px;">
 							<div class="profile flex-row" style="align-items: center">
 								<div class="user-profile-img">
@@ -464,11 +464,11 @@
 								</div>
 								<div class="flex-col" style="margin-left: 10px;">
 									<div>
-										${reivew.nickName}
+										${review.nickName}
 									</div>
 									<div class="flex-row" style="gap: 5px">
 										<div class="star-rating" style="margin-right: 8px">
-											<c:set var="rating" value="${reivew.rating}"/>
+											<c:set var="rating" value="${review.rating}"/>
 											<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>
 											<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>
 
@@ -498,7 +498,7 @@
 											</c:if>
 										</div>
 										<div>
-											${reivew.regDate}
+											${review.regDate}
 										</div>
 										<div>
 											∙
@@ -511,17 +511,17 @@
 							</div>
 							<div class="review-product-info flex-col" style="border: solid #EDEDED; border-width: 0 0 0 3px; padding: 0 10px; font-size: 13px; margin-top: 15px;">
 								<div style="font-weight: 600;">
-									${reivew.productName}
+									${review.productName}
 								</div>
 								<div>
-									${reivew.stockString}
+									${review.stockString}
 								</div>
 							</div>
 							<div class="review-img" style="margin-top: 20px;">
-								<img style="width: 112px; height: 112px; object-fit: cover; border-radius: 4px" src="${pageContext.request.contextPath}/resources/picture/default-profile.png"/>
+								<img style="width: 112px; height: 112px; object-fit: cover; border-radius: 4px" src="${pageContext.request.contextPath}/resources/picture/shop/product/review/${review.reviewImgName}"/>
 							</div>
 							<div class="review-content" style="margin-top: 30px; font-size: 15px">
-								${reivew.content}
+								${review.content}
 							</div>
 						</div>
 					</c:forEach>
@@ -579,14 +579,30 @@
             stockId: ${productStock.stockId},
             optionPrice: ${productStock.optionPrice},
             quantity: ${productStock.quantity},
-            mainOptionId1: ${productStock.mainOptionId1},
-            mainOptionId2: ${productStock.mainOptionId2},
-            subOptionId1: ${productStock.subOptionId1},
-            subOptionId2: ${productStock.subOptionId2},
-            subOptionName1: '${productStock.subOptionName1}',
-            subOptionName2: '${productStock.subOptionName2}',
-            mainOptionName1: '${productStock.mainOptionName1}',
-            mainOptionName2: '${productStock.mainOptionName2}',
+            <c:if test="${productStock.mainOptionId1 != null}">
+            	mainOptionId1: ${productStock.mainOptionId1},
+			</c:if>
+			<c:if test="${productStock.mainOptionId2 != null}">
+            	mainOptionId2: ${productStock.mainOptionId2},
+            </c:if>
+            <c:if test="${productStock.subOptionId1 != null}">
+            	subOptionId1: ${productStock.subOptionId1},
+			</c:if>
+            <c:if test="${productStock.subOptionId2 != null}">
+            	subOptionId2: ${productStock.subOptionId2},
+			</c:if>
+            <c:if test="${productStock.subOptionName1 != null}">
+            	subOptionName1: '${productStock.subOptionName1}',
+			</c:if>
+            <c:if test="${productStock.subOptionName2 != null}">
+            	subOptionName2: '${productStock.subOptionName2}',
+			</c:if>
+            <c:if test="${productStock.mainOptionName1 != null}">
+            	mainOptionName1: '${productStock.mainOptionName1}',
+			</c:if>
+            <c:if test="${productStock.mainOptionName2 != null}">
+            	mainOptionName2: '${productStock.mainOptionName2}',
+			</c:if>
             productId: ${productStock.productId}
         }<c:if test="${not status.last}">,</c:if>
         </c:forEach>
@@ -642,23 +658,26 @@
 
 				let selectedOption = getSelectedOption();
 
-                console.log(selectedOption)
-
-                console.log('[0][0]' + selectedOption[0][0] + ' [1][0]' + selectedOption[1][0])
+                // console.log(selectedOption)
+                // console.log('[0][0]' + selectedOption[0][0] + ' [1][0]' + selectedOption[1][0])
 
 				let selectOptionInfo
 
 				if (mainOptionCnt === 0) {
                     selectOptionInfo = stockList[0];
                 } else if (mainOptionCnt === 1) {
-                    stockList.find(function (item) {
-                        selectOptionInfo = parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]);
+                    selectOptionInfo = stockList.find(function (item) {
+                        return parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]);
                     })
 				} else if (mainOptionCnt === 2) {
                     selectOptionInfo = stockList.find(function (item) {
                         return parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]) && parseInt(item.subOptionId2) === parseInt(selectedOption[1][0])
                     })
 				}
+
+                console.log(stockList);
+
+                console.log(selectedOption);
 
                 let stockId = selectOptionInfo.stockId;
                 let allSelectedOptions = getAllSelectedOptions();
@@ -863,6 +882,12 @@
 </script>
 
 <script>
+	// 미리보기 첫번째만 선택
+    $(function () {
+
+        $($('.preview-img-container')[0]).addClass('selected-preview-img')
+    });
+
 	// 미리보기 이미지 오버시 이미지 변경 스크립트
     $(function () {
         let $preview = $('.preview-img-container');

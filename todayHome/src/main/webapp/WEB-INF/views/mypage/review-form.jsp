@@ -187,19 +187,19 @@
             color: white;
         }
 
-        .photoAttach{
-            font-size: 14px;
-            font-weight: 350;
-            border-radius: 4px;
-            padding: 8px 20px;
-            border: none;
-            background-color: rgb(53, 197, 240);
-            color: white;
-        }
-
-        .custom-file-input {
+        .review-picture-container {
             position:  relative;
             display: inline-block;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .review-picture-container input[type="file"] {
+            /*position: absolute;*/
+			display: none;
+        }
+		
+		.review-picture-container label:hover {
             cursor: pointer;
         }
 	</style>
@@ -286,13 +286,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="review-picture-container" style="margin-top: 15px;">
-						<button type="button" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6">사진 첨부하기</button>
-					</div>
 
-					<div class="custom-file-input">
-						<input type="file" name="selectFile" id="selectFile" accept="image/*" class="photoAttach">
-						<label for="selectFile">사진 첨부하기</label>
+					<div class="review-picture-container">
+						<input type="file" name="reviewImg" id="reviewImg" accept="image/*" class="photoAttach">
+						<label for="reviewImg" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6; text-align: center">사진 첨부하기</label>
+<%--						<label for="selectFile">사진 첨부하기</label>--%>
 					</div>
 
 					<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>

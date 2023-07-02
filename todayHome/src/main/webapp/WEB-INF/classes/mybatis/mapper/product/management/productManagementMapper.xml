@@ -150,10 +150,10 @@
                     option_price AS optionPrice, pso.option_detail_id as subOptionId1,
                     pso2.option_detail_id AS subOPtionId2, QUANTITY
                 FROM stock s
-                JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
-                JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
-                JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
-                JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+                LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
+                LEFT JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
+                LEFT JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
         WHERE pmo.product_id = #{productId}
         ORDER BY subOptionId1, subOPtionId2
     </select>

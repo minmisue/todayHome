@@ -173,6 +173,10 @@ public class ProductManagementController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("rating", rating);
 
+		for (ProductStock stock : stockList) {
+			System.out.println(stock);
+		}
+
 		return "shop/product-detail";
 	}
 

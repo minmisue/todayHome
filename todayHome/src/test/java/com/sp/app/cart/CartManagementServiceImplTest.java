@@ -36,7 +36,7 @@ public class CartManagementServiceImplTest {
 
 			CartOptionMap cartOptionMap = new CartOptionMap();
 			cartOptionMap.setStockId(42L);
-			cartOptionMap.setQuantity(8L);
+			cartOptionMap.setQuantity(1L);
 			List<CartOptionMap> stockList = new ArrayList<CartOptionMap>();
 			stockList.add(cartOptionMap);
 			cart.setStockList(stockList);

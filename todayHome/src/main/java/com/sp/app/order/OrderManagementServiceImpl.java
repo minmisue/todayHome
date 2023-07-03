@@ -1,5 +1,6 @@
 package com.sp.app.order;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String productOrderNumber() {
+		String productOrderNumber = "todayHome_" + String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance())
+				+ System.nanoTime();
+		return productOrderNumber;
 	}
 
 }

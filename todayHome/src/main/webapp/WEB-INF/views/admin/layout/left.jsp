@@ -69,7 +69,7 @@ $(function(){
 			<span class="roll-user">
 				<label class="roll">관리자</label>
 				<label class="user">
-					<span class="name">${sessionScope.member.userName} 님</span>
+					<span class="name">관리자</span>
 					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 				</label>
 			</span>
@@ -88,11 +88,22 @@ $(function(){
 			</a>
 		</li>
 
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="회원 관리">
+		<li class="menu--item menu--item__has_sub_menu">
+	        <label class="menu--link" title="회원 관리">
 				<i class="menu--icon  fa-fw fa-solid fa-user-group"></i>
 				<span class="menu--label">회원 관리</span>
-			</a>
+			</label>
+			
+			<ul class="sub_menu">
+				<li class="sub_menu--item">
+					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">일반 회원</a>
+				</li>
+			</ul>
+			<ul class="sub_menu">
+				<li class="sub_menu--item">
+					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">판매자</a>
+				</li>
+			</ul>					
 		</li>
 	
 		<li class="menu--item menu--item__has_sub_menu">
@@ -103,16 +114,13 @@ $(function(){
 
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">이벤트 글 생성</a>
+					<a href="<c:url value='/admin/event/list'/>" class="sub_menu--link">이벤트 글 생성</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">회원 글 리스트</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">회원 글 수정</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">판매자 공지 생성</a>
 				</li>
 			</ul>
 		</li>

@@ -224,14 +224,92 @@ form .form-control {
 }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+</head>
+<body>
+<header>
+	<div class="menubar-container">
+		<div class="menubar-item-bundle" style="gap: 30px">
+			<img class="logo" src="${pageContext.request.contextPath}/resources/picture/logo.png" onclick="location.href='${pageContext.request.contextPath}/home'">
+		</div>
+
+		<div class="menubar-item-bundle" style="gap: 18px">
+			<button type="button" class="abledButton" onclick="sendOk();">올리기</button>
+			<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
+		</div>
+	</div>
+</header>
+<main>
+	<div class="container body-container">
+	    <div class="body-title">
+			<h2><i class="far fa-image"></i> </h2>
+	    </div>
+	    
+	    <div class="body-main mx-auto">
+			<form name="postsForm" method="post" enctype="multipart/form-data">
+				
+				<div class="content-area sortable">
+					<div class="content-row ui-state-default">
+						<div class="left-item">
+							<div class="image-main">
+								<img class="img-add" style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
+								<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
+								<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
+								<input type="file" name="selectFile" accept="image/*" style="display: none;">
+								<label for="selectFile">PC에서 불러오기</label>
+								<div class="img-viewer"></div>
+							</div>
+							<div class="image-footer">
+								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
+								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
+								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
+							</div>
+						</div>
+						<div class="right-item">
+							<div>
+								<textarea name="contents" class="photointroduction" placeholder="어떤 사진인지 짧은 소개로 시작해보세요."></textarea>
+							</div>
+							<div>
+							<select class="contentCategory" name="userBoardContentCategoryIds" id="userBoardContentCategoryId">
+									<option value="0" style="color: rgb(194, 200, 204)">공간 정보 추가</option>
+									<option value="1">원룸</option>
+									<option value="2">거실</option>
+									<option value="3">침실</option>
+									<option value="4">주방</option>
+									<option value="5">욕실</option>
+									<option value="6">아이방</option>
+									<option value="7">드레스룸</option>
+									<option value="8">서재,작업실</option>
+									<option value="9">베란다</option>
+									<option value="10">사무공간</option>
+									<option value="11">상업공간</option>
+									<option value="12">가구,소품</option>
+									<option value="13">현관</option>
+									<option value="14">외관,기타</option>
+							</select>
+							</div>
+							<div>
+								<input type="text" name="contentSequences" value="1">
+								<input type="text" name="positions">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>	    
+	</div>
+
+</main>
+	
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script type="text/javascript">
 function sendOk() {
 	const f = document.postsForm;
 	
-	f.action = "${pageContext.request.contextPath}/community/picture/write";
+	f.action = "${pageContext.request.contextPath}/community/picture/${mode}";
 	
 	f.submit();
 }
@@ -334,7 +412,7 @@ $(function(){
 	function numberSetting() {
 		let n = 1;
 		
-		let inputEls = document.querySelectorAll("form input[name=numbers]");
+		let inputEls = document.querySelectorAll("form input[name=contentSequences]");
 		for(let el of inputEls) {
 			el.value = n++;
 		}
@@ -396,82 +474,6 @@ $(function(){
     });
 });
 </script>
-
-</head>
-<body>
-<header>
-	<div class="menubar-container">
-		<div class="menubar-item-bundle" style="gap: 30px">
-			<img class="logo" src="${pageContext.request.contextPath}/resources/picture/logo.png" onclick="location.href='${pageContext.request.contextPath}/home'">
-		</div>
-
-		<div class="menubar-item-bundle" style="gap: 18px">
-			<button type="button" class="abledButton" onclick="sendOk();">올리기</button>
-			<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
-		</div>
-	</div>
-</header>
-<main>
-	<div class="container body-container">
-	    <div class="body-title">
-			<h2><i class="far fa-image"></i> </h2>
-	    </div>
-	    
-	    <div class="body-main mx-auto">
-			<form name="postsForm" method="post" enctype="multipart/form-data">
-				
-				<div class="content-area sortable">
-					<div class="content-row ui-state-default">
-						<div class="left-item">
-							<div class="image-main">
-								<img class="img-add" style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
-								<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
-								<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
-								<input type="file" name="selectFile" accept="image/*" style="display: none;">
-								<label for="selectFile">PC에서 불러오기</label>
-								<div class="img-viewer"></div>
-							</div>
-							<div class="image-footer">
-								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
-								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
-								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
-							</div>
-						</div>
-						<div class="right-item">
-							<div>
-								<textarea name="contents" class="photointroduction" placeholder="어떤 사진인지 짧은 소개로 시작해보세요."></textarea>
-							</div>
-							<div>
-							<select class="contentCategory" name="userBoardContentCategoryIds" id="userBoardContentCategoryId">
-									<option style="color: rgb(194, 200, 204)">공간 정보 추가</option>
-									<option value="1">원룸</option>
-									<option value="2">거실</option>
-									<option value="3">침실</option>
-									<option value="4">주방</option>
-									<option value="5">욕실</option>
-									<option value="6">아이방</option>
-									<option value="7">드레스룸</option>
-									<option value="8">서재,작업실</option>
-									<option value="9">베란다</option>
-									<option value="10">사무공간</option>
-									<option value="11">상업공간</option>
-									<option value="12">가구,소품</option>
-									<option value="13">현관</option>
-									<option value="14">외관,기타</option>
-							</select>
-							</div>
-							<div>
-								<input type="text" name="contentSequences" value="1">
-								<input type="text" name="positions">
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>	    
-	</div>
-
-</main>
 	
 </body>
 </html>

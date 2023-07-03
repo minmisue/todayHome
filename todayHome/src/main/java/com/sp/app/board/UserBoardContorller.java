@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.domain.board.UserBoard;
 import com.sp.app.domain.common.SessionInfo;
@@ -30,8 +31,11 @@ public class UserBoardContorller {
 	}
 	
 	@PostMapping("write")
-	public String writeSubmit(UserBoard userBoard,
+	public String writeSubmit(UserBoard userBoard,  
 			HttpSession session) throws Exception {
+		
+		System.out.println(userBoard);
+		
 		String root = session.getServletContext().getRealPath("/");
 		String path = root + "uploads" + File.separator + "housePicture";
 		

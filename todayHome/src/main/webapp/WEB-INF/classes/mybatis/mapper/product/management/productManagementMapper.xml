@@ -201,7 +201,7 @@
     <select id="getAllProducts" resultType="com.sp.app.domain.product.ProductForList">
         SELECT p.product_id AS productId, brand_name AS brandName,
                product_category_id AS productCategoryId, product_name AS productName,
-               p.reg_date AS regDate, price, remain_quantity AS remjCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+               p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
         FROM product p
         join seller s2 ON p.seller_id = s2.seller_id
         LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id

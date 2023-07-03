@@ -1,9 +1,9 @@
 package com.sp.app.domain.order;
 
 public class Order {
-	private String orderBundleId; // 주문 묶음 아이디
-	private Long memberId; 
-	
+	private Long orderBundleId; // 주문 묶음 아이디
+	private Long memberId;
+
 	private String orderRegDate; // 주문 날짜
 	private String receiveName; // 수령인 이름
 	private String tel; // 수령인 번호
@@ -15,15 +15,15 @@ public class Order {
 	private int finalTotPrice; // 총금액(order_bundle)
 	private int finalDiscountPrice; // 총할인 금액
 	private int finalDeliveryCost; // 총배송비
-		
-	
+
+
 	private String deliveryNumber;
 	private int deliveryCost;
 	private String arrivedDate;
-	
+
 	public Order() {
 	}
-	
+
 	public Order(Long memberId, String receiveName, String tel, String postNum,
 			String address2, String address1, int usedPoint, String payMethod, int finalTotPrice,
 			int finalDiscountPrice, int finalDeliveryCost) {
@@ -41,24 +41,12 @@ public class Order {
 		this.finalDeliveryCost = finalDeliveryCost;
 
 	}
-	
-	
 
-	@Override
-	public String toString() {
-		return "Order [orderBundleId=" + orderBundleId + ", memberId=" + memberId + ", orderRegDate=" + orderRegDate
-				+ ", receiveName=" + receiveName + ", tel=" + tel + ", postNum=" + postNum + ", address2=" + address2
-				+ ", address1=" + address1 + ", usedPoint=" + usedPoint + ", payMethod=" + payMethod
-				+ ", finalTotPrice=" + finalTotPrice + ", finalDiscountPrice=" + finalDiscountPrice
-				+ ", finalDeliveryCost=" + finalDeliveryCost + ", deliveryNumber=" + deliveryNumber + ", deliveryCost="
-				+ deliveryCost + ", arrivedDate=" + arrivedDate + "]";
-	}
-
-	public String getOrderBundleId() {
+	public Long getOrderBundleId() {
 		return orderBundleId;
 	}
 
-	public void setOrderBundleId(String orderBundleId) {
+	public void setOrderBundleId(Long orderBundleId) {
 		this.orderBundleId = orderBundleId;
 	}
 

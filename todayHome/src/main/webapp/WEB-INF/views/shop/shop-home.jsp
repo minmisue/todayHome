@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -73,10 +74,10 @@
             line-height: 23px;
             font-weight: 700;
             color: #65C2EC;
+            margin-right: 5px;
         }
 
         .today-deal-price {
-            margin-left: 5px;
             font-size: 17px;
             line-height: 23px;
             font-weight: 700;
@@ -322,7 +323,16 @@
 					<div class="flex-col today-deal-info-container">
 						<div class="today-deal-brand-name">${product.brandName}</div>
 						<div class="today-deal-product-name">${product.productName}</div>
-						<div><span class="today-deal-sale-percent">${product.discountPercent}</span><span class="today-deal-price">${product.price}</span>
+						<div>
+							<c:if test="${product.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+									${product.discountPercent + '%'}
+								</span>
+							</c:if>
+						<span class="today-deal-price">
+							<fmt:formatNumber value="${product.price}" pattern="#,###" />
+							${formatNumber}
+						</span>
 						</div>
 						<div class="today-deal-item-info"><span class="today-deal-star"><i
 								class="fa-solid fa-star"></i></span><span class="today-deal-rating">${product.rating}</span><span

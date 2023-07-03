@@ -266,7 +266,7 @@
 					<h5 class="modal-title" id="staticBackdropLabel">리뷰 쓰기</h5>
 					<button style="position: absolute; right: 10px; top: 10px" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;">
+				<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
 					<div id="reviewModalProduct"></div>
 
 					<div style="margin-top: 40px;">

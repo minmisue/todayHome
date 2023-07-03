@@ -121,12 +121,9 @@ public class ProductReviewController {
 		try {
 			// 이미지 저장 경로 설정
 			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
-			System.out.println("root = " + root);
-
 			String uploadDir = root + "product" + File.separator + "review";
 
 			System.out.println("uploadDir = " + uploadDir);
-
 
 			String saveFileName = fileManager.doFileUpload(reviewImg, uploadDir);
 			productReview.setReviewImgName(saveFileName);

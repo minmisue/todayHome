@@ -9,13 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
+import com.sp.app.domain.order.Order;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.product.management.ProductManagementService;
@@ -72,7 +78,15 @@ public class OrderController {
 		
 		model.addAttribute("member", member);
 		model.addAttribute("cartList", cartList);
-		model.addAttribute("msg","ㅎㅇㅎㅇ");
+		
+		return "/payment/payment-page";
+	}
+	
+	@PostMapping("paymentOk")
+	
+	public String paymentSubmit(@ModelAttribute Order order) {
+		
+		
 		return "/payment/payment-page";
 	}
 }

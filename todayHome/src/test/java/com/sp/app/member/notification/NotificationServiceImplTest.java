@@ -1,20 +1,16 @@
 package com.sp.app.member.notification;
 
-import com.sp.app.domain.member.Member;
-import com.sp.app.domain.member.Notification;
-import com.sp.app.domain.member.NotificationParse;
-import com.sp.app.member.management.MemberManagementRepository;
-import com.sp.app.member.management.MemberManagementService;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import com.sp.app.domain.member.Notification;
+import com.sp.app.domain.member.NotificationParse;
+import com.sp.app.member.management.MemberManagementRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -51,7 +47,7 @@ public class NotificationServiceImplTest {
 		Long memberId = 1L;
 		int type = 2;
 		String msg = "님이 답글을 남겼어요.";
-		String param1 = "2"; // 댓글 남긴 멤버 아이디
+		String param1 = "62"; // 댓글 남긴 멤버 아이디
 		String param2 = "1"; // 댓글 남긴 유저 보드 아이디.
 
 
@@ -65,8 +61,47 @@ public class NotificationServiceImplTest {
 		Long memberId = 1L;
 		int type = 3;
 		String msg = "님이 회원님을 언급 했어요.";
+		String param1 = "62"; // 댓글 남긴 멤버 아이디
+		String param2 = "1"; // 댓글 남긴 유저 보드 아이디.
+
+		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
+
+		notificationService.createNotification(notification);
+	}
+	
+	@Test
+	public void likedNotification() throws Exception {
+		Long memberId = 1L;
+		int type = 4;
+		String msg = "님이 좋아요를 눌렀어요.";
 		String param1 = "2"; // 댓글 남긴 멤버 아이디
 		String param2 = "1"; // 댓글 남긴 유저 보드 아이디.
+
+		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
+
+		notificationService.createNotification(notification);
+	}
+
+	@Test
+	public void pointNotification() throws Exception {
+		Long memberId = 1L;
+		int type = 5;
+		String msg = "님 포인트가 적립되었어요.";
+		String param1 = "1000"; // 남은 포인트
+		String param2 = "1"; // 댓글 남긴 유저 보드 아이디.
+
+		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
+
+		notificationService.createNotification(notification);
+	}
+
+	@Test
+	public void followerNotification() throws Exception {
+		Long memberId = 1L;
+		int type = 6;
+		String msg = "님이 팔로우 했어요.";
+		String param1 = "62"; // 팔로우한 멤버 아이디
+		String param2 = "10"; // 팔로우한 유저의 마이페이지
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
@@ -85,42 +120,10 @@ public class NotificationServiceImplTest {
 	public void getNotReadNotificationList() throws Exception {
 		Long memberId = 1L;
 
-		List<Notification> list = notificationRepository.getNotReadNotificationList(memberId);
-
-		List<NotificationParse> parseList = new ArrayList<>();
-
-		for (Notification notification : list) {
-			NotificationParse notificationParse = new NotificationParse();
-
-			int type = notification.getType();
-
-			if (type == 1) {
-				Long commenterId = Long.valueOf(notification.getParameter1());
-				Member member = memberManagementRepository.readMemberById(commenterId);
-
-				System.out.println(member);
-
-				String nickName = member.getNickName();
-				String profileImgName = member.getProfileImgName();
-				Long userBoardId = Long.valueOf(notification.getParameter2());
-				String message = notification.getMessage();
-				String bodyUri = "/board/" + userBoardId;
-				// "/profile/memberId";
-				String profileUri = "/profile/" + commenterId;
-
-				notificationParse.setMemberId(commenterId);
-				notificationParse.setMsg(message);
-				notificationParse.setNickName(nickName);
-				notificationParse.setProfileImgName(profileImgName);
-				notificationParse.setBodyUri(bodyUri);
-				notificationParse.setProfileUri(profileUri);
-				notificationParse.setType(type);
-			}
-
-			parseList.add(notificationParse);
-		}
-
-		for (NotificationParse notificationParse : parseList) {
+		List<NotificationParse> list = notificationService.getNotReadNotificationList(memberId);
+		
+		
+		for (NotificationParse notificationParse : list) {
 			System.out.println("--------------------------------------");
 			String msg = notificationParse.getMsg();
 			String nickName = notificationParse.getNickName();

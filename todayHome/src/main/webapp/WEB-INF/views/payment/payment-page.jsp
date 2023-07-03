@@ -208,29 +208,23 @@
 		</script>
 <script>
 
-var IMP = window.IMP;   // 생략 가능
-IMP.init("imp68385626"); // 예: imp00000000 
-  function requestPay() {
-    IMP.request_pay({
-      pg: "nice.nictest04m",
-      pay_method: "card",
-      merchant_uid: "ORD20180131-0000011",   // 주문번호
-      name: "노르웨이 회전 의자",
-      amount: 64900,                         // 숫자 타입
-      buyer_email: "gildong@gmail.com",
-      buyer_name: "홍길동",
-      buyer_tel: "010-4242-4242",
-      buyer_addr: "서울특별시 강남구 신사동",
-      buyer_postcode: "01181"
-    }, function (rsp) { // callback
-      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-      
-    });
-  }
 </script>
+<script type="text/javascript">
+function test() {
+	
+
+	const f = document.buyForm;
+	f.action = "${pageContext.request.contextPath}/payment/paymentOk";
+	f.submit();
+}
+</script>
+
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
-	<form action="">
+	<form name="buyForm" method="post">
 	<div class="main-container" style="margin-top: 110px;">
+		<input type="hidden" name="orderBundleId" value="${orderBundleId}">
+		<input type="hidden" name="memberId" value="${member.memberId}">
+		<!-- <input type="hidden" name="orderBundleId" value="${orderBundleId}">-->
 		<div class="content flex-row">
 			
 			<div class="flex-col" style="width: 65%;">
@@ -284,15 +278,15 @@ IMP.init("imp68385626"); // 예: imp00000000
 
 					<div class="flex-col" style="gap: 15px; margin-top: 20px">
 						<div class="form-grid">
-							<div class="payment-form-grid-input-label">이름</div>
+							<div class="payment-form-grid-input-label" id="buyer-name">이름</div>
 							<input class="payment-form-grid-input" type="text" name="name">
 						</div>
 
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">이메일</div>
-							<input class="payment-form-grid-input" type="text">
+							<input class="payment-form-grid-input" type="text" id="email1">
 							<div style="text-align: center">@</div>
-							<input class="payment-form-grid-input" type="text">
+							<input class="payment-form-grid-input" type="text" id="email2">
 						</div>
 
 						<div class="form-grid">
@@ -300,7 +294,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 							<div style="display: grid; grid-template-columns: 35% 65%;">
 								<div style="padding-right: 8px;">
 									<input style="width: 100%" class="payment-form-grid-input"
-										type="text" name="tel">
+										type="text" id="buyer-tel">
 								</div>
 
 								<input class="payment-form-grid-input" type="text">
@@ -336,7 +330,7 @@ IMP.init("imp68385626"); // 예: imp00000000
 										type="text">
 								</div>
  -->
-								<input class="payment-form-grid-input" type="text" name="tel ">
+								<input class="payment-form-grid-input" type="text" id="receive-tel" name="tel">
 							</div>
 						</div>
 
@@ -366,7 +360,13 @@ IMP.init("imp68385626"); // 예: imp00000000
 
 					<%-- 상품 컨테이너 --%>
 					<c:forEach var="cart" items="${cartList}">
+						<!-- 상품아이디 -->
+						<input type="hidden" name="productNums" value="${cart.productId}">
+						<!-- 할인율 -->
+						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
+						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
 						<c:forEach var="productStock" items="${cart.productStockList}">
+							<input type="hidden" name="stockNums" value="${productStock.stockId}">
 							<div class="flex-col"
 								style="border: 1px solid #EAEBEF; border-radius: 5px; margin-top: 20px;">
 								<div class="flex-row"
@@ -398,16 +398,22 @@ IMP.init("imp68385626"); // 예: imp00000000
 															${productStock.subOptionName2 }</div>
 														<!-- 상품 할인율 계산한 가격 -->
 														<c:set var="productPrice"
-															value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
+															value="${productStock.price*((100-cart.discountPercent)/100)*productStock.cartQuantity}"></c:set>
+														<fmt:parseNumber var= "price" integerOnly= "true" value= "${productStock.price}" />
+														<input type="hidden" name="price" value="${price}">
 													</div>
 													<div class="flex-row"
 														style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px; align-items: center">
 														<div
 															style="line-height: 20px; font-weight: 700; font-size: 16px; color: black">
 															<span><fmt:formatNumber value="${productPrice}" /></span>원
+															<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${productPrice}" />
+							                                <input type="hidden" name="finalPrices" value="${finalPrice}">
+							                                <input type="hidden" name="originalPrices" value="${productStock.price}">
+							                                <input type="hidden" name="quantityList" value="${productStock.cartQuantity}">
 														</div>
 														<div>|</div>
-														<div>${productStock.cartQuantity }개</div>
+														<div>${productStock.cartQuantity}개</div>
 													</div>
 												</div>
 											</div>
@@ -417,9 +423,11 @@ IMP.init("imp68385626"); // 예: imp00000000
 							</div>
 							<!-- 총상품 원래가격 -->
 							<c:set var="orignalTotPrice"
-								value="${orignalTotPrice + productStock.price }"></c:set>
+								value="${orignalTotPrice + productStock.price*productStock.cartQuantity}"></c:set>
+							
 							<!-- 총상품 가격 -->
-							<c:set var="totPrice" value="${totPrice + productPrice}" />
+							<c:set var="totPrice" value="${totPrice + productPrice}"></c:set>
+
 						<c:set var="totDeliveryCost"
 							value="${totDeliveryCost + cart.deliveryCost}" />
 						</c:forEach>
@@ -508,7 +516,6 @@ IMP.init("imp68385626"); // 예: imp00000000
 								<div class="payment-result-label">총 상품 금액</div>
 								<div style="font-weight: 700;">
 									<span><fmt:formatNumber value="${totPrice}" /></span>원
-									<input type="hidden" name="${finalTotPrice }" value="${finalTotPrice }">
 								</div>
 							</div>
 
@@ -517,6 +524,8 @@ IMP.init("imp68385626"); // 예: imp00000000
 								<div class="payment-result-label">배송비</div>
 								<div>
 									<span><fmt:formatNumber value="${totDeliveryCost}" /></span>원
+									<fmt:parseNumber var= "finalDeliveryCost" integerOnly= "true" value= "${totDeliveryCost}" />
+									<input type="hidden" name="finalDeliveryCost"  value="${finalDeliveryCost}">
 								</div>
 							</div>
 
@@ -532,7 +541,8 @@ IMP.init("imp68385626"); // 예: imp00000000
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div class="payment-result-label">포인트 사용</div>
 								<div>
-									<span>2,000</span>원
+									<span>0</span>원
+									<input type="hidden" name="usedPoint" value="0">
 								</div>
 							</div>
 
@@ -591,9 +601,11 @@ IMP.init("imp68385626"); // 예: imp00000000
 						</div>
 					</div>
 
-					<div onclick="requestPay()" class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
+						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />
+						<input type="hidden" id="final-tot-price" name="finalTotPrice" value="${finalTotPrice}">
 					</div>
 				</div>
 			</div>

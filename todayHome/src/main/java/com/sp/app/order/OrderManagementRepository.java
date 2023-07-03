@@ -17,4 +17,5 @@ public interface OrderManagementRepository {
 	
 	// 주문 상태 테이블 insert
 	public void insertOrderStatus(OrderDetail orderDetail) throws Exception;
+	
 }

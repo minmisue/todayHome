@@ -124,9 +124,14 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
 				System.out.println("list = " + list);
 				System.out.println(stock);
+				Iterator<Long> iterator = list.iterator();
+				if (iterator.hasNext()) {
+					stock.setSubOptionId1(iterator.next());
+				}
 
-				stock.setSubOptionId1(list.get(0));
-				stock.setSubOptionId2(list.get(1));
+				if (iterator.hasNext()) {
+					stock.setSubOptionId2(iterator.next());
+				}
 
 				System.out.println("after : " + stock);
 
@@ -226,7 +231,24 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	@Override
 	public Product getProductById(Long productId) {
 		try {
-			return productManagementRepository.getProductById(productId);
+
+			Product product = productManagementRepository.getProductById(productId);
+			List<ProductImg> allProductImgList = productManagementRepository.getProductImgList(productId);
+			List<ProductImg> productImgList = new ArrayList<>();
+			List<ProductImg> productContentList = new ArrayList<>();
+
+			for (ProductImg productImg : allProductImgList) {
+				if (productImg.getType() == 0) {
+					productImgList.add(productImg);
+				} else {
+					productContentList.add(productImg);
+				}
+			}
+
+			product.setProductImgList(productImgList);
+			product.setContentImgList(productContentList);
+
+			return product;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -251,7 +273,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
+	public List<ProductForList> getAllProducts() throws Exception {
 		return productManagementRepository.getAllProducts();
 	}
 
@@ -471,6 +493,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	public int getQuantityByStockId(Long stockId) {
 		try {
 			return productManagementRepository.getQuantityByStockId(stockId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void deleteProductImg(Long productId, int type) {
+		try {
+			productManagementRepository.deleteProductImg(productId, type);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

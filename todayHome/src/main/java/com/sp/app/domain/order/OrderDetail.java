@@ -2,7 +2,7 @@ package com.sp.app.domain.order;
 
 public class OrderDetail {
 	private Long orderItemId;
-	private Long orderBundleId;
+	private String orderBundleId;
 	
 	private Long productId;
 	private Long couponId;
@@ -11,9 +11,10 @@ public class OrderDetail {
 	private int state;
 	private int originalPrice;
 	
+	public OrderDetail() {}
 	
 	
-	public OrderDetail(Long orderBundleId, Long productId, Long couponId, int finalPrice, int disCountPercent,
+	public OrderDetail(String orderBundleId, Long productId, Long couponId, int finalPrice, int disCountPercent,
 			int originalPrice) {
 		super();
 		this.orderBundleId = orderBundleId;
@@ -29,10 +30,10 @@ public class OrderDetail {
 	public void setOrderItemId(Long orderItemId) {
 		this.orderItemId = orderItemId;
 	}
-	public Long getOrderBundleId() {
+	public String getOrderBundleId() {
 		return orderBundleId;
 	}
-	public void setOrderBundleId(Long orderBundleId) {
+	public void setOrderBundleId(String orderBundleId) {
 		this.orderBundleId = orderBundleId;
 	}
 	public Long getProductId() {

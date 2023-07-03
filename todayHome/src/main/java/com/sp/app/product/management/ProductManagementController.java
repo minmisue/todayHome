@@ -3,13 +3,11 @@ package com.sp.app.product.management;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sp.app.cart.CartService;
+import com.sp.app.common.FileManager;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
-import com.sp.app.domain.product.Product;
-import com.sp.app.domain.product.ProductMainOption;
-import com.sp.app.domain.product.ProductReview;
-import com.sp.app.domain.product.ProductStock;
+import com.sp.app.domain.product.*;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.product.review.ProductReviewService;
 import com.sp.app.seller.SellerService;
@@ -53,6 +51,27 @@ public class ProductManagementController {
 	@Autowired
 	private CartService cartService;
 
+	@Autowired
+	private FileManager fileManager;
+
+	@GetMapping("shop/home")
+	public String shopHome(Model model) {
+		List<ProductForList> productList;
+
+		try {
+			productList = productManagementService.getAllProducts();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("productList", productList);
+		for (ProductForList product : productList) {
+			System.out.println(product);
+		}
+
+		return "shop/shop-home";
+	}
+
 	@GetMapping("seller/product")
 	public String addProductForm(Model model) {
 		// 임시 셀러 아이디
@@ -70,61 +89,64 @@ public class ProductManagementController {
 			@RequestParam List<Integer> stockPrice,
 			@RequestParam List<Integer> stockQuantity,
 			@RequestParam MultipartFile[] contentImg,
-			@RequestParam MultipartFile[] productImg
-			) {
-//
-//		ObjectMapper objectMapper = new ObjectMapper();
-//
-//		System.out.println("product = " + product);
-//		System.out.println("mainOptionName = " + mainOptionName);
-//		System.out.println("subOptionName = " + subOptionName);
-//		System.out.println("stockPrice = " + stockPrice);
-//		System.out.println("stockQuantity = " + stockQuantity);
-//		String[][] readSubNamesList;
-//
-//		try {
-//			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
-//		} catch (JsonProcessingException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		for (String[] subNames : readSubNamesList) {
-//			for (String subName : subNames) {
-//				System.out.print(subName + " ");
-//			}
-//			System.out.println();
-//		}
-//
-//		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
+			@RequestParam MultipartFile[] productImg,
+			HttpSession httpSession
+		) {
 
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		System.out.println("product = " + product);
+		System.out.println("mainOptionName = " + mainOptionName);
+		System.out.println("subOptionName = " + subOptionName);
+		System.out.println("stockPrice = " + stockPrice);
+		System.out.println("stockQuantity = " + stockQuantity);
+		String[][] readSubNamesList;
 
 		try {
-			String uploadDir = "/Users/kun/Downloads/saveTest";
+			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
 
-			for (MultipartFile img : productImg) {
-				LocalDateTime now = LocalDateTime.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-				String fileName = now.format(formatter);
-
-				try {
-					String contentType = img.getContentType();
-					String[] split = contentType.split("/");
-
-					Path filePath = Path.of(uploadDir + File.separator + fileName + "." + split[1]);
-
-					Files.copy(img.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		for (String[] subNames : readSubNamesList) {
+			for (String subName : subNames) {
+				System.out.print(subName + " ");
 			}
+			System.out.println();
+		}
+
+		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
+
+		Long productId = product.getProductId();
+
+		try {
+			// 이미지 저장 경로 설정
+			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+			System.out.println("root = " + root);
+
+			String uploadDir = root + "product" + File.separator + "product";
+
+			System.out.println("uploadDir = " + uploadDir);
+
+			int sequence = 0;
+			for (MultipartFile img : productImg) {
+				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
+				sequence++;
+			}
+
+			uploadDir = root + "product" + File.separator + "content";
+
+			sequence = 0;
+			for (MultipartFile img : contentImg) {
+				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
+				sequence++;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-//		for (MultipartFile img : contentImg) {
-//			System.out.println(img.getOriginalFilename());
-//
-//		}
 
 		return "redirect:/home";
 	}
@@ -168,6 +190,10 @@ public class ProductManagementController {
 		model.addAttribute("seller", seller);
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("rating", rating);
+
+		for (ProductStock stock : stockList) {
+			System.out.println(stock);
+		}
 
 		return "shop/product-detail";
 	}

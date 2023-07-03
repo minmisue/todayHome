@@ -12,7 +12,7 @@ import com.sp.app.domain.board.UserBoard;
 public interface UserBoardRepository {
 
 	//게시글 등록
-	void createBoard(UserBoard userBoard) throws Exception;
+	Long createBoard(UserBoard userBoard) throws Exception;
 	
 	//내용 등록
 	void insertContent(UserBoard userBoard) throws Exception;

@@ -1,6 +1,8 @@
 package com.sp.app.product.review;
 
+import com.sp.app.common.FileManager;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.product.ProductImg;
 import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.product.ReviewProduct;
@@ -10,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,9 @@ public class ProductReviewController {
 
 	@Autowired
 	ProductManagementService productManagementService;
+
+	@Autowired
+	FileManager fileManager;
 
 	@GetMapping("write")
 	public String commentList(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo, Model model) {
@@ -96,12 +104,33 @@ public class ProductReviewController {
 	}
 
 	@PostMapping("write")
-	public String writeComment(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo, @ModelAttribute ProductReview productReview) {
+	public String writeReview(
+			HttpSession httpSession,
+			@ModelAttribute ProductReview productReview,
+			@RequestParam MultipartFile reviewImg) {
+		SessionInfo sessionInfo = (SessionInfo) httpSession.getAttribute("sessionInfo");
+		if (sessionInfo == null) {
+			return "redirect:/login";
+		}
 		Long memberId = sessionInfo.getMemberId();
 		productReview.setMemberId(memberId);
 		productReview.setProfileImgName("testImg");
 
 		System.out.println(productReview);
+
+		try {
+			// 이미지 저장 경로 설정
+			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+			String uploadDir = root + "product" + File.separator + "review";
+
+			System.out.println("uploadDir = " + uploadDir);
+
+			String saveFileName = fileManager.doFileUpload(reviewImg, uploadDir);
+			productReview.setReviewImgName(saveFileName);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
 			productReviewService.createReview(productReview);

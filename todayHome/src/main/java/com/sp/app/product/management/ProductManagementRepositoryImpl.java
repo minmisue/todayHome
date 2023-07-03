@@ -50,8 +50,8 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
-		return null;
+	public List<ProductForList> getAllProducts() throws Exception {
+		return commonDAO.selectList("productManagement.getAllProducts");
 	}
 
 	@Override
@@ -189,5 +189,14 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	@Override
 	public int getQuantityByStockId(Long stockId) throws Exception {
 		return commonDAO.selectOne("productManagement.getQuantityByStockId", stockId);
+	}
+
+	@Override
+	public void deleteProductImg(Long productId, int type) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("type", type);
+
+		commonDAO.deleteData("productManagement.deleteProductImg", map);
 	}
 }

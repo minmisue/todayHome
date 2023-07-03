@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -21,6 +22,9 @@ public class ProductReviewServiceImplTest {
 
 	@Autowired
 	ProductReviewService productReviewService;
+
+	@Autowired
+	HttpSession httpSession;
 
 	@Test
 	public void createReview() {
@@ -44,6 +48,7 @@ public class ProductReviewServiceImplTest {
 
 	@Test
 	public void getAverageRatingByProductId() {
+
 	}
 
 	@Test
@@ -55,4 +60,5 @@ public class ProductReviewServiceImplTest {
 			System.out.println(productReview);
 		}
 	}
+
 }

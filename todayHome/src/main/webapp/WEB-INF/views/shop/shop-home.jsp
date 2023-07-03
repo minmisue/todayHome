@@ -313,23 +313,39 @@
 		<%-- 오늘의 딜 상품 4개 --%>
 		<div class="grid-col-4 grid-row">
 
-			<c:forEach begin="0" end="15" step="1">
-				<div class="flex-col today-deal-product-container">
+			<c:forEach items="${productList}" var="product">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
 					<div class="today-deal-img-container">
 						<img class="today-deal-product-img"
-							 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
 					</div>
 					<div class="flex-col today-deal-info-container">
-						<div class="today-deal-brand-name">마틸라</div>
-						<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-						<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
+						<div class="today-deal-brand-name">${product.brandName}</div>
+						<div class="today-deal-product-name">${product.productName}</div>
+						<div><span class="today-deal-sale-percent">${product.discountPercent}</span><span class="today-deal-price">${product.price}</span>
 						</div>
 						<div class="today-deal-item-info"><span class="today-deal-star"><i
-								class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-								class="today-deal-review-count">리뷰 144</span></div>
+								class="fa-solid fa-star"></i></span><span class="today-deal-rating">${product.rating}</span><span
+								class="today-deal-review-count">리뷰 ${product.reviewCnt}</span></div>
 					</div>
 				</div>
 			</c:forEach>
+
+<%--			<div class="flex-col today-deal-product-container">--%>
+<%--				<div class="today-deal-img-container">--%>
+<%--					<img class="today-deal-product-img"--%>
+<%--						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">--%>
+<%--				</div>--%>
+<%--				<div class="flex-col today-deal-info-container">--%>
+<%--					<div class="today-deal-brand-name">마틸라</div>--%>
+<%--					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>--%>
+<%--					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>--%>
+<%--					</div>--%>
+<%--					<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--							class="today-deal-review-count">리뷰 144</span></div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
 		</div>
 	</div>
 

@@ -2,11 +2,20 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
+
+	<select id="readMaxOrderNumber" resultType="String">
+		SELECT ORDER_BUNDLE_ID
+		FROM ORDER_BUNDLE
+		ORDER BY REG_DATE DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
 	<!-- 주문 묶음 테이블 insert -->
 	<insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
-		<selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
+<!-- 		<selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
             SELECT SEQ_ORDER_BUNDLE.NEXTVAL as orderBundleId FROM DUAL
         </selectKey>
+         -->
 		INSERT INTO ORDER_BUNDLE(ORDER_BUNDLE_ID, MEMBER_ID, REG_DATE, RECEIVE_NAME, 
 					TEL, POST_NUM, ADDRESS2, ADDRESS1, USED_POINT, 
 					PAY_METHOD,FINAL_TOT_PRICE,FINAL_DISCOUNT_PRICE,FINAL_DELIVERY_COST) 

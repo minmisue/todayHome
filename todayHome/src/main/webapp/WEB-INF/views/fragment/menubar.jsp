@@ -78,7 +78,7 @@
             </div>
 
             <%-- 로그인 --%>
-			<c:if test="${sessionScope.sessionInfo.userRole == 1 && not empty sessionScope.sessionInfo}">
+			<c:if test="${sessionScope.sessionInfo.userRole == 1 || sessionScope.sessionInfo.userRole == 2 && not empty sessionScope.sessionInfo}">
 				<i class="bi bi-bookmark menubar-icon"></i>
 				<i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/notification'"></i>
 			</c:if>
@@ -92,7 +92,6 @@
                     <span id="cart-cnt">1</span>
                 </div>
             </div>
-
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || not empty sessionScope.sessionInfo}">
 				<div class="btn-group" role="group">
@@ -130,6 +129,11 @@
 <%--                    <li><a class="dropdown-item" href="#">노하우 글쓰기</a></li>--%>
                     <li><a class="dropdown-item" href="#">상품 리뷰 쓰기</a></li>
                 </ul>
+            <c:if test="${sessionScope.sessionInfo.userRole == 2 && not empty sessionScope.sessionInfo}">
+				<div class="p-2">
+					<a href="${pageContext.request.contextPath}/admin" title="관리자"><i class="bi bi-gear"></i></a>
+				</div>					
+			</c:if>
             </div>
         </div>
     </div>

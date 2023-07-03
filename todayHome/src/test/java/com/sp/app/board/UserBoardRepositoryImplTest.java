@@ -54,7 +54,7 @@ public class UserBoardRepositoryImplTest {
 			String imgName = "imgTest";
 			
 			UserBoard userBoard = new UserBoard();
-			userBoard.setUserBoardContentCategoryId(1L);
+			userBoard.setUserBoardContentCategoryId(1);
 			userBoard.setContent("아아");
 			userBoard.setUserBoardId(boardId);
 			userBoard.setImgName(imgName + i);
@@ -129,7 +129,7 @@ public class UserBoardRepositoryImplTest {
 		UserBoard userBoard = new UserBoard();
 		userBoard.setContent("수정!");
 		userBoard.setContentSequence(2);
-		userBoard.setUserBoardContentCategoryId(3L);
+		userBoard.setUserBoardContentCategoryId(3);
 		userBoard.setImgName("사진수정");
 		userBoard.setUserBoardContentId(userBoardContentId);
 		

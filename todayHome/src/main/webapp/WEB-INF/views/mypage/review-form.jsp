@@ -186,6 +186,22 @@
             padding: 10px 0;
             color: white;
         }
+
+        .review-picture-container {
+            position:  relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .review-picture-container input[type="file"] {
+            /*position: absolute;*/
+			display: none;
+        }
+		
+		.review-picture-container label:hover {
+            cursor: pointer;
+        }
 	</style>
 </head>
 <body>
@@ -250,7 +266,7 @@
 					<h5 class="modal-title" id="staticBackdropLabel">리뷰 쓰기</h5>
 					<button style="position: absolute; right: 10px; top: 10px" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;">
+				<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
 					<div id="reviewModalProduct"></div>
 
 					<div style="margin-top: 40px;">
@@ -270,8 +286,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="review-picture-container" style="margin-top: 15px;">
-						<button type="button" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6">사진 첨부하기</button>
+
+					<div class="review-picture-container">
+						<input type="file" name="reviewImg" id="reviewImg" accept="image/*" class="photoAttach">
+						<label for="reviewImg" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6; text-align: center">사진 첨부하기</label>
+<%--						<label for="selectFile">사진 첨부하기</label>--%>
 					</div>
 
 					<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>

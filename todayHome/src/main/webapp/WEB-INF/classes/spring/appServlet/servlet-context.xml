@@ -40,7 +40,7 @@
                 <beans:value>/WEB-INF/classes/spring/tiles-defs.xml</beans:value>
             </beans:list>
         </beans:property>
-    </beans:bean>
+   </beans:bean>
 
     <!-- 뷰 -->
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">

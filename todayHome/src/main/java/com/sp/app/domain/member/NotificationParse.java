@@ -18,21 +18,34 @@ public class NotificationParse {
 	private String msg;
 
 	private int type;
+	
+	private String regDate;
+
+	
+	
+	
 
 	@Override
 	public String toString() {
-		return "NotificationParse{" +
-				"memberId=" + memberId +
-				", nickName='" + nickName + '\'' +
-				", profileImgName='" + profileImgName + '\'' +
-				", userBoardId=" + userBoardId +
-				", pointAmount=" + pointAmount +
-				", profileUri='" + profileUri + '\'' +
-				", bodyUri='" + bodyUri + '\'' +
-				", msg='" + msg + '\'' +
-				", type=" + type +
-				'}';
+		return "NotificationParse [memberId=" + memberId + ", nickName=" + nickName + ", profileImgName="
+				+ profileImgName + ", userBoardId=" + userBoardId + ", pointAmount=" + pointAmount + ", profileUri="
+				+ profileUri + ", bodyUri=" + bodyUri + ", msg=" + msg + ", type=" + type + ", regDate=" + regDate
+				+ "]";
 	}
+
+
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+
 
 	public Long getMemberId() {
 		return memberId;

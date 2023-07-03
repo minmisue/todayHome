@@ -13,8 +13,8 @@
     </insert>
 
     <insert id="insertMemberDetail" parameterType="com.sp.app.domain.member.Member">
-		INSERT INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, PROFILE_IMG_NAME, INFO)
-		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{profileImgName, jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR})	
+		INSERT INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, ENABLED, INFO)
+		VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{enabled}, #{info,jdbcType=VARCHAR})	
 		
     </insert>
 	
@@ -22,8 +22,8 @@
 		INSERT ALL
 			INTO MEMBER (MEMBER_ID, EMAIL, NAME, TEL)
 			VALUES (#{memberId} ,#{email},#{name, jdbcType=VARCHAR},#{tel, jdbcType=VARCHAR})
-			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, PROFILE_IMG_NAME, INFO)
-			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{profileImgName,jdbcType=VARCHAR}, #{info, jdbcType=VARCHAR})
+			INTO MEMBER_DETAIL (MEMBER_ID, NICKNAME, PASSWORD, REG_DATE, PINFO)
+			VALUES (#{memberId},#{nickName}, #{password}, SYSDATE, #{info, jdbcType=VARCHAR})
 		SELECT * FROM dual    
     </update>
     

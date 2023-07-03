@@ -39,10 +39,10 @@
     orderForm.addEventListener('submit', (e) => {
       e.preventDefault();
        
-      const orderNumber = document.getElementById('orderNumber').value;
+      const orderItemId = document.getElementById('orderItemId').value;
 
       const order = {
-        orderNumber: '123456',
+    	orderItemId: '123456',
         orderDate: '2023-07-02',
         orderStatus: '배송 중'
       };
@@ -56,7 +56,7 @@
             <th>주문 상태</th>
           </tr>
           <tr>
-            <td>${order.orderNumber}</td>
+            <td>${order.orderItemId}</td>
             <td>${order.orderDate}</td>
             <td>${order.orderStatus}</td>
           </tr>

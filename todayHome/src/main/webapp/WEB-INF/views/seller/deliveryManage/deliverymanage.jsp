@@ -155,18 +155,18 @@ input[type="checkbox"]:checked {
     <div class="body-main">
     	    <div class="status-box">
       <div class="status-item active">결제 완료
+      	<div class="status-item-content" id="orderState"> 0 </div>
+     	</div>
+      <div class="status-item">배송 준비 중
       	<div class="status-item-content"> 0 </div>
      	</div>
-      <div class="status-item">상품 준비 중
-      	<div class="status-item-content"> 0 </div>
-     	</div>
-      <div class="status-item">배송 지시
+      <div class="status-item">배송 중
       	<div class="status-item-content"> 0 </div>    
       </div>
-      <div class="status-item">배송 중
+      <div class="status-item">배송 완료
         <div class="status-item-content"> 0 </div>
      	</div>
-      <div class="status-item">배송 완료
+      <div class="status-item">구매 확정
       	<div class="status-item-content"> 0 </div>
       	</div>
       </div>
@@ -188,13 +188,13 @@ input[type="checkbox"]:checked {
     <input type="checkbox" id="payment" value="payment">
     <label for="payment">결제 완료</label>
     <input type="checkbox" id="preparation" value="preparation">
-    <label for="preparation">상품 준비 중</label>
-    <input type="checkbox" id="dispatch" value="dispatch">
-    <label for="dispatch">배송 지시</label>
+    <label for="preparation">배송 준비 중</label>
     <input type="checkbox" id="shipping" value="shipping">
     <label for="shipping">배송 중</label>
     <input type="checkbox" id="delivered" value="delivered">
     <label for="delivered">배송 완료</label>
+    <input type="checkbox" id="confirm" value="confirm">
+    <label for="confirm">구매 확정</label>
   </div>
 </div>
   <hr>

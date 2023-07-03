@@ -1,7 +1,7 @@
 package com.sp.app.domain.order;
 
 public class Order {
-	private Long orderBundleId; // 주문 묶음 아이디
+	private String orderBundleId; // 주문 묶음 아이디
 	private Long memberId; 
 	
 	private String orderRegDate; // 주문 날짜
@@ -41,12 +41,24 @@ public class Order {
 		this.finalDeliveryCost = finalDeliveryCost;
 
 	}
+	
+	
 
-	public Long getOrderBundleId() {
+	@Override
+	public String toString() {
+		return "Order [orderBundleId=" + orderBundleId + ", memberId=" + memberId + ", orderRegDate=" + orderRegDate
+				+ ", receiveName=" + receiveName + ", tel=" + tel + ", postNum=" + postNum + ", address2=" + address2
+				+ ", address1=" + address1 + ", usedPoint=" + usedPoint + ", payMethod=" + payMethod
+				+ ", finalTotPrice=" + finalTotPrice + ", finalDiscountPrice=" + finalDiscountPrice
+				+ ", finalDeliveryCost=" + finalDeliveryCost + ", deliveryNumber=" + deliveryNumber + ", deliveryCost="
+				+ deliveryCost + ", arrivedDate=" + arrivedDate + "]";
+	}
+
+	public String getOrderBundleId() {
 		return orderBundleId;
 	}
 
-	public void setOrderBundleId(Long orderBundleId) {
+	public void setOrderBundleId(String orderBundleId) {
 		this.orderBundleId = orderBundleId;
 	}
 

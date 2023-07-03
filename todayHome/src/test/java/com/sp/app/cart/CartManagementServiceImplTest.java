@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 
-import oracle.net.aso.c;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"classpath:/spring/appServlet/servlet-context.xml",

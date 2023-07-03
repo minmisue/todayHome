@@ -222,8 +222,9 @@ function test() {
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 	<form name="buyForm" method="post">
 	<div class="main-container" style="margin-top: 110px;">
-		<input type="hidden" name="memberId" value="${member.memberId}">
 		<input type="hidden" name="orderBundleId" value="${orderBundleId}">
+		<input type="hidden" name="memberId" value="${member.memberId}">
+		<!-- <input type="hidden" name="orderBundleId" value="${orderBundleId}">-->
 		<div class="content flex-row">
 			
 			<div class="flex-col" style="width: 65%;">
@@ -360,11 +361,12 @@ function test() {
 					<%-- 상품 컨테이너 --%>
 					<c:forEach var="cart" items="${cartList}">
 						<!-- 상품아이디 -->
-						<input type="hidden" name="productId" value="${cart.productId}">
+						<input type="hidden" name="productNums" value="${cart.productId}">
 						<!-- 할인율 -->
-						<input type="hidden" name="disCountPercent" value="${cart.discountPercent}">
+						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
+						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
 						<c:forEach var="productStock" items="${cart.productStockList}">
-							<input type="hidden"  value="${productStock.stockId}">
+							<input type="hidden" name="stockNums" value="${productStock.stockId}">
 							<div class="flex-col"
 								style="border: 1px solid #EAEBEF; border-radius: 5px; margin-top: 20px;">
 								<div class="flex-row"
@@ -396,16 +398,22 @@ function test() {
 															${productStock.subOptionName2 }</div>
 														<!-- 상품 할인율 계산한 가격 -->
 														<c:set var="productPrice"
-															value="${productStock.price*((100-cart.discountPercent)/100)}"></c:set>
+															value="${productStock.price*((100-cart.discountPercent)/100)*productStock.cartQuantity}"></c:set>
+														<fmt:parseNumber var= "price" integerOnly= "true" value= "${productStock.price}" />
+														<input type="hidden" name="price" value="${price}">
 													</div>
 													<div class="flex-row"
 														style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px; align-items: center">
 														<div
 															style="line-height: 20px; font-weight: 700; font-size: 16px; color: black">
 															<span><fmt:formatNumber value="${productPrice}" /></span>원
+															<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${productPrice}" />
+							                                <input type="hidden" name="finalPrices" value="${finalPrice}">
+							                                <input type="hidden" name="originalPrices" value="${productStock.price}">
+							                                <input type="hidden" name="quantityList" value="${productStock.cartQuantity}">
 														</div>
 														<div>|</div>
-														<div>${productStock.cartQuantity }개</div>
+														<div>${productStock.cartQuantity}개</div>
 													</div>
 												</div>
 											</div>
@@ -415,11 +423,11 @@ function test() {
 							</div>
 							<!-- 총상품 원래가격 -->
 							<c:set var="orignalTotPrice"
-								value="${orignalTotPrice + productStock.price }"></c:set>
-							<input type="hidden" name="originalPrice" value="${orignalTotPrice}">
+								value="${orignalTotPrice + productStock.price*productStock.cartQuantity}"></c:set>
+							
 							<!-- 총상품 가격 -->
 							<c:set var="totPrice" value="${totPrice + productPrice}"></c:set>
-							<input type="hidden" name="finalPrice" value="${totPrice}">
+
 						<c:set var="totDeliveryCost"
 							value="${totDeliveryCost + cart.deliveryCost}" />
 						</c:forEach>
@@ -516,7 +524,8 @@ function test() {
 								<div class="payment-result-label">배송비</div>
 								<div>
 									<span><fmt:formatNumber value="${totDeliveryCost}" /></span>원
-									<input type="hidden" name="finalDeliveryCost"  value="${totDeliveryCost}">
+									<fmt:parseNumber var= "finalDeliveryCost" integerOnly= "true" value= "${totDeliveryCost}" />
+									<input type="hidden" name="finalDeliveryCost"  value="${finalDeliveryCost}">
 								</div>
 							</div>
 
@@ -595,7 +604,8 @@ function test() {
 					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
-						<input type="hidden" id="final-tot-price" name="finalTotPrice" value="${totPrice+ totDeliveryCost}">
+						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />
+						<input type="hidden" id="final-tot-price" name="finalTotPrice" value="${finalTotPrice}">
 					</div>
 				</div>
 			</div>

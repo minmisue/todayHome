@@ -17,15 +17,23 @@ public class UserBoard {
 	private int replyCount;
 	private int boardLikeCount;
 	private int boardScrapCount;
-	private String imgName;
 	private String nickName;
 	private String profileImgName;
 	
 	private Long userBoardContentId;
-	private Long userBoardContentCategoryId;
+	
 	private String content;
+	private String imgName;
+	private int userBoardContentCategoryId;
 	private int contentSequence;
-	private List<MultipartFile> addFiles;
+	private String position;
+	
+
+	private List<String> contents;
+	private List<MultipartFile> selectFile;
+	private List<Integer> userBoardContentCategoryIds;
+	private List<Integer> contentSequences;
+	private List<String> positions;
 	
 	private MultipartFile thumbnailFile;
 	
@@ -227,18 +235,6 @@ public class UserBoard {
 
 
 
-	public Long getUserBoardContentCategoryId() {
-		return userBoardContentCategoryId;
-	}
-
-
-
-	public void setUserBoardContentCategoryId(Long userBoardContentCategoryId) {
-		this.userBoardContentCategoryId = userBoardContentCategoryId;
-	}
-
-
-
 	public String getContent() {
 		return content;
 	}
@@ -247,6 +243,18 @@ public class UserBoard {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+
+
+	public int getUserBoardContentCategoryId() {
+		return userBoardContentCategoryId;
+	}
+
+
+
+	public void setUserBoardContentCategoryId(int userBoardContentCategoryId) {
+		this.userBoardContentCategoryId = userBoardContentCategoryId;
 	}
 
 
@@ -263,14 +271,74 @@ public class UserBoard {
 
 
 
-	public List<MultipartFile> getAddFiles() {
-		return addFiles;
+	public String getPosition() {
+		return position;
 	}
 
 
 
-	public void setAddFiles(List<MultipartFile> addFiles) {
-		this.addFiles = addFiles;
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+
+
+	public List<String> getContents() {
+		return contents;
+	}
+
+
+
+	public void setContents(List<String> contents) {
+		this.contents = contents;
+	}
+
+
+
+	public List<MultipartFile> getSelectFile() {
+		return selectFile;
+	}
+
+
+
+	public void setSelectFile(List<MultipartFile> selectFile) {
+		this.selectFile = selectFile;
+	}
+
+
+
+	public List<Integer> getUserBoardContentCategoryIds() {
+		return userBoardContentCategoryIds;
+	}
+
+
+
+	public void setUserBoardContentCategoryIds(List<Integer> userBoardContentCategoryIds) {
+		this.userBoardContentCategoryIds = userBoardContentCategoryIds;
+	}
+
+
+
+	public List<Integer> getContentSequences() {
+		return contentSequences;
+	}
+
+
+
+	public void setContentSequences(List<Integer> contentSequences) {
+		this.contentSequences = contentSequences;
+	}
+
+
+
+	public List<String> getPositions() {
+		return positions;
+	}
+
+
+
+	public void setPositions(List<String> positions) {
+		this.positions = positions;
 	}
 
 

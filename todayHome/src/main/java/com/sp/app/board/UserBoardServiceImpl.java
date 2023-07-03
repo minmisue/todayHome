@@ -30,7 +30,6 @@ public class UserBoardServiceImpl implements UserBoardService{
 			userBoard.setUserBoardId(userBoardId);
 			
 			for(int i=0; i<userBoard.getContents().size(); i++) {
-		
 				
 				userBoard.setContent(userBoard.getContents().get(i));
 				userBoard.setUserBoardContentCategoryId(userBoard.getUserBoardContentCategoryIds().get(i));

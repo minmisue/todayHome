@@ -20,7 +20,7 @@ public interface ProductManagementService {
 	 */
 	void increaseImgSequences(Long productId, int sequence) ;
 
-	List<Product> getAllProducts();
+	List<ProductForList> getAllProducts() throws Exception;
 
 	List<Product> getProductsByCategory(Long categoryId);
 

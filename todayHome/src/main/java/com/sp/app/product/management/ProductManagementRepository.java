@@ -22,7 +22,7 @@ public interface ProductManagementRepository {
 	 */
 	void increaseImgSequences(Long productId, int sequence) throws Exception;
 
-	List<Product> getAllProducts();
+	List<ProductForList> getAllProducts() throws Exception;
 
 	List<Product> getProductsByCategory(Long categoryId);
 

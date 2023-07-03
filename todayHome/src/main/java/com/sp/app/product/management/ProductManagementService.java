@@ -24,8 +24,6 @@ public interface ProductManagementService {
 
 	List<Product> getProductsByCategory(Long categoryId);
 
-	List<Product> getProductsByKeyword(String keyword);
-
 	void updateProduct(Product product);
 
 	void deleteProduct(Long productId);

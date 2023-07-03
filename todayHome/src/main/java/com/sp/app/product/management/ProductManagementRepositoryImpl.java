@@ -55,14 +55,19 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("keyword", keyword);
+		map.put("sort", sort);
+
+		return commonDAO.selectList("productManagement.getProductsByKeyword", map);
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(Long categoryId) {
 		return null;
 	}
 
-	@Override
-	public List<Product> getProductsByKeyword(String keyword) {
-		return null;
-	}
 
 	@Override
 	public void updateProduct(Product product) {

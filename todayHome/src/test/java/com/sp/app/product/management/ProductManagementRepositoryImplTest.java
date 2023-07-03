@@ -492,4 +492,13 @@ public class ProductManagementRepositoryImplTest {
 			System.out.println(product);
 		}
 	}
+
+	@Test
+	public void getProductsByKeyword() throws Exception{
+		List<ProductForList> products = productManagementRepository.getProductsByKeyword("이", "price_desc");
+
+		for (ProductForList product : products) {
+			System.out.println(product);
+		}
+	}
 }

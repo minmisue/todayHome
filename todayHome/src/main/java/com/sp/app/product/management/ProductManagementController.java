@@ -81,6 +81,19 @@ public class ProductManagementController {
 		return "seller/product/add-product-form";
 	}
 
+	@GetMapping("seller/product/{productId}")
+	public String editProductForm(Model model, @PathVariable Long productId) {
+		// 임시 셀러 아이디
+		model.addAttribute("sellerId", 1L);
+
+		Product product = productManagementService.getProductById(productId);
+
+		model.addAttribute("product", product);
+		model.addAttribute("mode", "edit");
+
+		return "seller/product/add-product-form";
+	}
+
 	@PostMapping("seller/post-product")
 	public String addProductSubmit(
 			@ModelAttribute Product product,

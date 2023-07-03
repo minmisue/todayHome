@@ -50,8 +50,8 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
-		return null;
+	public List<ProductForList> getAllProducts() throws Exception {
+		return commonDAO.selectList("productManagement.getAllProducts");
 	}
 
 	@Override

@@ -483,4 +483,13 @@ public class ProductManagementRepositoryImplTest {
 		ProductStock stock = productManagementRepository.getStockByStockId(stockId);
 		System.out.println(stock);
 	}
+
+	@Test
+	public void getAllProduct() throws Exception {
+		List<ProductForList> products = productManagementRepository.getAllProducts();
+
+		for (ProductForList product : products) {
+			System.out.println(product);
+		}
+	}
 }

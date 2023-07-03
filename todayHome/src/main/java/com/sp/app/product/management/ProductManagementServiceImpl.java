@@ -273,7 +273,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
+	public List<ProductForList> getAllProducts() throws Exception {
 		return productManagementRepository.getAllProducts();
 	}
 

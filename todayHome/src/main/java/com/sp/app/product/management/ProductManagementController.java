@@ -54,6 +54,24 @@ public class ProductManagementController {
 	@Autowired
 	private FileManager fileManager;
 
+	@GetMapping("shop/home")
+	public String shopHome(Model model) {
+		List<ProductForList> productList;
+
+		try {
+			productList = productManagementService.getAllProducts();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("productList", productList);
+		for (ProductForList product : productList) {
+			System.out.println(product);
+		}
+
+		return "shop/shop-home";
+	}
+
 	@GetMapping("seller/product")
 	public String addProductForm(Model model) {
 		// 임시 셀러 아이디

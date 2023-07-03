@@ -21,11 +21,6 @@ public class HomeController {
 		return "shop/product-detail";
 	}
 
-	@GetMapping("shop/home")
-	public String shopHome() {
-		return "shop/shop-home";
-	}
-
 	@GetMapping("shop/ranks")
 	public String shopBest(@RequestParam(required = false) String type) {
 		if (type == null || type.equals("recent")) {

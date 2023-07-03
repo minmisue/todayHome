@@ -197,4 +197,24 @@
         FROM product_img
         WHERE product_id = #{productId} AND type = #{type}
     </delete>
+
+    <select id="getAllProducts" resultType="com.sp.app.domain.product.ProductForList">
+        SELECT p.product_id AS productId, brand_name AS brandName,
+               product_category_id AS productCategoryId, product_name AS productName,
+               p.reg_date AS regDate, price, remain_quantity AS remainQuantity,
+               discount_percent AS discountPercent, NVL(rc.reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+        FROM product p
+        join seller s2 ON p.seller_id = s2.seller_id
+        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
+            FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
+        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+            FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+        LEFT JOIN (SELECT product_id, save_name AS saveName
+            FROM product_img
+            WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+    </select>
 </mapper>

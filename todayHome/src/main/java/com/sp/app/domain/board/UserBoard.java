@@ -247,6 +247,9 @@ public class UserBoard {
 
 
 
+
+
+
 	public int getUserBoardContentCategoryId() {
 		return userBoardContentCategoryId;
 	}

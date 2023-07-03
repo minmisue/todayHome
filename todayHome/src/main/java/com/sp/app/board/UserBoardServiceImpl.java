@@ -33,6 +33,7 @@ public class UserBoardServiceImpl implements UserBoardService{
 				userBoard.setPosition(userBoard.getPositions().get(i));
 				userBoard.setContentSequence(userBoard.getContentSequences().get(i));
 				
+				
 				String imageFilename = fileManager.doFileUpload(userBoard.getSelectFile().get(i), pathname);
 				if(imageFilename == null) {
 					continue;

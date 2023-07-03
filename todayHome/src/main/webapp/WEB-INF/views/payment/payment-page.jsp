@@ -218,12 +218,52 @@ function test() {
 	f.submit();
 }
 </script>
+<script type="text/javascript">
+function iamport(){
+
+    var name = $("#buyer-name").val();
+    var tel = $("#buyer-tel").val();
+    var email = $("#email1").val() + "@" + $("#email2").val();
+    var postNum = $("#postNum").val();
+    var address = $("#address1").val() + " " + $("#address2").val();
+    var price = $("#final-tot-price").val();
+    
+    //$("input[name=productNames]").each()
+    //가맹점 식별코드
+    IMP.init("imp68385626");
+    IMP.request_pay({
+        pg : 'kicc.T5102001',
+        pay_method : 'card',
+        merchant_uid : '${orderBundleId}',
+        name : "ㅎㅇ",
+        amount : price,
+        buyer_email : email,
+        buyer_name : name,
+        buyer_tel : tel,
+        buyer_addr : address,
+        buyer_postcode : postNum
+    }, function(rsp) {
+    	console.log(rsp);
+    	if(rsp.success){
+    		
+    		alert('결제성공'+ pay_method);
+    	}
+
+
+    });
+	
+
+}
+
+</script>
+
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 	<form name="buyForm" method="post">
 	<div class="main-container" style="margin-top: 110px;">
 		<input type="hidden" name="orderBundleId" value="${orderBundleId}">
 		<input type="hidden" name="memberId" value="${member.memberId}">
+		 
 		<!-- <input type="hidden" name="orderBundleId" value="${orderBundleId}">-->
 		<div class="content flex-row">
 			
@@ -278,8 +318,8 @@ function test() {
 
 					<div class="flex-col" style="gap: 15px; margin-top: 20px">
 						<div class="form-grid">
-							<div class="payment-form-grid-input-label" id="buyer-name">이름</div>
-							<input class="payment-form-grid-input" type="text" name="name">
+							<div class="payment-form-grid-input-label">이름</div>
+							<input class="payment-form-grid-input" type="text" id="buyer-name" name="name">
 						</div>
 
 						<div class="form-grid">
@@ -362,6 +402,7 @@ function test() {
 					<c:forEach var="cart" items="${cartList}">
 						<!-- 상품아이디 -->
 						<input type="hidden" name="productNums" value="${cart.productId}">
+						<input type="hidden" name="productNames" value="${cart.productName}">
 						<!-- 할인율 -->
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
@@ -409,7 +450,7 @@ function test() {
 															<span><fmt:formatNumber value="${productPrice}" /></span>원
 															<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${productPrice}" />
 							                                <input type="hidden" name="finalPrices" value="${finalPrice}">
-							                                <input type="hidden" name="originalPrices" value="${productStock.price}">
+							                                <input type="hidden" name="originalPrices" value="${productStock.price*productStock.cartQuantity}">
 							                                <input type="hidden" name="quantityList" value="${productStock.cartQuantity}">
 														</div>
 														<div>|</div>

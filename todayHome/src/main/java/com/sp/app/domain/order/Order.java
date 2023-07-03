@@ -1,7 +1,7 @@
 package com.sp.app.domain.order;
 
 public class Order {
-	private Long orderBundleId; // 주문 묶음 아이디
+	private String orderBundleId; // 주문 묶음 아이디
 	private Long memberId;
 
 	private String orderRegDate; // 주문 날짜
@@ -42,11 +42,11 @@ public class Order {
 
 	}
 
-	public Long getOrderBundleId() {
+	public String getOrderBundleId() {
 		return orderBundleId;
 	}
 
-	public void setOrderBundleId(Long orderBundleId) {
+	public void setOrderBundleId(String orderBundleId) {
 		this.orderBundleId = orderBundleId;
 	}
 

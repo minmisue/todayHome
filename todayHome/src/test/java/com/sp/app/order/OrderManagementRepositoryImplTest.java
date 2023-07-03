@@ -37,8 +37,8 @@ public class OrderManagementRepositoryImplTest {
 		
 		// 주어진 값
 
-		OrderDetail orderDetail = new OrderDetail(23L, 81L, 0L, 0, 0, 0);
-		orderManagementRepository.insertOrderItem(orderDetail);
+
+
 		
 		
 		

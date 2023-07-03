@@ -3,13 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
 
-	<select id="readMaxOrderNumber" resultType="String">
-		SELECT ORDER_BUNDLE_ID
-		FROM ORDER_BUNDLE
-		ORDER BY REG_DATE DESC
-		FETCH FIRST 1 ROWS ONLY
-	</select>
-
 	<!-- 주문 묶음 테이블 insert -->
 	<insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
 <!-- 		<selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
@@ -44,6 +37,6 @@
 		INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
 		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
 	</insert>
-	
+		
 </mapper>
 

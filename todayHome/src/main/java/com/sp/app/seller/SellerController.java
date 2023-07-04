@@ -87,8 +87,10 @@ public class SellerController {
 	
 	@PostMapping("seller/logout")
 	public String logoutSubmit(HttpSession httpSession) {
-		
+	
+	 httpSession.removeAttribute("sessionInfo");
 	 httpSession.removeAttribute("sellerSessionInfo");
+	 
 	 httpSession.invalidate();
 	 
 	 

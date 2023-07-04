@@ -13,11 +13,7 @@ public interface QnaBoardService {
 	
 	void deleteQnaBoard(Long qnaBoardId) throws Exception;
 	
-	List<QnaBoard> getAllQnaBoard() throws Exception;
-	
-	QnaBoard getQnaBoardById(Long qnaBoardId) throws Exception;
-	
-	List<QnaBoard> getCategoryQnaBoardById(Long qnaCategoryId) throws Exception;
+	List<QnaBoard> getAllQnaBoard(long qnaCategoryId) throws Exception;
 	
 	void insertQnaCategory(QnaCategory qnaCategory) throws Exception;
 	

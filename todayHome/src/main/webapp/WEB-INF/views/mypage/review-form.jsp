@@ -3,205 +3,11 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review.css">
 	<title>Home</title>
 
 	<style>
-        .main-container.review-home {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
 
-        .review-home-search-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .review-home-search-form-input {
-            flex: 1;
-            height: 40px;
-            line-height: 40px;
-            font-size: 15px;
-        }
-
-        .review-home-search-form-input::placeholder {
-            color: #999;
-        }
-
-        .form-control {
-            width: 900px;
-            display: inline-block;
-        }
-
-        .review-home-button {
-            width: 120px;
-            margin-left: 8px;
-            display: inline-block;
-            box-sizing: border-box;
-            font-weight: 700;
-            text-align: center;
-            color: #ffffff;
-            cursor: pointer;
-            padding: 7px 9px;
-            background: #35c5f0;
-            border-color: #ffffff;
-            border-style: solid;
-            border-radius: 4px;
-        }
-
-        .picture-content-flex {
-            display: flex;
-            align-items: center;
-        }
-
-        .picture-img-container {
-            width: 86px;
-            height: 86px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .follow-user-item-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .picture-text-container {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .picture-text {
-            font-weight: 400;
-            color: #333;
-        }
-
-        .brand {
-            font-size: 12px;
-            color: #b7b7b7;
-        }
-
-        .name {
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .option {
-            font-size: 15px;
-        }
-
-        .point {
-            font-size: 14px;
-            font-weight: bold;
-            color: #35c5f0;
-        }
-
-        .review-home-search-form-wrap {
-            align-items: center;
-        }
-
-        .picture-container {
-
-        }
-
-        .review-write-btn {
-            padding: 8px 30px;
-            border: 1px solid #64C2EB;
-            color: #64C2EB;
-            border-radius: 4px;
-        }
-		
-		.review-write-btn:hover {
-            cursor: pointer;
-		}
-
-        .rating-container-bundle {
-            width: 100%;
-            /*margin: 20px 0;*/
-            border-radius: 2px;
-            background: #FFFFFF;
-            /*padding: 0 15px;*/
-            /*height: 100px;*/
-            /*display: flex;*/
-            flex-direction: row;
-            align-items: start;
-            justify-content: center;
-        }
-
-        .rating-container {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            border-radius: 5px;
-			justify-content: center;
-        }
-
-        .starBundle {
-            display: grid;
-            width: 190px;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            grid-auto-rows: 40px;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-size: 30px;
-        }
-
-        .rate:hover {
-            cursor: pointer;
-            scale: 108%;
-        }
-        .rate {
-            color: #95D9F1;
-        }
-
-        .rating-label {
-            font-size: 16px;
-            font-weight: 450;
-            margin-right: 15px;
-
-            /*width: 60px;*/
-            /*text-decoration-line: underline;*/
-            /*text-decoration: #a8a8a8 underline 1.5px;*/
-            /*background: #cbcbcb;*/
-            /*border: 1px solid gray;*/
-            color: #333333;
-        }
-
-        .modal-footer-custom {
-			width: 100%;
-			padding: 16px;
-        }
-
-        .comment-submit-btn {
-            width: 100%;
-            background-color: #63BDE6;
-            border-radius: 4px;
-            border: none;
-            padding: 10px 0;
-            color: white;
-        }
-
-        .review-picture-container {
-            position:  relative;
-            display: inline-block;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .review-picture-container input[type="file"] {
-            /*position: absolute;*/
-			display: none;
-        }
-		
-		.review-picture-container label:hover {
-            cursor: pointer;
-        }
 	</style>
 </head>
 <body>
@@ -234,7 +40,7 @@
 			</form>
 
 			<div class="flex-col" style="margin-top: 30px; gap: 10px">
-				<c:forEach items="${productList}" var="product">
+				<c:forEach items="${productList}" var="review">
 					<div class="picture-container flex-row" style="justify-content: space-between; width: 100%">
 						<div class="flex-row" style="gap: 15px; align-items: center;">
 							<div class="picture-img-container">
@@ -242,16 +48,16 @@
 									 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/161866122047151511.jpeg?w=1440">
 							</div>
 							<div class="picture-text-container">
-								<div class="picture-text brand">${product.brandName}</div>
-								<div class="picture-text name">${product.productName}</div>
-								<div class="picture-text option">${product.stockString}</div>
+								<div class="picture-text brand">${review.brandName}</div>
+								<div class="picture-text name">${review.productName}</div>
+								<div class="picture-text option">${review.stockString}</div>
 								<div class="picture-text point">포토 500P 일반 100P</div>
 							</div>
 						</div>
 
 						<div class="flex-col" style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
 							<div style="font-size: 14px">오늘의집 구매</div>
-							<div class="review-write-btn" onclick="openReviewModal('${product.productId}', '${product.brandName}', '${product.productName}', '${product.stockString}','${product.orderItemId}')">리뷰쓰기</div>
+							<div class="review-write-btn" onclick="openReviewModal('${review.productId}', '${review.brandName}', '${review.productName}', '${review.stockString}','${review.orderItemId}')">리뷰쓰기</div>
 						</div>
 					</div>
 				</c:forEach>
@@ -290,11 +96,8 @@
 					<div class="review-picture-container">
 						<input type="file" name="reviewImg" id="reviewImg" accept="image/*" class="photoAttach">
 						<label for="reviewImg" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6; text-align: center">사진 첨부하기</label>
-<%--						<label for="selectFile">사진 첨부하기</label>--%>
 					</div>
-
 					<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>
-
 					<div class="review-content"></div>
 				</form>
 

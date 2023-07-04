@@ -219,6 +219,72 @@
             font-size: 13px;
             font-weight: 600;
         }
+        
+        .image-category {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.image-category-item {
+  width:  25%;
+}
+
+.image-category-user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.image-category-user img {
+  width: 36px;
+  height: 36px;
+}
+
+.image-category-user span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.image-category-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-category-user-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-category-user-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.image-category-user-menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.image-category-user-menu i {
+  padding: 13px 0 16px;
+}
+
+.image-category-user-content {
+  margin: 0;
+  font-size: 15px;
+}
 	</style>
 </head>
 <body>
@@ -233,7 +299,7 @@
         // 마이페이지일때 메뉴
 		// 메인메뉴, 서브메뉴 숫자 입력
 		// 첫번째 파라미터에 0 입력시 숨김
-		selectMyPage(1,1);
+		selectMyPage(1,2);
     });
 </script>
 
@@ -241,7 +307,7 @@
 
 <div class="main-container">
 	<div class="content" style="padding: 0 60px">
-		<section> 
+		<section>
 			<div class="myinfo-wrapper">
 				<div class="myinfo">
 					<div class="myinfo-profile">
@@ -255,7 +321,7 @@
 						<h2>성태114</h2>
 						<dl class="follow-wrapper">
 							<dt class="follower">팔로워</dt>
-							<dd class="follower-data">1</dd>
+							<dd class="follower-data">0</dd>
 							<dt class="following">팔로잉</dt>
 							<dd class="follower-data">1</dd>
 						</dl>
@@ -267,7 +333,7 @@
 					<div class="myinfo-history">
 						<div class="myinfo-history-scrap myinfo-history-item">
 							<i class="bi bi-bookmark-check"></i> <span>스크랩북</span>
-							<em>9</em>
+							<em>3</em>
 						</div>
 						<div class="myinfo-history-like myinfo-history-item">
 							<i class="bi bi-heart"></i> <span>좋아요</span>
@@ -275,7 +341,7 @@
 						</div>
 						<div class="myinfo-history-coupon myinfo-history-item">
 							<i class="bi bi-ticket"></i> <span>내
-                           쿠폰</span> <em>0</em>
+                           쿠폰1</span> <em>0</em>
 						</div>
 					</div>
 				</div>
@@ -284,23 +350,32 @@
 					받기</strong>
 				</a>
 			</div>
-
-			<div class="myinfo-list">
-				<div class="myinfo-list-pictures">
-					<div class="picture-header">
-						<h2>사진</h2>
-						<strong>0</strong>
-					</div>
-					<a class="picture-list" href="#"> 첫 번째 사진을 올려보세요 </a>
-				</div>
-				<div class="myinfo-list-house">
-					<div class="house-header">
-						<h2>집들이</h2>
-						<strong>0</strong>
-					</div>
-					<a class="house-list" href="#"> 첫 번째 집들이를 올려보세요 </a>
-				</div>
-			</div>
+			
+			<div class="image-category">
+			    <div class="image-category-item">
+			    
+			      <div class="image-category-user">
+			        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&w=144&h=144&c=c&webp=1" alt="user-image">
+			        <span>성태114</span>
+			      </div>
+			
+			      <a href="#">
+			        <div href="" class="image-category-user-image">
+			          <img src="./assets/images/picture01.png" alt="user upload image">
+			        </div>
+			  
+			        <div class="image-category-user-menu">
+			          <i class="bi bi-heart"></i>
+			          <i class="bi bi-bookmark-check"></i>
+			          <i class="bi bi-chat"></i>
+			        </div>
+			  
+			        <p class="image-category-user-content">
+			          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa voluptatibus excepturi quaerat officiis ex? Sunt dignissimos nihil ullam quae modi repellat odio tempora id reiciendis tempore. Quam est debitis animi.
+			        </p>
+			      </a>
+			    </div>
+			  </div>
 		</section>
 	</div>
 </div>

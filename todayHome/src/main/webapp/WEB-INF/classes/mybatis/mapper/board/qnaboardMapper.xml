@@ -17,21 +17,14 @@
 		DELETE FROM qna_board WHERE qna_board_id = #{qnaBoardId}
 	</delete>
 	
-	<select id="getAllQnaBoard" resultType="com.sp.app.domain.board.QnaBoard">
+	<select id="getAllQnaBoard" parameterType="long" resultType="com.sp.app.domain.board.QnaBoard">
 		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
 		FROM qna_board
-	</select>
-	
-	<select id="getQnaBoardById" parameterType="long" resultType="com.sp.app.domain.board.QnaBoard">
-		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
-		FROM qna_board
-		WHERE qna_board_id = #{qnaBoardId}
-	</select>
-	
-	<select id="getCategoryQnaBoardById" parameterType="long" resultType="com.sp.app.domain.board.QnaBoard">
-		SELECT qna_board_id as qnaBoardId, qna_category_id as qnaCategoryId, member_id as memberId, subject, content, created_date as createdDate
-		FROM qna_board
-		WHERE qna_category_id = #{qnaCategoryId}
+		<where>
+			<if test="qnaCategoryId != 0">
+			( qna_category_id = #{qnaCategoryId} )
+			</if>
+		</where>
 	</select>
 	
 	<insert id="insertQnaCategory" parameterType="com.sp.app.domain.board.QnaCategory">
@@ -51,5 +44,6 @@
 	<select id="getAllQnaCategory" resultType="com.sp.app.domain.board.QnaCategory">
 		SELECT qna_category_id as qnaCategoryId, qna_category_name as qnaCategoryName
 		FROM qna_category
+		ORDER BY qna_category_id ASC
 	</select>
 </mapper>

@@ -6,35 +6,26 @@
 	<title>Home</title>
 
 	<style>
-.notification h2 {
-  font-size: 24px;
+	
+	.customer-notice-detail__back {
+    display: inline-block;
+    background: none;
+    font: inherit;
+    display: block;
+    width: 180px;
+    margin: 0 auto;
+    padding: 10px 0;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: 700;
+    background-color: #35c5f0;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color .1s;
 }
 
-.notification ul {
-  padding: 0;
-  
-}
-
-.notification ul li {
-  list-style: none;
-  padding: 26px 0;
-  border-bottom: 1px solid #dbdbdb;
-}
-
-.notification ul li .notification_content {
-  margin: 0;
-  margin-bottom: 8px;
-}
-
-.notification ul li .notification_date {
-  color: #828c94;
-  font-size: 14px;
-}
-
-.notice_list:hover{
-	color: #dbdbdb;
-	cursor: pointer;
-}
 	</style>
 	
 <script type="text/javascript">
@@ -59,17 +50,12 @@ $(function () {
 
 	<div class="main-container">
 		<div class="content">
-		<div class="notification">
-	    <h2>공지사항</h2>
-	    <ul>
-	    <c:forEach var="noticelist" items="${noticelist}" varStatus="status">
-	      <li class="notice_list" value="${noticelist.noticeBoardId}" onclick="location.href='${pageContext.request.contextPath}/mypage/noticeaerticle?noticeBoardId=${noticelist.noticeBoardId}'">
-	        <p class="notification_content">${noticelist.subject}</p>
-	        <span class="notification_date">${noticelist.createdDate}</span>
-	      </li>
-	    </c:forEach>
-	    </ul>
-	  </div>
+			<div>
+				<h1>${noticedto.subject }</h1>
+				<p>${noticedto.createdDate }</p>
+				<div>${noticedto.content }</div>
+				<button class="customer-notice-detail__back" onclick="location.href='${pageContext.request.contextPath}/mypage/notice'">목록으로 돌아가기</button>
+			</div>
 		</div>
 	</div>
 	

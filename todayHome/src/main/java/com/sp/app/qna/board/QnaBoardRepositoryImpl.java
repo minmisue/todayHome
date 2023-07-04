@@ -30,15 +30,6 @@ public class QnaBoardRepositoryImpl implements QnaBoardRepository{
 		commonDAO.deleteData("qnaboard.deleteQnaBoard",qnaBoardId);
 	}
 
-	@Override
-	public List<QnaBoard> getAllQnaBoard() throws Exception {
-		return commonDAO.selectList("qnaboard.getAllQnaBoard");
-	}
-
-	@Override
-	public QnaBoard getQnaBoardById(Long qnaBoardId) throws Exception {
-		return commonDAO.selectOne("qnaboard.getQnaBoardById", qnaBoardId);
-	}
 
 	@Override
 	public void insertQnaCategory(QnaCategory qnaCategory) throws Exception {
@@ -61,9 +52,10 @@ public class QnaBoardRepositoryImpl implements QnaBoardRepository{
 	}
 
 	@Override
-	public List<QnaBoard> getCategoryQnaBoardById(Long qnaCategoryId) throws Exception{
-		return commonDAO.selectList("qnaboard.getCategoryQnaBoardById",qnaCategoryId);
+	public List<QnaBoard> getAllQnaBoard(long qnaCategoryId) throws Exception {
+		return commonDAO.selectList("qnaboard.getAllQnaBoard", qnaCategoryId);
 	}
+
 
 
 }

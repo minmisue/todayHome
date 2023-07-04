@@ -355,7 +355,7 @@
 					<div class="selected-product" id="imgPool"></div>
 				</div>
 
-				<c:if test="${mode.equals('post') ? '등록 완료' : '수정 완료'}">
+				<c:if test="${mode.equals('post')}">
 
 					<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 

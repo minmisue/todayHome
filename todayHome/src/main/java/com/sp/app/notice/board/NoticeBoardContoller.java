@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.domain.board.NoticeBoard;
 
@@ -24,5 +25,14 @@ public class NoticeBoardContoller {
 		model.addAttribute("noticelist",noticelist);
 		
 		return "mypage/notice-board";
+	}
+	
+	@GetMapping("noticeaerticle")
+	public String getNoticeAerticle(
+			@RequestParam Long noticeBoardId,
+			Model model) {
+		NoticeBoard noticedto = noticeservice.getNoticeBoardById(noticeBoardId);
+		model.addAttribute("noticedto", noticedto);
+		return "mypage/notice-article";
 	}
 }

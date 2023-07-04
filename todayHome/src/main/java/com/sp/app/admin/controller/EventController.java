@@ -69,7 +69,7 @@ public class EventController {
 			model.addAttribute("sysdate", strNowDate);
 		} catch (Exception e) {
 		}
-		return "/admin/event/event-list";
+		return ".admin.event.event-list";
 	}
 	
 	@GetMapping("admin/event/detail")
@@ -86,7 +86,7 @@ public class EventController {
 			model.addAttribute("sysdate", strNowDate);
 		} catch (Exception e) {
 		}
-		return "/admin/event/event-detail";
+		return "admin/event/event-detail";
 	}
 	
 	@GetMapping("admin/event/listReply")
@@ -122,7 +122,7 @@ public class EventController {
 		model.addAttribute("replyCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
-		return "/admin/event/event-reply";
+		return "admin/event/event-reply";
 	}
 	
 	@PostMapping("admin/event/insertReply")

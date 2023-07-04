@@ -19,4 +19,7 @@ public interface AdjustmentService {
 
     // 정산 기록 수정(필요 없을듯) ok
    void  updateAdjustment(SellerAdjustment adjustment) throws Exception;
+   
+   //정산 카운트
+   int adjustmentCount() throws Exception;
 }

@@ -58,10 +58,16 @@ public class AdjustmentRepositoryImplTest {
 	@Test
 	public void getAllAdjustments() throws Exception{
 		
+		int size;
 		List<SellerAdjustment> adjustmentList = adjustmentRepository.getAllAdjustments();
 		
 		for (SellerAdjustment sellerAdjustment : adjustmentList) {
 			System.out.println(sellerAdjustment);
 		}
+	}
+	@Test
+	public void adjustmentCount() throws Exception{
+		adjustmentRepository.adjustmentCount();
+		
 	}
 }

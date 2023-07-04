@@ -142,10 +142,82 @@ input[type="checkbox"]:checked {
   border: 2px solid blue;
   color: blue;
 }
+.page-navigation {
+	clear: both;
+	padding: 20px 0;
+	text-align: center;
+}
+.paginate {
+	clear: both;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 14px;	
+}
+.paginate a {
+	border: 1px solid #ccc;
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate a:hover, .paginate a:active {
+	color: #6771ff;
+}
+.paginate span {
+	border: 1px solid #e28d8d;
+	color: #cb3536;
+	font-weight: 600;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate :first-child {
+	margin-left: 0;
+}
 </style>
 </head>
 <body>
+<script>
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+ function listPage(page) {
+	    let url = "${pageContext.request.contextPath}/admin/adjustment/list";
+	    let selector = "#sellerAdjustmentList";
+	    const fn = function(data) {
+	      $(selector).html(data);
+	    };
+	    ajaxFun(url, "get", query, "html", fn);
+	  }
 
+	  $(function() {
+	    listPage(1);
+	  });
+</script>
 <div class="body-container">
     <div class="body-title">
 		<h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
@@ -192,6 +264,9 @@ input[type="checkbox"]:checked {
 		</tr>
 	</c:forEach>
     </table>
+    <div class="page-navigation">
+	${paging}
+</div>			
 <div class="button-container" style="display: flex; justify-content: center;">
   <button id="reset-button" class="styled-button" >초기화</button>
   <button id="search-button" class="styled-button">검색</button>

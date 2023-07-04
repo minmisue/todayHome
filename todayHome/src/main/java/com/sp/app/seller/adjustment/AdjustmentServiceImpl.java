@@ -20,7 +20,7 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 		
 		try {
 			
-			sellerAdjustment = adjustmentRepository.getAllAdjustments();
+			sellerAdjustment = adjustmentRepository.getAllAdjustments(offset, size);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,6 +78,12 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 			throw e;
 		}
 		
+	}
+
+
+	@Override
+	public int adjustmentCount() throws Exception {
+		return adjustmentRepository.adjustmentCount();
 	}
 
 }

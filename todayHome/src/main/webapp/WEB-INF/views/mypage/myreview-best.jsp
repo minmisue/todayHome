@@ -72,8 +72,12 @@
 	font-size: 12px;
 }
 
-.flex-row{
+.flex-row {
 	margin-bottom: 20px;
+}
+
+.editBtn {
+
 }
 </style>
 <script>
@@ -154,7 +158,7 @@
 
 								<div class="flex-col"
 									style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
-									<div style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
+									<div class="editBtn" style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
 								</div>
 							</div>
 						</c:forEach>

@@ -478,7 +478,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getStockByStockId() throws Exception {
-		Long stockId = 92L;
+		Long stockId = 166L;
 
 		ProductStock stock = productManagementRepository.getStockByStockId(stockId);
 		System.out.println(stock);

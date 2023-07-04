@@ -33,5 +33,12 @@ public class AdjustmentController {
 		return ".seller.adjustment.list";
 		
 	}
-	
+	@GetMapping("admin/adjustment/list")
+	public String adminAdjustmentList(Model model) throws Exception {
+	    List<SellerAdjustment> adminAdjustmentList = adjustmentService.getAllAdjustments();
+	    
+	    model.addAttribute("adjustmentList", adminAdjustmentList);
+	    
+	    return ".admin.adjustment.list";
+	}
 }

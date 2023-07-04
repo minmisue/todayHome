@@ -15,10 +15,12 @@
 	</insert>
 	
 	<!-- 모든 정산 목록 반환  -->
-	<select id="getAllAdjustments" resultType="com.sp.app.domain.seller.SellerAdjustment">
-		SELECT adjustment_id as adjustmentId,seller_id as sellerId, to_char(adjustment_date, 'yyyy-mm-dd') as adjustmentDate, 
-		amount
-		FROM adjustment
+	<select id="getAllAdjustments" parameterType="map" resultType="com.sp.app.domain.seller.SellerAdjustment">
+        SELECT to_char(adj.adjustment_date, 'yyyy-mm-dd') as adjustmentDate, adj.amount,to_char(sel.reg_date, 'yyyy-mm-dd') as regDate
+        		 ,sel.brand_name as brandName, sel.business_number as businessNumber,
+    			 sel.seller_name as sellerName,sel.tel,sel.email,sel.representative_name as representativeName
+		FROM adjustment adj
+		JOIN seller sel ON adj.seller_id = sel.seller_id
 	</select>
 	
 	<!-- 판매자 아이디로 정산 목록 반환 -->
@@ -33,6 +35,11 @@
 		SELECT seller_id as sellerId, to_char(adjustment_date, 'YYYY-MM-DD') as adjustmentDate,amount
 		FROM adjustment
 		WHERE adjustment_id = #{adjustmentId}
+	</select>
+	
+	<select id="adjustmentCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM adjustment  
 	</select>
 </mapper>
 

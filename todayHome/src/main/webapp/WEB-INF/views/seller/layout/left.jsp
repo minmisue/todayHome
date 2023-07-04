@@ -14,6 +14,15 @@
     });
   });
 
+  function sellerLogout(){
+      let f = document.createElement('form');
+      f.setAttribute('method', 'post');
+      f.setAttribute('action', '${pageContext.request.contextPath}' + '/seller/logout')
+
+      document.body.appendChild(f);	
+      f.submit();
+  }
+
 $(function(){
     var url = window.location.pathname;
     var urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
@@ -73,17 +82,16 @@ $(function(){
 			<h1>판매자 페이지</h1>
 		</div>
 		<div class="header-right">
-		<form id="logoutForm" action="${pageContext.request.contextPath}/seller/logout" method="post">
  	
 			<span class="img" style="background-image: url('${pageContext.request.contextPath}/resources/images/person.png');"></span>
 			<span class="roll-user">
 				<label class="roll">판매자</label>
 				<label class="user">					
 					<span class="name">${sessionScope.sellerSessionInfo.sellerName}님</span>
-					<a href="${pageContext.request.contextPath}/seller/logout" id="sellerLogout" title="sellerLogout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+					<a href="javascript:void(0)" onclick="sellerLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 				</label>
 			</span>
-			</form>
+
 		</div>
 	</div>
 
@@ -109,13 +117,7 @@ $(function(){
 					<a href="<c:url value='/seller/product'/>" class="sub_menu--link">상품 등록</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">상품 수정</a>
-				</li>
-				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">상품 조회</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="#" class="sub_menu--link">재고 관리</a>
 				</li>
 			</ul>
 		</li>

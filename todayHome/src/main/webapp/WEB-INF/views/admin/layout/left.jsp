@@ -6,6 +6,21 @@
 
 <script type="text/javascript">
 // 메뉴 활성화
+function adminLogout(){
+      let f = document.createElement('form');
+      f.setAttribute('method', 'post');
+      f.setAttribute('action', '${pageContext.request.contextPath}' + '/admin/logout')
+
+      document.body.appendChild(f);	
+      f.submit();
+  }
+  $(document).ready(function() {
+    $('#adminLogout').click(function(e) {
+      e.preventDefault(); 
+
+      $('#logoutForm').submit();
+    });
+  });
 $(function(){
     var url = window.location.pathname;
     var urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
@@ -108,7 +123,7 @@ $(function(){
 	
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="글관리">
-				<i class="menu--icon  fa-fw fa-solid fa-person-circle-question"></i>
+				<i class="menu--icon  fa-fw fa-solid fa-newspaper"></i>
 				<span class="menu--label">글관리</span>
 			</label>
 
@@ -127,27 +142,27 @@ $(function(){
 
 		<li class="menu--item">
 	        <a href="#" class="menu--link" title="상품 관리">
-				<i class="menu--icon  fa-fw fa-solid fa-user-group"></i>
+				<i class="menu--icon fa-fw fa-solid fa-basket-shopping"></i>
 				<span class="menu--label">상품 관리</span>
 			</a>
 		</li>
 
 		<li class="menu--item">
 			<a href="#" class="menu--link" title="주문통계">
-				<i class="menu--icon  fa-fw fa-solid fa-location-dot"></i>
+				<i class="menu--icon  fa-fw fa-solid fa-chart-pie"></i>
 				<span class="menu--label">주문 통계</span>
 			</a>
 		</li>
 
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="메인화면 설정">
-				<i class="menu--icon  fa-fw fa-solid fa-gear"></i>
-				<span class="menu--label">메인화면 설정</span>
+			<a href="<c:url value='/admin/adjustment/list'/>" class="menu--link" title="정산 리스트">
+				<i class="menu--icon  fa-fw fa-solid fa-calculator"></i>
+				<span class="menu--label">정산 리스트</span>
 			</a>
 		</li>
 
 		<li class="menu--item">
-			<a href="${pageContext.request.contextPath}/member/logout" class="menu--link" title="Logout">
+			<a class="menu--link" href="javascript:void(0)" onclick="adminLogout()" >
 				<i class="menu--icon fa-fw fa-solid fa-lock-open"></i>
 				<span class="menu--label">Logout</span>
 			</a>

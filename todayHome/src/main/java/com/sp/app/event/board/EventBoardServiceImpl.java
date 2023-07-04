@@ -10,7 +10,7 @@ import com.sp.app.domain.board.EventBoard;
 import com.sp.app.domain.board.EventReply;
 
 @Service
-public class EvnetBoardServiceImpl implements EventBoardService{
+public class EventBoardServiceImpl implements EventBoardService{
 
 	@Autowired 
 	EventBoardRepository eventBoardRepository;

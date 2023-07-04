@@ -283,11 +283,6 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public List<Product> getProductsByKeyword(String keyword) {
-		return productManagementRepository.getProductsByKeyword(keyword);
-	}
-
-	@Override
 	public void updateProduct(Product product) {
 		productManagementRepository.updateProduct(product);
 	}

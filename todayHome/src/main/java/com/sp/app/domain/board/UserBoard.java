@@ -8,12 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserBoard {
     private Long userBoardId;
     private Long memberId;
-	private List<Long> categoryId;
     private String subject;
     private String createdDate;
 	private String ipAddress;
 	private int hitCount;
-	private int boardType;
+	private int boardTypeId;
 	private int replyCount;
 	private int boardLikeCount;
 	private int boardScrapCount;
@@ -49,6 +48,37 @@ public class UserBoard {
 	
 	
 
+	
+
+	@Override
+	public String toString() {
+		return "UserBoard [userBoardId=" + userBoardId + ", memberId=" + memberId + ", subject=" + subject
+				+ ", createdDate=" + createdDate + ", ipAddress=" + ipAddress + ", hitCount=" + hitCount
+				+ ", boardTypeId=" + boardTypeId + ", replyCount=" + replyCount + ", boardLikeCount=" + boardLikeCount
+				+ ", boardScrapCount=" + boardScrapCount + ", nickName=" + nickName + ", profileImgName="
+				+ profileImgName + ", userBoardContentId=" + userBoardContentId + ", content=" + content + ", imgName="
+				+ imgName + ", userBoardContentCategoryId=" + userBoardContentCategoryId + ", contentSequence="
+				+ contentSequence + ", position=" + position + ", contents=" + contents + ", selectFile=" + selectFile
+				+ ", userBoardContentCategoryIds=" + userBoardContentCategoryIds + ", contentSequences="
+				+ contentSequences + ", positions=" + positions + ", thumbnailFile=" + thumbnailFile +  ", xCoordinate=" + xCoordinate + ", yCoordinate=" + yCoordinate + ", discountedPrice="
+				+ discountedPrice + ", productName=" + productName + ", brandName=" + brandName + ", saveName="
+				+ saveName + ", sellerId=" + sellerId + ", price=" + price + "]";
+	}
+
+
+
+	public int getBoardTypeId() {
+		return boardTypeId;
+	}
+
+
+
+	public void setBoardTypeId(int boardTypeId) {
+		this.boardTypeId = boardTypeId;
+	}
+
+
+
 	public UserBoard() {
 		
 	}
@@ -78,16 +108,6 @@ public class UserBoard {
 	}
 
 
-
-	public List<Long> getCategoryId() {
-		return categoryId;
-	}
-
-
-
-	public void setCategoryId(List<Long> categoryId) {
-		this.categoryId = categoryId;
-	}
 
 
 
@@ -137,17 +157,6 @@ public class UserBoard {
 		this.hitCount = hitCount;
 	}
 
-
-
-	public int getBoardType() {
-		return boardType;
-	}
-
-
-
-	public void setBoardType(int boardType) {
-		this.boardType = boardType;
-	}
 
 
 

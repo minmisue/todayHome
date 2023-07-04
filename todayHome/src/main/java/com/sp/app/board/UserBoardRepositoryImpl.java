@@ -19,8 +19,13 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	private CommonDAO commonDAO;
 
 	@Override
-	public void createBoard(UserBoard userBoard) throws Exception {
+	public Long createBoard(UserBoard userBoard) throws Exception {
+		Long seq = commonDAO.selectOne("userBoard.board_seq");
+		
+		userBoard.setUserBoardId(seq);
 		commonDAO.insertData("userBoard.createBoard", userBoard);
+		
+		return seq;
 	}
 
 	@Override

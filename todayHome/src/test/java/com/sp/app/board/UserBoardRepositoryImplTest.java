@@ -41,7 +41,7 @@ public class UserBoardRepositoryImplTest {
 	public void createBoard() throws Exception {
 		UserBoard userBoard = new UserBoard();
 		userBoard.setMemberId(1L);
-		userBoard.setBoardType(1);
+		userBoard.setBoardTypeId(1);
 		
 		userBoardRepository.createBoard(userBoard);
 	}

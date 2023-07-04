@@ -15,12 +15,12 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 	
 	
 	@Override
-	public List<SellerAdjustment> getAllAdjustments() throws Exception {
+	public List<SellerAdjustment> getAllAdjustments(int offset, int size) throws Exception {
 		List<SellerAdjustment> sellerAdjustment = null;
 		
 		try {
 			
-			sellerAdjustment = adjustmentRepository.getAllAdjustments();
+			sellerAdjustment = adjustmentRepository.getAllAdjustments(offset, size);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,6 +78,12 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 			throw e;
 		}
 		
+	}
+
+
+	@Override
+	public int adjustmentCount() throws Exception {
+		return adjustmentRepository.adjustmentCount();
 	}
 
 }

@@ -12,8 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 
-import oracle.net.aso.c;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"classpath:/spring/appServlet/servlet-context.xml",
@@ -32,10 +30,10 @@ public class CartManagementServiceImplTest {
 			Cart cart = new Cart();
 
 			cart.setMemberId(1L);
-			cart.setProductId(81L);
+			cart.setProductId(301L);
 
 			CartOptionMap cartOptionMap = new CartOptionMap();
-			cartOptionMap.setStockId(42L);
+			cartOptionMap.setStockId(152L);
 			cartOptionMap.setQuantity(1L);
 			List<CartOptionMap> stockList = new ArrayList<CartOptionMap>();
 			stockList.add(cartOptionMap);

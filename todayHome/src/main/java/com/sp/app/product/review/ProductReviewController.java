@@ -2,12 +2,8 @@ package com.sp.app.product.review;
 
 import com.sp.app.common.FileManager;
 import com.sp.app.domain.common.SessionInfo;
-import com.sp.app.domain.product.ProductImg;
 import com.sp.app.domain.product.ProductReview;
-import com.sp.app.domain.product.ProductStock;
-import com.sp.app.domain.product.ReviewProduct;
 import com.sp.app.product.management.ProductManagementService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -63,7 +58,7 @@ public class ProductReviewController {
 			throw new RuntimeException(e);
 		}
 
-		model.addAttribute("productList", productList);
+		model.addAttribute("reviewList", productList);
 
 		return "mypage/myreview-best";
 	}
@@ -72,15 +67,15 @@ public class ProductReviewController {
 	public String myReviewListBestAjax(@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo, Model model) {
 		Long memberId = sessionInfo.getMemberId();
 
-		List<ProductReview> productList;
+		List<ProductReview> reviewList;
 
 		try {
-			productList = productReviewService.findReviewsByMemberId(memberId);
+			reviewList = productReviewService.findReviewsByMemberId(memberId);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		model.addAttribute("productList", productList);
+		model.addAttribute("reviewList", reviewList);
 
 
 		return "mypage/myreview-best";

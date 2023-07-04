@@ -1,9 +1,9 @@
 package com.sp.app.domain.order;
 
 public class Order {
-	private Long orderBundleId; // 주문 묶음 아이디
-	private Long memberId; 
-	
+	private String orderBundleId; // 주문 묶음 아이디
+	private Long memberId;
+
 	private String orderRegDate; // 주문 날짜
 	private String receiveName; // 수령인 이름
 	private String tel; // 수령인 번호
@@ -15,15 +15,15 @@ public class Order {
 	private int finalTotPrice; // 총금액(order_bundle)
 	private int finalDiscountPrice; // 총할인 금액
 	private int finalDeliveryCost; // 총배송비
-		
-	
+
+
 	private String deliveryNumber;
 	private int deliveryCost;
 	private String arrivedDate;
-	
+
 	public Order() {
 	}
-	
+
 	public Order(Long memberId, String receiveName, String tel, String postNum,
 			String address2, String address1, int usedPoint, String payMethod, int finalTotPrice,
 			int finalDiscountPrice, int finalDeliveryCost) {
@@ -42,11 +42,11 @@ public class Order {
 
 	}
 
-	public Long getOrderBundleId() {
+	public String getOrderBundleId() {
 		return orderBundleId;
 	}
 
-	public void setOrderBundleId(Long orderBundleId) {
+	public void setOrderBundleId(String orderBundleId) {
 		this.orderBundleId = orderBundleId;
 	}
 

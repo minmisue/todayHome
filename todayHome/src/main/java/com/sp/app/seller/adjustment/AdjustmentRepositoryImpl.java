@@ -11,11 +11,11 @@ import com.sp.app.domain.seller.SellerAdjustment;
 @Repository
 public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 
-	@Autowired
+	@Autowired 
 	private CommonDAO commonDAO;
 	
 	@Override
-	public List<SellerAdjustment> getAllAdjustments() throws Exception{
+	public List<SellerAdjustment> getAllAdjustments(int offset, int size) throws Exception{
 		return commonDAO.selectList("sellerAdjustment.getAllAdjustments");
 		
 	}
@@ -38,6 +38,13 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 	@Override
 	public void updateAdjustment(SellerAdjustment adjustment) throws Exception{
 		commonDAO.updateData("sellerAdjustment.updateAdjustment", adjustment);
+	}
+
+	@Override
+	public int adjustmentCount() throws Exception {
+		
+		return commonDAO.selectOne("sellerAdjustment.adjustmentCount");
+		
 	}
 
 

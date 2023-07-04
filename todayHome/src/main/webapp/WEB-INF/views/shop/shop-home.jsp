@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -73,10 +74,10 @@
             line-height: 23px;
             font-weight: 700;
             color: #65C2EC;
+            margin-right: 5px;
         }
 
         .today-deal-price {
-            margin-left: 5px;
             font-size: 17px;
             line-height: 23px;
             font-weight: 700;
@@ -313,20 +314,29 @@
 		<%-- 오늘의 딜 상품 4개 --%>
 		<div class="grid-col-4 grid-row">
 
-			<c:forEach items="${productList}" var="product">
-				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
+			<c:forEach items="${productList}" var="review">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${review.productId}'">
 					<div class="today-deal-img-container">
 						<img class="today-deal-product-img"
-							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${review.saveName}">
 					</div>
 					<div class="flex-col today-deal-info-container">
-						<div class="today-deal-brand-name">${product.brandName}</div>
-						<div class="today-deal-product-name">${product.productName}</div>
-						<div><span class="today-deal-sale-percent">${product.discountPercent}</span><span class="today-deal-price">${product.price}</span>
+						<div class="today-deal-brand-name">${review.brandName}</div>
+						<div class="today-deal-product-name">${review.productName}</div>
+						<div>
+							<c:if test="${review.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+									${review.discountPercent + '%'}
+								</span>
+							</c:if>
+						<span class="today-deal-price">
+							<fmt:formatNumber value="${review.price}" pattern="#,###" />
+							${formatNumber}
+						</span>
 						</div>
 						<div class="today-deal-item-info"><span class="today-deal-star"><i
-								class="fa-solid fa-star"></i></span><span class="today-deal-rating">${product.rating}</span><span
-								class="today-deal-review-count">리뷰 ${product.reviewCnt}</span></div>
+								class="fa-solid fa-star"></i></span><span class="today-deal-rating">${review.rating}</span><span
+								class="today-deal-review-count">리뷰 ${review.reviewCnt}</span></div>
 					</div>
 				</div>
 			</c:forEach>

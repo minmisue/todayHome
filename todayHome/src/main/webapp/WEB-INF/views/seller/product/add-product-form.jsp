@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -265,7 +266,7 @@
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상품명</span></div>
-						<input class="form-control product-info" name="productName" id="productName" value="${mode == "post" ? "" : product.name}">
+						<input class="form-control product-info" name="productName" id="productName" value="${mode.equals("post") ? "" : product.productName}">
 						<button class="btn btn-outline-secondary" type="button" id="productNameCheckBtn">중복 검사</button>
 					</div>
 				</div>
@@ -317,17 +318,17 @@
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">기본 가격</span></div>
-						<input type="number" class="form-control product-info" id="defaultPrice" name="price" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="defaultPrice" name="price" value="${mode == "post" ? "" : product.price}">
 					</div>
 
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">할인율</span></div>
-						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.discountPercent}">
 					</div>
 
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">배달비</span></div>
-						<input type="number" class="form-control product-info" id="deliveryCost" name="deliveryCost" value="${mode == "post" ? "" : product.remainQuantity}">
+						<input type="number" class="form-control product-info" id="deliveryCost" name="deliveryCost" value="${mode == "post" ? "" : product.deliveryCost}">
 					</div>
 				</div>
 
@@ -340,7 +341,7 @@
 				<div style="margin-top: 35px; font-weight: 700;">상품 이미지</div>
 				<div class="input-group" style="flex: 1; margin-top: 10px;">
 					<input type="file" class="form-control" id="productImgInput"
-						   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="productImg" multiple="multiple" >
+						   aria-label="Upload" accept="image/jpeg,image/png,image/gif,image/avif" name="productImg" multiple="multiple" >
 				</div>
 
 				<%-- 이미지 미리보기 --%>
@@ -354,51 +355,54 @@
 					<div class="selected-product" id="imgPool"></div>
 				</div>
 
-				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
+				<c:if test="${mode.equals('post')}">
 
-				<div style="margin-top: 35px; font-weight: 700;">옵션 설정</div>
-				<input type="hidden" name="mainOptionName" id="mainOptionName">
-				<input type="hidden" name="subOptionName" id="subOptionName">
+					<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
-				<div class="form-container" style="margin-top: 15px;" >
-						<div class="form-object option-container" style="flex-direction: column;">
-							<div class="flex-col main-option" style="width: 100%; align-items: end">
-								<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
-									<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
-									<input style=" padding: 10px 10px; " class="form-control main-option-input" type="text" placeholder="상위 옵션명">
-								</div>
-								<div class="flex-col sub-option-container" style="width: 95%; text-align: right; justify-content: center">
-									<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
-										<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
-										<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" placeholder="하위 옵션명">
+					<div style="margin-top: 35px; font-weight: 700;">옵션 설정</div>
+					<input type="hidden" name="mainOptionName" id="mainOptionName">
+					<input type="hidden" name="subOptionName" id="subOptionName">
+
+					<div class="form-container" style="margin-top: 15px;" >
+							<div class="form-object option-container" style="flex-direction: column;">
+								<div class="flex-col main-option" style="width: 100%; align-items: end">
+									<div class="flex-row" style="width: 100%; align-items: center; margin-bottom: 15px;">
+										<i class="bi bi-dash-square-fill remove-btn" onclick="deleteObject(this)"></i>
+										<input style=" padding: 10px 10px; " class="form-control main-option-input" type="text" placeholder="상위 옵션명">
+									</div>
+									<div class="flex-col sub-option-container" style="width: 95%; text-align: right; justify-content: center">
+										<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
+											<i class="bi bi-plus-square-fill add-btn" onclick="addSubOption(this)"></i>
+											<input class="form-control" style="flex: 1; padding: 10px 10px" type="text" placeholder="하위 옵션명">
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					<button type="button" id="addMainOption" class="plus-btn">옵션 추가</button>
-				</div>
-				<div style="margin-top: 10px; display: flex; flex-direction: row; justify-content: right">
-					<div class="option-submit-btn" onclick="displayOptions();">등록 완료</div>
-				</div>
-				<div style="margin-top: 35px; font-weight: 700;">옵션별 재고 설정</div>
-
-				<div class="stock-container">
-					<div class="flex-row stock-input-container" id="mainOptionNames">
-						<div class="flex-row"></div>
-						<div class="flex-row" style="gap: 5px">
-							<div class="stock-object" style="width: 120px;">가격</div>
-							<div class="stock-object" style="width: 120px;">재고</div>
-						</div>
+						<button type="button" id="addMainOption" class="plus-btn">옵션 추가</button>
+					</div>
+					<div style="margin-top: 10px; display: flex; flex-direction: row; justify-content: right">
+						<div class="option-submit-btn" onclick="displayOptions();">등록 완료</div>
 					</div>
 
-					<div class="flex-row stock-input-container">
-						<%-- 옵션명 --%>
-						<div class="flex-col" id="subOptionNameContainer" style="gap: 10px"></div>
+					<div style="margin-top: 35px; font-weight: 700;">옵션별 재고 설정</div>
+					<div class="stock-container">
+						<div class="flex-row stock-input-container" id="mainOptionNames">
+							<div class="flex-row"></div>
+							<div class="flex-row" style="gap: 5px">
+								<div class="stock-object" style="width: 120px;">가격</div>
+								<div class="stock-object" style="width: 120px;">재고</div>
+							</div>
+						</div>
 
-						<%-- 재고 정보 --%>
-						<div class="flex-col" id="subOptionInputContainer" style="gap: 10px"></div>
+						<div class="flex-row stock-input-container">
+							<%-- 옵션명 --%>
+							<div class="flex-col" id="subOptionNameContainer" style="gap: 10px"></div>
+
+							<%-- 재고 정보 --%>
+							<div class="flex-col" id="subOptionInputContainer" style="gap: 10px"></div>
+						</div>
 					</div>
-				</div>
+				</c:if>
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
@@ -406,18 +410,16 @@
 					<div style="margin-top: 35px; font-weight: 700;">상품 상세 이미지 및 설명</div>
 					<div class="input-group" style="flex: 1; margin-top: 10px;">
 						<input type="file" class="form-control" id="contentImgInput"
-							   aria-label="Upload" accept="image/jpeg,image/png,image/gif" name="contentImg" multiple="multiple" >
+							   aria-label="Upload" accept="image/jpeg,image/png,image/gif,image/avif" name="contentImg" multiple="multiple" >
 					</div>
 
-
-					<textarea class="form-control" style="margin-top: 5px;" name="content"></textarea>
+					<textarea class="form-control" style="margin-top: 5px;" name="content">${product.content}</textarea>
 				</label>
 
 				<div style="text-align: right; margin-top: 10px;">
 					<button type="submit" class="btn btn-success" style="width: 100px; margin-top: 20px">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
 				</div>
 			</form>
-			<button onclick="getValueMap()">test</button>
 		</div>
 	</div>
 </div>

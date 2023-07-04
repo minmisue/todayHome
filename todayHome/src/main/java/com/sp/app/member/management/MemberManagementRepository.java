@@ -1,6 +1,8 @@
 package com.sp.app.member.management;
 
 
+import java.util.List;
+
 import com.sp.app.domain.member.Member;
 
 public interface MemberManagementRepository {
@@ -30,4 +32,6 @@ public interface MemberManagementRepository {
 	int updateAddress(Member member) throws Exception;
 
 	void insertAddress(Member member) throws Exception;
+	
+	List<Member> findMembersByNickname(String nickName) throws Exception; 
 }

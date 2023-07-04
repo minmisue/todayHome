@@ -1,6 +1,7 @@
 package com.sp.app.board;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sp.app.domain.board.BoardContent;
 import com.sp.app.domain.board.Comment;
@@ -26,9 +27,9 @@ public interface UserBoardService {
 	    
 	    // 조회수
 	    void updateHitCount(Long userBoardId) throws Exception;
-
+	    
 	    // 게시글 리스트 조회
-	    List<ListBoard> listBoard() throws Exception;
+	    List<ListBoard> listBoard(Map<String, Object> map) throws Exception;
 	    
 	    // 작성자의 다른 게시물 조회
 	    List<UserBoard> readOtherBoard(Long memberId) throws Exception;

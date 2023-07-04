@@ -6,18 +6,49 @@ public class Follow {
 	private Long followingId;
 	private String followerNickname;
 	private String followingNickname;
+	private String fileImgName;
+	private String info;
 	
 	public Follow() {
 	
 	}
 	
 	
-	
-	
+
+
 	@Override
 	public String toString() {
 		return "Follow [followerId=" + followerId + ", followingId=" + followingId + ", followerNickname="
-				+ followerNickname + ", followingNickname=" + followingNickname + "]";
+				+ followerNickname + ", followingNickname=" + followingNickname + ", fileImgName=" + fileImgName
+				+ ", info=" + info + "]";
+	}
+
+
+
+
+	public String getFileImgName() {
+		return fileImgName;
+	}
+
+
+
+
+	public void setFileImgName(String fileImgName) {
+		this.fileImgName = fileImgName;
+	}
+
+
+
+
+	public String getInfo() {
+		return info;
+	}
+
+
+
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 

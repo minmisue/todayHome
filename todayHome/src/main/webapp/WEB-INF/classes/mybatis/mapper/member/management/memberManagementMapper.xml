@@ -80,6 +80,15 @@
 		UPDATE ADDRESS_BUNDLE set POST_NUM = #{postNum}, ADDRESS1 = #{address1}, ADDRESS2 = #{address2}
 		where MEMBER_ID = #{memberId}
     </update>
+    
+    
+    <select id="findMembersByNickname" parameterType="com.sp.app.domain.member.Member" resultType="com.sp.app.domain.member.Member">
+    	SELECT m.MEMBER_ID as memberId, MEMBER_ROLE_ID as memberRoleId, EMAIL, NAME, TEL, POST_NUM as postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE as regDate, PROFILE_IMG_NAME as profileImgName, INFO
+		FROM MEMBER m
+		JOIN MEMBER_DETAIL md on m.MEMBER_ID = md.MEMBER_ID
+		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
+		WHERE INSTR(md.NICKNAME, #{nickName}) > 0 
+    </select>
 
 
 	

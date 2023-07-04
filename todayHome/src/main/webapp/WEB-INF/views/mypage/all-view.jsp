@@ -8,7 +8,6 @@
 	<style>
         section {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             box-sizing: border-box;
@@ -24,9 +23,7 @@
             position: sticky;
             top: 0;
             align-self: flex-start;
-            width: 30%;
-            max-width: 280px;
-            min-width: 230px;
+            min-width: 280px;
             padding: 10px 0;
         }
 
@@ -244,7 +241,7 @@
 
 <div class="main-container">
 	<div class="content" style="padding: 0 60px">
-		<section>
+		<section> 
 			<div class="myinfo-wrapper">
 				<div class="myinfo">
 					<div class="myinfo-profile">
@@ -258,7 +255,7 @@
 						<h2>성태114</h2>
 						<dl class="follow-wrapper">
 							<dt class="follower">팔로워</dt>
-							<dd class="follower-data">0</dd>
+							<dd class="follower-data">1</dd>
 							<dt class="following">팔로잉</dt>
 							<dd class="follower-data">1</dd>
 						</dl>

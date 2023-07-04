@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +21,8 @@ import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
 import com.sp.app.domain.order.Order;
+import com.sp.app.domain.order.OrderDetail;
+import com.sp.app.domain.order.OrderItemStock;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.product.management.ProductManagementService;
@@ -37,6 +38,9 @@ public class OrderController {
 	
 	@Autowired
 	MemberManagementService memberservie;
+	
+	@Autowired
+	OrderManagementService orderManagementService;
 	
 	@GetMapping("list")
 	public String listCartOrder(HttpSession session,
@@ -63,7 +67,7 @@ public class OrderController {
 				Long quantity = vo.getQuantity();
 				
 				ProductStock productStock = productservice.getStockByStockId(stockId);
-				productStock.setPrice(productStock.getOptionPrice()*quantity);
+				productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
 				
 				productStock.setCartQuantity(quantity);
 				productStockList.add(productStock);
@@ -73,9 +77,10 @@ public class OrderController {
 			
 		}
 		
-		
+		String orderBundleId = orderManagementService.productOrderNumber();
 		Member member = memberservie.readMemberById(memberId);
 		
+		model.addAttribute("orderBundleId", orderBundleId);
 		model.addAttribute("member", member);
 		model.addAttribute("cartList", cartList);
 		
@@ -83,10 +88,48 @@ public class OrderController {
 	}
 	
 	@PostMapping("paymentOk")
-	
-	public String paymentSubmit(@ModelAttribute Order order) {
+	@ResponseBody
+	public String paymentSubmit(
+			@ModelAttribute Order order,
+			@RequestParam List<Long> productNums,
+			@RequestParam List<Integer> finalPrices,
+			@RequestParam List<Integer> originalPrices,
+			@RequestParam List<Integer> disCountPercent,
+			@RequestParam List<Integer> price,
+			@RequestParam List<Long> stockNums,
+			@RequestParam List<Integer> quantityList
+			) {
 		
+		order.setPayMethod("카드");
+		// 옵션 상세
+		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
+		for(int i=0;i<productNums.size();i++) {
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setOrderBundleId(order.getOrderBundleId());
+			orderDetail.setProductId(productNums.get(i));
+			orderDetail.setDisCountPercent(disCountPercent.get(i));
+			orderDetail.setFinalPrice(finalPrices.get(i));
+			orderDetail.setOriginalPrice(originalPrices.get(i));
+			
+			orderDetailList.add(orderDetail);
+			
 		
-		return "/payment/payment-page";
+		}
+		
+		List<OrderItemStock> orderItemStockList = new ArrayList<OrderItemStock>();
+		for(int i=0;i<stockNums.size();i++) {
+			OrderItemStock orderItemStock = new OrderItemStock();
+			orderItemStock.setPrice(price.get(i));
+			orderItemStock.setQuantity(quantityList.get(i));
+			orderItemStock.setStockId(stockNums.get(i));
+			orderItemStockList.add(orderItemStock);
+		}
+		
+		orderManagementService.createOrder(order, orderDetailList, orderItemStockList);
+		
+		return "ok";
 	}
+	
+	// 결제 검증
+	
 }

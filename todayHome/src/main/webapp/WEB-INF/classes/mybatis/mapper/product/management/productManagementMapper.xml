@@ -170,11 +170,11 @@
                 option_price AS optionPrice, pso.option_detail_id as subOptionId1,
                 pso2.option_detail_id AS subOPtionId2, QUANTITY
                 FROM stock s
-                JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
-                JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id
+                LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id
                 WHERE STOCK_ID = #{stockId}) sb
-                JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
-                JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+                LEFT JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
+                LEFT JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
         ORDER BY subOptionId1, subOPtionId2
     </select>
 
@@ -201,8 +201,7 @@
     <select id="getAllProducts" resultType="com.sp.app.domain.product.ProductForList">
         SELECT p.product_id AS productId, brand_name AS brandName,
                product_category_id AS productCategoryId, product_name AS productName,
-               p.reg_date AS regDate, price, remain_quantity AS remainQuantity,
-               discount_percent AS discountPercent, NVL(rc.reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+               p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
         FROM product p
         join seller s2 ON p.seller_id = s2.seller_id
         LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
@@ -216,5 +215,47 @@
         LEFT JOIN (SELECT product_id, save_name AS saveName
             FROM product_img
             WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+    </select>
+
+    <select id="getProductsByKeyword" parameterType="map" resultType="com.sp.app.domain.product.ProductForList">
+        SELECT p.product_id AS productId, brand_name AS brandName,
+        product_category_id AS productCategoryId, product_name AS productName,
+        p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+        FROM product p
+        join seller s2 ON p.seller_id = s2.seller_id
+        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
+            FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
+        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+            FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+        LEFT JOIN (SELECT product_id, save_name AS saveName
+            FROM product_img
+            WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+        <where>
+            <if test="#{keyword} != null">
+                instr(p.product_name, #{keyword}) > 0
+            </if>
+        </where>
+        <choose>
+            <when test="#{sort} == 'price_asc'">
+                -- 가격 올림차순
+                ORDER BY p.price ASC
+            </when>
+            <when test="#{sort} == 'price_desc'">
+                -- 가격 내림차순
+                ORDER BY p.price DESC
+            </when>
+            <when test="#{sort} == 'rating_desc'">
+                -- 별점 내림차순으로 정렬
+                ORDER BY r.rating DESC
+            </when>
+            <when test="#{sort} == 'rating_asc'">
+                -- 별점 내림차순으로 정렬
+                ORDER BY r.rating ASC
+            </when>
+        </choose>
     </select>
 </mapper>

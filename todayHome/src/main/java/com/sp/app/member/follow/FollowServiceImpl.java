@@ -15,12 +15,13 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public void followMember(Long memberId, Long targetId) throws Exception {
-		try {
-
-		} catch (Exception e) {
-			// TODO: handle exception
+		int result = followRepository.followingCheck(memberId, targetId);
+		
+		if (result == 0) {
+			followRepository.insertFollow(memberId, targetId);
+		} else if (result == 1) {
+			followRepository.deleteFollow(memberId, targetId);
 		}
-
 	}
 
 	@Override
@@ -70,42 +71,59 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public boolean followingCheck(Long memberId, Long targetId) throws Exception {
-		int result = followRepository.followingCheck(memberId, targetId);
-		if (result == 1) {
-			return true;
-		}
+		int result = 0;
 
+		try {
+			result = followRepository.followingCheck(memberId, targetId);
+			if (result == 1) {
+				return true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
+
 	}
 
 	@Override
 	public boolean followerCheck(Long memberId, Long targetId) throws Exception {
-		int result = followRepository.followerCheck(memberId, targetId);
-		if (result == 1) {
-			return true;
-		}
+		int result = 0;
 
+		try {
+			result = followRepository.followerCheck(memberId, targetId);
+			if (result == 1) {
+				return true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return false;
+
 	}
 
 	@Override
 	public List<Follow> followingList(Long memberId) throws Exception {
+		List<Follow> result = null;
 		try {
-			return followRepository.followingList(memberId);
+			result = followRepository.followingList(memberId);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+		return result;
 	}
 
 	@Override
 	public List<Follow> followerList(Long memberId) throws Exception {
-
+		List<Follow> result = null;
 		try {
-			return followRepository.followerList(memberId);
+			result = followRepository.followerList(memberId);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
 
+		return result;
+	}
 }

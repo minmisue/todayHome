@@ -57,7 +57,7 @@
         JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
         JOIN product p ON oi.product_id = p.product_id
         JOIN seller s2 ON p.seller_id = s2.seller_id
-        WHERE ob.member_id = #{memberId} AND status = 4 and
+        WHERE ob.member_id = #{memberId} AND status = 5 and
                 oi.order_item_id NOT IN (SELECT oi.order_item_id
                 FROM order_item oi
                 JOIN order_bundle ob on oi.order_id = ob.order_bundle_id

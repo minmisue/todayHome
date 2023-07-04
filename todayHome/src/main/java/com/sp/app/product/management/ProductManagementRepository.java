@@ -24,9 +24,9 @@ public interface ProductManagementRepository {
 
 	List<ProductForList> getAllProducts() throws Exception;
 
-	List<Product> getProductsByCategory(Long categoryId);
+	List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception;
 
-	List<Product> getProductsByKeyword(String keyword);
+	List<Product> getProductsByCategory(Long categoryId);
 
 	void updateProduct(Product product);
 
@@ -81,4 +81,5 @@ public interface ProductManagementRepository {
 	int getQuantityByStockId(Long stockId) throws Exception;
 
 	void deleteProductImg(Long productId, int type) throws Exception;
+
 }

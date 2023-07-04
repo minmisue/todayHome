@@ -478,7 +478,7 @@ public class ProductManagementRepositoryImplTest {
 
 	@Test
 	public void getStockByStockId() throws Exception {
-		Long stockId = 92L;
+		Long stockId = 166L;
 
 		ProductStock stock = productManagementRepository.getStockByStockId(stockId);
 		System.out.println(stock);
@@ -487,6 +487,15 @@ public class ProductManagementRepositoryImplTest {
 	@Test
 	public void getAllProduct() throws Exception {
 		List<ProductForList> products = productManagementRepository.getAllProducts();
+
+		for (ProductForList product : products) {
+			System.out.println(product);
+		}
+	}
+
+	@Test
+	public void getProductsByKeyword() throws Exception{
+		List<ProductForList> products = productManagementRepository.getProductsByKeyword("이", "price_desc");
 
 		for (ProductForList product : products) {
 			System.out.println(product);

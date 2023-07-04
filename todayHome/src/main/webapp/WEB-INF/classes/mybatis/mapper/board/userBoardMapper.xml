@@ -2,17 +2,19 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userBoard">
-	<select id="seq" resultType="Long">
+
+	<select id="board_seq" resultType="Long">
 		SELECT seq_user_board.NEXTVAL FROM dual
 	</select>
-		<insert id="createBoard" parameterType="com.sp.app.domain.board.UserBoard">
+	
+	<insert id="createBoard" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, subject, created_date, hit_Count, ip_address)
-		VALUES (seq_user_board.NEXTVAL, #{memberId}, #{boardType}, #{subject, jdbcType=VARCHAR},  SYSDATE, 0, '111.222.333.444')
+		VALUES (#{userBoardId}, #{memberId}, #{boardTypeId}, #{subject, jdbcType=VARCHAR},  SYSDATE, 0, '111.222.333.444')
 	</insert>
 	
 	<insert id="insertContent" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD_CONTENT(user_board_id, user_board_content_id, user_board_content_category_id, content, content_sequence, img_name)
-		VALUES (#{userBoardId}, SEQ_USER_BOARD_CONTENT.NEXTVAL, #{userBoardContentCategoryId}, #{content}, #{contentSequence}, #{imgName})
+		VALUES (#{userBoardId}, SEQ_USER_BOARD_CONTENT.NEXTVAL, #{userBoardContentCategoryId}, #{content, jdbcType=VARCHAR}, #{contentSequence}, #{imgName})
 	</insert>
 	
 	<insert id="insertProduct" parameterType="com.sp.app.domain.board.UserBoard">
@@ -26,13 +28,15 @@
 		SELECT NVL(COUNT(*), 0) FROM user_Board
 	</select>
 	
-	<select id="listBoard" parameterType="map" resultType="com.sp.app.domain.board.ListBoard">
+	<select id="listBoard"  resultType="com.sp.app.domain.board.ListBoard">
 		   SELECT b.user_board_id as userBoardId, m.nickname, b.member_id as memberId, 
 				b.hit_count as hitCount, 
 				m.profile_img_name as profileImgName, 
-				bsc.boardScrapCount,
-				blc.boardLikeCount,
-				brc.replyCount,
+				info,
+				NVL(bsc.boardScrapCount, 0) AS boardScrapCount,
+			    NVL(blc.boardLikeCount, 0) AS boardLikeCount,
+			    NVL(brc.replyCount, 0) AS replyCount,
+				ct.content_sequence,
 				ct.content, 
 				ct.img_name as imgName,
 				(
@@ -61,9 +65,9 @@
 				WHERE parent_comment_id IS NULL
 				GROUP BY user_board_id
 			) brc ON b.user_board_id = brc.user_board_id
-			WHERE content_sequence = 0
+			WHERE content_sequence = 1
 			ORDER BY b.user_board_id DESC
-			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+			<!--  OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY -->
 	</select>
 	
 	<select id="readBoard" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">

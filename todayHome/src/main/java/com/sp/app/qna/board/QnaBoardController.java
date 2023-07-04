@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.domain.board.QnaBoard;
 import com.sp.app.domain.board.QnaCategory;
@@ -22,11 +23,16 @@ public class QnaBoardController {
 	
 	@GetMapping("qnalist")
 	public String qnaListAllBoard(
+			@RequestParam(defaultValue = "0") Long qnaCategoryId,
 			HttpSession session, Model model) throws Exception{
-		List<QnaBoard> qnaList = qnaBoardService.getAllQnaBoard();
+		
 		List<QnaCategory> qnaCategoryList = qnaBoardService.getAllQnaCategory();
+		List<QnaBoard> qnaList = qnaBoardService.getAllQnaBoard(qnaCategoryId);
+		
 		model.addAttribute("qnaList",qnaList);
 		model.addAttribute("qnaCategoryList",qnaCategoryList);
 		return "mypage/qna-board";
 	}
+	
+	
 }

@@ -120,12 +120,53 @@
     margin-top: 44px;
     margin-bottom: 20px;
 }
+
+.css-14r34si {
+    background-color: rgb(255, 255, 255);
+}
+/* nav */
+.css-l2jftk {
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 40px 24px 0px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.css-1d73fhs {
+  display: inline-block;
+  position: relative;
+  height: 38px;
+  border-radius: 19px;
+  border-color : white;
+  padding-left: 14px;
+  padding-right: 14px;
+  line-height: 0;
+  color: rgb(47, 52, 56);
+  background-color: rgb(247, 249, 250);
+  cursor: pointer;
+  font-size: 15;
+  margin-right: 8px;
+  border: none;
+}
+
+.css-1d73fhs:hover {
+  background-color: rgb(234, 237, 239);
+}
+
+.css-1d73fhs .active {
+	background-color: rgb(53, 197, 240);
+	color: #ffffff;
+}
 	</style>
 	
 <script type="text/javascript">
-$(".css-gtmo6i").on("click",function () {
-});
 
+
+$(function () {
+});
 </script>
 </head>
 <body>
@@ -134,6 +175,15 @@ $(".css-gtmo6i").on("click",function () {
 
 	<div class="main-container">
 		<div class="content">
+		
+		<div class="css-14r34si">
+			<nav class="css-l2jftk">
+				<button class="css-1d73fhs" onclick="location.href='${pageContext.request.contextPath}/mypage/qnalist'">전체</button>
+			<c:forEach var="categorylist" items="${qnaCategoryList}" varStatus="status">
+				<button class="css-1d73fhs" onclick="location.href='${pageContext.request.contextPath}/mypage/qnalist?qnaCategoryId=${categorylist.qnaCategoryId}'">${categorylist.qnaCategoryName}</button>
+			</c:forEach>
+			</nav>
+		</div>
 			<section class="css-1garijz">
 			<h5 class="css-yxjd3y">무엇을 도와드릴까요 ? </h5>
 			<div class="accordion" id="accordionExample">

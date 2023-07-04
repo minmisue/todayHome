@@ -30,14 +30,10 @@ public class QnaBoardServiceImpl implements QnaBoardService{
 	}
 
 	@Override
-	public List<QnaBoard> getAllQnaBoard() throws Exception{
-		return qnaBoardRepository.getAllQnaBoard();
+	public List<QnaBoard> getAllQnaBoard(long qnaCategoryId) throws Exception{
+		return qnaBoardRepository.getAllQnaBoard(qnaCategoryId);
 	}
 
-	@Override
-	public QnaBoard getQnaBoardById(Long qnaBoardId) throws Exception{
-		return qnaBoardRepository.getQnaBoardById(qnaBoardId);
-	}
 
 	@Override
 	public void insertQnaCategory(QnaCategory qnaCategory) throws Exception {
@@ -59,10 +55,6 @@ public class QnaBoardServiceImpl implements QnaBoardService{
 		return qnaBoardRepository.getAllQnaCategory();
 	}
 
-	@Override
-	public List<QnaBoard> getCategoryQnaBoardById(Long qnaCategoryId) throws Exception{
-		return qnaBoardRepository.getCategoryQnaBoardById(qnaCategoryId);
-	}
 
 
 }

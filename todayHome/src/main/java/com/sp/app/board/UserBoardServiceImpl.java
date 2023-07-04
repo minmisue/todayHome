@@ -2,6 +2,7 @@ package com.sp.app.board;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class UserBoardServiceImpl implements UserBoardService{
 				userBoard.setImgName(imageFilename);
 				
 				userBoardRepository.insertContent(userBoard);
+				
 				
 				System.out.println(userBoard.getContent() + ":" + userBoard.getUserBoardContentCategoryId() + ":"
 							+ userBoard.getPosition() + ":" + userBoard.getContentSequence() + ":" + userBoard.getImgName());
@@ -104,9 +106,17 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public List<ListBoard> listBoard() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ListBoard> listBoard(Map<String, Object> map) throws Exception {
+		List<ListBoard> list = null;
+		
+		try {
+			list = userBoardRepository.listBoard();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return list;
 	}
 
 	@Override

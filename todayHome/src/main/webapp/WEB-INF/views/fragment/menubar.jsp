@@ -142,7 +142,7 @@
         <div class="sub-menubar">
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">홈</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">팔로잉</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">사진</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-list'">사진</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">집들이</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/event/list'">이벤트</div>
         </div>

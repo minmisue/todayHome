@@ -12,6 +12,7 @@ public class ListBoard {
 	private String content;
 	private String imgName;
 	private String commentContent;
+	private String info;
 	
 	public ListBoard() {
 		
@@ -94,6 +95,12 @@ public class ListBoard {
 	}
 	public void setCommentContent(String commentContent) {
 		this.commentContent = commentContent;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
 	}
 	
 	

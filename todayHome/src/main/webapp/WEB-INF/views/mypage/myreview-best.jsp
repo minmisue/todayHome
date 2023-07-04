@@ -175,10 +175,10 @@
 						<div style="margin-top: 40px;">
 							<div style="text-align: center">별점 평가</div>
 							<div class="rating-container-bundle " style="margin-top: 10px" id="rate-container">
+								<input type="hidden" name="rating" id="rating" value="0">
+								<input type="hidden" name="productId" id="product-id" value="">
+								<input type="hidden" name="orderItemId" id="order-item-id" value="">
 								<div class="rating-container starBundle" style="margin: 0 auto;">
-<%--									<input type="hidden" name="rating" id="rating" value="0">--%>
-<%--									<input type="hidden" name="productId" id="product-id" value="">--%>
-<%--									<input type="hidden" name="orderItemId" id="order-item-id" value="">--%>
 
 <%--									<div class="star-rating">--%>
 <%--										<c:set var="rating" value=""/>--%>
@@ -211,7 +211,6 @@
 <%--										</c:if>--%>
 <%--									</div>--%>
 
-
 								</div>
 							</div>
 						</div>
@@ -220,12 +219,12 @@
 							<input type="file" name="reviewImg" id="reviewImg" accept="image/*" class="photoAttach">
 							<label for="reviewImg" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6; text-align: center">사진 첨부하기</label>
 						</div>
-						<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>
+						<textarea class="form-control" id="content" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>
 						<div class="review-content"></div>
 					</form>
 
 					<div class="modal-footer-custom">
-						<button type="button" class="comment-submit-btn" onclick="submitComment()">완료</button>
+						<button type="button" class="comment-submit-btn" onclick="submitComment()">수정 완료</button>
 					</div>
 				</div>
 			</div>
@@ -287,7 +286,6 @@
 		setRatingValue(rating)
 		let first = setStarByRating()
 
-
         let starBundle = starBundles.getElementsByTagName('i');
         for (let i = 0; i < 5; i++) {
             starBundle[i].addEventListener('mousemove', function (e) {
@@ -345,6 +343,7 @@
 		$('#product-id').val(productId);
 		$('#order-item-id').val(orderItemId);
 		$('#reviewModal').modal('toggle');
+        $('#content').text(content)
 
 	}
 
@@ -366,7 +365,7 @@
         let first = ratingValue.split('.')[0];
         let second = ratingValue.split('.')[1];
 
-		if (second === '5') {
+		if (second !== '5') {
             lastStarIsFull = true;
 		}
 
@@ -398,8 +397,6 @@
 	let STAR_COLOR_DEFAULT = '#63BDE6'
 	let STAR_COLOR_HOVER = '#95D9F1'
 	let commentForm = document.getElementById('reviewForm');
-
-	let ratingValue = 0
 
 	// let starBundle = document.getElementsByClassName('rate');
 	// let rating=0, lastStarIsFull

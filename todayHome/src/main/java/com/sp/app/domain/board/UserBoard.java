@@ -206,7 +206,7 @@ public class UserBoard {
 		this.imgName = imgName;
 	}
 
-
+ 
 
 	public String getNickName() {
 		return nickName;

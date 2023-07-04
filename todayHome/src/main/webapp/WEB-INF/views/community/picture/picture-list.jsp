@@ -207,7 +207,7 @@
 		
 				<c:forEach var="board" items="${listBoard}" varStatus="status">
 				<%-- 팔로우 컨테이너 --%>
-				<div class="flex-col picture-container" onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article/'${board.userBoardId}">
+				<div class="flex-col picture-container" >
 					<div class="flex-row picture-img-info-container">
 						<div class="flex-row picture-img-info">
 							<img class="profile-img"
@@ -226,6 +226,7 @@
 					<div class="picture-img-container">
 						<img class="follow-user-item-img"
 							 src="${pageContext.request.contextPath}/uploads/housePicture/${board.imgName}">
+							 <a href="${pageContext.request.contextPath}/community/picture/picture-article/${board.userBoardId}"></a>
 					</div>
 
 					<div class="flex-row" style="justify-content: space-around">

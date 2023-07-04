@@ -61,6 +61,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 50%;
         }
 
         .myinfo .myinfo-profile h2 {
@@ -249,10 +250,9 @@
 							<i class="bi bi-share"></i>
 						</div>
 						<div class="image-wrapper">
-							<img alt=""
-								 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&w=144&h=144&c=c&webp=1">
+							<img alt="" src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png">
 						</div>
-						<h2>성태114</h2>
+						<h2>${member.name}</h2>
 						<dl class="follow-wrapper">
 							<dt class="follower">팔로워</dt>
 							<dd class="follower-data">1</dd>
@@ -275,7 +275,7 @@
 						</div>
 						<div class="myinfo-history-coupon myinfo-history-item">
 							<i class="bi bi-ticket"></i> <span>내
-                           쿠폰</span> <em>0</em>
+                           쿠폰</span> <em>${couponCount}</em>
 						</div>
 					</div>
 				</div>

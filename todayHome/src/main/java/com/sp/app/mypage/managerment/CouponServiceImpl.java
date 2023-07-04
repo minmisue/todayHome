@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sp.app.domain.mypage.coupon.Coupon;
-import com.sp.app.domain.mypage.coupon.MemberCoupon;
+import com.sp.app.domain.mypage.Coupon;
+import com.sp.app.domain.mypage.MemberCoupon;
 
 @Service
 public class CouponServiceImpl implements CouponService{
@@ -48,6 +48,11 @@ public class CouponServiceImpl implements CouponService{
 	public List<MemberCoupon> getCouponById(Long memberId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int memberCouponCount(long memberId) throws Exception {
+		return couponRepository.memberCouponCount(memberId);
 	}
 	
 

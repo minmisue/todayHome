@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.sp.app.domain.mypage.point.MemberPoint;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 import com.sp.app.mypage.managerment.PointRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)

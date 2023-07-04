@@ -1,7 +1,7 @@
 package com.sp.app.mypage.managerment;
 
-import com.sp.app.domain.mypage.point.MemberPoint;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 
 public interface PointRepository {
 	void insertPoint(Point point) throws Exception;

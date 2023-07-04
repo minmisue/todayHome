@@ -3,8 +3,8 @@ package com.sp.app.mypage.managerment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sp.app.domain.mypage.point.MemberPoint;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 
 @Service
 public class PointServiceImpl implements PointService{

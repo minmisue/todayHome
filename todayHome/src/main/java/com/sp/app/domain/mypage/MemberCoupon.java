@@ -1,4 +1,4 @@
-package com.sp.app.domain.mypage.coupon;
+package com.sp.app.domain.mypage;
 
 public class MemberCoupon {
 	private Long memberCouponId;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sp.app.domain.common.SessionInfo;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.Point;
 
 @Controller
 @RequestMapping("mypage")

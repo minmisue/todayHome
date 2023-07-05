@@ -26,7 +26,6 @@ public class UserBoard {
 	private int userBoardContentCategoryId;
 	private int contentSequence;
 	private String position;
-	
 
 	private List<String> contents;
 	private List<MultipartFile> selectFile;

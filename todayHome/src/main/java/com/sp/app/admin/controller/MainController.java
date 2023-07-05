@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,8 +17,17 @@ public class MainController {
 	public String method(HttpSession httpSession, Model model) {
 		 SessionInfo sessionInfo = (SessionInfo) httpSession.getAttribute("sessionInfo");
 		    if (sessionInfo == null) {
-		        return "redirect:/member/login";
+		        return "redirect:/login";
 		    }
 		return ".adminLayout";
 	}
+	@PostMapping("admin/logout")
+	public String logoutSubmit(HttpSession httpSession) {
+		
+	 httpSession.removeAttribute("sessionInfo");
+	 httpSession.invalidate();
+	 
+	 
+	 return "redirect:/";  
+}
 }

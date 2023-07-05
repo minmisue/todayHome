@@ -203,19 +203,21 @@
 
 	<div class="content" style="margin-top: 30px;">
 		<div class="picture-content-grid">
-			<c:forEach begin="0" end="15" step="1">
+		
+		
+				<c:forEach var="board" items="${listBoard}" varStatus="status">
 				<%-- 팔로우 컨테이너 --%>
-				<div class="flex-col picture-container" onclick="location.href='${pageContext.request.contextPath}/community/picture/article'">
+				<div class="flex-col picture-container" >
 					<div class="flex-row picture-img-info-container">
 						<div class="flex-row picture-img-info">
 							<img class="profile-img"
-								 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/168536494387982090.jpeg?gif=1&w=720&h=720&c=c&webp=1">
+								 src="${pageContext.request.contextPath}/resources/picture/member/${board.profileImgName}">
 							<div class="flex-col" style="flex: 1">
 								<div class="flex-row">
-									<div class="picture-user-name">리빙유</div>
+									<div class="picture-user-name">${board.nickname}</div>
 									<div class="picture-follow-btn">팔로우</div>
 								</div>
-								<div class="picture-user-info-text">우리 가족의 따뜻한 이야기 우리 가족의 따뜻한 이야기 우리 가족의 따뜻한 이야기</div>
+								<div class="picture-user-info-text">${board.info}</div>
 							</div>
 						</div>
 					</div>
@@ -223,25 +225,27 @@
 					<%-- 이미지 --%>
 					<div class="picture-img-container">
 						<img class="follow-user-item-img"
-							 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/161866122047151511.jpeg?w=1440">
+							 src="${pageContext.request.contextPath}/uploads/housePicture/${board.imgName}">
+							 <a href="${pageContext.request.contextPath}/community/picture/picture-article/${board.userBoardId}"></a>
 					</div>
 
 					<div class="flex-row" style="justify-content: space-around">
 						<div class="picture-icon-container">
 							<i class="bi bi-heart"></i>
-							<span class="icon-cnt">4</span>
+							<span class="icon-cnt">${board.boardLikeCount}</span> 
 						</div>
 						<div class="picture-icon-container">
 							<i class="bi bi-bookmark"></i>
-							<span class="icon-cnt">16</span>
+							<span  class="icon-cnt">${board.boardScrapCount}</span>
 						</div>
 						<div class="picture-icon-container">
 							<i class="bi bi-chat"></i>
-							<span class="icon-cnt">2</span>
+  							<span class="icon-cnt">${board.replyCount}</span>
 						</div>
 					</div>
 
 					<div class="picture-content-container">
+						
 						비오는 날은 아파트 베란다 외부 창문과 방충망 청소하는 날~! 장마가 시작하기 전 비오는 날이면 외부 창문 청소를 해요. 이번에는 이틀동안 비가 와서 팬트리와 주방까지 모두 닦을 수 있었거든요~ 먼지와 얼룩을 제거해야 환기시킬 때 내부로 유입되는 먼지도 줄어 들고, 창문 너머로 보는 뷰도 더 깨끗하게 보이잖아요. 제가 집착하는 청소 중 하나예요. ㅋ
 					</div>
 				</div>

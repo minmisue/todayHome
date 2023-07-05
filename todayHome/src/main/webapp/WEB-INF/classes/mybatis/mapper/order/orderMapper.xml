@@ -33,7 +33,7 @@
 	</insert>
 	
 	<!-- 주문 상태 테이블 insert -->
-	<insert id="insertOrderStatus" parameterType="com.sp.app.domain.order.OrderDetail">
+	<insert id="insertOrderStatus" parameterType="map">
 		INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
 		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
 	</insert>

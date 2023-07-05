@@ -1,11 +1,19 @@
 package com.sp.app.domain.order;
 
 public class OrderItemStock {
+	private Integer gubun;
 	private Long orderItemId;
 	private Long stockId;
 	private int quantity;
 	private int price;
 	
+	
+	public Integer getGubun() {
+		return gubun;
+	}
+	public void setGubun(Integer gubun) {
+		this.gubun = gubun;
+	}
 	public Long getOrderItemId() {
 		return orderItemId;
 	}

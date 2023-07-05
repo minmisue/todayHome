@@ -17,29 +17,32 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	OrderManagementRepository orderManagementRepository;
 	
 	@Override
-	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks) {
+	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks) throws Exception{
 		String orderBundleId = null;
+		Long orderItemId = null;
 		try {
 			orderManagementRepository.insertOrderBundle(order);
 			orderBundleId = order.getOrderBundleId();
 			
-			// 상품 상세
-			for(OrderDetail orderDetail : orderDetails) {
+			for(int i=0;i<orderDetails.size();i++) {
+				OrderDetail orderDetail = orderDetails.get(i);
 				orderDetail.setOrderBundleId(orderBundleId);
-				
 				orderManagementRepository.insertOrderItem(orderDetail);
-				Long orderItemId = orderDetail.getOrderItemId();
-				// 상품 옵션
+				orderManagementRepository.insertOrderStatus(orderDetail); // 상태
+				orderItemId = orderDetail.getOrderItemId();
 				for(OrderItemStock orderItemStock: orderItemStocks) {
-					orderItemStock.setOrderItemId(orderItemId);
-					orderManagementRepository.insertOrderItemStock(orderItemStock);
+					if(orderItemStock.getGubun().compareTo(i) == 0) {
+						orderItemStock.setOrderItemId(orderItemId);
+						orderManagementRepository.insertOrderItemStock(orderItemStock);
+					}
 				}
 				
-				
 			}
-		
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 	}
 

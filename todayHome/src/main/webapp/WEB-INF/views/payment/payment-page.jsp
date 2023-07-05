@@ -214,9 +214,21 @@ function test() {
 	
 
 	const f = document.buyForm;
+	let inputs = f.querySelectorAll("input[name=state]");
+	let state = 1;
+
+	for (let i = 0; i < inputs.length; i++) {
+	  inputs[i].value = state;
+	}
 	f.action = "${pageContext.request.contextPath}/payment/paymentOk";
 	f.submit();
 }
+
+$(function() {
+	if('${msg}'){
+		alert('d');
+	}
+})
 </script>
 <script type="text/javascript">
 function iamport(){
@@ -397,16 +409,22 @@ function iamport(){
 					</div>
 
 					<div class="border-line" style=""></div>
-
 					<%-- 상품 컨테이너 --%>
-					<c:forEach var="cart" items="${cartList}">
-						<!-- 상품아이디 -->
+					<c:forEach var="cart" items="${cartList}" varStatus="status">
+						<c:set var="finalPrice" value="0"></c:set>
+						<c:set var="originalPrice" value="0"></c:set>
+						<!-- 상품아이디, 상품이름 -->
 						<input type="hidden" name="productNums" value="${cart.productId}">
 						<input type="hidden" name="productNames" value="${cart.productName}">
 						<!-- 할인율 -->
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
+						<!-- 결제완료후 장바구니 비우기위한 input -->
+						<input type="hidden" name="cartIdList" value="${cart.cartId}">
+						<!-- 상태값 -->
+						<input type="hidden" name="state">
 						<c:forEach var="productStock" items="${cart.productStockList}">
+							<input type="hidden" name="gubun" value="${status.index}">
 							<input type="hidden" name="stockNums" value="${productStock.stockId}">
 							<div class="flex-col"
 								style="border: 1px solid #EAEBEF; border-radius: 5px; margin-top: 20px;">
@@ -448,9 +466,8 @@ function iamport(){
 														<div
 															style="line-height: 20px; font-weight: 700; font-size: 16px; color: black">
 															<span><fmt:formatNumber value="${productPrice}" /></span>원
-															<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${productPrice}" />
-							                                <input type="hidden" name="finalPrices" value="${finalPrice}">
-							                                <input type="hidden" name="originalPrices" value="${productStock.price*productStock.cartQuantity}">
+															<c:set var="finalPrice" value="${finalPrice+ productPrice}"></c:set>
+							                               	<c:set var="originalPrice" value="${originalPrice + productStock.price*productStock.cartQuantity}"></c:set>
 							                                <input type="hidden" name="quantityList" value="${productStock.cartQuantity}">
 														</div>
 														<div>|</div>
@@ -473,13 +490,20 @@ function iamport(){
 							value="${totDeliveryCost + cart.deliveryCost}" />
 						</c:forEach>
 						
+						<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${finalPrice}" />
+						<input type="hidden" name="finalPrices" value="${finalPrice}">
+						
+						<fmt:parseNumber var= "originalPrice" integerOnly= "true" value= "${originalPrice}" />
+ 						<input type="hidden" name="originalPrices" value="${originalPrice}">
+					</c:forEach>
 						<!-- 총 할인금액 -->
 						<c:set var="totDisCountPrice"
-							value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
-						<!-- 총 배달비 -->
+							value="${orignalTotPrice - totPrice}"></c:set>
 
+			
+						<fmt:parseNumber var= "finalDiscountPrice" integerOnly= "true" value= "${totDisCountPrice}" />
+						<input type="hidden" name="finalDiscountPrice" value="${finalDiscountPrice}">
 
-					</c:forEach>
 
 				</div>
 

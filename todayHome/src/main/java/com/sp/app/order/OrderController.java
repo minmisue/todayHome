@@ -88,7 +88,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("paymentOk")
-	@ResponseBody
+	
 	public String paymentSubmit(
 			@ModelAttribute Order order,
 			@RequestParam List<Long> productNums,
@@ -97,7 +97,11 @@ public class OrderController {
 			@RequestParam List<Integer> disCountPercent,
 			@RequestParam List<Integer> price,
 			@RequestParam List<Long> stockNums,
-			@RequestParam List<Integer> quantityList
+			@RequestParam List<Integer> quantityList,
+			@RequestParam List<Integer> gubun,
+			@RequestParam List<Long> cartIdList,
+			@RequestParam List<Integer> state,
+			Model model
 			) {
 		
 		order.setPayMethod("카드");
@@ -110,6 +114,7 @@ public class OrderController {
 			orderDetail.setDisCountPercent(disCountPercent.get(i));
 			orderDetail.setFinalPrice(finalPrices.get(i));
 			orderDetail.setOriginalPrice(originalPrices.get(i));
+			orderDetail.setStatus(state.get(i));
 			
 			orderDetailList.add(orderDetail);
 			
@@ -118,16 +123,30 @@ public class OrderController {
 		
 		List<OrderItemStock> orderItemStockList = new ArrayList<OrderItemStock>();
 		for(int i=0;i<stockNums.size();i++) {
+			
 			OrderItemStock orderItemStock = new OrderItemStock();
+			orderItemStock.setGubun(gubun.get(i));
 			orderItemStock.setPrice(price.get(i));
 			orderItemStock.setQuantity(quantityList.get(i));
 			orderItemStock.setStockId(stockNums.get(i));
 			orderItemStockList.add(orderItemStock);
 		}
 		
-		orderManagementService.createOrder(order, orderDetailList, orderItemStockList);
+		try {
+			orderManagementService.createOrder(order, orderDetailList, orderItemStockList);
+		} catch (Exception e) {
+			model.addAttribute("msg","결제실패");
+			return "redirect:/payment/list";
+
+		}
 		
-		return "ok";
+		
+		// 결제 완료 후 장바구니 삭제
+		for(Long cartId : cartIdList) {
+			cartservice.deleteCart(cartId);
+		}
+		
+		return "redirect:/cart/list";
 	}
 	
 	// 결제 검증

@@ -104,6 +104,10 @@
 #selected-product-delete:hover {
 	cursor: pointer;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 </style>
 <script type="text/javascript">
 function totCal() {
@@ -391,7 +395,7 @@ $(function() {
 										</div>
 										<div class="flex-col" style="flex: 1; gap: 5px">
 											<div
-												style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s">${cart.productName}</div>
+												style="font-size: 15px; font-weight: 500; line-height: 21px; overflow-wrap: break-word; transition: opacity 0.1s"><a href="${pageContext.request.contextPath}/product/${cart.productId}">${cart.productName}</a></div>
 											<div class="flex-row"
 												style="font-size: 11px; line-height: 15px; color: #757575; gap: 5px">
 												<div>배송비 ${cart.deliveryCost}원</div>
@@ -416,12 +420,18 @@ $(function() {
 												style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
 												<div class="flex-row"
 													style="justify-content: space-between; align-items: center">
+													
+													
 													<div
 														style="font-size: 14px; line-height: 18px; color: #2F3438">
 														${productStock.mainOptionName1 }:
-														${productStock.subOptionName1 } /
-														${productStock.mainOptionName2 }:
-														${productStock.subOptionName2 }</div>
+														${productStock.subOptionName1 } 
+														<c:if test="${productStock.mainOptionName2 != null}">
+															/ ${productStock.mainOptionName2 }:
+															${productStock.subOptionName2 }
+															
+														</c:if>
+													</div>
 													<i onclick="deleteStock('${productStock.stockId}')"
 														class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
 												</div>

@@ -20,11 +20,14 @@ import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
+import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.member.management.MemberManagementService;
+import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
 
 @Controller("order.orderController")
@@ -41,6 +44,9 @@ public class OrderController {
 	
 	@Autowired
 	OrderManagementService orderManagementService;
+	
+	@Autowired
+	PointService pointService;
 	
 	@GetMapping("list")
 	public String listCartOrder(HttpSession session,
@@ -80,6 +86,9 @@ public class OrderController {
 		String orderBundleId = orderManagementService.productOrderNumber();
 		Member member = memberservie.readMemberById(memberId);
 		
+		
+		Point point =  pointService.getPointById(memberId);
+		model.addAttribute("point", point);
 		model.addAttribute("orderBundleId", orderBundleId);
 		model.addAttribute("member", member);
 		model.addAttribute("cartList", cartList);
@@ -88,7 +97,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("paymentOk")
-	
+	@ResponseBody
 	public String paymentSubmit(
 			@ModelAttribute Order order,
 			@RequestParam List<Long> productNums,
@@ -101,12 +110,16 @@ public class OrderController {
 			@RequestParam List<Integer> gubun,
 			@RequestParam List<Long> cartIdList,
 			@RequestParam List<Integer> state,
+			@RequestParam List<Integer> deliveryCostList,
 			Model model
 			) {
+		
+		System.out.println(deliveryCostList);
 		
 		order.setPayMethod("카드");
 		// 옵션 상세
 		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
+		List<Delivery> deliveryList = new ArrayList<Delivery>();
 		for(int i=0;i<productNums.size();i++) {
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setOrderBundleId(order.getOrderBundleId());
@@ -114,10 +127,13 @@ public class OrderController {
 			orderDetail.setDisCountPercent(disCountPercent.get(i));
 			orderDetail.setFinalPrice(finalPrices.get(i));
 			orderDetail.setOriginalPrice(originalPrices.get(i));
-			orderDetail.setStatus(state.get(i));
+			orderDetail.setStatus(state.get(i)); // 상품 상태
 			
 			orderDetailList.add(orderDetail);
 			
+			Delivery delivery = new Delivery();
+			delivery.setDeliveryCost(deliveryCostList.get(i));
+			deliveryList.add(delivery);
 		
 		}
 		
@@ -132,11 +148,13 @@ public class OrderController {
 			orderItemStockList.add(orderItemStock);
 		}
 		
+		
+		
 		try {
-			orderManagementService.createOrder(order, orderDetailList, orderItemStockList);
+			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);
 		} catch (Exception e) {
 			model.addAttribute("msg","결제실패");
-			return "redirect:/payment/list";
+			return "fail";
 
 		}
 		
@@ -146,7 +164,7 @@ public class OrderController {
 			cartservice.deleteCart(cartId);
 		}
 		
-		return "redirect:/cart/list";
+		return "ok";
 	}
 	
 	// 결제 검증

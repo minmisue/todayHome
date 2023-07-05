@@ -111,55 +111,55 @@ a{
 </style>
 <script type="text/javascript">
 function totCal() {
-	let cartIdList = $("input[name=cartId]");
-	// 상품
-	// 총 상품 금액 - 원래 금액
-	let finalCartPriceOriginal = 0;
-	let finalCartPrice = 0;
-	for(i=0;i<cartIdList.length;i++){
-		cartId = cartIdList[i].value;
-		stockList = document.querySelectorAll('.stockList' + cartId);
-		
+		let cartIdList = $("input[name=cartId]");
+		// 상품
+		// 총 상품 금액 - 원래 금액
+		let finalCartPriceOriginal = 0;
+		let finalCartPrice = 0;
+		for(i=0;i<cartIdList.length;i++){
+			cartId = cartIdList[i].value;
+			stockList = document.querySelectorAll('.stockList' + cartId);
+			
 
-		let totPriceOriginal = 0;
-		let totPrice = 0;
+			let totPriceOriginal = 0;
+			let totPrice = 0;
 
-		// 옵션				
-		for(j=0;j<stockList.length;j++){
-			let priceList = stockList[j].querySelectorAll('input[name=price]');
-			let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
-			let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
-			// 할인 전 가격
-			let productStockPriceOriginal = 0;
-			// 할인 후 가격
-			let productStockPrice = 0;
-			// 옵션상세
-			for(k=0;k<priceList.length;k++){
-				let price = Number(priceList[k].value);
-				let disCountPercent = Number(disCountPercentList[k].value);
-				let cartQuantity = Number(cartQuantityList[k].value);
-				productStockPriceOriginal += price * cartQuantity;
-				
-				productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
-				
-				totPrice += productStockPrice;
-				totPriceOriginal += productStockPriceOriginal;
+			// 옵션				
+			for(j=0;j<stockList.length;j++){
+				let priceList = stockList[j].querySelectorAll('input[name=price]');
+				let disCountPercentList = stockList[j].querySelectorAll('input[name=discountPercent]');
+				let cartQuantityList = stockList[j].querySelectorAll('input[name=cartQuantity]');
+				// 할인 전 가격
+				let productStockPriceOriginal = 0;
+				// 할인 후 가격
+				let productStockPrice = 0;
+				// 옵션상세
+				for(k=0;k<priceList.length;k++){
+					let price = Number(priceList[k].value);
+					let disCountPercent = Number(disCountPercentList[k].value);
+					let cartQuantity = Number(cartQuantityList[k].value);
+					productStockPriceOriginal += price * cartQuantity;
+					
+					productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
+					
+					totPrice += productStockPrice;
+					totPriceOriginal += productStockPriceOriginal;
+				}
+				stockList[j].querySelector(".productPrice").innerHTML = productStockPrice.toLocaleString();
 			}
-			stockList[j].querySelector(".productPrice").innerHTML = productStockPrice.toLocaleString();
+			finalCartPriceOriginal += totPriceOriginal;
+			finalCartPrice += totPrice;
+			document.querySelector(".totPrice"+cartId).innerHTML = totPrice.toLocaleString()+'원';
 		}
-		finalCartPriceOriginal += totPriceOriginal;
-		finalCartPrice += totPrice;
-		document.querySelector(".totPrice"+cartId).innerHTML = totPrice.toLocaleString();
-	}
 
-	let totDisCountPrice= finalCartPriceOriginal - finalCartPrice
-	document.querySelector(".finalCartPrice").innerHTML = finalCartPriceOriginal.toLocaleString();
-	document.querySelector(".totDisCountPrice").innerHTML = '-' +  (totDisCountPrice.toLocaleString());
-	
-	//document.querySelector(".finalDeliveryCost").innerHTML = finalDeliveryCost;
-	let totDeliveryCost = Number(document.querySelector('.finalDeliveryCost').innerText);
-	//alert(totDeliveryCost);
-	document.querySelector(".payPrice").innerHTML = (finalCartPriceOriginal + totDeliveryCost - totDisCountPrice).toLocaleString();
+		let totDisCountPrice= finalCartPriceOriginal - finalCartPrice
+		document.querySelector(".finalCartPrice").innerHTML = finalCartPriceOriginal.toLocaleString();
+		document.querySelector(".totDisCountPrice").innerHTML = '-' +  (totDisCountPrice.toLocaleString());
+		
+		//document.querySelector(".finalDeliveryCost").innerHTML = finalDeliveryCost;
+		let totDeliveryCost = Number(document.querySelector('.finalDeliveryCost').innerText);
+		//alert(totDeliveryCost);
+		document.querySelector(".payPrice").innerHTML = (finalCartPriceOriginal + totDeliveryCost - totDisCountPrice).toLocaleString();
 
 }
 
@@ -200,14 +200,13 @@ $(function() {
 	<script type="text/javascript">
 	function minus(stockId,cartId,quantity,event) {
 		let $quantity = event.target.parentNode.nextSibling.nextSibling.innerHTML;
-
+		
+		
 		if($quantity <= 1){
 			alert('상품은 한개 이상 담아야합니다.');
 			return;
 		}
 		-- $quantity;
-		//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
-		
 
 		let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
 		let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + $quantity;
@@ -222,19 +221,6 @@ $(function() {
 		ajaxFun(url, "post", query, "json", fn);
 	}
 	function plus(stockId,cartId,quantity,event) {
-		let $quantity = event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML;
-		
-		if($quantity < 1){
-			alert('상품은 한개 이상 담아야합니다.');
-			return;
-		}
-		++ $quantity;
-		//location.href = '${pageContext.request.contextPath}/cart/checkQuantityUpdate?stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + quantity;
-		
-
-		let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
-		let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + $quantity;
-
 		const fn = function(data) {
 
 			event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML = '';
@@ -242,6 +228,19 @@ $(function() {
 			$('input#cartQuantity'+stockId).val($quantity);
 			totCal();
 		};
+		
+		let $quantity = event.target.parentNode.previousElementSibling.previousElementSibling.innerHTML;
+		let max = event.target.nextElementSibling.value
+		
+		++ $quantity;
+		if($quantity > max){
+			alert('재고가 부족합니다. 고객센터로 문의 주세요');
+			return;
+		}
+
+		let url = '${pageContext.request.contextPath}/cart/checkQuantityUpdate';
+		let query = 'stockId='+ stockId+"&cartId=" + cartId + "&quantity=" + $quantity;
+
 		ajaxFun(url, "post", query, "json", fn);
 	}
 
@@ -276,6 +275,11 @@ $(function() {
 				else
 					$("input[type=checkbox]").prop('checked', false);
 			});
+		});
+		
+		$(function() {
+				$("input[type=checkbox]").prop('checked', true);
+
 		});
 
 		// 선택삭제    
@@ -313,7 +317,13 @@ $(function() {
 		}
 
 
-		
+		// 상품 삭제
+		function deleteCart(cartId) {
+			if(confirm('상품을 삭제하시겠습니까?')){
+				location.href = '${pageContext.request.contextPath}/cart/deleteCart?cartIdList='+ cartId;	
+			}
+			
+		}
 		
 
 		
@@ -357,7 +367,7 @@ $(function() {
 				</div>
 
 
-				<c:forEach var="cart" items="${cartList}" varStatus="status">
+				<c:forEach var="cart" items="${cartList}">
 
 					<input type="hidden" value="${cart.cartId}" name="cartId">
 					<input type="hidden" value="${cart.deliveryCost}"
@@ -384,7 +394,7 @@ $(function() {
 											<div style="color: #65C2EC; font-weight: 700;">6/9 (금)
 												발송 예정</div>
 										</div>
-										<div id="deleteCart">
+										<div id="deleteCart" onclick="deleteCart('${cart.cartId}')">
 											<i style="font-size: 22px; font-weight: 700" class="bi bi-x"></i>
 										</div>
 									</div>
@@ -405,7 +415,7 @@ $(function() {
 
 
 									<c:set var="deliveryCost" value="0"></c:set>
-									<c:forEach var="productStock" items="${cart.productStockList}">
+									<c:forEach var="productStock" items="${cart.productStockList}"  varStatus="status">
 										<div class="stockList${cart.cartId}">
 											<!-- 자바스크립트 계산을 위한 input태그 -->
 											<input type="hidden" value="${cart.discountPercent}"
@@ -420,9 +430,7 @@ $(function() {
 												style="padding: 10px; height: 100px; border-radius: 3px; background-color: #F8F9FA; justify-content: space-between">
 												<div class="flex-row"
 													style="justify-content: space-between; align-items: center">
-													
-													
-													<div
+												<div
 														style="font-size: 14px; line-height: 18px; color: #2F3438">
 														${productStock.mainOptionName1 }:
 														${productStock.subOptionName1 } 
@@ -432,8 +440,14 @@ $(function() {
 															
 														</c:if>
 													</div>
-													<i onclick="deleteStock('${productStock.stockId}')"
-														class="bi bi-x" style="color: #828C94; font-size: 22px;"></i>
+													<c:choose>
+														<c:when test="${fn:length(cart.productStockList)  == 1}">
+															<i class="bi bi-x" style="color: #828C94; font-size: 22px;" onclick="deleteCart('${cart.cartId}')"></i>
+														</c:when>
+														<c:when test="${fn:length(cart.productStockList)  != 1}">
+															<i class="bi bi-x" style="color: #828C94; font-size: 22px;" onclick="deleteStock('${productStock.stockId}')"></i>
+														</c:when>
+													</c:choose>	
 												</div>
 												<div class="flex-row"
 													style="justify-content: space-between; align-items: center">
@@ -442,6 +456,7 @@ $(function() {
 														<div class="quantity-btn minus-btn"
 															onclick="minus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
 															<i class="bi bi-dash"></i>
+															
 														</div>
 														<div class="quantity-value">${productStock.cartQuantity}</div>
 														<input type="hidden" value="${productStock.cartQuantity}"
@@ -449,6 +464,7 @@ $(function() {
 														<div class="quantity-btn plus-btn"
 															onclick="plus('${productStock.stockId}','${cart.cartId}','${productStock.cartQuantity}',event)">
 															<i class="bi bi-plus"></i>
+															<input type="hidden" value="${productStock.quantity }">
 														</div>
 													</div>
 													<div style="line-height: 20px; font-weight: 700;">
@@ -465,9 +481,7 @@ $(function() {
 									<div class="flex-row" style="justify-content: space-between">
 										<div class="flex-row"
 											style="gap: 5px; font-size: 12px; letter-spacing: -.4px; font-weight: 400; color: #424242; padding: 5px 0">
-											<div>옵션변경</div>
-											<div>|</div>
-											<div>바로구매</div>
+
 										</div>
 										<div
 											style="line-height: 20px; font-weight: 700; font-size: 17px">

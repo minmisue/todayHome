@@ -38,5 +38,10 @@
 		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
 	</insert>
 		
+	<!-- 배송 테이블 insert -->
+	<insert id="insertDelivery" parameterType="com.sp.app.domain.order.Delivery">
+		INSERT INTO delivery(ORDER_ITEM_ID,DELIVERY_NUMBER,DELIVERY_COST,ARRIVED_DATE)
+			VALUES (#{orderItemId},#{deliveryNumber, jdbcType=VARCHAR},#{deliveryCost},#{arrivedDate, jdbcType=	DATE})
+	</insert>
 </mapper>
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
@@ -17,7 +18,7 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	OrderManagementRepository orderManagementRepository;
 	
 	@Override
-	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks) throws Exception{
+	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks,List<Delivery> deliverys) throws Exception{
 		String orderBundleId = null;
 		Long orderItemId = null;
 		try {
@@ -30,6 +31,9 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 				orderManagementRepository.insertOrderItem(orderDetail);
 				orderManagementRepository.insertOrderStatus(orderDetail); // 상태
 				orderItemId = orderDetail.getOrderItemId();
+				Delivery delivery = deliverys.get(i);
+				delivery.setOrderItemId(orderItemId);
+				orderManagementRepository.insertDelivery(delivery);
 				for(OrderItemStock orderItemStock: orderItemStocks) {
 					if(orderItemStock.getGubun().compareTo(i) == 0) {
 						orderItemStock.setOrderItemId(orderItemId);

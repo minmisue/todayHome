@@ -1,6 +1,7 @@
 package com.sp.app.seller.adjustment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,16 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 	
 	
 	@Override
-	public List<SellerAdjustment> getAllAdjustments(int offset, int size) throws Exception {
+	public List<SellerAdjustment> getAllAdjustments(int offset, int size, String startDate, String endDate,String keyword,String condition) throws Exception {
 		List<SellerAdjustment> sellerAdjustment = null;
-		
-		try {
-			
-			sellerAdjustment = adjustmentRepository.getAllAdjustments(offset, size);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-		
+			try {
+				
+				sellerAdjustment = adjustmentRepository.getAllAdjustments(offset,  size,startDate,endDate,keyword,condition);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+
 		return sellerAdjustment;
 	}
 
@@ -82,8 +81,8 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 
 
 	@Override
-	public int adjustmentCount() throws Exception {
-		return adjustmentRepository.adjustmentCount();
+	public int adjustmentCount(String startDate,String endDate, String keyword,String condition) throws Exception {
+		return adjustmentRepository.adjustmentCount(startDate,endDate,keyword,condition);
 	}
 
 }

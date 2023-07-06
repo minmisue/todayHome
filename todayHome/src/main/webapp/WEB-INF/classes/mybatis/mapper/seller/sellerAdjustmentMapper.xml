@@ -21,6 +21,30 @@
     			 sel.seller_name as sellerName,sel.tel,sel.email,sel.representative_name as representativeName
 		FROM adjustment adj
 		JOIN seller sel ON adj.seller_id = sel.seller_id
+		<where>
+		    <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+		      adj.adjustment_date BETWEEN #{startDate} AND #{endDate}
+		    </if>
+			<choose>
+		      <when test="condition=='sellerName'">
+		        <if test="keyword != null and  keyword !='' ">
+		          AND INSTR(sel.seller_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='businessNumber'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(sel.business_number, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='brandName'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(sel.brand_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		    </choose>
+		 </where>
+		ORDER BY adjustment_date DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<!-- 판매자 아이디로 정산 목록 반환 -->
@@ -38,8 +62,31 @@
 	</select>
 	
 	<select id="adjustmentCount" parameterType="int" resultType="int">
-		SELECT COUNT(*)
-		FROM adjustment  
+		SELECT NVL(COUNT(*), 0) as dataCount
+		FROM adjustment adj
+		JOIN seller sel ON adj.seller_id = sel.seller_id
+		<where>
+		    <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+		      adj.adjustment_date BETWEEN #{startDate} AND #{endDate}
+		    </if>
+		<choose>
+      <when test="condition=='sellerName'">
+        <if test="keyword != null and  keyword !='' ">
+          AND INSTR(sel.seller_name, #{keyword}) &gt; 0
+        </if>
+      </when>
+      <when test="condition=='businessNumber'">
+        <if test="keyword != null and  keyword !=''">
+          AND INSTR(sel.business_number, #{keyword}) &gt; 0
+        </if>
+      </when>
+      <when test="condition=='brandName'">
+        <if test="keyword != null and  keyword !=''">
+          AND INSTR(sel.brand_name, #{keyword}) &gt; 0
+        </if>
+      </when>
+    </choose>
+		 </where>
 	</select>
 </mapper>
 

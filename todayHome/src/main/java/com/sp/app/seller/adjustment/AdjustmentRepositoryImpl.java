@@ -1,6 +1,10 @@
 package com.sp.app.seller.adjustment;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,8 +19,16 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 	private CommonDAO commonDAO;
 	
 	@Override
-	public List<SellerAdjustment> getAllAdjustments(int offset, int size) throws Exception{
-		return commonDAO.selectList("sellerAdjustment.getAllAdjustments");
+	public List<SellerAdjustment> getAllAdjustments(int offset, int size, String startDate, String endDate,String keyword,String condition) throws Exception{	
+		 Map<String, Object> map = new HashMap<String, Object>();
+			map.put("offset", offset);			
+			map.put("size", size);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			map.put("keyword", keyword);
+			map.put("condition", condition);
+		 
+		return commonDAO.selectList("sellerAdjustment.getAllAdjustments",map);
 		
 	}
 
@@ -41,9 +53,13 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 	}
 
 	@Override
-	public int adjustmentCount() throws Exception {
-		
-		return commonDAO.selectOne("sellerAdjustment.adjustmentCount");
+	public int adjustmentCount(String startDate,String endDate, String keyword,String condition) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("keyword", keyword);
+		map.put("condition", condition);
+		return commonDAO.selectOne("sellerAdjustment.adjustmentCount",map);
 		
 	}
 

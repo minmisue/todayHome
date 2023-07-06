@@ -14,7 +14,9 @@ public class Seller {
 	private Long accumulatedAmount;
 	private int status;
 	private String regDate;
-		
+	private String adjustmentDate;
+
+	
 	public Seller() {
 	    
 	}
@@ -175,6 +177,13 @@ public class Seller {
 		this.regDate = regDate;
 	}
 
+	public String getAdjustmentDate() {
+		return adjustmentDate;
+	}
+
+	public void setAdjustmentDate(String adjustmentDate) {
+		this.adjustmentDate = adjustmentDate;
+	}
 
 
 	

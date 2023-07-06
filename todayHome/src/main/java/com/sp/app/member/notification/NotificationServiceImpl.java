@@ -223,14 +223,15 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public boolean isReadupdateNotification(Long notificationId) throws Exception {
-		int result = notificationRepository.updateNotification(notificationId);
-		if (result == 1) {
-			return true;
-
-		} else {
-			return false;
+	public void isReadupdateNotification(Long notificationId) throws Exception {
+		try {
+			 notificationRepository.isReadupdateNotification(notificationId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
+		
+		
 
 	}
 

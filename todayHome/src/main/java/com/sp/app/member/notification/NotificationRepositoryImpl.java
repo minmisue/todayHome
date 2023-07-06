@@ -45,9 +45,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	}
 
 	@Override
-	public boolean isReadupdateNotification(Long notificationId) throws Exception {
+	public void isReadupdateNotification(Long notificationId) throws Exception {
 		commonDAO.updateData("notification.isReadupdateNotification", notificationId);
-		return false;
+		
 	}
 
 	

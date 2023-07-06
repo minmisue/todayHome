@@ -12,7 +12,7 @@ public interface NotificationRepository {
 	List<Notification> getNotReadNotificationList(Long memberId) throws Exception;
 	// 회원의 안읽은 알림 개수
 	int getNotReadNotificationCount(Long memberId) throws Exception;
-	boolean isReadupdateNotification(Long notificationId) throws Exception;
+	void isReadupdateNotification(Long notificationId) throws Exception;
 	
 	
 	

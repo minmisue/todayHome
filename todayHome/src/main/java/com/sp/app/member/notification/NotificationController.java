@@ -63,9 +63,9 @@ public class NotificationController {
 	@ResponseBody
 	public boolean isReadupdateNotification(@RequestParam Long notificationId) {
 		boolean result = false;
-				try {
-		return result = notificationService.isReadupdateNotification(notificationId);
-	
+		try {
+		notificationService.isReadupdateNotification(notificationId);
+		result = true;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

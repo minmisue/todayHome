@@ -137,7 +137,9 @@
 			dataType : 'text',
 			success : function(response) {
 				
-			location.href='${pageContext.request.contextPath}${notification.bodyUri }'				
+			location.href='${pageContext.request.contextPath}'+bodyUri
+			
+			
 			return;
 
 		

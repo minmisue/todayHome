@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.app.cart.CartService;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
 
@@ -21,6 +22,9 @@ public class MemberManagementController {
 	@Autowired
 	MemberManagementService memberManagementService;
 
+	@Autowired
+	CartService cartService;
+	
 	@GetMapping("login")
 	public String loginForm() {
 		return "member/login";
@@ -43,7 +47,9 @@ public class MemberManagementController {
 		SessionInfo sessionInfo = new SessionInfo(memberId, nickname, role);
 
 		httpSession.setAttribute("sessionInfo", sessionInfo);
-
+		Integer dataCartCount = cartService.cartDateCountByMemberId(memberId);
+		httpSession.setAttribute("dataCartCount", dataCartCount);
+		
 		return "redirect:/home";
 	}
 

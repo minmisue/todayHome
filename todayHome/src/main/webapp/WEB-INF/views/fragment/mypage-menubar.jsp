@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
     .menubar-profile-img {
         width: 40px;
@@ -33,9 +34,12 @@
             <%--            --%>
             <div style="position: relative">
                 <i class="bi bi-cart menubar-icon"></i>
-                <div class="cart-badge">
-                    <span id="cart-cnt">1</span>
-                </div>
+               <c:if test="${sessionScope.dataCartCount != 0 && not empty sessionScope.sessionInfo}">
+	                <div class="cart-badge">
+	                    <span id="cart-cnt">${sessionScope.dataCartCount}</span>
+	                </div>
+               </c:if>
+         
             </div>
 
             <%-- 로그인 --%>

@@ -97,6 +97,14 @@ public class OrderController {
 		
 		
 		Point point =  pointService.getPointById(memberId);
+		
+		Integer dataCount = cartservice.cartDateCountByMemberId(memberId);
+		System.out.println(dataCount);
+		if(dataCount == null) {
+			return "redirect:/cart/cart-empty";
+		}
+		
+		model.addAttribute("dataCount",dataCount);
 		model.addAttribute("point", point);
 		model.addAttribute("orderBundleId", orderBundleId);
 		model.addAttribute("member", member);

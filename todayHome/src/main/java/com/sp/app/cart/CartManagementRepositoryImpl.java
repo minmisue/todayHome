@@ -100,4 +100,10 @@ public class CartManagementRepositoryImpl implements CartManagementRepository{
 		commonDAO.deleteData("cart.deleteStock",stockId);
 	}
 
+	@Override
+	public Integer cartDateCountByMemberId(Long memberId) throws Exception {
+		
+		return commonDAO.selectOne("cart.cartDateCountByMemberId", memberId);
+	}
+
 }

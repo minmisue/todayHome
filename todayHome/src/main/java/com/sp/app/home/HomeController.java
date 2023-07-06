@@ -1,18 +1,28 @@
 package com.sp.app.home;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sp.app.cart.CartServiceImpl;
 
 @Controller
 public class HomeController {
-
+	
+	@Autowired
+	CartServiceImpl cartServiceImpl;
+	
 	@GetMapping("/")
 	public String index() {
 		return "redirect:/home";
 	}
 
 	@GetMapping("home")
-	public String home() {
+	public String home(Model model,HttpSession session) {
 		return "home/home";
 	}
 
@@ -35,10 +45,6 @@ public class HomeController {
 		return "shop/shop-today-deals";
 	}
 
-	@GetMapping("community/follow/feed")
-	public String following() {
-		return "community/following/following";
-	}
 	
 	/*
 	@GetMapping("community/picture/list")

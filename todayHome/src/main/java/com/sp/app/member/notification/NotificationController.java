@@ -48,8 +48,9 @@ public class NotificationController {
 	public boolean isReadupdateNotification(@RequestParam Long notificationId) {
 		boolean result = false;
 		try {
-		notificationService.isReadupdateNotification(notificationId);
-		result = true;
+			notificationService.isReadupdateNotification(notificationId);
+			result = true;
+			System.out.println("hello");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

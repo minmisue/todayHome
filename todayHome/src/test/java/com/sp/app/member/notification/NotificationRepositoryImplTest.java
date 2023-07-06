@@ -24,6 +24,9 @@ public class NotificationRepositoryImplTest {
 	@Autowired
 	NotificationRepository notificationRepository;
 
+	@Autowired
+	NotificationService notificationService;
+
 	@Test
 	public void createNotification() throws Exception{
 
@@ -81,5 +84,12 @@ public class NotificationRepositoryImplTest {
 		
 		
 		
+	}
+
+	@Test
+	public void updateIsReadTest() throws Exception {
+
+
+		notificationService.isReadupdateNotification(84L);
 	}
 }

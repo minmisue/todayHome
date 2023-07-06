@@ -99,13 +99,12 @@
 					<c:forEach items="${list }" var="notification">
 
 
-						<div class="news-item" onclick="isRead();">
+						<div class="news-item">
 							<a class="news-image"
 								href="${pageContext.request.contextPath}${notification.profileUri }">
 								<img
 								src="${pageContext.request.contextPath}/resources/picture/member/${notification.profileImgName}">
-							</a> <a class="news-link"
-								href="${pageContext.request.contextPath}${notification.bodyUri }"
+							</a> <a class="news-link" onclick="isRead('${notification.notificationId}','${notification.bodyUri}');"
 								style="text-decoration: none;"> <span class="news-title">${notification.nickName }${notification.msg }</span>
 								<span class="news-date"> 
 								<c:if test="${notification.regDate == 0}">
@@ -126,7 +125,7 @@
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
 	<script type="text/javascript">
-	function isRead() {
+	function isRead(notificationId,bodyUri) {
 		
 		let isRead = document.getElementsByClassName('news-item');
 		
@@ -137,17 +136,11 @@
 			data : 'notificationId=' + notificationId,
 			dataType : 'text',
 			success : function(response) {
-			
-				if (response === 'true') {
-					
+				
+			location.href='${pageContext.request.contextPath}${notification.bodyUri }'				
+			return;
 
-					
-					
-				} else {
-					
-					}
-				}
-						
+		
 			},
 			error : function(xhr, status, error) {
 				// 요청이 실패했을 때 실행되는 코드

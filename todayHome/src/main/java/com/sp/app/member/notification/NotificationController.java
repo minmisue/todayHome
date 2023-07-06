@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.domain.common.SessionInfo;
-import com.sp.app.domain.member.Notification;
 import com.sp.app.domain.member.NotificationParse;
 
 

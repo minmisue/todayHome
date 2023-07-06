@@ -125,7 +125,7 @@
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
 	<script type="text/javascript">
-	function isRead(notificationId,bodyUri) {
+/* 	function isRead(notificationId,bodyUri) {
 		
 		let isRead = document.getElementsByClassName('news-item');
 		
@@ -146,7 +146,7 @@
 				// 요청이 실패했을 때 실행되는 코드
 			}
 		});  
-	}
+	} */
 	
 	
 	</script>

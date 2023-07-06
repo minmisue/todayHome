@@ -82,7 +82,7 @@ public class CouponRepositoryImplTest {
 	@Test
 	public void getCouponById() throws Exception{
 		
-		List<MemberCoupon> list = couponRepository.getCouponById(1L);
+		List<MemberCoupon> list = couponRepository.getMemberCouponById(1L);
 		for(MemberCoupon membercoupon : list) {
 		System.out.println("결과 " + membercoupon.getCouponId() + ", " + membercoupon.getMemberCouponId() + ", " + membercoupon.getRegDate() + ", " + membercoupon.getExpireDate() + ", " + membercoupon.getName());
 		}

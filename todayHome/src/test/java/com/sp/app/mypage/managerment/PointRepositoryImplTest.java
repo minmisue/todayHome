@@ -50,9 +50,9 @@ public class PointRepositoryImplTest {
 	@Test
 	public void getMemberPointById() throws Exception{
 		//MemberPoint mempoint = new MemberPoint(1L, 3000);
-		MemberPoint mempoint = pointRepository.getMemberPointById(1L);
+		//MemberPoint mempoint = pointRepository.getPointById(1L);
 		
-		System.out.println("결과 " + mempoint.getPointUsageHistoryId() + ", " + mempoint.getMemberId() + ", " + mempoint.getRegDate() + ", " + mempoint.getAmount());
+		//System.out.println("결과 " + mempoint.getPointUsageHistoryId() + ", " + mempoint.getMemberId() + ", " + mempoint.getRegDate() + ", " + mempoint.getAmount());
 	}
 
 }

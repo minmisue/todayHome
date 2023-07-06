@@ -194,7 +194,7 @@
 		    <h2>스크랩북</h2>
 		    <div class="scrapBook-user">
 		      <img src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png" alt="user-image">
-		      <span>${member.name}</span>
+		      <span>${member.nickName}</span>
 		    </div>
 		
 		    <div class="scrapBook-menu">

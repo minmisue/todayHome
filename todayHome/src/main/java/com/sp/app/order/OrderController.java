@@ -113,6 +113,7 @@ public class OrderController {
 		return "/payment/payment-page";
 	}
 	
+	
 	@PostMapping("paymentOk")
 	@ResponseBody
 	public String paymentSubmit(
@@ -125,7 +126,7 @@ public class OrderController {
 			@RequestParam List<Long> stockNums,
 			@RequestParam List<Integer> quantityList,
 			@RequestParam List<Integer> gubun,
-			@RequestParam List<Long> cartIdList,
+			@RequestParam(required = false) List<Long> cartIdList, // 바로구매일때 안씀
 			@RequestParam List<Integer> state,
 			@RequestParam List<Integer> deliveryCostList,
 			@RequestParam List<Long> sellerNums,

@@ -119,7 +119,6 @@ function totCal() {
 		for(i=0;i<cartIdList.length;i++){
 			cartId = cartIdList[i].value;
 			stockList = document.querySelectorAll('.stockList' + cartId);
-			
 
 			let totPriceOriginal = 0;
 			let totPrice = 0;
@@ -324,8 +323,6 @@ $(function() {
 			}
 			
 		}
-		
-
 		
 		
 	</script>

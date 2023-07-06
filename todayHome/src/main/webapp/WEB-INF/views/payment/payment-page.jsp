@@ -241,6 +241,8 @@ function test() {
 	let tel = firstTel+secondTel;
 	
 	$("input[name=tel]").val(tel);
+	let reward = $("#reward").text().replace(/,/gi, "").trim();
+	$("input[name=reward]").val(reward);
 	
 	f.action = "${pageContext.request.contextPath}/payment/paymentOk";
 	f.submit();
@@ -262,6 +264,8 @@ function usePointChange() {
 	}
 	$("#usedPoint").text(point);
 	$('input[name="usedPoint"]').val(point);
+	let remainPoint = ${point.remainPoint} - point;
+	$('input[name="remainPoint"]').val(remainPoint);
 	let price = $('#final-price').text().replace(/,/gi, "") - point;
 	price  = Number(price);
 	$('#final-price').html(price.toLocaleString());
@@ -281,31 +285,50 @@ function iamport(){
     var postNum = $("#postNum").val();
     var address = $("#address1").val() + " " + $("#address2").val();
     var price = $("#final-tot-price").val();
+  	var name = "";
+    $("input[name=productNames]").each(function(index,item) {
+    	name += item.value ;
+	});
     
-    //$("input[name=productNames]").each()
+    console.log(name);
     //가맹점 식별코드
     IMP.init("imp68385626");
     IMP.request_pay({
-        pg : 'kicc.T5102001',
+        pg : 'html5_inicis.INIpayTest',
         pay_method : 'card',
         merchant_uid : '${orderBundleId}',
-        name : "ㅎㅇ",
-        amount : price,
+        name : name,
+        amount : 10,
         buyer_email : email,
         buyer_name : name,
         buyer_tel : tel,
         buyer_addr : address,
         buyer_postcode : postNum
     }, function(rsp) {
-    	console.log(rsp);
+		console.log(rsp);
     	if(rsp.success){
+    		alert("ok");
+       		const f = document.buyForm;
+    		let inputs = f.querySelectorAll("input[name=state]");
+    		let state = 1;
+
+    		for (let i = 0; i < inputs.length; i++) {
+    		  inputs[i].value = state;
+    		}
     		
-    		alert('결제성공'+ pay_method);
+    		let firstTel = $("#receive-tel-first-num").val();
+    		let secondTel = $("#receive-tel").val();
+    		
+    		let tel = firstTel+secondTel;
+    		
+    		$("input[name=tel]").val(tel);
+    		$("input[name=payMethod]").val(rsp.pay_method);
+    		alert("ok2");
+    		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
+    		f.submit();
+
     	}
-
-
     });
-	
 
 }
 
@@ -314,6 +337,7 @@ function iamport(){
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 	<form name="buyForm" method="post">
+	<input type="hidden" name="payMethod" value="">
 	<div class="main-container" style="margin-top: 110px;">
 		<input type="hidden" name="orderBundleId" value="${orderBundleId}">
 		<input type="hidden" name="memberId" value="${member.memberId}">
@@ -380,13 +404,13 @@ function iamport(){
 							<div class="payment-form-grid-input-label">이메일</div>
 							<input class="payment-form-grid-input" type="text" id="email1">
 							<div style="text-align: center">@</div>
-							<select class="payment-form-grid-input">
+							<select class="payment-form-grid-input" id="email2">
 								<option value="naver.com">naver.com</option>
 								<option value="gmail.com">gmail.com</option>
 								<option value="daum.com">daum.com</option>
 								<option value="nate.com">nate.com</option>
 							</select>
-							<input type="hidden" id="email2" value="">
+							<!-- <input type="hidden" id="email2" value="">-->
 						</div>
 
 						<div class="form-grid">
@@ -479,6 +503,7 @@ function iamport(){
 						<!-- 상품아이디, 상품이름 -->
 						<input type="hidden" name="productNums" value="${cart.productId}">
 						<input type="hidden" name="productNames" value="${cart.productName}">
+						<input type="hidden" name="sellerNums" value="${cart.sellerId}">
 						<!-- 할인율 -->
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
@@ -678,6 +703,7 @@ function iamport(){
 									<span id="usedPoint">0</span>원
 									<c:set var="usedPoint" value=""></c:set>
 									<input type="hidden" name="usedPoint" value="">
+									<input type="hidden" name="remainPoint" value="">
 								</div>
 							</div>
 
@@ -694,7 +720,8 @@ function iamport(){
 
 								<div
 									style="text-align: right; font-size: 13px; color: rgb(66, 66, 66); line-height: 16px; margin-top: 5px;">
-									<span style="font-weight: bold"><span> <fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${totPrice*0.001}" /></span> P</span> 적립 예정
+									<span style="font-weight: bold"><span id="reward"><fmt:formatNumber type="number" pattern="###,###,###,###,###,###" value="${totPrice*0.001}" /></span> P</span> 적립 예정
+									<input type="hidden" name="reward" value="${reward}">
 								</div>
 							</div>
 						</div>

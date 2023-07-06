@@ -193,8 +193,8 @@
 		<section class="scrapBook">
 		    <h2>스크랩북</h2>
 		    <div class="scrapBook-user">
-		      <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&w=144&h=144&c=c&webp=1" alt="user-image">
-		      <span>성태114</span>
+		      <img src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png" alt="user-image">
+		      <span>${member.name}</span>
 		    </div>
 		
 		    <div class="scrapBook-menu">

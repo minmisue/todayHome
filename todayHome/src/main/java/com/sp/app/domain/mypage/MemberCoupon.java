@@ -5,10 +5,10 @@ public class MemberCoupon {
 	private Long couponId;
 	private String name;
 
+	private int discountPercent;
 	private Long memberId;
 	private String expireDate;
 	private String regDate;
-	
 	
 	public MemberCoupon() {
 		
@@ -16,6 +16,14 @@ public class MemberCoupon {
 	
 	public MemberCoupon(Long memberId) {
 		this.memberId = memberId;
+	}
+
+	public int getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(int discountPercent) {
+		this.discountPercent = discountPercent;
 	}
 
 	public MemberCoupon(Long couponId, Long memberId, String expireDate) {

@@ -20,7 +20,9 @@ public interface CouponRepository {
 
 	List<Coupon> getAllCoupon() throws Exception;
 	
-	List<MemberCoupon> getCouponById(Long memberId) throws Exception;
+	Coupon getCouponById(long couponId) throws Exception;
+	
+	List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception;
 	
 	int memberCouponCount(long memberId) throws Exception;
 }

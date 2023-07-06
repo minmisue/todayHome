@@ -46,13 +46,18 @@ public class CouponRepositoryImpl implements CouponRepository{
 	}
 
 	@Override
-	public List<MemberCoupon> getCouponById(Long memberId) throws Exception {
-		return commonDAO.selectList("coupon.getCouponById", memberId);
+	public List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception {
+		return commonDAO.selectList("coupon.getMemberCouponById", memberId);
 	}
 
 	@Override
 	public int memberCouponCount(long memberId) throws Exception {
 		return commonDAO.selectOne("coupon.memberCouponCount", memberId);
+	}
+
+	@Override
+	public Coupon getCouponById(long couponId) throws Exception {
+		return commonDAO.selectOne("coupon.getCouponById", couponId);
 	}
 
 	

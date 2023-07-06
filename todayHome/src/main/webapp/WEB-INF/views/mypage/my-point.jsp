@@ -82,7 +82,6 @@
 	.css-oc7sge {
     display: flex;
     -webkit-box-align: center;
-    justify-content: space-around;
     align-items: center;
     border-top: 1px solid rgb(234, 237, 239);
     padding: 20px 10px;
@@ -121,6 +120,47 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+	}
+	
+	.content{
+	padding: 0 290px;
+	}
+	
+	.css-lgp5e9blue {
+    text-align: right;
+    margin-left: 16px;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: rgb(53, 197, 240);
+	}
+	
+	.css-lgp5e9red {
+    text-align: right;
+    margin-left: 16px;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: rgb(255, 119, 119);
+	}
+	
+	.css-y3863iblue {
+    background-color: rgb(239, 251, 255);
+    color: rgb(53, 197, 240);
+	}
+	
+	.css-y3863ired {
+    background-color: rgb(239, 251, 255);
+    color: rgb(255, 119, 119);
+	}
+	
+	.css-1kzfo6n {
+    font-size: 16px;
+    line-height: 20px;
+    margin-left: 8px;
+    font-weight: 700;
 	}
 	</style>
 	
@@ -165,24 +205,21 @@ $(function () {
 					<button class="css-1eaft1l">오늘의집 포인트 사용 안내</button>
 				</div>
 				<div class="css-18ewygj">
+				<c:forEach var="memberCoupon" items="${memberCoupon}" varStatus="status">
 					<div class="css-oc7sge">
-						<div class="css-oc7sge">
-							<div class="css-1kwo4sf">
-								<div class="css-3eylin">2023.06.21</div>
-								<div class="css-15jzb03 e1rx7pum5">
-									<div class="css-s5xdrg e1rx7pum4">
-										<div class="accumulate">적립</div>
-										<h2 class="css-1kzfo6n">오늘의집 포인트</h2>
-									</div>
-								<ul class="css-82ta8s">
-								<li>앱 개편 기념 이벤트 포인트</li>
-								<li>유효기간: 2023.09.19까지</li>
-								</ul>
+						<div class="css-1kwo4sf">
+							<div class="css-3eylin">${memberCoupon.regDate }</div>
+							<div class="css-15jzb03 e1rx7pum5">
+								<div class="css-s5xdrg e1rx7pum4">
+									<div class="css-y3863i${memberCoupon.status==1 ? 'blue':'red'}">${memberCoupon.status == 1 ? "적립" : "소멸" }</div>
+									<h2 class="css-1kzfo6n">오늘의집 포인트</h2>
 								</div>
 							</div>
-								<div class="css-lgp5e9 e1rx7pum0">+ 500P</div>
 						</div>
+						
+						<div class="css-lgp5e9${memberCoupon.status==1 ? 'blue':'red'}">${memberCoupon.status == 1 ? '+':'-' } ${memberCoupon.amount }P</div>
 					</div>
+				</c:forEach>
 				</div>
 			</div>
 		</div>

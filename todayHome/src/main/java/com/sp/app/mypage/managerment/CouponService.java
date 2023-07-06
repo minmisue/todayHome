@@ -15,11 +15,13 @@ public interface CouponService {
 	
 	List<Coupon> getAllCoupon() throws Exception;
 	
+	Coupon getCouponById(long couponId) throws Exception;
+	
 	void insertMemberCoupon(MemberCoupon membercoupon) throws Exception;
 
 	void deleteMemberCoupon(long couponId) throws Exception;
 	
-	List<MemberCoupon> getCouponById(Long memberId) throws Exception;
+	List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception;
 	
 	int memberCouponCount(long memberId) throws Exception;
 }

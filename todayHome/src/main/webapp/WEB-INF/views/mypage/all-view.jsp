@@ -236,6 +236,12 @@
 		// 첫번째 파라미터에 0 입력시 숨김
 		selectMyPage(1,1);
     });
+    
+    $(function () {
+		$(".myinfo-history-coupon").on("click", function () {
+			location.href = "${pageContext.request.contextPath}/mypage/coupon";
+		});
+	});
 </script>
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>

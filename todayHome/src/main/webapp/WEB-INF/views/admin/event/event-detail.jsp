@@ -134,11 +134,16 @@
 				<div><span class="eventwin-2">발표 일자는 : ${eventBoard.winningDate}</span></div>
 			<c:if test="${eventBoard.winningDate <= sysdate }">
 			<table>
-				<tr>
-					<td colspan="2" class="text-center p-3">
-						<button type="button" class="btn btn-outline-secondary btnEventWinnerList"> 이벤트 당첨자 확인 </button>
-					</td>
-				</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<c:if test="${eventBoard.winnerNumber != 0}">
+								<button type="button" class="btn btnEventWinnerInsert">이벤트 당첨자 발표</button>		
+							</c:if>
+							<c:if test="${eventBoard.winnerNumber != 0}">
+								<button type="button" class="btn btnEventWinnerList">이벤트 당첨자 확인</button>		
+							</c:if>								
+						</td>
+					</tr>
 			</table>
 			</c:if>
 			<div class="reply">

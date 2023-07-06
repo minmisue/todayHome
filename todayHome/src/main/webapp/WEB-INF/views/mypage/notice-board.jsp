@@ -35,6 +35,10 @@
 	color: #dbdbdb;
 	cursor: pointer;
 }
+
+.content{
+	padding: 0 290px;
+}
 	</style>
 	
 <script type="text/javascript">

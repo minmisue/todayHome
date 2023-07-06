@@ -26,6 +26,9 @@
     transition: background-color .1s;
 }
 
+.content{
+	padding: 0 290px;
+}
 	</style>
 	
 <script type="text/javascript">

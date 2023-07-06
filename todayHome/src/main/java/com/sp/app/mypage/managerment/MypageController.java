@@ -46,7 +46,13 @@ public class MypageController {
 	}
 	
 	@GetMapping("book")
-	public String myPageBook() {
+	public String myPageBook(HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		System.out.println(info.getMemberId());
+		Member member = memberManagementService.readMemberById(info.getMemberId());
+		int couponCount = couponService.memberCouponCount(info.getMemberId());
+		model.addAttribute("member",member);
+		model.addAttribute("couponCount",couponCount);
 		return "mypage/my-book";
 	}
 }

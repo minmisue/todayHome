@@ -1,8 +1,11 @@
 package com.sp.app.mypage.managerment;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.domain.mypage.MemberCoupon;
 import com.sp.app.domain.mypage.MemberPoint;
 import com.sp.app.domain.mypage.Point;
 
@@ -39,7 +42,7 @@ public class PointServiceImpl implements PointService{
 	}
 
 	@Override
-	public MemberPoint getMemberPointById(Long memberId) throws Exception {
+	public List<MemberCoupon> getMemberPointById(Long memberId) throws Exception {
 
 		return pointRepository.getMemberPointById(memberId);
 	}

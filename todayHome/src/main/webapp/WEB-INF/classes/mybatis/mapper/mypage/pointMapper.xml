@@ -14,8 +14,8 @@
 	</update>
 
 	<insert id="insertMemberPoint" parameterType="com.sp.app.domain.mypage.MemberPoint">
-		INSERT INTO point_usage_history(point_usage_history_id, member_id, reg_date, amount)
-		VALUES ( seq_point_usage_history.NEXTVAL, #{memberId}, SYSDATE, #{amount} )
+		INSERT INTO point_usage_history(point_usage_history_id, member_id, reg_date, amount, status)
+		VALUES ( seq_point_usage_history.NEXTVAL, #{memberId}, SYSDATE, #{amount}, #{status} )
 	</insert>
 	
 	<delete id="deleteMemberPoint" parameterType="Long">
@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="getMemberPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.MemberPoint">
-		SELECT point_usage_history_id as pointUsageHistoryId,member_id as memberId, reg_date as regDate, amount
+		SELECT point_usage_history_id as pointUsageHistoryId, member_id as memberId, reg_date as regDate, amount, status
 		FROM point_usage_history
 		WHERE member_id = #{memberId}
 	</select>

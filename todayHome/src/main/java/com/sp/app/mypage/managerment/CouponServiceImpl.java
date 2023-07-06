@@ -45,14 +45,18 @@ public class CouponServiceImpl implements CouponService{
 	}
 
 	@Override
-	public List<MemberCoupon> getCouponById(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception {
+		return couponRepository.getMemberCouponById(memberId);
 	}
 
 	@Override
 	public int memberCouponCount(long memberId) throws Exception {
 		return couponRepository.memberCouponCount(memberId);
+	}
+
+	@Override
+	public Coupon getCouponById(long couponId) throws Exception {
+		return couponRepository.getCouponById(couponId);
 	}
 	
 

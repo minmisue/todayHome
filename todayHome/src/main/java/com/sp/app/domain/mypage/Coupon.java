@@ -6,6 +6,7 @@ public class Coupon {
 	private String name;
 	private int maxDiscountAmount;
 	private int status;
+	private int dateUse;
 	private int dataCount;
 
 	public Coupon() {
@@ -20,6 +21,14 @@ public class Coupon {
 	
 	public int getDataCount() {
 		return dataCount;
+	}
+	
+	public int getDateUse() {
+		return dateUse;
+	}
+
+	public void setDateUse(int dateUse) {
+		this.dateUse = dateUse;
 	}
 
 	public void setDataCount(int dataCount) {

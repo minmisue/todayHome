@@ -99,7 +99,7 @@
 					<c:forEach items="${list }" var="notification">
 
 
-						<div class="news-item">
+						<div class="news-item" onclick="isRead();">
 							<a class="news-image"
 								href="${pageContext.request.contextPath}${notification.profileUri }">
 								<img
@@ -125,5 +125,50 @@
 	</div>
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
+	<script type="text/javascript">
+	function isRead() {
+		
+		let isRead = document.getElementsByClassName('news-item');
+		
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/notification/isRead",
+			type : 'POST',
+			data : 'memberId=' + memberId,
+			dataType : 'text',
+			success : function(response) {
+			
+				if (response === 'true') {
+					
+					
+						if (followBtn.classList.contains("follower-btn")) {
+						 	followBtn.classList.remove("follower-btn");
+						 	followBtn.classList.add("following-btn");
+						 	followBtn.innerText = "팔로잉";
+			            } else {
+			            	followBtn.classList.remove("following-btn");
+			            	followBtn.classList.add("follower-btn");
+			            	followBtn.innerText = "팔로우";
+			            }
+
+					
+					
+				} else {
+					if(response === 'login') {
+						location.href='${pageContext.request.contextPath}/login'
+						return
+				
+					}
+				}
+						
+			},
+			error : function(xhr, status, error) {
+				// 요청이 실패했을 때 실행되는 코드
+			}
+		});  
+	}
+	
+	
+	</script>
 </body>
 </html>

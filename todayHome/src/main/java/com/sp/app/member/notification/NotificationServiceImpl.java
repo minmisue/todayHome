@@ -38,19 +38,6 @@ public class NotificationServiceImpl implements NotificationService {
 
 	}
 
-	@Override
-	public int updateNotification(Notification notification) throws Exception {
-		int result = 0;
-		try {
-			result = notificationRepository.updateNotification(notification);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-
-		}
-		return result;
-	}
 
 	@Override
 	public void deleteNotification(Notification notification) throws Exception {
@@ -216,6 +203,18 @@ public class NotificationServiceImpl implements NotificationService {
 			throw e;
 		}
 		return result;
+	}
+
+	@Override
+	public boolean updateNotification(Long memberId) throws Exception {
+		int result = notificationRepository.updateNotification(memberId);
+				if(result == 1) {
+					return true;
+
+		} else {
+			return false;
+		}
+		
 	}
 
 }

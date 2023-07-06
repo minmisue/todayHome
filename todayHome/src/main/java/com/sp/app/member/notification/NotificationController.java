@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.member.Notification;
 import com.sp.app.domain.member.NotificationParse;
 
 
@@ -58,8 +59,24 @@ public class NotificationController {
 		return "redirect:/mypage/my-alert";
 	}
 	
-
+	@PostMapping("notification/isRead")
+	public boolean isReadNotification(SessionInfo sessionInfo) {
+		boolean notification = false;
+		Long memberId = null;
+		if(sessionInfo != null) {
+			 memberId = sessionInfo.getMemberId();
+		}
+		try {
+		notification = notificationService.updateNotification(memberId);
+		
 	
+		return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	
 }

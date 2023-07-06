@@ -21,8 +21,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	}
 
 	@Override
-	public int updateNotification(Notification notification) throws Exception {
-		return commonDAO.updateData("notification.updateNotification",notification);
+	public int updateNotification(Long memberId) throws Exception {
+		return commonDAO.updateData("notification.updateNotification",memberId);
 		
 	}
 

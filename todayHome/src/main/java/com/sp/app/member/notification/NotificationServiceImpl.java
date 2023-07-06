@@ -110,7 +110,7 @@ public class NotificationServiceImpl implements NotificationService {
 					String message = notification.getMessage();
 					String bodyUri = "/board/" + userBoardId;
 					// "/profile/memberId";
-					String profileUri = "/profile/" + commenterId;
+					String profileUri = "/mypage/" + commenterId;
 					String regDate = notification.getRegDate();
 					LocalDate targetDate = LocalDate.parse(regDate);
 					long daysBetween = ChronoUnit.DAYS.between(targetDate, currentDate);
@@ -167,7 +167,7 @@ public class NotificationServiceImpl implements NotificationService {
 					String profileImgName = member.getProfileImgName();
 					Long followerPage = Long.valueOf(notification.getParameter2());
 					String message = notification.getMessage();
-					String bodyUri = "/board/" + followerPage;
+					String bodyUri = "/mypage/" + followerPage;
 					// "/profile/memberId";
 					String profileUri = "/profile/" + follower;
 					String regDate = notification.getRegDate();

@@ -2,8 +2,8 @@ package com.sp.app.mypage.managerment;
 
 import java.util.List;
 
-import com.sp.app.domain.mypage.coupon.Coupon;
-import com.sp.app.domain.mypage.coupon.MemberCoupon;
+import com.sp.app.domain.mypage.Coupon;
+import com.sp.app.domain.mypage.MemberCoupon;
 
 public interface CouponService {
 	
@@ -15,9 +15,13 @@ public interface CouponService {
 	
 	List<Coupon> getAllCoupon() throws Exception;
 	
+	Coupon getCouponById(long couponId) throws Exception;
+	
 	void insertMemberCoupon(MemberCoupon membercoupon) throws Exception;
 
 	void deleteMemberCoupon(long couponId) throws Exception;
 	
-	List<MemberCoupon> getCouponById(Long memberId) throws Exception;
+	List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception;
+	
+	int memberCouponCount(long memberId) throws Exception;
 }

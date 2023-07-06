@@ -1,11 +1,14 @@
 package com.sp.app.mypage.managerment;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
-import com.sp.app.domain.mypage.point.MemberPoint;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.MemberCoupon;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 
 @Repository
 public class PointRepositoryImpl implements PointRepository{
@@ -39,8 +42,8 @@ public class PointRepositoryImpl implements PointRepository{
 	}
 
 	@Override
-	public MemberPoint getMemberPointById(Long memberId) throws Exception{
-		return commonDAO.selectOne("point.getMemberPointById", memberId);
+	public List<MemberCoupon> getMemberPointById(Long memberId) throws Exception{
+		return commonDAO.selectList("point.getMemberPointById", memberId);
 	}
 
 

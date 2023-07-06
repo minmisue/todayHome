@@ -19,13 +19,13 @@
 	</delete>
 	
 	<select id="getAllEventBoard" resultType="com.sp.app.domain.board.EventBoard">
-		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number winnerNumber, show_event as showEvent, event_img as eventImg
+		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number as winnerNumber, show_event as showEvent, event_img as eventImg
 		FROM event_board
 		WHERE show_event = 1
 	</select>
 	
 	<select id="getEventBoardById" parameterType="Long" resultType="com.sp.app.domain.board.EventBoard">
-		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number winnerNumber, show_event as showEvent, event_img as eventImg
+		SELECT event_board_id as eventBoardId, member_id as memberId, start_date as startDate, end_date as endDate, title, content, winning_date as winningDate, winner_number as winnerNumber, show_event as showEvent, event_img as eventImg
 		FROM event_board
 		WHERE event_board_id = #{eventBoardId}
 	</select>

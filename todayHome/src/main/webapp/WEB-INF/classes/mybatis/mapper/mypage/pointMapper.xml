@@ -2,20 +2,20 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="point">
-	<insert id="insertPoint" parameterType="com.sp.app.domain.mypage.point.Point">
+	<insert id="insertPoint" parameterType="com.sp.app.domain.mypage.Point">
 		INSERT INTO point(member_id, remain_point)
 		VALUES (#{memberId}, #{remainPoint})
 	</insert>
 	
-	<update id="updateMemberPoint" parameterType="com.sp.app.domain.mypage.point.Point">
+	<update id="updateMemberPoint" parameterType="com.sp.app.domain.mypage.Point">
 		UPDATE point 
 		SET remain_point = #{remainPoint}
 		WHERE member_id = #{memberId}
 	</update>
 
-	<insert id="insertMemberPoint" parameterType="com.sp.app.domain.mypage.point.MemberPoint">
-		INSERT INTO point_usage_history(point_usage_history_id, member_id, reg_date, amount)
-		VALUES ( seq_point_usage_history.NEXTVAL, #{memberId}, SYSDATE, #{amount} )
+	<insert id="insertMemberPoint" parameterType="com.sp.app.domain.mypage.MemberPoint">
+		INSERT INTO point_usage_history(point_usage_history_id, member_id, reg_date, amount, status)
+		VALUES ( seq_point_usage_history.NEXTVAL, #{memberId}, SYSDATE, #{amount}, #{status} )
 	</insert>
 	
 	<delete id="deleteMemberPoint" parameterType="Long">
@@ -23,14 +23,14 @@
 		WHERE point_usage_history_id = #{pointUsageHistoryId}
 	</delete>
 	
-	<select id="getPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.point.Point">
+	<select id="getPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.Point">
 		SELECT member_id as memberId, remain_point as remainPoint
 		FROM point
 		WHERE member_id = #{memberId}
 	</select>
 	
-	<select id="getMemberPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.point.MemberPoint">
-		SELECT point_usage_history_id as pointUsageHistoryId,member_id as memberId, reg_date as regDate, amount
+	<select id="getMemberPointById" parameterType="Long" resultType="com.sp.app.domain.mypage.MemberPoint">
+		SELECT point_usage_history_id as pointUsageHistoryId, member_id as memberId, reg_date as regDate, amount, status
 		FROM point_usage_history
 		WHERE member_id = #{memberId}
 	</select>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
@@ -17,29 +18,35 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	OrderManagementRepository orderManagementRepository;
 	
 	@Override
-	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks) {
+	public void createOrder(Order order, List<OrderDetail> orderDetails, List<OrderItemStock> orderItemStocks,List<Delivery> deliverys) throws Exception{
 		String orderBundleId = null;
+		Long orderItemId = null;
 		try {
 			orderManagementRepository.insertOrderBundle(order);
 			orderBundleId = order.getOrderBundleId();
 			
-			// 상품 상세
-			for(OrderDetail orderDetail : orderDetails) {
+			for(int i=0;i<orderDetails.size();i++) {
+				OrderDetail orderDetail = orderDetails.get(i);
 				orderDetail.setOrderBundleId(orderBundleId);
-				
 				orderManagementRepository.insertOrderItem(orderDetail);
-				Long orderItemId = orderDetail.getOrderItemId();
-				// 상품 옵션
+				orderManagementRepository.insertOrderStatus(orderDetail); // 상태
+				orderItemId = orderDetail.getOrderItemId();
+				Delivery delivery = deliverys.get(i);
+				delivery.setOrderItemId(orderItemId);
+				orderManagementRepository.insertDelivery(delivery);
 				for(OrderItemStock orderItemStock: orderItemStocks) {
-					orderItemStock.setOrderItemId(orderItemId);
-					orderManagementRepository.insertOrderItemStock(orderItemStock);
+					if(orderItemStock.getGubun().compareTo(i) == 0) {
+						orderItemStock.setOrderItemId(orderItemId);
+						orderManagementRepository.insertOrderItemStock(orderItemStock);
+					}
 				}
 				
-				
 			}
-		
+			
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 	}
 

@@ -14,14 +14,22 @@ public class FollowServiceImpl implements FollowService {
 	FollowRepository followRepository;
 
 	@Override
-	public void followMember(Long memberId, Long targetId) throws Exception {
+	public boolean followMember(Long memberId, Long targetId) throws Exception {
 		int result = followRepository.followingCheck(memberId, targetId);
 		
-		if (result == 0) {
-			followRepository.insertFollow(memberId, targetId);
-		} else if (result == 1) {
-			followRepository.deleteFollow(memberId, targetId);
+		try {
+			if (result == 0) {
+				followRepository.insertFollow(memberId, targetId);
+			} else if (result == 1) {
+				followRepository.deleteFollow(memberId, targetId);
+			}
+			
+			
+		} catch(Exception e) {
+			return false;
 		}
+		
+		return true;
 	}
 
 	@Override

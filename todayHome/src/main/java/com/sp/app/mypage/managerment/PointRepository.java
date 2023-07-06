@@ -1,7 +1,10 @@
 package com.sp.app.mypage.managerment;
 
-import com.sp.app.domain.mypage.point.MemberPoint;
-import com.sp.app.domain.mypage.point.Point;
+import java.util.List;
+
+import com.sp.app.domain.mypage.MemberCoupon;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 
 public interface PointRepository {
 	void insertPoint(Point point) throws Exception;
@@ -14,5 +17,5 @@ public interface PointRepository {
 	
 	Point getPointById(Long memberId) throws Exception;
 	
-	MemberPoint getMemberPointById(Long memberId) throws Exception;
+	List<MemberCoupon> getMemberPointById(Long memberId) throws Exception;
 }

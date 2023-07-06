@@ -2,19 +2,19 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coupon">
-	<insert id="insertCoupon" parameterType="com.sp.app.domain.mypage.coupon.Coupon">
-		INSERT INTO coupon (coupon_id, discount_percent, name, max_discount_amount) 
-		VALUES (seq_coupon.NEXTVAL, #{discountPercent}, #{name}, #{maxDiscountAmount})
+	<insert id="insertCoupon" parameterType="com.sp.app.domain.mypage.Coupon">
+		INSERT INTO coupon (coupon_id, discount_percent, name, max_discount_amount, status, date_use) 
+		VALUES (seq_coupon.NEXTVAL, #{discountPercent}, #{name}, #{maxDiscountAmount}, #{status}, #{dateUse})
 	</insert>
 	
-	<insert id="insertMemberCoupon" parameterType="com.sp.app.domain.mypage.coupon.MemberCoupon">
+	<insert id="insertMemberCoupon" parameterType="com.sp.app.domain.mypage.MemberCoupon">
 		INSERT INTO member_coupon (member_coupon_id, coupon_id, member_id, expire_date, reg_date) 
 		VALUES (seq_member_coupon.NEXTVAL, #{couponId}, #{memberId}, #{expireDate}, SYSDATE)
 	</insert>
 	
-	<update id="updateCoupon" parameterType="com.sp.app.domain.mypage.coupon.Coupon">
+	<update id="updateCoupon" parameterType="com.sp.app.domain.mypage.Coupon">
 		UPDATE coupon
-		SET discount_percent = #{discountPercent}, name = #{name}, max_discount_amount = #{maxDiscountAmount}, status = #{status}
+		SET discount_percent = #{discountPercent}, name = #{name}, max_discount_amount = #{maxDiscountAmount}, status = #{status}, date_use = #{dateUse}
 		WHERE coupon_id = #{couponId}
 	</update>
 	
@@ -26,15 +26,25 @@
 		DELETE FROM member_coupon WHERE member_coupon_id = #{memberCouponId}
 	</delete>
 	
-	<select id="getAllCoupon" resultType="com.sp.app.domain.mypage.coupon.Coupon">
-		SELECT coupon_id as couponId, discount_percent as discountPercent, name, max_discount_amount as maxDiscountAmount, status
+	<select id="getAllCoupon" resultType="com.sp.app.domain.mypage.Coupon">
+		SELECT coupon_id as couponId, discount_percent as discountPercent, name, max_discount_amount as maxDiscountAmount, status, date_use as dateUse
 		FROM coupon
 	</select>
 	
-	<select id="getCouponById" parameterType="Long" resultType="com.sp.app.domain.mypage.coupon.MemberCoupon">
-		SELECT member_coupon_id as memberCouponId, mcp.coupon_id as couponId, member_id as memberId, expire_date as expireDate, reg_date as regDate, name
+	<select id="getMemberCouponById" parameterType="Long" resultType="com.sp.app.domain.mypage.MemberCoupon">
+		SELECT member_coupon_id as memberCouponId, mcp.coupon_id as couponId, member_id as memberId, expire_date as expireDate, reg_date as regDate, name, discount_percent as discountPercent
 		FROM member_coupon mcp
         JOIN coupon cp on mcp.coupon_id = cp.coupon_id
 		WHERE mcp.member_id = #{member_id}
+	</select>
+	
+	<select id="memberCouponCount" parameterType="long" resultType="Integer">
+		SELECT count(*) as dataCount 
+		FROM member_coupon WHERE member_id = #{memberId}
+	</select>
+	
+	<select id="getCouponById" parameterType="long" resultType="com.sp.app.domain.mypage.Coupon">
+		SELECT coupon_id as couponId, discount_percent as discountPercent, name, max_discount_amount as maxDiscountAmount, status, date_use as dateUse
+		FROM coupon where coupon_id = #{couponId}
 	</select>
 </mapper>

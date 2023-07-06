@@ -83,5 +83,11 @@
 	<select id="checkCart" parameterType="map" resultType="Long">
 		SELECT CART_ID FROM CART WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productId}
 	</select>
-		
+	
+	<!-- 장바구니에 담긴 상품 갯수 -->
+	<select id="cartDateCountByMemberId" parameterType="Long" resultType="Integer">
+		select COUNT(*) 
+		from cart 
+		where member_id = #{memberId}
+	</select>
 </mapper>

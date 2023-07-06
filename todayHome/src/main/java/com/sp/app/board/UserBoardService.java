@@ -20,10 +20,10 @@ public interface UserBoardService {
 	    UserBoard readBoard(Long userBoardId) throws Exception;
 	    
 	    // 게시글 내용 조회
-	    List<BoardContent> readContent(Long userBoardId) throws Exception;
+	  //  List<BoardContent> readContent(Long userBoardId) throws Exception;
 	    
 	    // 내용 상품 조회
-	    List<ProductTag> readProduct(Long userBoardContentId) throws Exception;
+	  //  List<ProductTag> readProduct(Long userBoardContentId) throws Exception;
 	    
 	    // 조회수
 	    void updateHitCount(Long userBoardId) throws Exception;

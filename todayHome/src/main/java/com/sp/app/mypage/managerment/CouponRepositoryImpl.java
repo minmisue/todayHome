@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
-import com.sp.app.domain.mypage.coupon.Coupon;
-import com.sp.app.domain.mypage.coupon.MemberCoupon;
+import com.sp.app.domain.mypage.Coupon;
+import com.sp.app.domain.mypage.MemberCoupon;
 
 @Repository
 public class CouponRepositoryImpl implements CouponRepository{
@@ -46,8 +46,18 @@ public class CouponRepositoryImpl implements CouponRepository{
 	}
 
 	@Override
-	public List<MemberCoupon> getCouponById(Long memberId) throws Exception {
-		return commonDAO.selectList("coupon.getCouponById", memberId);
+	public List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception {
+		return commonDAO.selectList("coupon.getMemberCouponById", memberId);
+	}
+
+	@Override
+	public int memberCouponCount(long memberId) throws Exception {
+		return commonDAO.selectOne("coupon.memberCouponCount", memberId);
+	}
+
+	@Override
+	public Coupon getCouponById(long couponId) throws Exception {
+		return commonDAO.selectOne("coupon.getCouponById", couponId);
 	}
 
 	

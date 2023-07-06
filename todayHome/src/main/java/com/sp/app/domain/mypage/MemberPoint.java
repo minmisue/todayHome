@@ -1,10 +1,11 @@
-package com.sp.app.domain.mypage.point;
+package com.sp.app.domain.mypage;
 
 public class MemberPoint {
 	private Long pointUsageHistoryId;
 	private Long memberId;
 	private String regDate;
 	private int amount;
+	private int status;
 	
 	public MemberPoint() {
 		
@@ -15,6 +16,15 @@ public class MemberPoint {
 		this.amount = amount;
 	}
 	
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public Long getPointUsageHistoryId() {
 		return pointUsageHistoryId;
 	}

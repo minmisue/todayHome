@@ -5,7 +5,7 @@ import java.util.List;
 import com.sp.app.domain.follow.Follow;
 
 public interface FollowService {
-	void followMember(Long memberId, Long targetId) throws Exception; 
+	boolean followMember(Long memberId, Long targetId) throws Exception; 
 	void insertFollow(Long memberId, Long targetId) throws Exception; 
 	void deleteFollow(Long memberId, Long targetId) throws Exception;
 	int followingCount(Long memberId) throws Exception;

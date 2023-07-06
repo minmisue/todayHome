@@ -1,4 +1,4 @@
-package com.sp.app.domain.mypage.coupon;
+package com.sp.app.domain.mypage;
 
 public class Coupon {
 	private Long couponId;
@@ -6,6 +6,8 @@ public class Coupon {
 	private String name;
 	private int maxDiscountAmount;
 	private int status;
+	private int dateUse;
+	private int dataCount;
 
 	public Coupon() {
 		
@@ -17,6 +19,22 @@ public class Coupon {
 		this.maxDiscountAmount = maxDiscountAmount;
 	}
 	
+	public int getDataCount() {
+		return dataCount;
+	}
+	
+	public int getDateUse() {
+		return dateUse;
+	}
+
+	public void setDateUse(int dateUse) {
+		this.dateUse = dateUse;
+	}
+
+	public void setDataCount(int dataCount) {
+		this.dataCount = dataCount;
+	}
+
 	public Coupon(Long couponId, int discountPercent, String name, int maxDiscountAmount, int status) {
 		this.couponId = couponId;
 		this.discountPercent = discountPercent;

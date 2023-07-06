@@ -102,21 +102,6 @@ public class HomeController {
 		return "mypage/edit-pwd";
 	}
 	
-	@GetMapping("mypage/all")
-	public String myPageHome() {
-		return "mypage/all-view";
-	}
-	
-	@GetMapping("mypage/book")
-	public String myPageBook() {
-		return "mypage/my-book";
-	}
-	
-	@GetMapping("mypage/photo")
-	public String myPagePhoto() {
-		return "mypage/my-photo";
-	}
-	
 	@GetMapping("mypage/alert")
 	public String myPageAlert() {
 		return "mypage/my-alert";

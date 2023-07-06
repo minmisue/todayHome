@@ -8,11 +8,13 @@ public class Follow {
 	private String followingNickname;
 	private String fileImgName;
 	private String info;
+	private boolean isFollow;
 	
 	public Follow() {
 	
 	}
 	
+
 	
 
 
@@ -20,17 +22,26 @@ public class Follow {
 	public String toString() {
 		return "Follow [followerId=" + followerId + ", followingId=" + followingId + ", followerNickname="
 				+ followerNickname + ", followingNickname=" + followingNickname + ", fileImgName=" + fileImgName
-				+ ", info=" + info + "]";
+				+ ", info=" + info + ", isFollow=" + isFollow + "]";
 	}
 
 
+
+
+
+	public boolean getIsFollow() {
+		return isFollow;
+	}
+	
+
+	public void setIsFollow(boolean isFollow) {
+		this.isFollow = isFollow;
+	}
 
 
 	public String getFileImgName() {
 		return fileImgName;
 	}
-
-
 
 
 	public void setFileImgName(String fileImgName) {

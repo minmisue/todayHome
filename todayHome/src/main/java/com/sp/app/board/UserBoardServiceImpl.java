@@ -83,20 +83,20 @@ public class UserBoardServiceImpl implements UserBoardService{
 
 	@Override
 	public UserBoard readBoard(Long userBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BoardContent> readContent(Long userBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ProductTag> readProduct(Long userBoardContentId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		UserBoard userBoard = null;
+		
+		try {
+			userBoardRepository.readBoard(userBoardId);
+			userBoardRepository.readContent(userBoardId);
+		//	userBoardRepository.readProduct(userBoardId);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return userBoard;
 	}
 
 	@Override

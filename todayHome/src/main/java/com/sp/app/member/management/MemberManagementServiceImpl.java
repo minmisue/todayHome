@@ -1,5 +1,7 @@
 package com.sp.app.member.management;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,8 +108,8 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 	@Override
 	public boolean updateMemberEnabled(Long memberId, int enabled) throws Exception {
 		int result = memberManagementRepository.updateMemberEnabled(memberId, enabled);
-		
-		if(result == 1) {
+
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -138,8 +140,8 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 	@Override
 	public boolean updateAddress(Member member) throws Exception {
 		int result = memberManagementRepository.updateMemberDetail(member);
-		
-		if(result == 1) {
+
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -156,13 +158,19 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 		if (result == 1) {
 			return true;
 		}
-			return false;
+		return false;
 	}
 
-		
-	
+	@Override
+	public List<Member> findMembersByNickname(String nickName) throws Exception {
+		List<Member> result = null;
+		try {
+			result = memberManagementRepository.findMembersByNickname(nickName);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
-
-	
+		return result;
+	}
 
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="follow">
+
+	<insert id="insertFollow" parameterType="map">
+		INSERT INTO FOLLOW
+		(FOLLOW_ID, FOLLOWING_ID, FOLLOWER_ID) values (SEQ_FOLLOW_ID.nextval,
+		#{followingId},#{followerId})
+	</insert>
+
+	<delete id="deleteFollow" parameterType="map">
+		delete FOLLOW where FOLLOWING_ID = #{followingId} AND FOLLOWER_ID =
+		#{followerId}
+	</delete>
+
+	<select id="followingCount" parameterType="Long"
+		resultType="int">
+		select count(*)
+		from FOLLOW
+		where FOLLOWER_ID = #{followerId}
+	</select>
+
+	<select id="followerCount" parameterType="Long" resultType="int">
+		select count(*)
+		from FOLLOW
+		where FOLLOWING_ID = #{followingId}
+	</select>
+
+	<select id="followingCheck" parameterType="map" resultType="int">
+		select count(*)
+		from FOLLOW
+		where FOLLOWING_ID = #{followingId} AND
+		FOLLOWER_ID = #{followerId}
+	</select>
+
+	<select id="followerCheck" parameterType="map" resultType="int">
+		select count(*)
+		from FOLLOW
+		where FOLLOWER_ID = #{followerId} AND
+		FOLLOWING_ID = #{followingId}
+	</select>
+
+	<select id="followingList" parameterType="Long"
+		resultType="com.sp.app.domain.follow.Follow">
+		select FOLLOWING_ID AS followingId , NICKNAME AS followingNickname,
+		PROFILE_IMG_NAME AS fileImgName, INFO 
+		from FOLLOW f
+		join MEMBER_DETAIL md on md.MEMBER_ID = f.FOLLOWING_ID
+		where FOLLOWER_ID = #{followerId}
+
+	</select>
+
+	<select id="followerList" parameterType="Long"
+	resultType="com.sp.app.domain.follow.Follow">
+	select FOLLOWER_ID AS followerId , NICKNAME AS
+	followerNickname, PROFILE_IMG_NAME AS fileImgName, INFO 
+	from FOLLOW f
+	join MEMBER_DETAIL md on md.MEMBER_ID =
+	f.FOLLOWER_ID
+	where FOLLOWING_ID = #{followingId}
+	</select>
+
+
+
+
+
+</mapper>

@@ -20,15 +20,18 @@ import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
-import com.sp.app.domain.mypage.point.Point;
+import com.sp.app.domain.mypage.MemberPoint;
+import com.sp.app.domain.mypage.Point;
 import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
 import com.sp.app.domain.product.ProductStock;
+import com.sp.app.domain.seller.SellerAdjustment;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
+import com.sp.app.seller.adjustment.AdjustmentService;
 
 @Controller("order.orderController")
 @RequestMapping("/payment/*")
@@ -48,11 +51,17 @@ public class OrderController {
 	@Autowired
 	PointService pointService;
 	
+	@Autowired
+	AdjustmentService adjustmentService;
+	
 	@GetMapping("list")
 	public String listCartOrder(HttpSession session,
 			Model model) throws Exception {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		if(info == null) {
+			return "redirect:/login";
+		}
 		
 		Long memberId = info.getMemberId();
 		// 전체 장바구니 리스트 가져옴
@@ -111,6 +120,10 @@ public class OrderController {
 			@RequestParam List<Long> cartIdList,
 			@RequestParam List<Integer> state,
 			@RequestParam List<Integer> deliveryCostList,
+			@RequestParam List<Long> sellerNums,
+			@RequestParam(defaultValue = "-1") Integer remainPoint,
+			@RequestParam(defaultValue = "-1") Integer usedPoint,
+			@RequestParam Integer reward,
 			Model model
 			) {
 		
@@ -120,6 +133,7 @@ public class OrderController {
 		// 옵션 상세
 		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
+		
 		for(int i=0;i<productNums.size();i++) {
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setOrderBundleId(order.getOrderBundleId());
@@ -134,7 +148,17 @@ public class OrderController {
 			Delivery delivery = new Delivery();
 			delivery.setDeliveryCost(deliveryCostList.get(i));
 			deliveryList.add(delivery);
-		
+			
+			// 정산 테이블
+			SellerAdjustment sellerAdjustment = new SellerAdjustment();
+			sellerAdjustment.setSellerId(sellerNums.get(i));
+			sellerAdjustment.setAmount(Long.valueOf(finalPrices.get(i)));
+			try {
+				adjustmentService.createAdjustment(sellerAdjustment);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		List<OrderItemStock> orderItemStockList = new ArrayList<OrderItemStock>();
@@ -148,7 +172,40 @@ public class OrderController {
 			orderItemStockList.add(orderItemStock);
 		}
 		
-		
+		if(remainPoint != -1 ) {
+			// 포인트
+			Point point = new Point();
+			point.setMemberId(order.getMemberId());
+			point.setRemainPoint(remainPoint+reward);
+			try {
+				pointService.updateMemberPoint(point);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			// 포인트 사용이력
+			MemberPoint memberPoint = new MemberPoint();
+			memberPoint.setAmount(usedPoint);
+			memberPoint.setMemberId(order.getMemberId());
+			memberPoint.setStatus(2);
+			try {
+				pointService.insertMemberPoint(memberPoint);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			// 적립금
+			MemberPoint memberPoint2 = new MemberPoint();
+			memberPoint2.setAmount(reward);
+			memberPoint2.setMemberId(order.getMemberId());
+			memberPoint2.setStatus(1);
+			try {
+				pointService.insertMemberPoint(memberPoint2);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		
 		try {
 			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);

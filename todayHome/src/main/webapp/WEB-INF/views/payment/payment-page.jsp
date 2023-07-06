@@ -410,7 +410,6 @@ function iamport(){
 								<option value="daum.com">daum.com</option>
 								<option value="nate.com">nate.com</option>
 							</select>
-							<!-- <input type="hidden" id="email2" value="">-->
 						</div>
 
 						<div class="form-grid">

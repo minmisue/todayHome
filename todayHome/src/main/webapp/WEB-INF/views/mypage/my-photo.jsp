@@ -319,7 +319,7 @@
 						<div class="image-wrapper">
 							<img alt="" src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png">
 						</div>
-						<h2>${member.name}</h2>
+						<h2>${member.nickName}</h2>
 						<dl class="follow-wrapper">
 							<dt class="follower">팔로워</dt>
 							<dd class="follower-data">0</dd>

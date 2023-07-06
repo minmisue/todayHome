@@ -349,10 +349,10 @@ section {
 
 								<dt class="follower">팔로워</dt>
 								<dd class="follower-data"
-									onclick="location.href='${pageContext.request.contextPath}/mypage/follower'">${followerCount}</dd>
+									onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId }/follower'">${followerCount}</dd>
 								<dt class="following">팔로잉</dt>
 								<dd class="follower-data"
-									onclick="location.href='${pageContext.request.contextPath}/mypage/followee'">${followeeCount}</dd>
+									onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId }/followee'">${followeeCount}</dd>
 							</dl>
 							<button class="setting" type="button">설정</button>
 						</div>
@@ -391,13 +391,18 @@ section {
 									<a class="nickname-link" href="${pageContext.request.contextPath}/mypage/${following.followingId }">
 										${following.followingNickname} 
 									</a>
-									
-									<c:if test="${following.isFollow}">
-										<button class='follow-btn following-btn' type="button" id="follow" onclick="followCheck(${status.index}, '${following.followingId }');">팔로잉</button>
-									</c:if> 
-									<c:if test="${! following.isFollow}">
-										<button class="follow-btn follower-btn" type="button" onclick="followCheck(${status.index}, '${following.followingId }');">팔로우</button>
+							
+									<c:if test="${sessionScope.sessionInfo.memberId != following.followingId}">
+   										<c:choose>
+   									  	   <c:when test="${following.isFollow}">
+         									   <button class='follow-btn following-btn' type="button" id="follow" onclick="followCheck(${status.index}, '${following.followingId}');">팔로잉</button>
+      									   </c:when>
+        								   <c:otherwise>
+          									   <button class="follow-btn follower-btn" type="button" onclick="followCheck(${status.index}, '${following.followingId}');">팔로우</button>
+       									   </c:otherwise>
+   									  </c:choose>
 									</c:if>
+									
 									
 								</div>
 							</c:forEach>
@@ -415,16 +420,20 @@ section {
 	<script>
 		function followCheck(index, targetId) {
 			
-		
-			let followBtn = document.getElementsByClassName('follow-btn')[index]; 
+			let followBtn = document.getElementsByClassName('follow-btn')[index];
 			
+			if (${empty sessionScope.sessionInfo}) {
+				location.href='${pageContext.request.contextPath}/login'
+				return 
+			}
 
 			$.ajax({
-				url : "${pageContext.request.contextPath}/mypage/follow",
+				url : "${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/follow",
 				type : 'POST',
 				data : 'targetId=' + targetId,
 				dataType : 'text',
 				success : function(response) {
+				
 					if (response === 'true') {
 						
 						
@@ -441,8 +450,13 @@ section {
 						
 						
 					} else {
-
+						if(response === 'login') {
+							location.href='${pageContext.request.contextPath}/login'
+							return
+					
+						}
 					}
+							
 				},
 				error : function(xhr, status, error) {
 					// 요청이 실패했을 때 실행되는 코드

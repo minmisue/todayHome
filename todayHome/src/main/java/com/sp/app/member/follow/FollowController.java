@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,14 +34,15 @@ public class FollowController {
 
 	
 
-	@GetMapping("follower")
-	public String followerForm(Model model, HttpSession session) {
+	@GetMapping("{targetId}/follower")
+	public String followerForm(@PathVariable Long targetId, Model model, HttpSession session) {
 		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("sessionInfo");
-
-		if (sessionInfo == null) {
-			return "redirect:/login";
+		Long memberId = null;
+		
+		if (sessionInfo != null) {
+			memberId = sessionInfo.getMemberId();
 		}
-		Long memberId = sessionInfo.getMemberId();
+		
 	
 		List<Follow> followerList = null;
 		Member member = null;
@@ -48,17 +50,18 @@ public class FollowController {
 		int followeeCount = 0;
 		
 		try {
-			followerList = followService.followerList(memberId);
-			followerCount = followService.followerCount(memberId);
-			followeeCount = followService.followingCount(memberId);
-			member = memberManagementService.readMemberById(memberId);
-			for (Follow follow : followerList) {
-				Long targetId = follow.getFollowerId();
-			 	boolean result = followService.followingCheck(memberId,targetId);
-			 
-			 	follow.setIsFollow(result);
-			 	
-			 	
+			followerList = followService.followerList(targetId);
+			followerCount = followService.followerCount(targetId);
+			followeeCount = followService.followingCount(targetId);
+			member = memberManagementService.readMemberById(targetId);
+			
+			if (memberId != null) {
+				for (Follow follow : followerList) {
+					Long followerId = follow.getFollowerId();
+				 	boolean result = followService.followingCheck(memberId,followerId);
+				 
+				 	follow.setIsFollow(result);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,27 +75,38 @@ public class FollowController {
 		return "mypage/follower";		
 	}
 	
-	@GetMapping("followee")
-	public String followeeForm(Model model, HttpSession session) {
+	@GetMapping("{targetId}/followee")
+	public String followeeForm(@PathVariable Long targetId,Model model, HttpSession session) {
 		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("sessionInfo");
-
-		if (sessionInfo == null) {
-			return "redirect:/login";
+		Long memberId = null;
+		if (sessionInfo != null) {
+			memberId = sessionInfo.getMemberId();
 		}
+		
 		int followerCount = 0;
 		int followeeCount = 0;
 		Member member = null;
-		Long memberId = sessionInfo.getMemberId();
 		List<Follow> followingList = null;
 
 		try {
-			member = memberManagementService.readMemberById(memberId);
-			followingList = followService.followingList(memberId);
-			followerCount = followService.followerCount(memberId);
-			followeeCount = followService.followingCount(memberId);
+			member = memberManagementService.readMemberById(targetId);
+			followingList = followService.followingList(targetId);
+			followerCount = followService.followerCount(targetId);
+			followeeCount = followService.followingCount(targetId);
+			
+			if (memberId != null) {
+				for (Follow follow : followingList) {
+					Long followingId = follow.getFollowingId();
+					boolean result = followService.followingCheck(memberId,followingId);
+			 
+					follow.setIsFollow(result);
+			}
+			 	
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		model.addAttribute("followingList", followingList);
 		model.addAttribute("member",member);
 		model.addAttribute("followerCount", followerCount);
@@ -153,18 +167,22 @@ public class FollowController {
 		return false;
 	}
 	
-	@PostMapping("follow")
+	@PostMapping("{memberId}/follow")
 	@ResponseBody
-	public boolean insertFollow (Long targetId, HttpSession session ) {
-		boolean result = false;
+	public String insertFollow (@PathVariable Long memberId, Long targetId, HttpSession session ) {
+		String result = "false";
 		try {
 			SessionInfo sessionInfo = (SessionInfo) session.getAttribute("sessionInfo");
 			if(sessionInfo == null) {
-				return false;
+				return "login";
 			}
 			
-			Long memberId = sessionInfo.getMemberId();
-			result = followService.followMember(memberId, targetId);
+			if(! sessionInfo.getMemberId().equals(memberId)) {
+				return "false";
+			}
+			
+			
+			result = String.valueOf(followService.followMember(memberId, targetId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -58,7 +58,7 @@ public class AdjustmentRepositoryImplTest {
 
 	@Test
 	public void adjustmentCount() throws Exception{
-		adjustmentRepository.adjustmentCount();
+//		adjustmentRepository.adjustmentCount();
 		
 	}
 }

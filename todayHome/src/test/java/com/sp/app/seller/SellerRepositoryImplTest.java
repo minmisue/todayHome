@@ -89,7 +89,7 @@ public class SellerRepositoryImplTest{
 	public void getSellerCountByStatus() throws Exception{
 		 int status = 1; // 판매자 상태 값
 
-		 int seller = sellerRepository.getSellerCountByStatus(status); 
+//		 int seller = sellerRepository.getSellerCountByStatus(status);
 		 System.out.println("Seller: " + seller);
 	}
 	

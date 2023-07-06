@@ -134,30 +134,17 @@
 		$.ajax({
 			url : "${pageContext.request.contextPath}/notification/isRead",
 			type : 'POST',
-			data : 'memberId=' + memberId,
+			data : 'notificationId=' + notificationId,
 			dataType : 'text',
 			success : function(response) {
 			
 				if (response === 'true') {
 					
-					
-						if (followBtn.classList.contains("follower-btn")) {
-						 	followBtn.classList.remove("follower-btn");
-						 	followBtn.classList.add("following-btn");
-						 	followBtn.innerText = "팔로잉";
-			            } else {
-			            	followBtn.classList.remove("following-btn");
-			            	followBtn.classList.add("follower-btn");
-			            	followBtn.innerText = "팔로우";
-			            }
 
 					
 					
 				} else {
-					if(response === 'login') {
-						location.href='${pageContext.request.contextPath}/login'
-						return
-				
+					
 					}
 				}
 						

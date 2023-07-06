@@ -60,22 +60,19 @@ public class NotificationController {
 	}
 	
 	@PostMapping("notification/isRead")
-	public boolean isReadNotification(SessionInfo sessionInfo) {
-		boolean notification = false;
-		Long memberId = null;
-		if(sessionInfo != null) {
-			 memberId = sessionInfo.getMemberId();
-		}
-		try {
-		notification = notificationService.updateNotification(memberId);
-		
+	public boolean isReadNotification(@RequestParam Long notificationId) {
+		Notification notification = null;
 	
-		return true;
+		boolean result = false;
+				try {
+		result = notificationService.is(notificationId);
+		
+		return result;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return result;
 	}
 	
 	

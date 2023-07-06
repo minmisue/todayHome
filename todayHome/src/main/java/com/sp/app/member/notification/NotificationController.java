@@ -43,22 +43,6 @@ public class NotificationController {
 		return "mypage/my-alert";		
 	}
 	
-	
-	@PostMapping("notification")
-	public String notificationSubmit(@RequestParam List<NotificationParse> list) {
-		try {
-			list = notificationService.getNotReadNotificationList(null);
-			
-			if(list ==  null) {
-				return "redirect:/mypage/my-alert";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		}
-		return "redirect:/mypage/my-alert";
-	}
-	
 	@PostMapping("notification/isRead")
 	@ResponseBody
 	public boolean isReadupdateNotification(@RequestParam Long notificationId) {

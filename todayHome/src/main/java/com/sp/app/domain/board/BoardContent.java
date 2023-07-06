@@ -11,8 +11,6 @@ public class BoardContent {
 	private String content;
 	private int contentSequence;
 	private String imgName;
-	private List<MultipartFile> addFiles;
-	
 	private MultipartFile thumbnailFile;
 
 	List<ProductTag> productTagList;
@@ -20,21 +18,24 @@ public class BoardContent {
 	public BoardContent() {
 		
 	}
-	
-	
-	
+
+
 	@Override
 	public String toString() {
-		return "BoardContent [userBoardContentId=" + userBoardContentId + ", userBoardId=" + userBoardId
-				+ ", userBoardContentCategoryId=" + userBoardContentCategoryId + ", content=" + content
-				+ ", contentSequence=" + contentSequence + ", imgName=" + imgName + ", productTagList=" + productTagList
-				+ "]";
+		return "BoardContent{" +
+				"userBoardContentId=" + userBoardContentId +
+				", userBoardId=" + userBoardId +
+				", userBoardContentCategoryId=" + userBoardContentCategoryId +
+				", content='" + content + '\'' +
+				", contentSequence=" + contentSequence +
+				", imgName='" + imgName + '\'' +
+				", thumbnailFile=" + thumbnailFile +
+				", productTagList=" + productTagList +
+				'}';
 	}
 
-
-
 	public BoardContent(Long userBoardId, Long userBoardContentCategoryId, String content, int contentSequence,
-			String imgName) {
+	                    String imgName) {
 		super();
 		this.userBoardId = userBoardId;
 		this.userBoardContentCategoryId = userBoardContentCategoryId;
@@ -99,14 +100,6 @@ public class BoardContent {
 
 	public void setProductTagList(List<ProductTag> productTagList) {
 		this.productTagList = productTagList;
-	}
-
-	public List<MultipartFile> getAddFiles() {
-		return addFiles;
-	}
-
-	public void setAddFiles(List<MultipartFile> addFiles) {
-		this.addFiles = addFiles;
 	}
 
 	public MultipartFile getThumbnailFile() {

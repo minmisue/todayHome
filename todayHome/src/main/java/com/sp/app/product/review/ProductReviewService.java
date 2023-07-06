@@ -3,6 +3,7 @@ package com.sp.app.product.review;
 import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.product.ReviewProduct;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface ProductReviewService {
@@ -22,5 +23,7 @@ public interface ProductReviewService {
 	List<ProductReview> getComposableProductList(Long memberId) throws Exception;
 
 	List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception;
+
+	String getReviewImgPath(HttpSession httpSession);
 
 }

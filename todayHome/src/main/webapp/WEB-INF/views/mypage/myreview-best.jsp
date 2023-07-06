@@ -76,8 +76,10 @@
 	margin-bottom: 20px;
 }
 
-.editBtn {
 
+.edit-btn:hover {
+    cursor: pointer;
+	color: #c5c5c5;
 }
 </style>
 <script>
@@ -158,7 +160,7 @@
 
 								<div class="flex-col"
 									style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
-									<div class="editBtn" style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
+									<div class="edit-btn" style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
 								</div>
 							</div>
 						</c:forEach>
@@ -167,13 +169,13 @@
 		</div>
 
 		<div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content modal-dialog-centered" style="padding: 10px">
+			<div class="modal-dialog modal-lg" style="">
+				<div class="modal-content modal-dialog-centered" style="padding: 10px; ">
 					<div style="text-align: center; position: relative; width: 100%; padding: 30px 0">
 						<h5 class="modal-title" id="staticBackdropLabel">리뷰 쓰기</h5>
 						<button style="position: absolute; right: 10px; top: 10px" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
+					<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/edit" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
 						<div id="reviewModalProduct"></div>
 
 						<div style="margin-top: 40px;">
@@ -182,40 +184,7 @@
 								<input type="hidden" name="rating" id="rating" value="0">
 								<input type="hidden" name="productId" id="product-id" value="">
 								<input type="hidden" name="orderItemId" id="order-item-id" value="">
-								<div class="rating-container starBundle" style="margin: 0 auto;">
-
-<%--									<div class="star-rating">--%>
-<%--										<c:set var="rating" value=""/>--%>
-<%--										<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>--%>
-<%--										<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>--%>
-
-<%--										<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->--%>
-<%--										<c:if test="${!first.equals('0')}">--%>
-<%--											<c:forEach begin="1" end="${first}">--%>
-<%--												<i class="fa-solid fa-star"></i>--%>
-<%--											</c:forEach>--%>
-<%--										</c:if>--%>
-
-<%--										<c:if test="${!first.equals('5')}">--%>
-<%--											<!-- 소숫점 숫자가 0이 아니라면 반별 -->--%>
-<%--											<c:if test="${!second.equals('0')}">--%>
-<%--												<i class="fa-solid fa-star-half-stroke"></i>--%>
-<%--											</c:if>--%>
-<%--											<!-- 0이라면 빈별 -->--%>
-<%--											<c:if test="${second.equals('0')}">--%>
-<%--												<i class="fa-regular fa-star"></i>--%>
-<%--											</c:if>--%>
-
-<%--											<!-- 5 - (앞자리+1) -->--%>
-<%--											<c:if test="${!first.equals('4')}">--%>
-<%--												<c:forEach begin="1" end="${4-first}">--%>
-<%--													<i class="fa-regular fa-star"></i>--%>
-<%--												</c:forEach>--%>
-<%--											</c:if>--%>
-<%--										</c:if>--%>
-<%--									</div>--%>
-
-								</div>
+								<div class="rating-container starBundle" style="margin: 0 auto;"></div>
 							</div>
 						</div>
 

@@ -27,29 +27,29 @@ public class UserBoardServiceImpl implements UserBoardService{
 		
 		
 		try {
-			long userBoardId = userBoardRepository.createBoard(userBoard); // 시퀀스 반환
-			userBoard.setUserBoardId(userBoardId);
-			
-			for(int i=0; i<userBoard.getContents().size(); i++) {
-				
-				userBoard.setContent(userBoard.getContents().get(i));
-				userBoard.setUserBoardContentCategoryId(userBoard.getUserBoardContentCategoryIds().get(i));
-				userBoard.setPosition(userBoard.getPositions().get(i));
-				userBoard.setContentSequence(userBoard.getContentSequences().get(i));
-				
-				String imageFilename = fileManager.doFileUpload(userBoard.getSelectFile().get(i), pathname);
-				if(imageFilename == null) {
-					continue;
-				}
-				
-				userBoard.setImgName(imageFilename);
-				
-				userBoardRepository.insertContent(userBoard);
-				
-				
-				System.out.println(userBoard.getContent() + ":" + userBoard.getUserBoardContentCategoryId() + ":"
-							+ userBoard.getPosition() + ":" + userBoard.getContentSequence() + ":" + userBoard.getImgName());
-			}
+//			long userBoardId = userBoardRepository.createBoard(userBoard); // 시퀀스 반환
+//			userBoard.setUserBoardId(userBoardId);
+//
+//			for(int i=0; i<userBoard.getContents().size(); i++) {
+//
+//				userBoard.setContent(userBoard.getContents().get(i));
+//				userBoard.setUserBoardContentCategoryId(userBoard.getUserBoardContentCategoryIds().get(i));
+//				userBoard.setPosition(userBoard.getPositions().get(i));
+//				userBoard.setContentSequence(userBoard.getContentSequences().get(i));
+//
+//				String imageFilename = fileManager.doFileUpload(userBoard.getSelectFile().get(i), pathname);
+//				if(imageFilename == null) {
+//					continue;
+//				}
+//
+//				userBoard.setImgName(imageFilename);
+//
+//				userBoardRepository.insertContent(userBoard);
+//
+//
+//				System.out.println(userBoard.getContent() + ":" + userBoard.getUserBoardContentCategoryId() + ":"
+//							+ userBoard.getPosition() + ":" + userBoard.getContentSequence() + ":" + userBoard.getImgName());
+//			}
 			
 			/*
 			for (int i = 0; i < boardContentList.size(); i++) {

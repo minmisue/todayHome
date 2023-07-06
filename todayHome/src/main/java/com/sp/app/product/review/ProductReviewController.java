@@ -109,28 +109,57 @@ public class ProductReviewController {
 		}
 		Long memberId = sessionInfo.getMemberId();
 		productReview.setMemberId(memberId);
-		productReview.setProfileImgName("testImg");
 
 		System.out.println(productReview);
 
 		try {
 			// 이미지 저장 경로 설정
-			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
-			String uploadDir = root + "product" + File.separator + "review";
+			String reviewImgPath = productReviewService.getReviewImgPath(httpSession);
 
-			System.out.println("uploadDir = " + uploadDir);
+			System.out.println("uploadDir = " + reviewImgPath);
 
-			String saveFileName = fileManager.doFileUpload(reviewImg, uploadDir);
+			String saveFileName = fileManager.doFileUpload(reviewImg, reviewImgPath);
 			productReview.setReviewImgName(saveFileName);
+
+			productReviewService.createReview(productReview);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		return "redirect:/reviews/write";
+	}
+
+	@PostMapping("edit")
+	public String editReview(
+			HttpSession httpSession,
+			@ModelAttribute ProductReview productReview,
+			@RequestParam(required = false) MultipartFile reviewImg) {
+		SessionInfo sessionInfo = (SessionInfo) httpSession.getAttribute("sessionInfo");
+		if (sessionInfo == null) {
+			return "redirect:/login";
+		}
+
+		Long memberId = sessionInfo.getMemberId();
+		productReview.setMemberId(memberId);
+
 		try {
-			productReviewService.createReview(productReview);
+			// 이미지가 수정되었다면
+			if (!reviewImg.isEmpty()) {
+
+				// 이미지 저장 경로 설정
+				String reviewImgPath = productReviewService.getReviewImgPath(httpSession);
+
+				System.out.println("uploadDir = " + reviewImgPath);
+
+				String saveFileName = fileManager.doFileUpload(reviewImg, reviewImgPath);
+				productReview.setReviewImgName(saveFileName);
+			}
+
+			productReviewService.updateReview(productReview);
+
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 
 		return "redirect:/reviews/write";

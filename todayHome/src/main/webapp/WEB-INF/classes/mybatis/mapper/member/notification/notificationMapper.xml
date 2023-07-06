@@ -17,7 +17,7 @@
 	 
 	 <update id="isReadupdateNotification" parameterType="Long">
 		UPDATE NOTIFICATION set IS_READ = 1
-		where NOTIFICATION_ID =#{notificationId};
+		where NOTIFICATION_ID = #{notificationId}
 	 </update>
  
    	

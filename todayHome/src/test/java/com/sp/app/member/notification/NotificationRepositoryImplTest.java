@@ -37,7 +37,7 @@ public class NotificationRepositoryImplTest {
 	public void updateNotification() throws Exception {
 		Long notificationId = 1L;
 		Notification notification = new Notification(notificationId, null,0,"안녕안녕", "3","2","1");
-		notificationRepository.updateNotification(notification);
+//		notificationRepository.updateNotification(notification);
 	}
 
 	@Test

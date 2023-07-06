@@ -172,18 +172,18 @@
 			<div class="modal-dialog modal-lg" style="">
 				<div class="modal-content modal-dialog-centered" style="padding: 10px; ">
 					<div style="text-align: center; position: relative; width: 100%; padding: 30px 0">
-						<h5 class="modal-title" id="staticBackdropLabel">리뷰 쓰기</h5>
+						<h5 class="modal-title" id="staticBackdropLabel">리뷰 수정</h5>
 						<button style="position: absolute; right: 10px; top: 10px" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/edit" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
 						<div id="reviewModalProduct"></div>
+						<input type="hidden" name="productId" id="product-id" value="">
+						<input type="hidden" name="orderItemId" id="order-item-id" value="">
 
 						<div style="margin-top: 40px;">
 							<div style="text-align: center">별점 평가</div>
 							<div class="rating-container-bundle " style="margin-top: 10px" id="rate-container">
 								<input type="hidden" name="rating" id="rating" value="0">
-								<input type="hidden" name="productId" id="product-id" value="">
-								<input type="hidden" name="orderItemId" id="order-item-id" value="">
 								<div class="rating-container starBundle" style="margin: 0 auto;"></div>
 							</div>
 						</div>

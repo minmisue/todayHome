@@ -61,6 +61,7 @@
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menubar.css">
 
+
 <header>
     <div class="menubar-container">
         <div class="menubar-item-bundle" style="gap: 30px">
@@ -88,9 +89,13 @@
                 <i class="bi bi-cart menubar-icon" onclick="location.href='${pageContext.request.contextPath}/cart/list'"></i>
 
                 <%-- 장바구니에 상품 없을시 표시 X --%>
-                <div class="cart-badge">
-                    <span id="cart-cnt">1</span>
-                </div>
+               <c:if test="${sessionScope.dataCartCount != 0 && not empty sessionScope.sessionInfo}">
+	                <div class="cart-badge">
+	                    <span id="cart-cnt">${sessionScope.dataCartCount}</span>
+	                </div>
+               </c:if>
+         
+
             </div>
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || not empty sessionScope.sessionInfo}">

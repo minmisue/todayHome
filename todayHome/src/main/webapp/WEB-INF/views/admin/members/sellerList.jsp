@@ -177,7 +177,7 @@ input[type="checkbox"]:checked {
 }
 </style>
 </head>
-<body>
+<body >
 <script>
   function submitForm() {
 		const f = document.searchForm;
@@ -187,18 +187,23 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-user-group"></i> 판매자 리스트 </h2>
   </div>
-
+ 
     
-  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/admin/adjustment/list" method="post">
+  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/admin/members/sellerList" method="post">
     <div class="filters">
-      <div class="date-range">
-        <label for="start-date">기간:</label>
-        <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
-        <label for="end-date">-</label>
-        <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
-      </div>
+  <div>
+  <label for="list">회원 상태:&nbsp;&nbsp;&nbsp;</label>
+    <label for="">대기</label>
+	<input type="checkbox" name="list" value="0" ${fn:contains(list, '0') ? 'checked' : ''} >
+    <label for="">승인</label>
+	<input type="checkbox" name="list" value="1" ${fn:contains(list, '1') ? 'checked' : ''} >
+    <label for="">거절</label>
+	<input type="checkbox" name="list" value="2" ${fn:contains(list, '2') ? 'checked' : ''}>
+    <label for="">정지</label>
+	<input type="checkbox" name="list" value="3" ${fn:contains(list, '3') ? 'checked' : ''}>
+  </div>
       <hr>
       <div class="search" style="padding: 20px;">
         <label for="search-input">검색어:</label>
@@ -206,13 +211,25 @@ input[type="checkbox"]:checked {
           <option value="sellerName" ${condition == "sellerName" ? 'selected="selected"' : ''}>판매자 이름</option>
           <option value="brandName" ${condition == "brandName" ? 'selected="selected"' : ''}>브랜드 이름</option>
           <option value="businessNumber" ${condition == "businessNumber" ? 'selected="selected"' : ''}>사업자 번호</option>
+          <option value="representativeName" ${condition == "representativeName" ? 'selected="selected"' : ''}>회사 이름</option>       
         </select>
         <input type="text" id="search-input" name="keyword" value="${keyword}">
+      
       </div>
+      <div class="search" style="padding: 20px;">
+      <label for="search-input">정렬:</label>
+		<select id="search-option" name="orderBy">
+		  <option value="amount_DESC" ${orderByAmount == '' ? 'selected="selected"' : ''}>정산금액 높은순</option>
+		  <option value="amount_ASC" ${orderByAmount == 'ASC' ? 'selected="selected"' : ''}>정산금액 낮은순</option>
+		  <option value="regDate_DESC" ${orderByDate == '' ? 'selected="selected"' : ''}>가입일 최신순</option>
+		  <option value="regDATE_ASC" ${orderByDate == 'ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
+		</select>
+        </div>
     <hr>
     <table class="delivery-table" style="background: white; padding: 20px;">
       <thead>
         <tr>
+		  <th>판매자 번호</th>
           <th>회사 이름</th>
           <th>판매자 이름</th>
           <th>브랜드 이름</th>
@@ -220,26 +237,27 @@ input[type="checkbox"]:checked {
           <th>가입 날짜</th>
           <th>전화번호</th>
           <th>이메일</th>
-          <th>정산 날짜</th>
-          <th>정산예정 금액</th>
+          <th>정산 금액</th>
+          <th>상태</th>
         </tr>
       </thead>
-      <c:forEach var="adjustment" items="${adminAdjustmentList}" varStatus="status">
+      <c:forEach var="seller" items="${adminSellerList}" varStatus="status">
         <tr>
-          <td>${adjustment.representativeName}</td>
-          <td>${adjustment.sellerName}</td>
-          <td>${adjustment.brandName}</td>
-          <td>${adjustment.businessNumber}</td>
-          <td>${adjustment.regDate}</td>
-          <td>${adjustment.tel}</td>
-          <td>${adjustment.email}</td>
-          <td>${adjustment.adjustmentDate}</td>
-          <td>${adjustment.amount}</td>
+          <td>${seller.sellerId}</td>
+          <td>${seller.representativeName}</td>
+          <td>${seller.sellerName}</td>
+          <td>${seller.brandName}</td>
+          <td>${seller.businessNumber}</td>
+          <td>${seller.regDate}</td>
+          <td>${seller.tel}</td>
+          <td>${seller.email}</td>
+          <td>${seller.accumulatedAmount}</td>
+          <td>${seller.status == 0 ? '대기' : seller.status == 1 ? '승인' : seller.status == 2 ? '거절' : seller.status == 3 ? '정지' : ''}</td>
         </tr>
       </c:forEach>
     </table>
         <div class="button-container" style="display: flex; justify-content: center;">
-          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/adjustment/list';">초기화</button>
+          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/members/sellerList';">초기화</button>
           <button id="search-button" class="styled-button" type="button" onclick="submitForm()">검색</button>
         </div>
     <div class="page-navigation">   

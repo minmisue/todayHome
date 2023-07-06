@@ -76,11 +76,11 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public int getSellerCountByStatus(int status) throws Exception {
+	public int getSellerCount(Map<String, Object> map) throws Exception {
 	    int count = 0;
 	    
 	    try {
-	        count = sellerRepository.getSellerCountByStatus(status);
+	        count = sellerRepository.getSellerCount(map);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        throw e;

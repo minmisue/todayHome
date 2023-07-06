@@ -116,7 +116,7 @@ $(function(){
 			</ul>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">판매자</a>
+					<a href="<c:url value='/admin/members/sellerList'/>" class="sub_menu--link">판매자</a>
 				</li>
 			</ul>					
 		</li>

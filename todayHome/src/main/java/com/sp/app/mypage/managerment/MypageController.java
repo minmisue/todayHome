@@ -1,7 +1,5 @@
 package com.sp.app.mypage.managerment;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sp.app.domain.member.Member;
+
 import com.sp.app.member.follow.FollowService;
+
 import com.sp.app.member.management.MemberManagementService;
 
 @Controller

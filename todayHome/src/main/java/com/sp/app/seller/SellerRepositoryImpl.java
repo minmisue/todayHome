@@ -44,8 +44,8 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public int getSellerCountByStatus(int status) throws Exception {
-		return commonDAO.selectOne("seller.getSellerCount", status);
+	public int getSellerCount(Map<String, Object> map) throws Exception {
+		return commonDAO.selectOne("seller.getSellerCount", map);
 
 	}
 

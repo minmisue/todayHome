@@ -13,7 +13,16 @@ public class SellerAdjustment {
 	private String email;
 	private String representativeName;
 	private String regDate;	
+	private int dataCount;
 	
+	public int getDataCount() {
+		return dataCount;
+	}
+
+	public void setDataCount(int dataCount) {
+		this.dataCount = dataCount;
+	}
+
 	public SellerAdjustment(){
 		
 	}

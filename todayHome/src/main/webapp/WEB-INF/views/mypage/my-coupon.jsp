@@ -128,9 +128,14 @@
         /* selectMyPage(3,3); */
     });
     
-    $(function () {
-    	
-	});
+    function coupon_send(couponId) {
+    	const f = document.couponForm;
+    	f.couponId.value = couponId;
+
+    	f.action = '${pageContext.request.contextPath}/mypage/coupon?couponId='+f.couponId.value;
+    	f.mothod = 'POST';
+    	f.submit();
+	}
 </script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -170,14 +175,17 @@
 					</div>
 					<div class="coupon-item__info">
 					</div>
-					<button class="_1eWD8 _3SroY _27do9 coupon-item__status coupon-item__status__pc" type="button">받기</button>
+					<button class="_1eWD8 _3SroY _27do9 coupon-item__status coupon-item__status__pc" type="button" onclick="coupon_send('${coupons.couponId}')">받기</button>
 					</div>
-					<input type="hidden" name="couponId" value="${coupons.couponId}">
 				</div>
 			</c:forEach>	
 			</div>
 		</div>
 	</div>
+	
+	<form name="couponForm" method="post">
+		<input type="hidden" name="couponId">
+	</form>
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
 </body>

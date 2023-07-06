@@ -8,7 +8,7 @@ public class OrderDetail {
 	private Long couponId;
 	private int finalPrice;
 	private int disCountPercent;
-	private int state;
+	private int status;
 	private int originalPrice;
 	
 	public OrderDetail() {}
@@ -24,6 +24,16 @@ public class OrderDetail {
 		this.disCountPercent = disCountPercent;
 		this.originalPrice = originalPrice;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "OrderDetail [orderItemId=" + orderItemId + ", orderBundleId=" + orderBundleId + ", productId="
+				+ productId + ", couponId=" + couponId + ", finalPrice=" + finalPrice + ", disCountPercent="
+				+ disCountPercent + ", state=" + status + ", originalPrice=" + originalPrice + "]";
+	}
+
+
 	public Long getOrderItemId() {
 		return orderItemId;
 	}
@@ -60,11 +70,11 @@ public class OrderDetail {
 	public void setDisCountPercent(int disCountPercent) {
 		this.disCountPercent = disCountPercent;
 	}
-	public int getState() {
-		return state;
+	public int getStatus() {
+		return status;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public int getOriginalPrice() {
 		return originalPrice;

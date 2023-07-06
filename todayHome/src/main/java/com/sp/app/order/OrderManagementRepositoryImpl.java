@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
+import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
@@ -35,6 +36,12 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 	@Override
 	public void insertOrderStatus(OrderDetail orderDetail) throws Exception {
 		commondao.insertData("order.insertOrderStatus", orderDetail);
+		
+	}
+
+	@Override
+	public void insertDelivery(Delivery delivery) throws Exception {
+		commondao.insertData("order.insertDelivery", delivery);
 		
 	}
 

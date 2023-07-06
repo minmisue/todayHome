@@ -190,6 +190,20 @@
 	font-weight: 400;
 	color: rgb(130, 140, 148);
 }
+
+.daum-postcode-btn{
+    width: 85px;
+    margin-right: 8px;
+    font-size: 15px;
+    background-color: #fff;
+    border-color: #35c5f0;
+    color: #35c5f0;
+    font-weight: 700;
+    border-radius: 4px;
+    border: 1px solid #0dcaf0;
+    padding: 6px;
+    
+}
 </style>
 </head>
 <body>
@@ -214,9 +228,49 @@ function test() {
 	
 
 	const f = document.buyForm;
+	let inputs = f.querySelectorAll("input[name=state]");
+	let state = 1;
+
+	for (let i = 0; i < inputs.length; i++) {
+	  inputs[i].value = state;
+	}
+	
+	let firstTel = $("#receive-tel-first-num").val();
+	let secondTel = $("#receive-tel").val();
+	
+	let tel = firstTel+secondTel;
+	
+	$("input[name=tel]").val(tel);
+	
 	f.action = "${pageContext.request.contextPath}/payment/paymentOk";
 	f.submit();
 }
+
+function usePoint() {
+	let point = '${point.remainPoint}';
+	$("#usePoint").val(point);
+	usePointChange();
+}
+
+
+function usePointChange() {
+	let point = $("#usePoint").val();
+	if(point > '${point.remainPoint}'){
+		alert('사용가능한 포인트는' + '${point.remainPoint}' +'P 입니다.');
+		$("#usePoint").val(0);
+		return;
+	}
+	$("#usedPoint").text(point);
+	$('input[name="usedPoint"]').val(point);
+	let price = $('#final-price').text().replace(/,/gi, "") - point;
+	price  = Number(price);
+	$('#final-price').html(price.toLocaleString());
+	$('#final-tot-price').val(price);
+	$('#finalTotPrice').html(price.toLocaleString());
+	
+}
+
+
 </script>
 <script type="text/javascript">
 function iamport(){
@@ -326,18 +380,30 @@ function iamport(){
 							<div class="payment-form-grid-input-label">이메일</div>
 							<input class="payment-form-grid-input" type="text" id="email1">
 							<div style="text-align: center">@</div>
-							<input class="payment-form-grid-input" type="text" id="email2">
+							<select class="payment-form-grid-input">
+								<option value="naver.com">naver.com</option>
+								<option value="gmail.com">gmail.com</option>
+								<option value="daum.com">daum.com</option>
+								<option value="nate.com">nate.com</option>
+							</select>
+							<input type="hidden" id="email2" value="">
 						</div>
 
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">휴대전화</div>
 							<div style="display: grid; grid-template-columns: 35% 65%;">
 								<div style="padding-right: 8px;">
-									<input style="width: 100%" class="payment-form-grid-input"
-										type="text" id="buyer-tel">
+									<select style="width: 100%" class="payment-form-grid-input">
+										<option value="010">010</option>
+										<option value="011">011</option>
+										<option value="031">031</option>
+										<option value="032">032</option>
+										<option value="033">033</option>
+									</select>
 								</div>
 
 								<input class="payment-form-grid-input" type="text">
+								<input type="hidden" id="buyer-tel">
 							</div>
 						</div>
 					</div>
@@ -364,23 +430,31 @@ function iamport(){
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">휴대전화</div>
 							<div style="display: grid; grid-template-columns: 35% 65%;">
-<!-- 
 								<div style="padding-right: 8px;">
-									<input style="width: 100%" class="payment-form-grid-input"
-										type="text">
+									<select style="width: 100%" class="payment-form-grid-input" id="receive-tel-first-num">
+										<option value="010">010</option>
+										<option value="011">011</option>
+										<option value="031">031</option>
+										<option value="032">032</option>
+										<option value="033">033</option>
+									</select>
+									
 								</div>
- -->
-								<input class="payment-form-grid-input" type="text" id="receive-tel" name="tel">
+								<input class="payment-form-grid-input" type="text" id="receive-tel">
+								<input type="hidden" name="tel">
 							</div>
+
 						</div>
 
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">주소</div>
-							<div style="display: grid; grid-template-columns: 35% 65%;">
-								<div><button type="button" onclick="daumPostcode()">주소찾기</button></div>
-								<div><input type="text" name="postNum" id="postNum"></div>
-								<div><input type="text" name="address1" id="address1"></div>
-								<div><input type="text" name="address2" id="address2"></div>
+							<div class="flex-col" style="gap: 15px;">
+								<div class="flex-row">
+									<div><button type="button" onclick="daumPostcode()" class="daum-postcode-btn">주소찾기</button></div>
+									<div><input type="text" name="postNum" id="postNum" class="payment-form-grid-input" style="width: 163;"></div>
+								</div>
+								<div><input type="text" name="address1" id="address1" class="payment-form-grid-input" style="width: 554"></div>
+								<div><input type="text" name="address2" id="address2" class="payment-form-grid-input" style="width: 554"></div>
 
 							</div>
 						</div>
@@ -397,16 +471,23 @@ function iamport(){
 					</div>
 
 					<div class="border-line" style=""></div>
-
 					<%-- 상품 컨테이너 --%>
-					<c:forEach var="cart" items="${cartList}">
-						<!-- 상품아이디 -->
+					<c:forEach var="cart" items="${cartList}" varStatus="status">
+						<c:set var="finalPrice" value="0"></c:set>
+						<c:set var="originalPrice" value="0"></c:set>
+						<c:set var="deliveryCost" value="0"></c:set>
+						<!-- 상품아이디, 상품이름 -->
 						<input type="hidden" name="productNums" value="${cart.productId}">
 						<input type="hidden" name="productNames" value="${cart.productName}">
 						<!-- 할인율 -->
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
+						<!-- 결제완료후 장바구니 비우기위한 input -->
+						<input type="hidden" name="cartIdList" value="${cart.cartId}">
+						<!-- 상태값 -->
+						<input type="hidden" name="state">
 						<c:forEach var="productStock" items="${cart.productStockList}">
+							<input type="hidden" name="gubun" value="${status.index}">
 							<input type="hidden" name="stockNums" value="${productStock.stockId}">
 							<div class="flex-col"
 								style="border: 1px solid #EAEBEF; border-radius: 5px; margin-top: 20px;">
@@ -441,6 +522,7 @@ function iamport(){
 														<c:set var="productPrice"
 															value="${productStock.price*((100-cart.discountPercent)/100)*productStock.cartQuantity}"></c:set>
 														<fmt:parseNumber var= "price" integerOnly= "true" value= "${productStock.price}" />
+														<!-- 상품 원래가격 -->
 														<input type="hidden" name="price" value="${price}">
 													</div>
 													<div class="flex-row"
@@ -448,9 +530,8 @@ function iamport(){
 														<div
 															style="line-height: 20px; font-weight: 700; font-size: 16px; color: black">
 															<span><fmt:formatNumber value="${productPrice}" /></span>원
-															<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${productPrice}" />
-							                                <input type="hidden" name="finalPrices" value="${finalPrice}">
-							                                <input type="hidden" name="originalPrices" value="${productStock.price*productStock.cartQuantity}">
+															<c:set var="finalPrice" value="${finalPrice+ productPrice}"></c:set>
+							                               	<c:set var="originalPrice" value="${originalPrice + productStock.price*productStock.cartQuantity}"></c:set>
 							                                <input type="hidden" name="quantityList" value="${productStock.cartQuantity}">
 														</div>
 														<div>|</div>
@@ -468,18 +549,30 @@ function iamport(){
 							
 							<!-- 총상품 가격 -->
 							<c:set var="totPrice" value="${totPrice + productPrice}"></c:set>
-
+							
+							<!-- 상품당 배달비 -->
+							<c:set var = "deliveryCost"	value="${deliveryCost+ cart.deliveryCost}"/>
+							<fmt:parseNumber var= "deliveryCosts" integerOnly= "true" value= "${deliveryCost}" />
+							<input type="hidden"  name="deliveryCostList" value="${deliveryCosts}">
+							
 						<c:set var="totDeliveryCost"
 							value="${totDeliveryCost + cart.deliveryCost}" />
 						</c:forEach>
 						
+						<fmt:parseNumber var= "finalPrice" integerOnly= "true" value= "${finalPrice}" />
+						<input type="hidden" name="finalPrices" value="${finalPrice}">
+						
+						<fmt:parseNumber var= "originalPrice" integerOnly= "true" value= "${originalPrice}" />
+ 						<input type="hidden" name="originalPrices" value="${originalPrice}">
+					</c:forEach>
 						<!-- 총 할인금액 -->
 						<c:set var="totDisCountPrice"
-							value="${orignalTotPrice * ((cart.discountPercent)/100) }"></c:set>
-						<!-- 총 배달비 -->
+							value="${orignalTotPrice - totPrice}"></c:set>
 
+			
+						<fmt:parseNumber var= "finalDiscountPrice" integerOnly= "true" value= "${totDisCountPrice}" />
+						<input type="hidden" name="finalDiscountPrice" value="${finalDiscountPrice}">
 
-					</c:forEach>
 
 				</div>
 
@@ -528,12 +621,12 @@ function iamport(){
 						<div class="flex-row" style="margin-top: 20px">
 							<input
 								style="border-radius: 4px; border: 1px solid #DBDBDB; width: 250px"
-								type="text">
+								type="text" id="usePoint" onchange="usePointChange()">
 							<div
-								style="padding: 8px 15px; border-radius: 4px; color: #65C2EC; border: 1px solid #65C2EC; margin-left: 10px">전액사용</div>
+								style="padding: 8px 15px; border-radius: 4px; color: #65C2EC; border: 1px solid #65C2EC; margin-left: 10px; cursor: pointer;" onclick="usePoint()">전액사용</div>
 						</div>
 						<div style="margin-top: 10px; font-size: 15px">
-							사용 가능 포인트 <span class="remain-point">871</span><span
+							사용 가능 포인트 <span class="remain-point">${point.remainPoint}</span><span
 								class="point-color">P</span>
 						</div>
 					</div>
@@ -582,8 +675,9 @@ function iamport(){
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div class="payment-result-label">포인트 사용</div>
 								<div>
-									<span>0</span>원
-									<input type="hidden" name="usedPoint" value="0">
+									<span id="usedPoint">0</span>원
+									<c:set var="usedPoint" value=""></c:set>
+									<input type="hidden" name="usedPoint" value="">
 								</div>
 							</div>
 
@@ -594,7 +688,7 @@ function iamport(){
 									style="justify-content: space-between; font-size: 18px; font-weight: 700; margin-top: 15px; align-items: center">
 									<div style="">최종 결제 금액</div>
 									<div style="font-size: 22px">
-										<span style="color: #65C2EC;"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span> 원
+										<span style="color: #65C2EC;" id="final-price"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span> 원
 									</div>
 								</div>
 
@@ -644,7 +738,7 @@ function iamport(){
 
 					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
-						<span><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
+						<span id="finalTotPrice"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />
 						<input type="hidden" id="final-tot-price" name="finalTotPrice" value="${finalTotPrice}">
 					</div>

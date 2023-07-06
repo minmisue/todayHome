@@ -72,9 +72,7 @@
 	display: block;
 	color: black;
 }
-.news-link:hover {
-	cursor: pointer;
-}
+
 </style>
 </head>
 <body>

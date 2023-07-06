@@ -61,13 +61,10 @@ public class NotificationController {
 	
 	@PostMapping("notification/isRead")
 	public boolean isReadNotification(@RequestParam Long notificationId) {
-		Notification notification = null;
-	
 		boolean result = false;
 				try {
-		result = notificationService.is(notificationId);
-		
-		return result;
+		return result = notificationService.isReadupdateNotification(notificationId);
+	
 			
 		} catch (Exception e) {
 			e.printStackTrace();

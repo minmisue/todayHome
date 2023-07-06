@@ -103,6 +103,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long userBoardId = Long.valueOf(notification.getParameter2());
@@ -123,6 +124,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 
 				} else if (type == 5) {
 					Long pointAmount = Long.valueOf(notification.getParameter1());
@@ -130,6 +132,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long pointPage = Long.valueOf(notification.getParameter2());
@@ -150,6 +153,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 
 				} else if (type == 6) {
 
@@ -158,6 +162,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long followerPage = Long.valueOf(notification.getParameter2());
@@ -178,6 +183,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 				}
 
 				parseList.add(notificationParse);

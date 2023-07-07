@@ -20,6 +20,7 @@ import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.product.management.ProductManagementService;
 
@@ -91,6 +92,34 @@ public class CartController {
 		
 		return "/cart/cart-list";
 	}
+	
+	@PostMapping("buyNowList")
+	public String BuyNowListCart(
+			HttpSession session,
+			Map<String, Object> data,
+			Model model) {
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		
+		Long memberId = info.getMemberId();
+		
+		Long productId = Long.valueOf((String) data.get("productId"));
+		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
+
+		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
+
+		for (List<Object> option : options) {
+			Long stockId = Long.valueOf((String) option.get(0));
+			Long quantity = Long.valueOf((String) option.get(1));
+
+			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
+		}
+
+		
+		Product product =  productservice.getProductById(productId);
+		
+		return "/cart/cart-list";
+	}
+	
 	
 	// 상품의 옵션 삭제
 	@GetMapping("deleteStock")

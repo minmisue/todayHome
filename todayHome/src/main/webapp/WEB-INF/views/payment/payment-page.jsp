@@ -490,7 +490,12 @@ function iamport(){
 						style="align-items: center; margin-bottom: 10px">
 						<div class="payment-obj-label">주문상품</div>
 						<div style="margin-left: 10px;">
-							<span></span>${fn:length(cartList)}건</div>
+							<span></span>
+							<c:if test="${mode == buyNow }">
+								${fn:length(cartList)}
+							</c:if>
+							1
+							건</div>
 					</div>
 
 					<div class="border-line" style=""></div>
@@ -507,7 +512,9 @@ function iamport(){
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
 						<!-- 결제완료후 장바구니 비우기위한 input -->
-						<input type="hidden" name="cartIdList" value="${cart.cartId}">
+						<c:if test="${mode != buyNow }">
+							<input type="hidden" name="cartIdList" value="${cart.cartId}">
+						</c:if>
 						<!-- 상태값 -->
 						<input type="hidden" name="state">
 						<c:forEach var="productStock" items="${cart.productStockList}">

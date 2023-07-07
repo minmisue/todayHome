@@ -118,7 +118,7 @@
 									<div class="product-text-container">
 										<div class="product-text subject">${review.productName}</div>
 										<div class="product-text name">${review.stockString}</div>
-										<input class="review-rating" type="hidden" value="${review.rating}">
+										<input class="review-rating" id="review-rating" name="rating" type="hidden" value="${review.rating}">
 										<input class="review-orderItemId" type="hidden" value="${review.orderItemId}">
 										<input class="review-productId" type="hidden" value="${review.productId}">
 
@@ -397,7 +397,7 @@
 
 	function getRating() {
         ratingValue = rating + (lastStarIsFull ? 1 : 0.5);
-		$('#rating').val(ratingValue);
+		$('#review-rating').val(ratingValue);
 	}
 
 

@@ -20,14 +20,13 @@
                 product_name as productName, content, to_char(p.reg_date, 'yyyy-mm-dd') as regDate, price,
                 remain_quantity as remainQuantity, discount_percent as discountPercent, delivery_cost as deliveryCost,
                 reserving_point_percent as reservingPointPercent,
-                NVL(product_scrap_cnt, 0) AS productScrapCnt
+                NVL(product_scrap_cnt, 0) AS productScrapCnt, s2.BRAND_NAME AS brandName
         FROM PRODUCT P
-                JOIN SELLER S2 ON P.SELLER_ID = S2.SELLER_ID
-                LEFT OUTER JOIN(
-                SELECT PRODUCT_ID, COUNT(*) AS PRODUCT_SCRAP_CNT
-                FROM PRODUCT_SCRAP
-                GROUP BY PRODUCT_ID
-        ) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
+        JOIN SELLER S2 ON P.SELLER_ID = S2.SELLER_ID
+        LEFT OUTER JOIN (
+            SELECT PRODUCT_ID, COUNT(*) AS PRODUCT_SCRAP_CNT
+            FROM PRODUCT_SCRAP
+            GROUP BY PRODUCT_ID) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
         WHERE P.PRODUCT_ID = #{productId}
     </select>
 

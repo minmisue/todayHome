@@ -143,6 +143,8 @@ public class ProductReviewController {
 		Long memberId = sessionInfo.getMemberId();
 		productReview.setMemberId(memberId);
 
+		System.out.println(productReview);
+
 		try {
 			// 이미지가 수정되었다면
 			if (!reviewImg.isEmpty()) {

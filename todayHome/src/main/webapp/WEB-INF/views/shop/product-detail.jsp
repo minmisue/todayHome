@@ -890,7 +890,7 @@
 
         let form = document.createElement('form');
         form.setAttribute('method', 'POST');
-        form.setAttribute('action', '${pageContext.request.contextPath}/product/direct-order')
+        form.setAttribute('action', '${pageContext.request.contextPath}/payment/buy-now')
 
         let selectedOptions = getAllSelectedOptions();
 
@@ -903,16 +903,31 @@
 
         let orderData = JSON.stringify(data);
 
-        let inputTag = document.createElement('input');
-		inputTag.setAttribute('type', 'hidden');
-        inputTag.setAttribute('name', 'data');
-        inputTag.setAttribute('value', orderData);
+        console.log(orderData)
 
-        form.appendChild(inputTag);
+        let productIdInputTag = document.createElement('input');
+        productIdInputTag.setAttribute('type', 'hidden');
+        productIdInputTag.setAttribute('name', 'productId');
+        productIdInputTag.setAttribute('value', productId);
+        form.appendChild(productIdInputTag);
+
+        for (let x of selectedOptions) {
+            let stockIdTag = document.createElement('input');
+            stockIdTag.setAttribute('type', 'hidden');
+            stockIdTag.setAttribute('name', 'stockId');
+            stockIdTag.setAttribute('value', x[0]);
+
+            form.appendChild(stockIdTag);
+
+            let quantityTag = document.createElement('input');
+            quantityTag.setAttribute('type', 'hidden');
+            quantityTag.setAttribute('name', 'quantity');
+            quantityTag.setAttribute('value', x[1]);
+            form.appendChild(quantityTag);
+        }
 
         document.body.appendChild(form);
         form.submit();
-
     });
 </script>
 

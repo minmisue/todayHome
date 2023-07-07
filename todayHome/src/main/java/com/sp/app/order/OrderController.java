@@ -9,12 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
@@ -120,47 +115,55 @@ public class OrderController {
 	@PostMapping("buy-now")
 	public String BuyNowListCart(
 			HttpSession session,
-			Map<String, Object> data,
+			@RequestParam Long productId,
+			@RequestParam List<Long> stockId,
+			@RequestParam List<Integer> quantity,
 			Model model) {
-		
-		Long productId = Long.valueOf((String) data.get("productId"));
-		
-		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
 
-		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
-
-		for (List<Object> option : options) {
-			Long stockId = Long.valueOf((String) option.get(0));
-			Long quantity = Long.valueOf((String) option.get(1));
-
-			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
-		}
-
-		// 상품 정보
-		Product product =  productservice.getProductById(productId);
-		
-		// stock 정보
-		List<ProductStock> productStockList = new ArrayList<ProductStock>();
-		
-		for(CartOptionMap vo : cartOptionMapList) {
-			Long stockId = vo.getStockId();
-			
-			Long quantity = vo.getQuantity();
-			
-			ProductStock productStock = productservice.getStockByStockId(stockId);
-			// 그냥 옵션 가격
-			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
-			
-			// 수량
-			productStock.setCartQuantity(quantity);
-			productStockList.add(productStock);
-		}
-		
-		product.setProductStockList(productStockList);
-		model.addAttribute("cartList", product);
-		model.addAttribute("mode","buyNow");
-
-		return "/cart/cart-list";
+		System.out.println("productId = " + productId);
+		System.out.println(stockId);
+		System.out.println(quantity);
+//		System.out.println(data);
+//
+//		Long productId = Long.valueOf((String) data.get("productId"));
+//
+//		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
+//
+//		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
+//
+//		for (List<Object> option : options) {
+//			Long stockId = Long.valueOf((String) option.get(0));
+//			Long quantity = Long.valueOf((String) option.get(1));
+//
+//			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
+//		}
+//
+//		// 상품 정보
+//		Product product =  productservice.getProductById(productId);
+//
+//		// stock 정보
+//		List<ProductStock> productStockList = new ArrayList<ProductStock>();
+//
+//		for(CartOptionMap vo : cartOptionMapList) {
+//			Long stockId = vo.getStockId();
+//
+//			Long quantity = vo.getQuantity();
+//
+//			ProductStock productStock = productservice.getStockByStockId(stockId);
+//			// 그냥 옵션 가격
+//			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
+//
+//			// 수량
+//			productStock.setCartQuantity(quantity);
+//			productStockList.add(productStock);
+//		}
+//
+//		product.setProductStockList(productStockList);
+//		model.addAttribute("cartList", product);
+//		model.addAttribute("mode","buyNow");
+//
+//		return "/cart/cart-list";
+		return "forward:/cart/cart-list";
 	}
 
 	@PostMapping("paymentOk")

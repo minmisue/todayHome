@@ -15,7 +15,7 @@ public interface UserBoardRepository {
 	Long createBoard(UserBoard userBoard) throws Exception;
 	
 	//내용 등록
-	void insertContent(UserBoard userBoard) throws Exception;
+	Long insertContent(UserBoard userBoard) throws Exception;
 	
 	void insertProduct(UserBoard userBoard) throws Exception;
 

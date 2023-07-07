@@ -3,7 +3,8 @@ package com.sp.app.domain.order;
 public class Order {
 	private String orderBundleId; // 주문 묶음 아이디
 	private Long memberId;
-
+	private String memberName;
+	
 	private String orderRegDate; // 주문 날짜
 	private String receiveName; // 수령인 이름
 	private String tel; // 수령인 번호
@@ -15,7 +16,8 @@ public class Order {
 	private int finalTotPrice; // 총금액(order_bundle)
 	private int finalDiscountPrice; // 총할인 금액
 	private int finalDeliveryCost; // 총배송비
-
+	private String buyerName; // 주문자
+	private String buyerTel;
 
 	private String deliveryNumber;
 	private int deliveryCost;
@@ -40,6 +42,32 @@ public class Order {
 		this.finalDiscountPrice = finalDiscountPrice;
 		this.finalDeliveryCost = finalDeliveryCost;
 
+	}
+
+	
+	
+	public String getBuyerName() {
+		return buyerName;
+	}
+
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
+	}
+
+	public String getBuyerTel() {
+		return buyerTel;
+	}
+
+	public void setBuyerTel(String buyerTel) {
+		this.buyerTel = buyerTel;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public String getOrderBundleId() {

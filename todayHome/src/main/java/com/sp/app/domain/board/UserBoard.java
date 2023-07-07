@@ -17,9 +17,36 @@ public class UserBoard {
 	private int replyCount;
 	private int boardLikeCount;
 	private int boardScrapCount;
-	private String presentationImgName;
-	private MultipartFile thumbnailFile;
-	private List<BoardContent> boardContentList;
+	private String nickName;
+	private String profileImgName;
+	
+	private Long userBoardContentId;
+	
+	private String content;
+	private String imgName;
+	private int userBoardContentCategoryId;
+	private int contentSequence;
+	private String position;
+	private Long productId;
+
+	private List<String> contents;
+	private List<MultipartFile> selectFile;
+	private List<Integer> userBoardContentCategoryIds;
+	private List<Integer> contentSequences;
+	private List<String> positions;
+	private List<Long> productIds;
+	
+	
+	private int xCoordinate;
+	private int yCoordinate;
+	private Long discountedPrice;
+	private String productName;
+	private String brandName;
+	private String saveName;
+	private String sellerId;
+	private Long price;
+	
+	
 
 
 	@Override
@@ -36,10 +63,34 @@ public class UserBoard {
 				", replyCount=" + replyCount +
 				", boardLikeCount=" + boardLikeCount +
 				", boardScrapCount=" + boardScrapCount +
-				", presentationImgName='" + presentationImgName + '\'' +
-				", boardContentList=" + boardContentList +
 				'}';
 	}
+	
+	
+
+	public String getNickName() {
+		return nickName;
+	}
+
+
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+
+
+	public String getImgName() {
+		return imgName;
+	}
+
+
+
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
+
 
 	public Long getUserBoardId() {
 		return userBoardId;
@@ -129,19 +180,271 @@ public class UserBoard {
 		this.boardScrapCount = boardScrapCount;
 	}
 
-	public String getPresentationImgName() {
-		return presentationImgName;
+
+
+
+
+	public String getProfileImgName() {
+		return profileImgName;
 	}
 
-	public void setPresentationImgName(String presentationImgName) {
-		this.presentationImgName = presentationImgName;
+
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
 	}
 
-	public List<BoardContent> getBoardContentList() {
-		return boardContentList;
+
+
+	public Long getUserBoardContentId() {
+		return userBoardContentId;
 	}
 
-	public void setBoardContentList(List<BoardContent> boardContentList) {
-		this.boardContentList = boardContentList;
+
+
+	public void setUserBoardContentId(Long userBoardContentId) {
+		this.userBoardContentId = userBoardContentId;
 	}
+
+
+
+	public String getContent() {
+		return content;
+	}
+
+
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+
+
+
+
+
+	public int getUserBoardContentCategoryId() {
+		return userBoardContentCategoryId;
+	}
+
+
+
+	public void setUserBoardContentCategoryId(int userBoardContentCategoryId) {
+		this.userBoardContentCategoryId = userBoardContentCategoryId;
+	}
+
+
+
+	public int getContentSequence() {
+		return contentSequence;
+	}
+
+
+
+	public void setContentSequence(int contentSequence) {
+		this.contentSequence = contentSequence;
+	}
+
+
+
+	public String getPosition() {
+		return position;
+	}
+
+
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+
+
+	public List<String> getContents() {
+		return contents;
+	}
+
+
+
+	public void setContents(List<String> contents) {
+		this.contents = contents;
+	}
+
+
+
+	public List<MultipartFile> getSelectFile() {
+		return selectFile;
+	}
+
+
+
+	public void setSelectFile(List<MultipartFile> selectFile) {
+		this.selectFile = selectFile;
+	}
+
+
+
+	public List<Integer> getUserBoardContentCategoryIds() {
+		return userBoardContentCategoryIds;
+	}
+
+
+
+	public void setUserBoardContentCategoryIds(List<Integer> userBoardContentCategoryIds) {
+		this.userBoardContentCategoryIds = userBoardContentCategoryIds;
+	}
+
+
+
+	public List<Integer> getContentSequences() {
+		return contentSequences;
+	}
+
+
+
+	public void setContentSequences(List<Integer> contentSequences) {
+		this.contentSequences = contentSequences;
+	}
+
+
+
+	public List<String> getPositions() {
+		return positions;
+	}
+
+
+
+	public void setPositions(List<String> positions) {
+		this.positions = positions;
+	}
+
+
+
+
+
+	public List<Long> getProductIds() {
+		return productIds;
+	}
+
+
+
+	public void setProductIds(List<Long> productIds) {
+		this.productIds = productIds;
+	}
+
+
+
+
+
+	public Long getProductId() {
+		return productId;
+	}
+
+
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+
+
+	public float getxCoordinate() {
+		return xCoordinate;
+	}
+
+
+
+	public void setxCoordinate(int xCoordinate) {
+		this.xCoordinate = xCoordinate;
+	}
+
+
+
+	public float getyCoordinate() {
+		return yCoordinate;
+	}
+
+
+
+	public void setyCoordinate(int yCoordinate) {
+		this.yCoordinate = yCoordinate;
+	}
+
+
+
+	public Long getDiscountedPrice() {
+		return discountedPrice;
+	}
+
+
+
+	public void setDiscountedPrice(Long discountedPrice) {
+		this.discountedPrice = discountedPrice;
+	}
+
+
+
+	public String getProductName() {
+		return productName;
+	}
+
+
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
+
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
+	}
+
+
+
+	public Long getPrice() {
+		return price;
+	}
+
+
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+	
+	
+	
+
+	
+	
+
 }

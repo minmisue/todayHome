@@ -325,6 +325,8 @@ function iamport(){
     		let reward = $("#reward").text().replace(/,/gi, "").trim();
     		$("input[name=reward]").val(reward);
     		$("input[name=payMethod]").val(rsp.pay_method);
+    		$("input[name=buyerName]").val(rsp.buyer_name);
+    		$("input[name=buyerTel]").val(rsp.buyer_tel);
     		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
     		f.submit();
 
@@ -399,6 +401,7 @@ function iamport(){
 						<div class="form-grid">
 							<div class="payment-form-grid-input-label">이름</div>
 							<input class="payment-form-grid-input" type="text" id="buyer-name" name="name">
+							<input type="hidden" name="buyerName" value="">
 						</div>
 
 						<div class="form-grid">
@@ -427,7 +430,7 @@ function iamport(){
 								</div>
 
 								<input class="payment-form-grid-input" type="text">
-								<input type="hidden" id="buyer-tel">
+								<input type="hidden" name="buyerTel" value="">
 							</div>
 						</div>
 					</div>

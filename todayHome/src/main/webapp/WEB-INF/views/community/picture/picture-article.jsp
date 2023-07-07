@@ -3,7 +3,7 @@
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
-	<title>장바구니</title>
+	<title>집사진</title>
 
 	<style>
         .article-item-container {
@@ -50,50 +50,57 @@
 <div class="main-container " >
 	<div class="content" style="position: relative">
 		<div class="flex-col" style="max-width: 720px; position: relative; margin: 0 auto">
-			<div class="flex-row subject-container">
-				<div class="flex-row" style="gap: 5px; align-items: center; font-weight: 350; font-size: 16px; color: rgb(130, 140, 148); margin-bottom: 5px;">
-					<div>20평대</div>
-					<div style="color: #DBDBDB">|</div>
-					<div>내추럴 스타일</div>
-					<div style="color: #DBDBDB">|</div>
-					<div>빌라&연립</div>
-				</div>
-			</div>
-
-			<c:forEach step="1" begin="1" end="4">
-				<div class="flex-col article-item-container" style="margin-bottom: 30px;">
-					<div class="flex-col" style="gap: 10px;">
-						<img style="width: 100%; aspect-ratio: 1/1; object-fit: cover" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/162286789443442812.jpeg?w=1440">
-						<div class="article-contain-item-container flex-row">
-							<c:forEach step="1" begin="1" end="15">
-								<div style="width: 100px; height: 100px; border-radius: 20px">
-									<img style="width: 100px; height: 100px; border: 1px solid #C5C2BB; border-radius: 30px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/161866122047151511.jpeg?w=1440">
-								</div>
-							</c:forEach>
-						</div>
-
-						<div class="content-text">
-							숲에 온 느낌으로..🌿 #집콕챌린지 #패브릭포스터 #포스터 #숲세권 #홈캠핑 #휴양지인테리어 #플랜테리어 #그린인테리어 #스탠드 #라탄 #우드인테리어 #협탁 #원룸 #침실 #거실인테리어 #아트월 #템바보드 #커튼 #침구 #이불 #매트리스커버 #매트리스 #오하우스시즌3 #오하우스
-						</div>
+			<c:forEach var="boardContentList" items="${userBoardContent}" varStatus="status">
+				<div class="flex-row subject-container">
+					<div class="flex-row" style="gap: 5px; align-items: center; font-weight: 350; font-size: 16px; color: rgb(130, 140, 148); margin-bottom: 5px;">
+						<div>20평대</div>
+						<div style="color: #DBDBDB">|</div>
+						<div>내추럴 스타일</div>
+						<div style="color: #DBDBDB">|</div>
+						<div>빌라&연립</div>
 					</div>
 				</div>
+	
+					<div class="flex-col article-item-container" style="margin-bottom: 30px;">
+						<div class="flex-col" style="gap: 10px;">
+							<img style="width: 100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/uploads/housePicture/${boardContentList.imgName}">
+							<div class="article-contain-item-container flex-row">
+								<c:forEach step="1" begin="1" end="15">
+									<div style="width: 100px; height: 100px; border-radius: 20px">
+										<img style="width: 100px; height: 100px; border: 1px solid #C5C2BB; border-radius: 30px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/161866122047151511.jpeg?w=1440">
+									</div>
+								</c:forEach>
+							</div>
+	
+							<div class="content-text" >
+								${boardContentList.content}
+							</div>
+						</div>
+					</div>
 			</c:forEach>
 		</div>
-
+		<div>
+			<c:choose>
+				<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">
+  					<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
+  				</c:when>
+  			</c:choose>
+		</div>
+		
 		<div style="position:absolute; top: 50px; right: 120px; padding-left: 20px; padding-top: 20px; margin-top: 40px; height: 100%">
 			<div class="flex-col" style="position: sticky; top: 180px; text-align: center">
 				<div>
 					<div class="flex-col shadow-sm" style="border: 1px solid #C2C8CB; border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center">
-						<i class="bi bi-heart" style="font-size: 22px"></i>
+					<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요">	<i class="bi ${userBoardLiked ? 'bi-heart-fill':'bi-heart'}" style="font-size: 22px"></i></button>
 					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;">827</div>
+					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardLikeCount" >${userBoard.boardLikeCount}</div>
 				</div>
 
 				<div>
 					<div class="flex-col shadow-sm" style="border: 1px solid #C2C8CB; border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px;">
-						<i class="bi bi-bookmark" style="font-size: 22px"></i>
+					<button type="button" class="btn btnSendBoardScrap" title="북마크">	<i class="bi ${userBoardScraped ? 'bi-bookmark-fill':'bi-bookmark'}" style="font-size: 22px"></i></button>
 					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;">4,316</div>
+					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardScrapCount">${userBoard.boardScrapCount }</div>
 				</div>
 
 				<div class="border-line" style="margin-top: 20px; margin-bottom: 10px;"></div>
@@ -111,7 +118,7 @@
 					</div>
 					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;">4,316</div>
 				</div>
-
+		
 
 			</div>
 			<%--			<div class="following-feed-btn-container">--%>
@@ -144,9 +151,112 @@
 			<%--				</div>--%>
 			<%--			</div>--%>
 		</div>
+		
 	</div>
-</div>
+</div>	
 
 <jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
 </body>
+
+<script type="text/javascript">
+	function deleteBoard() {
+	    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
+		    let query = "userBoardId=${userBoard.userBoardId}";
+		    let url = "${pageContext.request.contextPath}/community/picture/deleteBoard?" + query;
+	    	location.href = url;
+	    }
+	}
+	
+	function ajaxFun(url, method, query, dataType, fn) {
+		$.ajax({
+			type:method,
+			url:url,
+			data:query,
+			dataType:dataType,
+			success:function(data) {
+				fn(data);
+			},
+			beforeSend:function(jqXHR) {
+				jqXHR.setRequestHeader("AJAX", true);
+			},
+			error:function(jqXHR) {
+				if(jqXHR.status === 403) {
+					login();
+					return false;
+				} else if(jqXHR.status === 400) {
+					alert("요청 처리가 실패 했습니다.");
+					return false;
+				}
+		    	
+				console.log(jqXHR.responseText);
+			}
+		});
+	}
+
+	// 게시글 공감 여부
+	$(function(){
+		$(".btnSendBoardLike").click(function(){
+			const $i = $(this).find("i");
+			let userBoardLiked = $i.hasClass("bi-heart-fill");
+			
+			let url = "${pageContext.request.contextPath}/community/picture/insertBoardLike";
+			let userBoardId = "${userBoard.userBoardId}";
+			let query = "userBoardId="+userBoardId+"&userBoardLiked="+userBoardLiked;
+			
+			const fn = function(data){
+				let state = data.state;
+				if(state === "true") {
+					if( userBoardLiked ) {
+						$i.removeClass("bi-heart-fill").addClass("bi-heart");
+						
+					} else {
+						$i.removeClass("bi-heart").addClass("bi-heart-fill");
+					}
+					
+					var count = data.boardLikeCount;
+					$("#boardLikeCount").text(count);
+				} else if(state === "liked") {
+					alert("게시글 좋아요는 한번만 가능합니다. !!!");
+				} else if(state === "false") {
+					alert("게시물 좋아요 여부 처리가 실패했습니다. !!!");
+				}
+			};
+			
+			ajaxFun(url, "post", query, "json", fn);
+		});
+	});
+	
+	$(function(){
+		$(".btnSendBoardScrap").click(function(){
+			const $i = $(this).find("i");
+			let userBoardScraped = $i.hasClass("bi-bookmark-fill");
+			
+			let url = "${pageContext.request.contextPath}/community/picture/insertBoardScrap";
+			let userBoardId = "${userBoard.userBoardId}";
+			let query = "userBoardId="+userBoardId+"&userBoardScraped="+userBoardScraped;
+			
+			const fn = function(data){
+				let state = data.state;
+				if(state === "true") {
+					if( userBoardLiked ) {
+						$i.removeClass("bi-bookmark-fill").addClass("bi-bookmark");
+						
+					} else {
+						$i.removeClass("bi-bookmark").addClass("bi-bookmark-fill");
+					}
+					
+					var count = data.boardLikeScrap;
+					$("#boardScrapCount").text(count);
+				} else if(state === "liked") {
+					alert("게시글 좋아요는 한번만 가능합니다. !!!");
+				} else if(state === "false") {
+					alert("게시물 좋아요 여부 처리가 실패했습니다. !!!");
+				}
+			};
+			
+			ajaxFun(url, "post", query, "json", fn);
+		});
+	});
+</script>
+
 </html>

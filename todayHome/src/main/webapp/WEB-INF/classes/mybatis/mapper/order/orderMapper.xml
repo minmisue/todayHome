@@ -11,11 +11,11 @@
          -->
 		INSERT INTO ORDER_BUNDLE(ORDER_BUNDLE_ID, MEMBER_ID, REG_DATE, RECEIVE_NAME, 
 					TEL, POST_NUM, ADDRESS2, ADDRESS1, USED_POINT, 
-					PAY_METHOD,FINAL_TOT_PRICE,FINAL_DISCOUNT_PRICE,FINAL_DELIVERY_COST) 
+					PAY_METHOD,FINAL_TOT_PRICE,FINAL_DISCOUNT_PRICE,FINAL_DELIVERY_COST,buyer_name,buyer_tel) 
 		 VALUES (#{orderBundleId},#{memberId},SYSDATE,
 		 		#{receiveName},#{tel},#{postNum},#{address2},
 		 		#{address1},#{usedPoint},#{payMethod},#{finalTotPrice},
-		 		#{finalDiscountPrice},#{finalDeliveryCost})
+		 		#{finalDiscountPrice},#{finalDeliveryCost},#{buyerName},#{buyerTel})
 	</insert>
 	
 	<!-- 주문아이템 테이블 insert -->
@@ -43,5 +43,17 @@
 		INSERT INTO delivery(ORDER_ITEM_ID,DELIVERY_NUMBER,DELIVERY_COST,ARRIVED_DATE)
 			VALUES (#{orderItemId},#{deliveryNumber, jdbcType=VARCHAR},#{deliveryCost},#{arrivedDate, jdbcType=	DATE})
 	</insert>
+
+	<!-- 주문 전체 조회 -->
+	<select id="getOrderList" resultType="com.sp.app.domain.order.Order">
+		select ORDER_BUNDLE_ID orderBundleId, ob.MEMBER_ID memberId, m.NAME memberName,
+		       ob.REG_DATE orderRegDate, FINAL_TOT_PRICE finalTotPrice
+		from ORDER_BUNDLE ob
+		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID	
+	</select>
+	
+	<!-- 주문 전체 조회 눌렀을때 위에 뜨는 리스트 -->
 </mapper>
+
+
 

@@ -7,6 +7,10 @@
 		SELECT seq_user_board.NEXTVAL FROM dual
 	</select>
 	
+	<select id="board_content_seq" resultType="Long">
+		SELECT seq_user_board_content.NEXTVAL FROM dual
+	</select>
+	
 	<insert id="createBoard" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD(user_board_id, member_id, board_type_id, subject, created_date, hit_Count, ip_address)
 		VALUES (#{userBoardId}, #{memberId}, #{boardTypeId}, #{subject, jdbcType=VARCHAR},  SYSDATE, 0, '111.222.333.444')
@@ -14,7 +18,7 @@
 	
 	<insert id="insertContent" parameterType="com.sp.app.domain.board.UserBoard">
 		INSERT INTO USER_BOARD_CONTENT(user_board_id, user_board_content_id, user_board_content_category_id, content, content_sequence, img_name)
-		VALUES (#{userBoardId}, SEQ_USER_BOARD_CONTENT.NEXTVAL, #{userBoardContentCategoryId}, #{content, jdbcType=VARCHAR}, #{contentSequence}, #{imgName})
+		VALUES (#{userBoardId}, #{userBoardContentId}, #{userBoardContentCategoryId}, #{content, jdbcType=VARCHAR}, #{contentSequence}, #{imgName})
 	</insert>
 	
 	<insert id="insertProduct" parameterType="com.sp.app.domain.board.UserBoard">
@@ -156,7 +160,7 @@
 	</select>
 	
 	<!-- 게시글 스크랩 추가 -->
-	<insert id="insertBoardScrap" parameterType="map">
+	<insert id="insertScrapLike" parameterType="map">
 		INSERT INTO user_board_scrap(user_board_id, member_id) VALUES (#{userBoardId}, #{memberId})
 	</insert>
 	

@@ -237,11 +237,12 @@ form .form-control {
 
 		<div class="menubar-item-bundle" style="gap: 18px">
 			<button type="button" class="abledButton" onclick="sendOk();">올리기</button>
-			<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
+			
 		</div>
 	</div>
 </header>
 <main>
+	<div id='tempContainer'></div>
 	<div class="container body-container">
 	    <div class="body-title">
 			<h2><i class="far fa-image"></i> </h2>
@@ -288,6 +289,8 @@ form .form-control {
 							<div>
 								<input type="text" name="contentSequences" value="1">
 								<input type="text" name="positions">
+								<input type="text" name="productIds" value="321">
+								<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
 							</div>
 						</div>
 					</div>
@@ -371,9 +374,13 @@ let $newRows = $(this).closest(".content-row").clone(true);
 
 		$inputFile.val("");
 		$newRows.find("textarea[name=contents]").val("");
+<<<<<<< HEAD
+		$newRows.find("input[name=userBoardContentCategoryIds]").val("");
+=======
         let inputTag = $newRows.find("input[name=titles]");
         inputTag.val("");
         inputTag.setAttribute('name', )
+>>>>>>> branch 'main' of https://github.com/minmisue/todayHome.git
 		$newRows.find("input[name=positions]").val("");
  */
 
@@ -444,13 +451,33 @@ $(function(){
 		$(this).append($icon);
 		
 		if(positions) {
-			positions += ',' + pos;
+			positions += '-' + pos;
 		} else {
 			positions = pos;
 		}
 		
 		inputEL.val(positions);
 	});
+
+	  /*
+	  let productId = 301;
+
+	  $(this).append($icon);
+	  
+	  let n = 0;
+	  let tempTag = 
+		  `
+		  	<div class='product-tag-container'>
+				<input name='boardContentList[0].productTagList[0].productId' type='text' value='` + productId + `' />
+	  			<input name='xCoordinate ` +n+ `' type='text' value='` + x + `' />
+				<input name='yCoordinate ` +n+ `' type='text' value='` + y + `' />
+	  		</div>
+	  	
+	  		`
+	  
+	  $('#tempContainer').append(tempTag)
+	  */
+	
 	
 	$('form').on('click', '.img-icon', function(e){
 		// 아이콘 제거
@@ -462,9 +489,9 @@ $(function(){
 		let positions = inputEL.val();
 		
 		let pos = $iconArea.attr('data-position');
-		pos = positions.indexOf(pos+',') === -1 ? pos : pos + ',';
+		pos = positions.indexOf(pos+'-') === -1 ? pos : pos + '-';
 		positions = positions.replace(pos, '');
-		if(positions.length > 0 && positions.charAt(positions.length - 1) === ',') {
+		if(positions.length > 0 && positions.charAt(positions.length - 1) === '-') {
 			positions = positions.slice(0, positions.length - 1);
 		}
 			
@@ -472,6 +499,7 @@ $(function(){
 		
 		$iconArea.remove();
 	});
+	
 
 	// 드래그로 순서 변경
     $( ".sortable" ).sortable({

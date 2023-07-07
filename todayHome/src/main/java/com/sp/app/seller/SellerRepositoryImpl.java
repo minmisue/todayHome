@@ -44,8 +44,8 @@ public class SellerRepositoryImpl implements SellerRepository{
 	}
 
 	@Override
-	public int getSellerCountByStatus(int status) throws Exception {
-		return commonDAO.selectOne("seller.getSellerCount", status);
+	public int getSellerCount(Map<String, Object> map) throws Exception {
+		return commonDAO.selectOne("seller.getSellerCount", map);
 
 	}
 
@@ -66,5 +66,11 @@ public class SellerRepositoryImpl implements SellerRepository{
 	public int businessNumberCheck(String businessNumber) throws Exception {
 		
 		return commonDAO.selectOne("seller.businessNumberCheck",businessNumber);
+	}
+
+	@Override
+	public long updateAccumulatedAmount(Seller seller) throws Exception {
+		return commonDAO.updateData("seller.updateAccumulatedAmount",seller);
+		
 	}
 }

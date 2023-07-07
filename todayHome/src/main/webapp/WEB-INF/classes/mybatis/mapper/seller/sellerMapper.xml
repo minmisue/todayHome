@@ -45,57 +45,101 @@
   		 ss.status AS status
   FROM seller s
   JOIN seller_status ss ON s.seller_id = ss.seller_id
-  <where>
-    <if test="condition=='sellerName'">
-      INSTR(s.seller_name, #{keyword}) &gt; 0
-    </if>
-    <if test="condition=='businessNumber'">
-      INSTR(s.business_number, #{keyword}) &gt; 0
-    </if>
-    <if test="condition=='brandName'">
-      INSTR(s.brand_name, #{keyword}) &gt; 0
-    </if>
-    <if test="status != null">
-    	AND
-      <foreach item="sellectedStatus" collection="status" separator=" OR ">
-        ss.status = #{sellectedStatus}
-      </foreach>
-    </if>
-  </where>
-  <if test="orderByAmount != null">
-    <if test="orderByAmount == 'asc'">
-      ORDER BY s.accumulated_amount ASC
-    </if>
-    <if test="orderByAmount == 'desc'">
-      ORDER BY s.accumulated_amount DESC
-    </if>
+		  <where>
+		    <if test="list != null and list !='' ">		    	
+		      <foreach item="selectedStatus" collection="list" separator=" OR " open="( " close=")">
+		        ss.status = #{selectedStatus}
+		      </foreach>
+		    </if>
+		<choose>
+		      <when test="condition=='sellerName'">
+		        <if test="keyword != null and  keyword !='' ">
+		          AND INSTR(s.seller_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='businessNumber'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.business_number, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='brandName'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.brand_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='representativeName'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.representative_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		    </choose>
+		  </where>
+<if test="orderBy != null and orderBy != ''">
+    <choose>
+      <when test="orderBy == 'amount_DESC' ">
+        ORDER BY s.accumulated_amount DESC
+      </when>
+      <when test="orderBy == 'amount_ASC'">
+        ORDER BY s.accumulated_amount ASC
+      </when>
+      <when test="orderBy == 'regDate_DESC'">
+        ORDER BY s.reg_date DESC
+      </when>
+      <when test="orderBy == 'regDate_ASC'">
+        ORDER BY s.reg_date ASC
+      </when>
+    </choose>
   </if>
-  <if test="orderByDate != null">
-    <if test="orderByDate == 'asc'">
-      ORDER BY s.reg_date ASC
-    </if>
-    <if test="orderByDate == 'desc'">
-      ORDER BY s.reg_date DESC
-    </if>
-  </if>
-</select>
+	
+		</select>
 
 	
  <!-- 판매자 상태에 따른 수 -->
 	<select id="getSellerCount" parameterType="int" resultType="int">
-		SELECT COUNT(*)
-		FROM seller_status
-		WHERE status = #{status}	  
+		SELECT NVL(COUNT(*),0) as dataCount
+		FROM seller s
+ 		JOIN seller_status ss ON s.seller_id = ss.seller_id
+		  <where>
+		    <if test="status != null and status !='' ">
+		      <foreach item="sellectedStatus" collection="status" separator=" OR ">
+		        ss.status = #{sellectedStatus}
+		      </foreach>
+		    </if>
+		<choose>
+		      <when test="condition=='sellerName'">
+		        <if test="keyword != null and  keyword !='' ">
+		          AND INSTR(s.seller_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='businessNumber'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.business_number, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='brandName'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.brand_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		      <when test="condition=='representativeName'">
+		        <if test="keyword != null and  keyword !=''">
+		          AND INSTR(s.representative_name, #{keyword}) &gt; 0
+		        </if>
+		      </when>
+		    </choose>
+		  </where>
 	</select>
 	
 <!-- 판매자 아이디로 판매자 리스트 -->
 	<select id="getSellerBySellerId" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
-		SELECT seller_id AS sellerId, brand_name AS brandName, business_number AS businessNumber, 
-  		 seller_name AS sellerName,tel,email,
-  		 representative_name AS representativeName,presentation,
-  		 accumulated_amount AS accumulatedAmount, to_char(reg_date, 'YYYY-MM-DD') AS regDate
-  		From seller
-  		WHERE seller_id=#{seller_id}	
+		SELECT s.seller_id AS sellerId, s.brand_name AS brandName, s.business_number AS businessNumber, 
+  		 s.seller_name AS sellerName,s.tel as tel,s.email as email,
+  		 s.representative_name AS representativeName,s.presentation as presentation,
+  		 s.accumulated_amount AS accumulatedAmount, to_char(s.reg_date, 'YYYY-MM-DD') AS regDate,
+  		 ss.status AS status
+  		From seller s
+  		JOIN seller_status ss ON s.seller_id = ss.seller_id
+  		WHERE s.seller_id=#{seller_id}	
 	</select>
 <!-- 판매자 이메일로 판매자 리스트 -->
 	<select id="getSellerByEmail" parameterType="String" resultType="com.sp.app.domain.seller.Seller">
@@ -114,4 +158,10 @@
 		from SELLER
 		where business_number = #{businessNumber}
     </select>
+    
+    <update id="updateAccumulatedAmount" parameterType="com.sp.app.domain.seller.Seller">
+		UPDATE SELLER SET 
+			accumulated_amount = #{accumulatedAmount}
+		WHERE seller_id=#{sellerId}	
+	</update>
 </mapper>

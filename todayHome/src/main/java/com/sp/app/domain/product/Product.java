@@ -18,7 +18,10 @@ public class Product {
 	private int reservingPointPercent;
 	private int deliveryCost;
 	private int price;
-
+	
+	private String brandName;
+	private List<ProductStock> productStockList;
+	
 	public Product() {
 	}
 
@@ -49,6 +52,23 @@ public class Product {
 				", deliveryCost=" + deliveryCost +
 				", price=" + price +
 				'}';
+	}
+
+	
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public List<ProductStock> getProductStockList() {
+		return productStockList;
+	}
+
+	public void setProductStockList(List<ProductStock> productStockList) {
+		this.productStockList = productStockList;
 	}
 
 	public Long getProductId() {

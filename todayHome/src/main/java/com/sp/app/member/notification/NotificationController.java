@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.NotificationParse;
@@ -42,23 +43,21 @@ public class NotificationController {
 		return "mypage/my-alert";		
 	}
 	
-	
-	@PostMapping("notification")
-	public String notificationSubmit(@RequestParam List<NotificationParse> list) {
+	@PostMapping("notification/isRead")
+	@ResponseBody
+	public boolean isReadupdateNotification(@RequestParam Long notificationId) {
+		boolean result = false;
 		try {
-			list = notificationService.getNotReadNotificationList(null);
+			System.out.println(notificationId);
+			notificationService.isReadupdateNotification(notificationId);
+			result = true;
+			System.out.println("hello");
 			
-			if(list ==  null) {
-				return "redirect:/mypage/my-alert";
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 		}
-		return "redirect:/mypage/my-alert";
+		return result;
 	}
-	
-	
 	
 	
 }

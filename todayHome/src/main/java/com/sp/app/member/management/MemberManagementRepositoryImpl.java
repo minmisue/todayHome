@@ -1,6 +1,7 @@
 package com.sp.app.member.management;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +90,10 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	public int nickNameCheck(String nickName) throws Exception {
 		return commonDAO.selectOne("management.nickNameCheck",nickName );
 		
+	}
+
+	@Override
+	public List<Member> findMembersByNickname(String nickName) throws Exception {
+		return commonDAO.selectList("management.findMembersByNickname", nickName);
 	}
 }

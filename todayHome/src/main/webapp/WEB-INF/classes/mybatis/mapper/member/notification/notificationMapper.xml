@@ -14,6 +14,11 @@
 		,PARAMETER3 = #{parameter3, jdbcType=VARCHAR}
 		where NOTIFICATION_ID = #{notificationId}
 	 </update>
+	 
+	 <update id="isReadupdateNotification" parameterType="Long">
+		UPDATE NOTIFICATION set IS_READ = 1
+		where NOTIFICATION_ID = #{notificationId}
+	 </update>
  
    	
 	<delete id="deleteNotification" parameterType="com.sp.app.domain.member.Notification"> 

@@ -21,8 +21,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	}
 
 	@Override
-	public int updateNotification(Notification notification) throws Exception {
-		return commonDAO.updateData("notification.updateNotification",notification);
+	public int updateNotification(Long memberId) throws Exception {
+		return commonDAO.updateData("notification.updateNotification",memberId);
 		
 	}
 
@@ -42,6 +42,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 	public List<Notification> getNotReadNotificationList(Long memberId) throws Exception {
 		List<Notification> list = commonDAO.selectList("notification.getNotReadNotificationList",memberId);
 		return list;
+	}
+
+	@Override
+	public void isReadupdateNotification(Long notificationId) throws Exception {
+		commonDAO.updateData("notification.isReadupdateNotification", notificationId);
+		
 	}
 
 	

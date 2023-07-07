@@ -3,6 +3,7 @@ package com.sp.app.domain.member;
 public class NotificationParse {
 
 	// 자기가 아니라 다른사람 아이디 인거임.
+	private Long notificationId;
 	private Long memberId;
 	private String nickName;
 	private String profileImgName;
@@ -21,19 +22,31 @@ public class NotificationParse {
 	
 	private String regDate;
 
-	
-	
-	
 
-	@Override
-	public String toString() {
-		return "NotificationParse [memberId=" + memberId + ", nickName=" + nickName + ", profileImgName="
-				+ profileImgName + ", userBoardId=" + userBoardId + ", pointAmount=" + pointAmount + ", profileUri="
-				+ profileUri + ", bodyUri=" + bodyUri + ", msg=" + msg + ", type=" + type + ", regDate=" + regDate
-				+ "]";
+	public NotificationParse(Long notificationId, Long memberId, String nickName, String profileImgName, Long userBoardId, Long pointAmount, String profileUri, String bodyUri, String msg, int type, String regDate) {
+		this.notificationId = notificationId;
+		this.memberId = memberId;
+		this.nickName = nickName;
+		this.profileImgName = profileImgName;
+		this.userBoardId = userBoardId;
+		this.pointAmount = pointAmount;
+		this.profileUri = profileUri;
+		this.bodyUri = bodyUri;
+		this.msg = msg;
+		this.type = type;
+		this.regDate = regDate;
 	}
 
+	public NotificationParse() {
+	}
 
+	public Long getNotificationId() {
+		return notificationId;
+	}
+
+	public void setNotificationId(Long notificationId) {
+		this.notificationId = notificationId;
+	}
 
 	public String getRegDate() {
 		return regDate;

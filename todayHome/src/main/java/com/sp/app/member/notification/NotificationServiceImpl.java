@@ -39,20 +39,6 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public int updateNotification(Notification notification) throws Exception {
-		int result = 0;
-		try {
-			result = notificationRepository.updateNotification(notification);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-
-		}
-		return result;
-	}
-
-	@Override
 	public void deleteNotification(Notification notification) throws Exception {
 
 		try {
@@ -117,13 +103,14 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long userBoardId = Long.valueOf(notification.getParameter2());
 					String message = notification.getMessage();
 					String bodyUri = "/board/" + userBoardId;
 					// "/profile/memberId";
-					String profileUri = "/profile/" + commenterId;
+					String profileUri = "/mypage/" + commenterId;
 					String regDate = notification.getRegDate();
 					LocalDate targetDate = LocalDate.parse(regDate);
 					long daysBetween = ChronoUnit.DAYS.between(targetDate, currentDate);
@@ -137,6 +124,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 
 				} else if (type == 5) {
 					Long pointAmount = Long.valueOf(notification.getParameter1());
@@ -144,6 +132,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long pointPage = Long.valueOf(notification.getParameter2());
@@ -164,6 +153,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 
 				} else if (type == 6) {
 
@@ -172,11 +162,12 @@ public class NotificationServiceImpl implements NotificationService {
 
 					System.out.println(member);
 
+					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long followerPage = Long.valueOf(notification.getParameter2());
 					String message = notification.getMessage();
-					String bodyUri = "/board/" + followerPage;
+					String bodyUri = "/mypage/" + followerPage;
 					// "/profile/memberId";
 					String profileUri = "/profile/" + follower;
 					String regDate = notification.getRegDate();
@@ -192,6 +183,7 @@ public class NotificationServiceImpl implements NotificationService {
 					notificationParse.setProfileUri(profileUri);
 					notificationParse.setType(type);
 					notificationParse.setRegDate(regDate);
+					notificationParse.setNotificationId(notificationId);
 				}
 
 				parseList.add(notificationParse);
@@ -216,6 +208,31 @@ public class NotificationServiceImpl implements NotificationService {
 			throw e;
 		}
 		return result;
+	}
+
+	@Override
+	public boolean updateNotification(Long memberId) throws Exception {
+		int result = notificationRepository.updateNotification(memberId);
+		if (result == 1) {
+			return true;
+
+		} else {
+			return false;
+		}
+
+	}
+
+	@Override
+	public void isReadupdateNotification(Long notificationId) throws Exception {
+		try {
+			 notificationRepository.isReadupdateNotification(notificationId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		
+
 	}
 
 }

@@ -72,8 +72,14 @@
 	font-size: 12px;
 }
 
-.flex-row{
+.flex-row {
 	margin-bottom: 20px;
+}
+
+
+.edit-btn:hover {
+    cursor: pointer;
+	color: #c5c5c5;
 }
 </style>
 <script>
@@ -112,7 +118,7 @@
 									<div class="product-text-container">
 										<div class="product-text subject">${review.productName}</div>
 										<div class="product-text name">${review.stockString}</div>
-										<input class="review-rating" type="hidden" value="${review.rating}">
+										<input class="rating" id="rating" type="hidden" value="${review.rating}">
 										<input class="review-orderItemId" type="hidden" value="${review.orderItemId}">
 										<input class="review-productId" type="hidden" value="${review.productId}">
 
@@ -154,7 +160,7 @@
 
 								<div class="flex-col"
 									style="padding-right: 5px; gap: 5px; justify-content: center; text-align: center">
-									<div style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
+									<div class="edit-btn" style="font-size: 14px" onclick="openReviewModal(this)">수정</div>
 								</div>
 							</div>
 						</c:forEach>
@@ -163,56 +169,23 @@
 		</div>
 
 		<div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content modal-dialog-centered" style="padding: 10px">
+			<div class="modal-dialog modal-lg" style="">
+				<div class="modal-content modal-dialog-centered" style="padding: 10px; ">
 					<div style="text-align: center; position: relative; width: 100%; padding: 30px 0">
-						<h5 class="modal-title" id="staticBackdropLabel">리뷰 쓰기</h5>
+						<h5 class="modal-title" id="staticBackdropLabel">리뷰 수정</h5>
 						<button style="position: absolute; right: 10px; top: 10px" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/write" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
+					<form class="modal-body flex-col" action="${pageContext.request.contextPath}/reviews/edit" method="post" id="reviewForm" style="width: 100%;" enctype="multipart/form-data">
 						<div id="reviewModalProduct"></div>
+						<input type="hidden" name="productId" id="product-id" value="">
+						<input type="hidden" name="orderItemId" id="order-item-id" value="">
+						<input class="review-rating" id="review-rating" name="rating" type="hidden" value="">
 
 						<div style="margin-top: 40px;">
 							<div style="text-align: center">별점 평가</div>
 							<div class="rating-container-bundle " style="margin-top: 10px" id="rate-container">
-								<div class="rating-container starBundle" style="margin: 0 auto;">
-<%--									<input type="hidden" name="rating" id="rating" value="0">--%>
-<%--									<input type="hidden" name="productId" id="product-id" value="">--%>
-<%--									<input type="hidden" name="orderItemId" id="order-item-id" value="">--%>
-
-<%--									<div class="star-rating">--%>
-<%--										<c:set var="rating" value=""/>--%>
-<%--										<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>--%>
-<%--										<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>--%>
-
-<%--										<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->--%>
-<%--										<c:if test="${!first.equals('0')}">--%>
-<%--											<c:forEach begin="1" end="${first}">--%>
-<%--												<i class="fa-solid fa-star"></i>--%>
-<%--											</c:forEach>--%>
-<%--										</c:if>--%>
-
-<%--										<c:if test="${!first.equals('5')}">--%>
-<%--											<!-- 소숫점 숫자가 0이 아니라면 반별 -->--%>
-<%--											<c:if test="${!second.equals('0')}">--%>
-<%--												<i class="fa-solid fa-star-half-stroke"></i>--%>
-<%--											</c:if>--%>
-<%--											<!-- 0이라면 빈별 -->--%>
-<%--											<c:if test="${second.equals('0')}">--%>
-<%--												<i class="fa-regular fa-star"></i>--%>
-<%--											</c:if>--%>
-
-<%--											<!-- 5 - (앞자리+1) -->--%>
-<%--											<c:if test="${!first.equals('4')}">--%>
-<%--												<c:forEach begin="1" end="${4-first}">--%>
-<%--													<i class="fa-regular fa-star"></i>--%>
-<%--												</c:forEach>--%>
-<%--											</c:if>--%>
-<%--										</c:if>--%>
-<%--									</div>--%>
-
-
-								</div>
+								<input type="hidden" name="rating" id="rating" value="0">
+								<div class="rating-container starBundle" style="margin: 0 auto;"></div>
 							</div>
 						</div>
 
@@ -220,12 +193,12 @@
 							<input type="file" name="reviewImg" id="reviewImg" accept="image/*" class="photoAttach">
 							<label for="reviewImg" class="" style="width: 100%; border: 1px solid #63BDE6; border-radius: 4px; background-color: white; padding: 7px 0; color: #63BDE6; text-align: center">사진 첨부하기</label>
 						</div>
-						<textarea class="form-control" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>
+						<textarea class="form-control" id="content" name="content" style="height: 150px; width: 100%; margin-top: 30px;" placeholder="20자 이상 입력해주세요."></textarea>
 						<div class="review-content"></div>
 					</form>
 
 					<div class="modal-footer-custom">
-						<button type="button" class="comment-submit-btn" onclick="submitComment()">완료</button>
+						<button type="button" class="comment-submit-btn" onclick="submitComment()">수정 완료</button>
 					</div>
 				</div>
 			</div>
@@ -257,17 +230,23 @@
 
 
 <script>
+
+
 	// 리뷰 수정 모달 설정
 	function openReviewModal(obj) {
 
         let reviewElement = obj.closest('.product-container');
-        let rating = reviewElement.querySelector('.review-rating').value;
+        let rating = reviewElement.querySelector('#rating').value;
         let brandName = reviewElement.querySelector('.product-text.name').textContent;
         let stockString = reviewElement.querySelector('.product-text.name').textContent;
         let content = reviewElement.querySelector('.product-text.review').textContent;
         let productName = reviewElement.querySelector('.product-text.subject').textContent;
         let orderItemId = reviewElement.querySelector('.review-orderItemId').value;
         let productId = reviewElement.querySelector('.review-productId').value;
+
+        $('#review-rating').val(rating)
+
+        console.log(rating)
 
         let $reviewModalProduct = $('#reviewModalProduct');
 		let tag = `<div class="flex-row" style="gap: 15px; align-items: center;">
@@ -286,7 +265,6 @@
 		$reviewModalProduct.html(tag)
 		setRatingValue(rating)
 		let first = setStarByRating()
-
 
         let starBundle = starBundles.getElementsByTagName('i');
         for (let i = 0; i < 5; i++) {
@@ -337,7 +315,10 @@
                 lastStarIsFull = true
                 lastStarIsFull = !starBundle[i].classList.contains('fa-star-half-stroke')
 
-                getRating();
+                console.log('first : ' + first)
+                console.log('lastFull : ' + lastStarIsFull)
+
+                getRating(first, lastStarIsFull);
             });
         }
 
@@ -345,6 +326,8 @@
 		$('#product-id').val(productId);
 		$('#order-item-id').val(orderItemId);
 		$('#reviewModal').modal('toggle');
+        $('#content').text(content)
+
 
 	}
 
@@ -366,7 +349,7 @@
         let first = ratingValue.split('.')[0];
         let second = ratingValue.split('.')[1];
 
-		if (second === '5') {
+		if (second !== '5') {
             lastStarIsFull = true;
 		}
 
@@ -399,8 +382,6 @@
 	let STAR_COLOR_HOVER = '#95D9F1'
 	let commentForm = document.getElementById('reviewForm');
 
-	let ratingValue = 0
-
 	// let starBundle = document.getElementsByClassName('rate');
 	// let rating=0, lastStarIsFull
 
@@ -425,9 +406,9 @@
 		commentForm.submit();
 	}
 
-	function getRating() {
-        ratingValue = rating + (lastStarIsFull ? 1 : 0.5);
-		$('#rating').val(ratingValue);
+	function getRating(first, lastStarIsFull) {
+        ratingValue = first + (lastStarIsFull ? 1 : 0.5);
+		$('#review-rating').val(ratingValue);
 	}
 
 

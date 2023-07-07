@@ -310,47 +310,7 @@
 <div class="main-container">
 	<div class="content" style="padding: 0 60px">
 		<section>
-			<div class="myinfo-wrapper">
-				<div class="myinfo">
-					<div class="myinfo-profile">
-						<div class="share-icon">
-							<i class="bi bi-share"></i>
-						</div>
-						<div class="image-wrapper">
-							<img alt="" src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png">
-						</div>
-						<h2>${member.name}</h2>
-						<dl class="follow-wrapper">
-							<dt class="follower">팔로워</dt>
-							<dd class="follower-data">0</dd>
-							<dt class="following">팔로잉</dt>
-							<dd class="follower-data">1</dd>
-						</dl>
-						<button class="setting" type="button">설정</button>
-					</div>
-
-					<p class="line"></p>
-
-					<div class="myinfo-history">
-						<div class="myinfo-history-scrap myinfo-history-item">
-							<i class="bi bi-bookmark-check"></i> <span>스크랩북</span>
-							<em>3</em>
-						</div>
-						<div class="myinfo-history-like myinfo-history-item">
-							<i class="bi bi-heart"></i> <span>좋아요</span>
-							<em>1</em>
-						</div>
-						<div class="myinfo-history-coupon myinfo-history-item">
-							<i class="bi bi-ticket"></i> <span>내
-                           쿠폰</span> <em>${couponCount}</em>
-						</div>
-					</div>
-				</div>
-
-				<a class="reward-box" href="#"> <b>취향 공유하고 </b><strong>리워드
-					받기</strong>
-				</a>
-			</div>
+			<jsp:include page="/WEB-INF/views/fragment/myprofile.jsp"/>
 			
 			<div class="image-category">
 			    <div class="image-category-item">

@@ -61,6 +61,7 @@
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menubar.css">
 
+
 <header>
     <div class="menubar-container">
         <div class="menubar-item-bundle" style="gap: 30px">
@@ -88,9 +89,13 @@
                 <i class="bi bi-cart menubar-icon" onclick="location.href='${pageContext.request.contextPath}/cart/list'"></i>
 
                 <%-- 장바구니에 상품 없을시 표시 X --%>
-                <div class="cart-badge">
-                    <span id="cart-cnt">1</span>
-                </div>
+               <c:if test="${sessionScope.dataCartCount != 0 && not empty sessionScope.sessionInfo}">
+	                <div class="cart-badge">
+	                    <span id="cart-cnt">${sessionScope.dataCartCount}</span>
+	                </div>
+               </c:if>
+         
+
             </div>
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || not empty sessionScope.sessionInfo}">
@@ -100,7 +105,7 @@
 						 aria-expanded="false">
 
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/all">마이페이지</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}">마이페이지</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/notice">나의 쇼핑</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/seller/join">판매자 신청</a></li>
@@ -176,12 +181,12 @@
 
     <div class="my-page-menubar-sub">
         <div class="sub-menubar" style="justify-content: center;">
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/all'">모두보기</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/photo'">사진</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}'">모두보기</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/photo'">사진</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">집들이</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">노하우</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">질문과답변</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/book'">스크랩북</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book'">스크랩북</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">좋아요</div>
         </div>
     </div>

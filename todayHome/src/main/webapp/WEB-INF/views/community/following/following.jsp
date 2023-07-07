@@ -199,7 +199,7 @@
 
 	<div class="content" style="padding: 0 240px;">
 		<div class="flex-col follow-label-container">
-			<div class="follow-label-main"><span class="label-highlighting-color">동근</span>님을 위한 추천 유저</div>
+			<div class="follow-label-main"><span class="label-highlighting-color">${member.nickName}</span>님을 위한 추천 유저</div>
 			<div class="follow-label-sub">유저를 팔로우하고 새 소식을 확인하세요!</div>
 		</div>
 	</div>
@@ -244,7 +244,7 @@
 	<div class="content following-feed-btn-container" style="padding: 0 240px;">
 		<div class="following-feed-btn">팔로잉 피드 시작해보기
 			<div class="check-cnt-circle">
-				<div id="check-cnt">0</div>
+				<div id="check-cnt"></div>
 			</div>
 		</div>
 	</div>

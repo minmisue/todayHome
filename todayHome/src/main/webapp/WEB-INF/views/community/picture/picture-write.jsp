@@ -128,6 +128,7 @@ input[type=checkbox], input[type=radio] { vertical-align: middle; }
 .body-main {
 	display: block;
 	padding-bottom: 15px;
+    height: 400px;
 }
 
 form .form-control {
@@ -260,18 +261,14 @@ form .form-control {
 								<label for="selectFile">PC에서 불러오기</label>
 								<div class="img-viewer"></div>
 							</div>
-							<div class="image-footer">
-								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
-								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
-								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
-							</div>
 						</div>
+
 						<div class="right-item">
 							<div>
 								<textarea name="contents" class="photointroduction" placeholder="어떤 사진인지 짧은 소개로 시작해보세요."></textarea>
 							</div>
 							<div>
-							<select class="contentCategory" name="userBoardContentCategoryIds" id="userBoardContentCategoryId">
+							<select class="contentCategory" name="userBoardContentCategoryId" id="userBoardContentCategoryId">
 									<option value="0" style="color: rgb(194, 200, 204)">공간 정보 추가</option>
 									<option value="1">원룸</option>
 									<option value="2">거실</option>
@@ -299,12 +296,19 @@ form .form-control {
 					</div>
 				</div>
 			</form>
-		</div>	    
+		</div>
+
+
+		<div class="image-footer">
+			<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
+			<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
+			<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
+		</div>
 	</div>
 
 </main>
 	
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script type="text/javascript">
@@ -352,32 +356,41 @@ $(function(){
 	});
 });
 
-$(function(){
-	$("form").on("click", ".btnContentPlus", function(){
-		// 컨텐츠 추가
-		let $newRows = $(this).closest(".content-row").clone(true);
-		
+/*
+
+let $newRows = $(this).closest(".content-row").clone(true);
 		let $viewer = $newRows.find(".img-viewer");
-		
+
 		let $add = $newRows.find(".img-add");
 		let $inputFile = $newRows.find("input[name=selectFile]");
-		
+
 		$viewer.css({"width":"0", "height":"0"})
 		$viewer.hide();
 		$add.show();
 
 		$viewer.empty();
 		$viewer.css("background-image", "");
-		
-		
+
+
 		$inputFile.val("");
 		$newRows.find("textarea[name=contents]").val("");
+<<<<<<< HEAD
 		$newRows.find("input[name=userBoardContentCategoryIds]").val("");
+=======
+        let inputTag = $newRows.find("input[name=titles]");
+        inputTag.val("");
+        inputTag.setAttribute('name', )
+>>>>>>> branch 'main' of https://github.com/minmisue/todayHome.git
 		$newRows.find("input[name=positions]").val("");
+ */
+
+$(function(){
+	$("form").on("click", ".btnContentPlus", function(){
+		// 컨텐츠 추가
+
 		
 		$(".content-area").append($newRows);
 		numberSetting();
-		
 		$(".content-area").find(".btnContentMinus").prop("disabled", false);
 	});
 

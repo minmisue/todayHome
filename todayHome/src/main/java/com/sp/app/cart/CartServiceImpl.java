@@ -176,5 +176,16 @@ public class CartServiceImpl implements CartService{
 	}
 
 
+	@Override
+	public Integer cartDateCountByMemberId(Long memberId) {
+		Integer result = null;
+		try {
+			result = cartManagementRepository.cartDateCountByMemberId(memberId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

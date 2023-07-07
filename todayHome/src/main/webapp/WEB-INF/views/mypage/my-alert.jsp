@@ -72,6 +72,9 @@
 	display: block;
 	color: black;
 }
+.news-link:hover {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -104,8 +107,7 @@
 								href="${pageContext.request.contextPath}${notification.profileUri }">
 								<img
 								src="${pageContext.request.contextPath}/resources/picture/member/${notification.profileImgName}">
-							</a> <a class="news-link"
-								href="${pageContext.request.contextPath}${notification.bodyUri }"
+							</a> <a class="news-link" onclick="isRead('${notification.notificationId}','${notification.bodyUri}');"
 								style="text-decoration: none;"> <span class="news-title">${notification.nickName }${notification.msg }</span>
 								<span class="news-date"> 
 								<c:if test="${notification.regDate == 0}">
@@ -125,5 +127,33 @@
 	</div>
 
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp" />
+	<script type="text/javascript">
+	function isRead(notificationId,bodyUri) {
+		
+		let isRead = document.getElementsByClassName('news-item');
+		
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/notification/isRead",
+			type : 'POST',
+			data : 'notificationId=' + notificationId,
+			dataType : 'text',
+			success : function(response) {
+				
+			location.href='${pageContext.request.contextPath}'+bodyUri
+			
+			
+			return;
+
+		
+			},
+			error : function(xhr, status, error) {
+				// 요청이 실패했을 때 실행되는 코드
+			}
+		});  
+	} 
+	
+	
+	</script>
 </body>
 </html>

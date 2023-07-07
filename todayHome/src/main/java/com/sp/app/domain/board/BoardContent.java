@@ -11,21 +11,39 @@ public class BoardContent {
 	private String content;
 	private int contentSequence;
 	private String imgName;
-	private MultipartFile contentImgFile;
+	private List<MultipartFile> addFiles;
+	
+	private MultipartFile thumbnailFile;
 
 	List<ProductTag> productTagList;
 	
 	public BoardContent() {
 		
 	}
-
+	
+	
+	
 	@Override
 	public String toString() {
-		return "BoardContent [content=" + content + ", contentImgFile=" + contentImgFile + ", contentSequence="
-				+ contentSequence + ", imgName=" + imgName + ", productTagList=" + productTagList
-				+ ", userBoardContentCategoryId=" + userBoardContentCategoryId + ", userBoardContentId="
-				+ userBoardContentId + ", userBoardId=" + userBoardId + "]";
+		return "BoardContent [userBoardContentId=" + userBoardContentId + ", userBoardId=" + userBoardId
+				+ ", userBoardContentCategoryId=" + userBoardContentCategoryId + ", content=" + content
+				+ ", contentSequence=" + contentSequence + ", imgName=" + imgName + ", productTagList=" + productTagList
+				+ "]";
 	}
+
+
+
+	public BoardContent(Long userBoardId, Long userBoardContentCategoryId, String content, int contentSequence,
+			String imgName) {
+		super();
+		this.userBoardId = userBoardId;
+		this.userBoardContentCategoryId = userBoardContentCategoryId;
+		this.content = content;
+		this.contentSequence = contentSequence;
+		this.imgName = imgName;
+	}
+
+
 
 	public Long getUserBoardContentId() {
 		return userBoardContentId;
@@ -75,14 +93,6 @@ public class BoardContent {
 		this.imgName = imgName;
 	}
 
-	public MultipartFile getContentImgFile() {
-		return contentImgFile;
-	}
-
-	public void setContentImgFile(MultipartFile contentImgFile) {
-		this.contentImgFile = contentImgFile;
-	}
-
 	public List<ProductTag> getProductTagList() {
 		return productTagList;
 	}
@@ -91,7 +101,21 @@ public class BoardContent {
 		this.productTagList = productTagList;
 	}
 
+	public List<MultipartFile> getAddFiles() {
+		return addFiles;
+	}
 
+	public void setAddFiles(List<MultipartFile> addFiles) {
+		this.addFiles = addFiles;
+	}
+
+	public MultipartFile getThumbnailFile() {
+		return thumbnailFile;
+	}
+
+	public void setThumbnailFile(MultipartFile thumbnailFile) {
+		this.thumbnailFile = thumbnailFile;
+	}
 	
 	
 }

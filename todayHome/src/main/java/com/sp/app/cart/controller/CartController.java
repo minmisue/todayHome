@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +20,7 @@ import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.product.management.ProductManagementService;
 
@@ -33,11 +33,27 @@ public class CartController {
 	
 	@Autowired
 	private ProductManagementService productservice;
+	
+	@GetMapping("cartEmpty")
+	public String cartEmpty() {
+		return "/cart/cart-empty";
+	}
+	
+	
 	@GetMapping("list")
 	public String listCart(HttpSession session,
 			Model model) {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		if(info == null) {
+			return "redirect:/login";
+		}
+		
+		Integer dataCount = cartservice.cartDateCountByMemberId(info.getMemberId());
+		System.out.println(dataCount);
+		if(dataCount == null || dataCount == 0) {
+			return "redirect:/cart/cartEmpty";
+		}
 		
 		// 전체 장바구니 리스트 가져옴
 		List<Cart> cartList = cartservice.getCartList(info.getMemberId());
@@ -69,17 +85,25 @@ public class CartController {
 			
 		}
 		
-		model.addAttribute("cartList", cartList);
+		Integer dataCartCount = cartservice.cartDateCountByMemberId(info.getMemberId());
+		session.setAttribute("dataCartCount", dataCartCount);
 		
+		model.addAttribute("cartList", cartList);
+		model.addAttribute("mode", "cart");
 		return "/cart/cart-list";
 	}
+	
+	
 	
 	// 상품의 옵션 삭제
 	@GetMapping("deleteStock")
 	public String deleteStock(
-			@RequestParam Long stockId
+			@RequestParam Long stockId,HttpSession session
 			) {
 		cartservice.deleteStock(stockId);
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		Integer dataCartCount = cartservice.cartDateCountByMemberId(info.getMemberId());
+		session.setAttribute("dataCartCount", dataCartCount);
 		
 		return "redirect:/cart/list";
 	}
@@ -87,11 +111,15 @@ public class CartController {
 	// 선택 or 전체 삭제
 	@GetMapping("deleteCart")
 	public String deleteCart(
-			@RequestParam List<Long> cartIdList) {
+			@RequestParam List<Long> cartIdList,HttpSession session) {
 		
 		for(Long cartId : cartIdList) {
 			cartservice.deleteCart(cartId);
 		}
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		Integer dataCartCount = cartservice.cartDateCountByMemberId(info.getMemberId());
+		session.setAttribute("dataCartCount", dataCartCount);
 		
 		return "redirect:/cart/list";
 	}

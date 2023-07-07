@@ -7,6 +7,8 @@ import com.sp.app.product.management.ProductManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -85,5 +87,12 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	@Override
 	public List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception {
 		return productReviewRepository.getStockIdListByOrderItemId(orderItemId);
+	}
+
+	@Override
+	public String getReviewImgPath(HttpSession httpSession) {
+		String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+
+		return root + "product" + File.separator + "review";
 	}
 }

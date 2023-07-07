@@ -348,7 +348,7 @@
 
 			<div class="flex-row" style="justify-content: space-between">
 				<button class="cart-btn" id="addCartBtn">장바구니</button>
-				<button class="direct-purchase-btn" onclick="getSelectedOption()">바로구매</button>
+				<button class="direct-purchase-btn" id="buyNowBtn" >바로구매</button>
 			</div>
 		</div>
 	</div>
@@ -875,11 +875,63 @@
                 // 요청이 실패했을 때 실행되는 코드
             }
         });
-
     });
 
+    // 바로 주문
+    $("#buyNowBtn").click(function () {
+        if (${empty sessionScope.sessionInfo}) {
+            if (confirm("로그인이 필요한 서비스 입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+                $(location).attr('href', '${pageContext.request.contextPath}/login')
+                return;
+            } else {
+                return;
+            }
+        }
 
+        let form = document.createElement('form');
+        form.setAttribute('method', 'POST');
+        form.setAttribute('action', '${pageContext.request.contextPath}/payment/buy-now')
+
+        let selectedOptions = getAllSelectedOptions();
+
+        let productId = "${product.productId}";
+
+        let data = {
+            productId: productId,
+            selectedOptions: selectedOptions
+        }
+
+        let orderData = JSON.stringify(data);
+
+        console.log(orderData)
+
+        let productIdInputTag = document.createElement('input');
+        productIdInputTag.setAttribute('type', 'hidden');
+        productIdInputTag.setAttribute('name', 'productId');
+        productIdInputTag.setAttribute('value', productId);
+        form.appendChild(productIdInputTag);
+
+        for (let x of selectedOptions) {
+            let stockIdTag = document.createElement('input');
+            stockIdTag.setAttribute('type', 'hidden');
+            stockIdTag.setAttribute('name', 'stockId');
+            stockIdTag.setAttribute('value', x[0]);
+
+            form.appendChild(stockIdTag);
+
+            let quantityTag = document.createElement('input');
+            quantityTag.setAttribute('type', 'hidden');
+            quantityTag.setAttribute('name', 'quantity');
+            quantityTag.setAttribute('value', x[1]);
+            form.appendChild(quantityTag);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    });
 </script>
+
+
 
 <script>
 	// 미리보기 첫번째만 선택

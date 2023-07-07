@@ -29,4 +29,6 @@ public interface CartService {
 	public void checkQuantityUpdate(Map<String, Object> map);
 	
 	public Long selectStockPrice(Long stockId);
+	
+	public Integer cartDateCountByMemberId(Long memberId); 
 }

@@ -22,7 +22,7 @@ public interface SellerService {
     List<Seller> getSellersByCondition(Map<String, Object> map) throws Exception;
     
     //판매자 상태가 0,1,2,3 인 사람 각각 카운트. 
-    int getSellerCountByStatus(int status) throws Exception;
+    int getSellerCount(Map<String, Object> map) throws Exception;
     
   //판매자 아이디로 판매자 조회
     Seller getSellerBySellerId(Long sellerId) throws Exception;
@@ -31,4 +31,6 @@ public interface SellerService {
     
    //사업자 번호 확인
     public boolean businessNumberCheck(String buisnessNumber) throws Exception;
+    
+    long updateAccumulatedAmount(Seller seller) throws Exception;
 }

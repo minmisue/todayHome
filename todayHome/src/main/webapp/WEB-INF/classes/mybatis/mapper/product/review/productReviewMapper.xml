@@ -8,7 +8,11 @@
     </insert>
 
     <update id="updateReview" parameterType="com.sp.app.domain.product.ProductReview">
-        UPDATE product_review SET rating = #{rating}, content = #{content}, review_img_name = #{reviewImgName} WHERE ORDER_ITEM_ID = #{orderItemId}
+        UPDATE product_review SET rating = #{rating}, content = #{content}
+        <if test="reviewImgName != null">
+            , review_img_name = #{reviewImgName}
+        </if>
+        WHERE ORDER_ITEM_ID = #{orderItemId}
     </update>
 
     <delete id="deleteReview" parameterType="Long">

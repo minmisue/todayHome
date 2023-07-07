@@ -9,7 +9,8 @@ public class Cart {
 	private Long memberId;
 	private Long productImgId;
 	private Long stockId;
-
+	private Long sellerId;
+	
 	private Long productId;	
 	private String regDate; // 담은 날짜
 	private String productName; // 상품이름
@@ -48,6 +49,15 @@ public class Cart {
 	}
 
 	public Cart() {
+	}
+
+	
+	public Long getSellerId() {
+		return sellerId;
+	}
+
+	public void setSellerId(Long sellerId) {
+		this.sellerId = sellerId;
 	}
 
 	public List<ProductStock> getProductStockList() {

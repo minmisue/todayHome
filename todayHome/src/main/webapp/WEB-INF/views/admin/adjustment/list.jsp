@@ -4,8 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<html>
-<head>
+<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
 <style type="text/css">
 
 p{
@@ -180,62 +179,37 @@ input[type="checkbox"]:checked {
 </head>
 <body>
 <script>
-function ajaxFun(url, method, query, dataType, fn) {
-	$.ajax({
-		type:method,
-		url:url,
-		data:query,
-		dataType:dataType,
-		success:function(data) {
-			fn(data);
-		},
-		beforeSend:function(jqXHR) {
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error:function(jqXHR) {
-			if(jqXHR.status === 403) {
-				login();
-				return false;
-			} else if(jqXHR.status === 400) {
-				alert("요청 처리가 실패 했습니다.");
-				return false;
-			}
-	    	
-			console.log(jqXHR.responseText);
-		}
-	});
-}
- function listPage(page) {
-	    let url = "${pageContext.request.contextPath}/admin/adjustment/list";
-	    let selector = "#sellerAdjustmentList";
-	    const fn = function(data) {
-	      $(selector).html(data);
-	    };
-	    ajaxFun(url, "get", query, "html", fn);
-	  }
-
-	  $(function() {
-	    listPage(1);
-	  });
+  function submitForm() {
+		const f = document.searchForm;
+		f.submit();
+  }
 </script>
-<div class="body-container">
-    <div class="body-title">
-		<h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
-    </div>   
 
-<div class="filters">
-  <div class="date-range">
-    <label for="start-date">기간:</label>
-    <input style="width: 20%;" type="date" id="start-date">
-    <label for="end-date">-</label>
-    <input style="width: 20%;"  type="date" id="end-date">
+<div class="body-container">
+  <div class="body-title">
+    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
   </div>
-  <hr>
-  <div class="search" style="padding: 20px;">
-    <label for="search-input">사업자번호:</label>
-    <input type="text" id="search-input">
-  </div>
-  <hr>
+
+    
+  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/admin/adjustment/list" method="post">
+    <div class="filters">
+      <div class="date-range">
+        <label for="start-date">기간:</label>
+        <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
+        <label for="end-date">-</label>
+        <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
+      </div>
+      <hr>
+      <div class="search" style="padding: 20px;">
+        <label for="search-input">검색어:</label>
+        <select id="search-option" name="condition">
+          <option value="sellerName" ${condition == "sellerName" ? 'selected="selected"' : ''}>판매자 이름</option>
+          <option value="brandName" ${condition == "brandName" ? 'selected="selected"' : ''}>브랜드 이름</option>
+          <option value="businessNumber" ${condition == "businessNumber" ? 'selected="selected"' : ''}>사업자 번호</option>
+        </select>
+        <input type="text" id="search-input" name="keyword" value="${keyword}">
+      </div>
+    <hr>
     <table class="delivery-table" style="background: white; padding: 20px;">
       <thead>
         <tr>
@@ -247,31 +221,30 @@ function ajaxFun(url, method, query, dataType, fn) {
           <th>전화번호</th>
           <th>이메일</th>
           <th>정산 날짜</th>
-          <th>정산 금액</th>                    
+          <th>정산 금액</th>
         </tr>
       </thead>
-      <c:forEach var="adjustment" items="${adjustmentList}" varStatus="status">
-         <tr>
-         	<td>${adjustment.representativeName}</td>
-			<td>${adjustment.sellerName}</td>
-			<td>${adjustment.brandName}</td>
-			<td>${adjustment.businessNumber}</td>
-			<td>${adjustment.regDate}</td>
-			<td>${adjustment.tel}</td>
-			<td>${adjustment.email}</td>
-			<td>${adjustment.adjustmentDate}</td>
-			<td>${adjustment.amount}</td>          
-		</tr>
-	</c:forEach>
+      <c:forEach var="adjustment" items="${adminAdjustmentList}" varStatus="status">
+        <tr>
+          <td>${adjustment.representativeName}</td>
+          <td>${adjustment.sellerName}</td>
+          <td>${adjustment.brandName}</td>
+          <td>${adjustment.businessNumber}</td>
+          <td>${adjustment.regDate}</td>
+          <td>${adjustment.tel}</td>
+          <td>${adjustment.email}</td>
+          <td>${adjustment.adjustmentDate}</td>
+          <td>${adjustment.amount}</td>
+        </tr>
+      </c:forEach>
     </table>
-    <div class="page-navigation">
-	${paging}
-</div>			
-<div class="button-container" style="display: flex; justify-content: center;">
-  <button id="reset-button" class="styled-button" >초기화</button>
-  <button id="search-button" class="styled-button">검색</button>
-</div>
-  </div>  
+        <div class="button-container" style="display: flex; justify-content: center;">
+          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/adjustment/list';">초기화</button>
+          <button id="search-button" class="styled-button" type="button" onclick="submitForm()">검색</button>
+        </div>
+    <div class="page-navigation">   
+       ${paging}
+    </div>
   </div>
-  </body>
-  </html>
+  </form>
+</div>

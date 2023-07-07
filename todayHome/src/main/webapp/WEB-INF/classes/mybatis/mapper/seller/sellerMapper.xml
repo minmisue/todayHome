@@ -132,12 +132,14 @@
 	
 <!-- 판매자 아이디로 판매자 리스트 -->
 	<select id="getSellerBySellerId" parameterType="Long" resultType="com.sp.app.domain.seller.Seller">
-		SELECT seller_id AS sellerId, brand_name AS brandName, business_number AS businessNumber, 
-  		 seller_name AS sellerName,tel,email,
-  		 representative_name AS representativeName,presentation,
-  		 accumulated_amount AS accumulatedAmount, to_char(reg_date, 'YYYY-MM-DD') AS regDate
-  		From seller
-  		WHERE seller_id=#{seller_id}	
+		SELECT s.seller_id AS sellerId, s.brand_name AS brandName, s.business_number AS businessNumber, 
+  		 s.seller_name AS sellerName,s.tel as tel,s.email as email,
+  		 s.representative_name AS representativeName,s.presentation as presentation,
+  		 s.accumulated_amount AS accumulatedAmount, to_char(s.reg_date, 'YYYY-MM-DD') AS regDate,
+  		 ss.status AS status
+  		From seller s
+  		JOIN seller_status ss ON s.seller_id = ss.seller_id
+  		WHERE s.seller_id=#{seller_id}	
 	</select>
 <!-- 판매자 이메일로 판매자 리스트 -->
 	<select id="getSellerByEmail" parameterType="String" resultType="com.sp.app.domain.seller.Seller">

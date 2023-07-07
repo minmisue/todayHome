@@ -196,11 +196,11 @@ input[type="checkbox"]:checked {
   <div>
   <label for="list">회원 상태:&nbsp;&nbsp;&nbsp;</label>
     <label for="">대기</label>
-	<input type="checkbox" name="list" value="0" ${fn:contains(list, '0') ? 'checked' : ''} >
+	<input type="checkbox" name="list" value="0" ${fn:contains(list, '0') ? 'checked' : ''} >&nbsp;&nbsp;
     <label for="">승인</label>
-	<input type="checkbox" name="list" value="1" ${fn:contains(list, '1') ? 'checked' : ''} >
+	<input type="checkbox" name="list" value="1" ${fn:contains(list, '1') ? 'checked' : ''} >&nbsp;&nbsp;
     <label for="">거절</label>
-	<input type="checkbox" name="list" value="2" ${fn:contains(list, '2') ? 'checked' : ''}>
+	<input type="checkbox" name="list" value="2" ${fn:contains(list, '2') ? 'checked' : ''}>&nbsp;&nbsp;
     <label for="">정지</label>
 	<input type="checkbox" name="list" value="3" ${fn:contains(list, '3') ? 'checked' : ''}>
   </div>

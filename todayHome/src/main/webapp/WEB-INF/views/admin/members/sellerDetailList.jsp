@@ -283,7 +283,7 @@ tbody{
 		<div class="content">
 			<div class="container">
 				<div >
-					<h2 ><i class="menu--icon  fa-fw fa-solid fa-user-group"></i>판매자 수정</h2>
+					<h2 ><i class="menu--icon  fa-fw fa-solid fa-user-group"></i>판매자 상세정보</h2>
 				</div>
 				<div class="seller-layout_divider">
 					<hr class="col-10 seller-layout_hr">
@@ -291,10 +291,35 @@ tbody{
 			</div>
 			<div class="container seller-layout_body">
 				<form class="" method="post">
-					
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
-							<label class="sales-form_form-label"> 이름 <span
+							<label class="sales-form_form-label"> 판매자 번호 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="sellerId" name="sellerId" class="form-control"
+									value="${seller.sellerId}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">회사 이름 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="representativeName" name="representativeName" class="form-control"
+									value="${seller.representativeName}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>										
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">판매자 이름 <span
 								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
@@ -305,6 +330,45 @@ tbody{
 							</div>
 						</div>
 					</div>
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">브랜드 이름 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="brandName" name="brandName" class="form-control"
+									value="${seller.brandName}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>	
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">사업자 번호 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="businessNumber" name="businessNumber" class="form-control"
+									value="${seller.businessNumber}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>	
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">가입 날짜 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="regDate" name="regDate" class="form-control"
+									value="${seller.regDate}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>													
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 전화번호 <span
@@ -330,20 +394,33 @@ tbody{
 									value="${seller.email}" style="width: 100%;">
 							</div>
 						</div>
-					</div>
+					</div>	
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
-							<label class="sales-form_form-label"> 비밀번호 <span
+							<label class="sales-form_form-label"> 상태 <span
 								class="sales-form_form-group_required"></span>
 							</label>
 						</div>
 						<div class="col-8">
 							<div class="sales-form_form-control-wrap">
-								<input type="text" id="password" name="password" class="form-control"
-									value="${seller.password}" style="width: 100%;">
+								<input type="text" id="status" name="status" class="form-control"
+									value="${seller.status}" style="width: 100%;">
 							</div>
 						</div>
 					</div>	
+					<div class="row sales-form_form-group">
+						<div class="offset-1 col-2">
+							<label class="sales-form_form-label">정산가능 금액 <span
+								class="sales-form_form-group_required"></span>
+							</label>
+						</div>
+						<div class="col-8">
+							<div class="sales-form_form-control-wrap">
+								<input type="text" id="accumulatedAmount" name="accumulatedAmount" class="form-control"
+									value="${seller.accumulatedAmount}" style="width: 100%;" >
+							</div>
+						</div>
+					</div>					
 					<div class="row sales-form_form-group">
 						<div class="offset-1 col-2">
 							<label class="sales-form_form-label"> 판매자 소개 <span

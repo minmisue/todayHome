@@ -165,9 +165,28 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value = "/admin/members/sellerDetail/{sellerId}", method = RequestMethod.GET)
-	public String sellerDetailList(@PathVariable("sellerId") int sellerId, Model model) {
+	public String sellerDetailList(@PathVariable("sellerId") long sellerId, Model model) {
+		try {
+	        Seller seller = sellerService.getSellerBySellerId(sellerId);
+	        
+	        model.addAttribute("seller", seller);
 
 
-	  return "admin/members/sellerDetailList";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		return "admin/members/sellerDetailList";
+
+	}
+	@RequestMapping(value = "/admin/members/sellerDetail/{sellerId}", method = RequestMethod.POST)
+	public String sellerStatusUpdate(@PathVariable("sellerId") long sellerId, Model model,Seller seller){
+	    try {
+	        
+	        sellerService.updateSellerStatus(seller);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return "redirect:/admin/members/sellerList";
 	}
 }

@@ -163,7 +163,7 @@ public class OrderController {
 //		model.addAttribute("mode","buyNow");
 //
 //		return "/cart/cart-list";
-		return "forward:/cart/cart-list";
+		return "/payment/payment-page";
 	}
 
 	@PostMapping("paymentOk")
@@ -234,6 +234,12 @@ public class OrderController {
 			orderItemStockList.add(orderItemStock);
 		}
 		
+		try {
+			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		if(remainPoint != -1 ) {
 			// 포인트
 			Point point = new Point();
@@ -268,12 +274,7 @@ public class OrderController {
 			}
 		}
 		
-		try {
-			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);
-		} catch (Exception e) {
-			model.addAttribute("msg","결제실패");
-			return "fail";
-		}
+
 		// 결제 완료 후 장바구니 삭제
 		for(Long cartId : cartIdList) {
 			cartservice.deleteCart(cartId);

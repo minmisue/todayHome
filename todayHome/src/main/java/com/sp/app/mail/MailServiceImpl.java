@@ -6,14 +6,11 @@ import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 import org.springframework.stereotype.Service;
 
@@ -49,15 +46,8 @@ public class MailServiceImpl implements MailService {
 	}
 
 	public void makeMessage(Message msg, Mail mail) throws MessagingException {
-
-		MimeBodyPart mbp1 = new MimeBodyPart();
-		// mbp1.setText(dto.getContent());
-		mbp1.setContent(mail.getContent(), "text/html; charset=utf-8");
-		mbp1.setHeader("Content-Type", mailType);
-
-		Multipart mp = new MimeMultipart();
-		mp.addBodyPart(mbp1);
-
+		msg.setContent(mail.getContent(), "text/html; charset=utf-8");
+		msg.setHeader("Content-Type", mailType);
 	}
 	
 //	public void makeMessage(Message msg, Mail mail) throws MessagingException {

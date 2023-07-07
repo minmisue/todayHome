@@ -27,10 +27,12 @@ import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
 import com.sp.app.domain.product.ProductStock;
+import com.sp.app.domain.seller.Seller;
 import com.sp.app.domain.seller.SellerAdjustment;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
+import com.sp.app.seller.SellerService;
 import com.sp.app.seller.adjustment.AdjustmentService;
 
 @Controller("order.orderController")
@@ -52,7 +54,7 @@ public class OrderController {
 	PointService pointService;
 	
 	@Autowired
-	AdjustmentService adjustmentService;
+	SellerService sellerService;
 	
 	@GetMapping("list")
 	public String listCartOrder(HttpSession session,
@@ -115,7 +117,6 @@ public class OrderController {
 	
 	
 	@PostMapping("paymentOk")
-	@ResponseBody
 	public String paymentSubmit(
 			@ModelAttribute Order order,
 			@RequestParam List<Long> productNums,
@@ -138,7 +139,7 @@ public class OrderController {
 		
 		System.out.println(deliveryCostList);
 		
-		order.setPayMethod("카드");
+		
 		// 옵션 상세
 		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
@@ -148,7 +149,7 @@ public class OrderController {
 			orderDetail.setOrderBundleId(order.getOrderBundleId());
 			orderDetail.setProductId(productNums.get(i));
 			orderDetail.setDisCountPercent(disCountPercent.get(i));
-			orderDetail.setFinalPrice(finalPrices.get(i));
+			orderDetail.setFinalPrice(finalPrices.get(i));// 상품당 금액
 			orderDetail.setOriginalPrice(originalPrices.get(i));
 			orderDetail.setStatus(state.get(i)); // 상품 상태
 			
@@ -159,11 +160,13 @@ public class OrderController {
 			deliveryList.add(delivery);
 			
 			// 정산 테이블
-			SellerAdjustment sellerAdjustment = new SellerAdjustment();
-			sellerAdjustment.setSellerId(sellerNums.get(i));
-			sellerAdjustment.setAmount(Long.valueOf(finalPrices.get(i)));
 			try {
-				adjustmentService.createAdjustment(sellerAdjustment);
+				Seller seller = sellerService.getSellerBySellerId(sellerNums.get(i));
+				Long accumulatedAmount = seller.getAccumulatedAmount(); // 업데이트 전 금액
+				
+				seller.setAccumulatedAmount(accumulatedAmount + Long.valueOf(finalPrices.get(i)));
+				sellerService.updateAccumulatedAmount(seller); // 업데이트
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -211,7 +214,6 @@ public class OrderController {
 			try {
 				pointService.insertMemberPoint(memberPoint2);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -221,18 +223,13 @@ public class OrderController {
 		} catch (Exception e) {
 			model.addAttribute("msg","결제실패");
 			return "fail";
-
 		}
-		
-		
 		// 결제 완료 후 장바구니 삭제
 		for(Long cartId : cartIdList) {
 			cartservice.deleteCart(cartId);
 		}
 		
-		return "ok";
+		return "redirect:/order/complete";
 	}
-	
-	// 결제 검증
-	
+		
 }

@@ -307,8 +307,8 @@ function iamport(){
     }, function(rsp) {
 		console.log(rsp);
     	if(rsp.success){
-    		alert("ok");
-       		const f = document.buyForm;
+    		alert('ok');
+    		const f = document.buyForm;
     		let inputs = f.querySelectorAll("input[name=state]");
     		let state = 1;
 
@@ -322,8 +322,9 @@ function iamport(){
     		let tel = firstTel+secondTel;
     		
     		$("input[name=tel]").val(tel);
+    		let reward = $("#reward").text().replace(/,/gi, "").trim();
+    		$("input[name=reward]").val(reward);
     		$("input[name=payMethod]").val(rsp.pay_method);
-    		alert("ok2");
     		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
     		f.submit();
 
@@ -491,7 +492,7 @@ function iamport(){
 						<div class="payment-obj-label">주문상품</div>
 						<div style="margin-left: 10px;">
 							<span></span>
-							<c:if test="${mode == buyNow }">
+							<c:if test="${mode == 'buyNow' }">
 								${fn:length(cartList)}
 							</c:if>
 							1
@@ -512,7 +513,7 @@ function iamport(){
 						<fmt:parseNumber var= "disCountPercent" integerOnly= "true" value= "${cart.discountPercent}" />
 						<input type="hidden" name="disCountPercent" value="${disCountPercent}">
 						<!-- 결제완료후 장바구니 비우기위한 input -->
-						<c:if test="${mode != buyNow }">
+						<c:if test="${mode != 'buyNow' }">
 							<input type="hidden" name="cartIdList" value="${cart.cartId}">
 						</c:if>
 						<!-- 상태값 -->
@@ -769,7 +770,7 @@ function iamport(){
 						</div>
 					</div>
 
-					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="iamport()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span id="finalTotPrice"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />

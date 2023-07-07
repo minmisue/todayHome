@@ -89,20 +89,18 @@ public class CartController {
 		session.setAttribute("dataCartCount", dataCartCount);
 		
 		model.addAttribute("cartList", cartList);
-		
+		model.addAttribute("mode", "cart");
 		return "/cart/cart-list";
 	}
 	
-	@PostMapping("buyNowList")
+	@GetMapping("buy-now")
 	public String BuyNowListCart(
 			HttpSession session,
 			Map<String, Object> data,
 			Model model) {
-		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
-		
-		Long memberId = info.getMemberId();
 		
 		Long productId = Long.valueOf((String) data.get("productId"));
+		
 		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
 
 		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
@@ -114,9 +112,30 @@ public class CartController {
 			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
 		}
 
-		
+		// 상품 정보
 		Product product =  productservice.getProductById(productId);
 		
+		// stock 정보
+		List<ProductStock> productStockList = new ArrayList<ProductStock>();
+		
+		for(CartOptionMap vo : cartOptionMapList) {
+			Long stockId = vo.getStockId();
+			
+			Long quantity = vo.getQuantity();
+			
+			ProductStock productStock = productservice.getStockByStockId(stockId);
+			// 그냥 옵션 가격
+			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
+			
+			// 수량
+			productStock.setCartQuantity(quantity);
+			productStockList.add(productStock);
+		}
+		
+		product.setProductStockList(productStockList);
+		model.addAttribute("cartList", product);
+		model.addAttribute("mode","buyNow");
+
 		return "/cart/cart-list";
 	}
 	

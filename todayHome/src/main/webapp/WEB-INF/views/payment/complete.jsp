@@ -17,6 +17,11 @@
 		    margin-top: 20;
 		    font-weight: 700;
 		}
+		h4{
+		    margin: 0 auto;
+		    margin-top: 20px;
+		    font-weight: 600;
+		}
 	</style>
 </head>
 <body>
@@ -34,12 +39,12 @@ $(function() {
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
 
 	<div class="main-container">
-		<div class="content">
+		<div class="content" style="height: 500"> 
 		<div style="margin: 0 auto;display: flex;flex-direction: column;width: 200;">
 			<img class="commerce-cart-empty__content__image" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" alt="장바구니가 비었습니다.">
 			
-			<h3>결제완료</h3>
-			<button type="button">상품 더 담으러가기</button>
+			<h4>결제완료</h4>
+			<button type="button" onclick="location.href='${pageContext.request.contextPath}/shop/home'">상품 더 담으러가기</button>
 		</div>
 			
 		</div>

@@ -67,4 +67,10 @@ public class SellerRepositoryImpl implements SellerRepository{
 		
 		return commonDAO.selectOne("seller.businessNumberCheck",businessNumber);
 	}
+
+	@Override
+	public long updateAccumulatedAmount(Seller seller) throws Exception {
+		return commonDAO.updateData("seller.updateAccumulatedAmount",seller);
+		
+	}
 }

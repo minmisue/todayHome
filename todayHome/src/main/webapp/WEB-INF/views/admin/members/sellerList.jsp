@@ -237,7 +237,7 @@ input[type="checkbox"]:checked {
           <th>가입 날짜</th>
           <th>전화번호</th>
           <th>이메일</th>
-          <th>정산 금액</th>
+          <th>정산가능 금액</th>
           <th>상태</th>
         </tr>
       </thead>
@@ -252,7 +252,7 @@ input[type="checkbox"]:checked {
           <td>${seller.tel}</td>
           <td>${seller.email}</td>
           <td>${seller.accumulatedAmount}</td>
-          <td>${seller.status == 0 ? '대기' : seller.status == 1 ? '승인' : seller.status == 2 ? '거절' : seller.status == 3 ? '정지' : ''}</td>
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/admin/members/sellerDetail/${seller.sellerId}">${seller.status == 0 ? '대기' : seller.status == 1 ? '승인' : seller.status == 2 ? '거절' : seller.status == 3 ? '정지' : ''}</a></td>
         </tr>
       </c:forEach>
     </table>

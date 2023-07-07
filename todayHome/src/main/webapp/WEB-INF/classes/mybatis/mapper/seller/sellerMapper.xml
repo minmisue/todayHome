@@ -156,4 +156,10 @@
 		from SELLER
 		where business_number = #{businessNumber}
     </select>
+    
+    <update id="updateAccumulatedAmount" parameterType="com.sp.app.domain.seller.Seller">
+		UPDATE SELLER SET 
+			accumulated_amount = #{accumulatedAmount}
+		WHERE seller_id=#{sellerId}	
+	</update>
 </mapper>

@@ -221,7 +221,7 @@ input[type="checkbox"]:checked {
           <th>전화번호</th>
           <th>이메일</th>
           <th>정산 날짜</th>
-          <th>정산예정 금액</th>
+          <th>정산 금액</th>
         </tr>
       </thead>
       <c:forEach var="adjustment" items="${adminAdjustmentList}" varStatus="status">

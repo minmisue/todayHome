@@ -31,4 +31,6 @@ public interface SellerRepository {
     Seller getSellerByEmail(String email) throws Exception;
 
 	int businessNumberCheck(String businessNumber) throws Exception;
+	
+	long updateAccumulatedAmount(Seller seller) throws Exception;
 }

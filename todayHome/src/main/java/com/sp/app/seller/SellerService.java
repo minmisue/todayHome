@@ -31,4 +31,6 @@ public interface SellerService {
     
    //사업자 번호 확인
     public boolean businessNumberCheck(String buisnessNumber) throws Exception;
+    
+    long updateAccumulatedAmount(Seller seller) throws Exception;
 }

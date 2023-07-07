@@ -43,8 +43,12 @@ public class MypageController {
 	public String myPagePhoto(@PathVariable Long memberId, Model model) throws Exception{
 		Member member = memberManagementService.readMemberById(memberId);
 		int couponCount = couponService.memberCouponCount(memberId);
+		int followerCount = followService.followerCount(memberId);
+		int followeeCount = followService.followingCount(memberId);
 		model.addAttribute("member",member);
 		model.addAttribute("couponCount",couponCount);
+		model.addAttribute("followerCount", followerCount);
+		model.addAttribute("followeeCount", followeeCount);
 		return "mypage/my-photo";
 	}
 	

@@ -334,48 +334,7 @@ section {
 	<div class="main-container">
 		<div class="content" style="padding: 0 60px">
 			<section>
-				<div class="myinfo-wrapper">
-					<div class="myinfo">
-						<div class="myinfo-profile">
-							<div class="share-icon">
-								<i class="bi bi-share"></i>
-							</div>
-							<div class="image-wrapper">
-								<img alt=""
-									src="https://image.ohou.se/i/bucketplace-v2-development/uploads/default_images/avatar.png?gif=1&w=144&h=144&c=c&webp=1">
-							</div>
-							<h2>${member.nickName}</h2>
-							<dl class="follow-wrapper">
-
-								<dt class="follower">팔로워</dt>
-								<dd class="follower-data"
-									onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId }/follower'">${followerCount}</dd>
-								<dt class="following">팔로잉</dt>
-								<dd class="follower-data"
-									onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId }/followee'">${followeeCount}</dd>
-							</dl>
-							<button class="setting" type="button">설정</button>
-						</div>
-
-						<p class="line"></p>
-
-						<div class="myinfo-history">
-							<div class="myinfo-history-scrap myinfo-history-item">
-								<i class="bi bi-bookmark-check"></i> <span>스크랩북</span> <em>9</em>
-							</div>
-							<div class="myinfo-history-like myinfo-history-item">
-								<i class="bi bi-heart"></i> <span>좋아요</span> <em>1</em>
-							</div>
-							<div class="myinfo-history-coupon myinfo-history-item">
-								<i class="bi bi-ticket"></i> <span>내 쿠폰</span> <em>0</em>
-							</div>
-						</div>
-					</div>
-
-					<a class="reward-box" href="#"> <b>취향 공유하고 </b><strong>리워드
-							받기</strong>
-					</a>
-				</div>
+				<jsp:include page="/WEB-INF/views/fragment/myprofile.jsp"/>
 
 				<div class="follower-list" style="flex: 1; height: 100%">
 

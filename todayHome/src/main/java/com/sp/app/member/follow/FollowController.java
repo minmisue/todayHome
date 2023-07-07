@@ -17,6 +17,7 @@ import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.follow.Follow;
 import com.sp.app.domain.member.Member;
 import com.sp.app.member.management.MemberManagementService;
+import com.sp.app.mypage.managerment.CouponService;
 
 @Controller
 public class FollowController {
@@ -28,7 +29,8 @@ public class FollowController {
 	MemberManagementService memberManagementService;
 	
 
-
+	@Autowired
+	CouponService couponService;
 	
 
 	@GetMapping("mypage/{targetId}/follower")
@@ -45,12 +47,14 @@ public class FollowController {
 		Member member = null;
 		int followerCount = 0;
 		int followeeCount = 0;
+		int couponCount = 0;
 		
 		try {
 			followerList = followService.followerList(targetId);
 			followerCount = followService.followerCount(targetId);
 			followeeCount = followService.followingCount(targetId);
 			member = memberManagementService.readMemberById(targetId);
+			couponCount = couponService.memberCouponCount(memberId);
 			
 			if (memberId != null) {
 				for (Follow follow : followerList) {
@@ -59,6 +63,8 @@ public class FollowController {
 				 
 				 	follow.setIsFollow(result);
 				}
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,6 +73,7 @@ public class FollowController {
 		model.addAttribute("followerList", followerList);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followeeCount", followeeCount);
+		model.addAttribute("couponCount", couponCount);
 		model.addAttribute("member",member);
 		
 		return "mypage/follower";		
@@ -82,6 +89,7 @@ public class FollowController {
 		
 		int followerCount = 0;
 		int followeeCount = 0;
+		int couponCount = 0;
 		Member member = null;
 		List<Follow> followingList = null;
 
@@ -90,6 +98,7 @@ public class FollowController {
 			followingList = followService.followingList(targetId);
 			followerCount = followService.followerCount(targetId);
 			followeeCount = followService.followingCount(targetId);
+			couponCount = couponService.memberCouponCount(memberId);
 			
 			if (memberId != null) {
 				for (Follow follow : followingList) {
@@ -108,7 +117,8 @@ public class FollowController {
 		model.addAttribute("member",member);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followeeCount", followeeCount);
-
+		model.addAttribute("couponCount", couponCount);
+		
 		return "mypage/followee";		
 	}
 	

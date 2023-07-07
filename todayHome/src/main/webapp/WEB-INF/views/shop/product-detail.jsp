@@ -875,11 +875,52 @@
                 // 요청이 실패했을 때 실행되는 코드
             }
         });
-
     });
 
 
+
+    // 바로 주문
+    $("#buyNowBtn").click(function () {
+        if (${empty sessionScope.sessionInfo}) {
+            if (confirm("로그인이 필요한 서비스 입니다.\n로그인 페이지로 이동하시겠습니까?")) {
+                $(location).attr('href', '${pageContext.request.contextPath}/login')
+                return;
+            } else {
+                return;
+            }
+        }
+
+        let selectedOptions = getAllSelectedOptions();
+
+        let productId = "${product.productId}";
+
+        let data = {
+            productId: productId,
+            selectedOptions: selectedOptions
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/product/cart",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+                let state = response.state;
+                if (state === true) {
+                    if (confirm("장바구니에 저장되었습니다.\n장바구니로 이동하시겠습니까?")) {
+                        $(location).attr('href', '${pageContext.request.contextPath}/cart')
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+    });
 </script>
+
+
 
 <script>
 	// 미리보기 첫번째만 선택

@@ -118,7 +118,7 @@
 									<div class="product-text-container">
 										<div class="product-text subject">${review.productName}</div>
 										<div class="product-text name">${review.stockString}</div>
-										<input class="review-rating" id="review-rating" name="rating" type="hidden" value="${review.rating}">
+										<input class="rating" id="rating" type="hidden" value="${review.rating}">
 										<input class="review-orderItemId" type="hidden" value="${review.orderItemId}">
 										<input class="review-productId" type="hidden" value="${review.productId}">
 
@@ -179,6 +179,7 @@
 						<div id="reviewModalProduct"></div>
 						<input type="hidden" name="productId" id="product-id" value="">
 						<input type="hidden" name="orderItemId" id="order-item-id" value="">
+						<input class="review-rating" id="review-rating" name="rating" type="hidden" value="">
 
 						<div style="margin-top: 40px;">
 							<div style="text-align: center">별점 평가</div>
@@ -229,17 +230,23 @@
 
 
 <script>
+
+
 	// 리뷰 수정 모달 설정
 	function openReviewModal(obj) {
 
         let reviewElement = obj.closest('.product-container');
-        let rating = reviewElement.querySelector('.review-rating').value;
+        let rating = reviewElement.querySelector('#rating').value;
         let brandName = reviewElement.querySelector('.product-text.name').textContent;
         let stockString = reviewElement.querySelector('.product-text.name').textContent;
         let content = reviewElement.querySelector('.product-text.review').textContent;
         let productName = reviewElement.querySelector('.product-text.subject').textContent;
         let orderItemId = reviewElement.querySelector('.review-orderItemId').value;
         let productId = reviewElement.querySelector('.review-productId').value;
+
+        $('#review-rating').val(rating)
+
+        console.log(rating)
 
         let $reviewModalProduct = $('#reviewModalProduct');
 		let tag = `<div class="flex-row" style="gap: 15px; align-items: center;">
@@ -308,7 +315,10 @@
                 lastStarIsFull = true
                 lastStarIsFull = !starBundle[i].classList.contains('fa-star-half-stroke')
 
-                getRating();
+                console.log('first : ' + first)
+                console.log('lastFull : ' + lastStarIsFull)
+
+                getRating(first, lastStarIsFull);
             });
         }
 
@@ -317,6 +327,7 @@
 		$('#order-item-id').val(orderItemId);
 		$('#reviewModal').modal('toggle');
         $('#content').text(content)
+
 
 	}
 
@@ -395,8 +406,8 @@
 		commentForm.submit();
 	}
 
-	function getRating() {
-        ratingValue = rating + (lastStarIsFull ? 1 : 0.5);
+	function getRating(first, lastStarIsFull) {
+        ratingValue = first + (lastStarIsFull ? 1 : 0.5);
 		$('#review-rating').val(ratingValue);
 	}
 

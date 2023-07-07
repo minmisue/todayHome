@@ -29,8 +29,13 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void insertContent(UserBoard userBoard) throws Exception {
+	public Long insertContent(UserBoard userBoard) throws Exception {
+		Long seq2 = commonDAO.selectOne("userBoard.board_content_seq");
+		
+		userBoard.setUserBoardContentId(seq2);
 		commonDAO.insertData("userBoard.insertContent", userBoard);
+		
+		return seq2;
 	}
 
 	@Override

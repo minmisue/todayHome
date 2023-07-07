@@ -26,18 +26,19 @@ public class UserBoard {
 	private int userBoardContentCategoryId;
 	private int contentSequence;
 	private String position;
+	private Long productId;
 
 	private List<String> contents;
 	private List<MultipartFile> selectFile;
 	private List<Integer> userBoardContentCategoryIds;
 	private List<Integer> contentSequences;
 	private List<String> positions;
+	private List<Long> productIds;
 	
 	private MultipartFile thumbnailFile;
 	
-	private Long productId;
-	private float xCoordinate;
-	private float yCoordinate;
+	private int xCoordinate;
+	private int yCoordinate;
 	private Long discountedPrice;
 	private String productName;
 	private String brandName;
@@ -360,6 +361,18 @@ public class UserBoard {
 
 
 
+	public List<Long> getProductIds() {
+		return productIds;
+	}
+
+
+
+	public void setProductIds(List<Long> productIds) {
+		this.productIds = productIds;
+	}
+
+
+
 	public void setThumbnailFile(MultipartFile thumbnailFile) {
 		this.thumbnailFile = thumbnailFile;
 	}
@@ -384,7 +397,7 @@ public class UserBoard {
 
 
 
-	public void setxCoordinate(float xCoordinate) {
+	public void setxCoordinate(int xCoordinate) {
 		this.xCoordinate = xCoordinate;
 	}
 
@@ -396,7 +409,7 @@ public class UserBoard {
 
 
 
-	public void setyCoordinate(float yCoordinate) {
+	public void setyCoordinate(int yCoordinate) {
 		this.yCoordinate = yCoordinate;
 	}
 

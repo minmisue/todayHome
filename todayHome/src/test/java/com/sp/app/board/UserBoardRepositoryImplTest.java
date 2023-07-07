@@ -72,8 +72,8 @@ public class UserBoardRepositoryImplTest {
 			UserBoard userBoard = new UserBoard();
 			userBoard.setProductId(262L + i);
 			userBoard.setUserBoardContentId(userBoardContentId);
-			userBoard.setxCoordinate(2.3F);
-			userBoard.setyCoordinate(-3.2F);
+			userBoard.setxCoordinate(2);
+			userBoard.setyCoordinate(-3);
 			userBoardRepository.insertProduct(userBoard);
 		}
 	}

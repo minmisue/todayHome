@@ -6,7 +6,6 @@ import java.util.Map;
 import com.sp.app.domain.board.BoardContent;
 import com.sp.app.domain.board.Comment;
 import com.sp.app.domain.board.ListBoard;
-import com.sp.app.domain.board.ProductTag;
 import com.sp.app.domain.board.UserBoard;
 
 public interface UserBoardService {
@@ -20,10 +19,10 @@ public interface UserBoardService {
 	    UserBoard readBoard(Long userBoardId) throws Exception;
 	    
 	    // 게시글 내용 조회
-	  //  List<BoardContent> readContent(Long userBoardId) throws Exception;
+	    List<UserBoard> readContent(Long userBoardId) throws Exception;
 	    
 	    // 내용 상품 조회
-	  //  List<ProductTag> readProduct(Long userBoardContentId) throws Exception;
+	    List<UserBoard> readProduct(Long userBoardContentId) throws Exception;
 	    
 	    // 조회수
 	    void updateHitCount(Long userBoardId) throws Exception;

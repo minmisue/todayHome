@@ -2,14 +2,17 @@ package com.sp.app.order;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
@@ -22,15 +25,12 @@ import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
-import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
-import com.sp.app.domain.seller.SellerAdjustment;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
 import com.sp.app.seller.SellerService;
-import com.sp.app.seller.adjustment.AdjustmentService;
 
 @Controller("order.orderController")
 @RequestMapping("/payment/*")
@@ -181,8 +181,8 @@ public class OrderController {
 			@RequestParam List<Integer> state,
 			@RequestParam List<Integer> deliveryCostList,
 			@RequestParam List<Long> sellerNums,
-			@RequestParam(defaultValue = "-1") Integer remainPoint,
-			@RequestParam(defaultValue = "-1") Integer usedPoint,
+			@RequestParam(required = false ,defaultValue = "-1") Integer remainPoint,
+			@RequestParam(required = false, defaultValue = "-1") Integer usedPoint,
 			@RequestParam Integer reward,
 			Model model
 			) {
@@ -240,7 +240,9 @@ public class OrderController {
 			e.printStackTrace();
 		}
 		
-		if(remainPoint != -1 ) {
+		System.out.println("++++++++" + remainPoint);
+		System.out.println(remainPoint instanceof Integer);
+		if(remainPoint != 0 || remainPoint.equals("")) {
 			// 포인트
 			Point point = new Point();
 			point.setMemberId(order.getMemberId());
@@ -262,16 +264,16 @@ public class OrderController {
 				e1.printStackTrace();
 			}
 			
-			// 적립금
-			MemberPoint memberPoint2 = new MemberPoint();
-			memberPoint2.setAmount(reward);
-			memberPoint2.setMemberId(order.getMemberId());
-			memberPoint2.setStatus(1);
-			try {
-				pointService.insertMemberPoint(memberPoint2);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+		}
+		// 적립금
+		MemberPoint memberPoint2 = new MemberPoint();
+		memberPoint2.setAmount(reward);
+		memberPoint2.setMemberId(order.getMemberId());
+		memberPoint2.setStatus(1);
+		try {
+			pointService.insertMemberPoint(memberPoint2);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		
 
@@ -280,7 +282,11 @@ public class OrderController {
 			cartservice.deleteCart(cartId);
 		}
 		
-		return "redirect:/order/complete";
+		return "redirect:/payment/complete";
 	}
-		
+	
+	@GetMapping("complete")
+	public String complete() {
+		return "/payment/complete-page";
+	}
 }

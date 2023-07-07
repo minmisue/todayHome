@@ -226,7 +226,6 @@
 <script type="text/javascript">
 function test() {
 	
-
 	const f = document.buyForm;
 	let inputs = f.querySelectorAll("input[name=state]");
 	let state = 1;
@@ -243,7 +242,9 @@ function test() {
 	$("input[name=tel]").val(tel);
 	let reward = $("#reward").text().replace(/,/gi, "").trim();
 	$("input[name=reward]").val(reward);
-	
+	$("input[name=payMethod]").val("카드");
+	$("input[name=buyerName]").val("민주");
+	$("input[name=buyerTel]").val("0101111");
 	f.action = "${pageContext.request.contextPath}/payment/paymentOk";
 	f.submit();
 }
@@ -279,8 +280,8 @@ function usePointChange() {
 <script type="text/javascript">
 function iamport(){
 
-    var name = $("#buyer-name").val();
-    var tel = $("#buyer-tel").val();
+    var buyerName = $("#buyer-name").val();
+    var buyerTel = $("#buyer-tel").val();
     var email = $("#email1").val() + "@" + $("#email2").val();
     var postNum = $("#postNum").val();
     var address = $("#address1").val() + " " + $("#address2").val();
@@ -300,8 +301,8 @@ function iamport(){
         name : name,
         amount : 10,
         buyer_email : email,
-        buyer_name : name,
-        buyer_tel : tel,
+        buyer_name : buyerName,
+        buyer_tel : buyerTel,
         buyer_addr : address,
         buyer_postcode : postNum
     }, function(rsp) {
@@ -325,8 +326,8 @@ function iamport(){
     		let reward = $("#reward").text().replace(/,/gi, "").trim();
     		$("input[name=reward]").val(reward);
     		$("input[name=payMethod]").val(rsp.pay_method);
-    		$("input[name=buyerName]").val(rsp.buyer_name);
-    		$("input[name=buyerTel]").val(rsp.buyer_tel);
+    		$("input[name=buyerName]").val(buyerName);
+    		$("input[name=buyerTel]").val(buyerTel);
     		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
     		f.submit();
 
@@ -712,8 +713,8 @@ function iamport(){
 								<div>
 									<span id="usedPoint">0</span>원
 									<c:set var="usedPoint" value=""></c:set>
-									<input type="hidden" name="usedPoint" value="">
-									<input type="hidden" name="remainPoint" value="">
+									<input type="hidden" name="usedPoint" value="0">
+									<input type="hidden" name="remainPoint" value="0">
 								</div>
 							</div>
 
@@ -773,7 +774,7 @@ function iamport(){
 						</div>
 					</div>
 
-					<div onclick="iamport()" class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span id="finalTotPrice"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />

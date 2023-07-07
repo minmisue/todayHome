@@ -34,4 +34,7 @@ public interface MemberManagementService {
 	Member login(String email, String password);
 	
 	List<Member> findMembersByNickname(String nickName) throws Exception; 
+	
+	List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition, String sort) throws Exception; 
+	
 }

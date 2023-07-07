@@ -1,6 +1,10 @@
 package com.sp.app.member.management;
 
 import com.sp.app.domain.member.Member;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -151,5 +155,23 @@ public class MemberManagementRepositoryImplTest {
 		Long memberId = 62L;
 		Member member = new Member(memberId, "12","34","56");
 		memberManagementRepository.updateAddress(member);
+	}
+	
+	@Test
+	public void findMembersByCondition() throws Exception {
+		List<Integer> list = new ArrayList<>();
+
+		list.add(1);
+		
+		String keyword = "봉";
+		
+		String condition = "all";
+		String sort = "desc";
+		
+		List<Member> memberList = memberManagementRepository.findMembersByCondition(list,keyword, condition, sort);
+		
+		for (Member member : memberList) {
+			System.out.println(member);
+		}
 	}
 }

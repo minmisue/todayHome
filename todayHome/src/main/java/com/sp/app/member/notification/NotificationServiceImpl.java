@@ -5,9 +5,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
 import com.sp.app.domain.member.Notification;
 import com.sp.app.domain.member.NotificationParse;
@@ -26,11 +29,16 @@ public class NotificationServiceImpl implements NotificationService {
 	MemberManagementRepository memberManagementRepository;
 
 	@Override
-	public void createNotification(Notification notification) throws Exception {
-
+	public void createNotification(Notification notification, HttpSession session) throws Exception {
+		
 		try {
-			notificationRepository.insertNotification(notification);
-
+				SessionInfo sessionInfo = (SessionInfo)session.getAttribute("sessionInfo");
+				if(sessionInfo != null) {
+					notificationRepository.insertNotification(notification);
+					Long memberId = sessionInfo.getMemberId();		
+					int notificationCount = notificationRepository.getNotReadNotificationCount(memberId);
+					session.setAttribute("notificationCount", notificationCount);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

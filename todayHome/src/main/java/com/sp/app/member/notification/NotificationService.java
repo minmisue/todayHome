@@ -2,12 +2,14 @@ package com.sp.app.member.notification;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.sp.app.domain.member.Notification;
 import com.sp.app.domain.member.NotificationParse;
 
 public interface NotificationService {
 	
-	void createNotification(Notification notification) throws Exception;
+	void createNotification(Notification notification, HttpSession session) throws Exception;
 	boolean updateNotification(Long memberId) throws Exception;
 	void deleteNotification(Notification notification) throws Exception;
 	List<NotificationParse> getNotReadNotificationList(Long memberId) throws Exception;

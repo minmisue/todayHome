@@ -96,4 +96,18 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	public List<Member> findMembersByNickname(String nickName) throws Exception {
 		return commonDAO.selectList("management.findMembersByNickname", nickName);
 	}
+
+	@Override
+	public List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition ,String sort)
+			throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberRoleIdList", memberRoleIdList);
+		map.put("keyword", keyword);
+		map.put("condition", condition);
+		map.put("sort", sort);
+		
+		return commonDAO.selectList("management.findMembersByCondition", map);
+	
+	}
 }

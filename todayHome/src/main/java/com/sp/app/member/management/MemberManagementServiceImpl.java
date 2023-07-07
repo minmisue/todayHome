@@ -173,4 +173,19 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 		return result;
 	}
 
+
+
+	@Override
+	public List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition, String sort)
+			throws Exception {
+		List<Member> result = null;
+		try {
+			result = memberManagementRepository.findMembersByCondition(memberRoleIdList, keyword, condition, sort);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return result;
+	}
+
+	
 }

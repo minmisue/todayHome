@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
+import com.sp.app.member.notification.NotificationService;
 
 //단순 조회 시 GET 
 //수정 등록은 Post
@@ -25,6 +26,9 @@ public class MemberManagementController {
 	@Autowired
 	CartService cartService;
 	
+	@Autowired
+	NotificationService notificationService;
+	
 	@GetMapping("login")
 	public String loginForm() {
 		return "member/login";
@@ -33,7 +37,7 @@ public class MemberManagementController {
 	@PostMapping("login")
 	public String loginSubmit(HttpSession httpSession, @RequestParam String email, @RequestParam String password) {
 		Member member = memberManagementService.login(email, password);
-
+		int notificationCount = 0;
 		System.out.println(member);
 
 		if (member == null) {
@@ -48,8 +52,14 @@ public class MemberManagementController {
 
 		httpSession.setAttribute("sessionInfo", sessionInfo);
 		Integer dataCartCount = cartService.cartDateCountByMemberId(memberId);
+		try {
+			notificationCount = notificationService.getNotReadNotificationCount(memberId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		httpSession.setAttribute("dataCartCount", dataCartCount);
-		
+		httpSession.setAttribute("notificationCount", notificationCount);
 		return "redirect:/home";
 	}
 

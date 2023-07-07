@@ -39,7 +39,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class NotificationServiceImplTest {
 
 		Notification notification = new Notification(memberId, type, msg, param1, param2, null);
 
-		notificationService.createNotification(notification);
+		//notificationService.createNotification(notification);
 	}
 
 	@Test

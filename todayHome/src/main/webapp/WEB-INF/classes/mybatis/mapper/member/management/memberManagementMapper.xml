@@ -89,8 +89,77 @@
 		left join ADDRESS_BUNDLE ab on m.MEMBER_ID = ab.MEMBER_ID
 		WHERE INSTR(md.NICKNAME, #{nickName}) > 0 
     </select>
+    
+    
+    <select id="findMembersByConditionDESC" parameterType="com.sp.app.domain.member.Member" resultType="com.sp.app.domain.member.Member">
+	    SELECT m.MEMBER_ID AS memberId, MEMBER_ROLE_ID AS memberRoleId, EMAIL, NAME, TEL, POST_NUM AS postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE AS regDate, PROFILE_IMG_NAME AS profileImgName, INFO
+	    FROM MEMBER m
+	    JOIN MEMBER_DETAIL md ON m.MEMBER_ID = md.MEMBER_ID
+	    LEFT JOIN ADDRESS_BUNDLE ab ON m.MEMBER_ID = ab.MEMBER_ID
+	    WHERE
+       	 
+        <if test="memberRoleIdList != null and memberRoleIdList.size() &gt; 0">
+            m.MEMBER_ROLE_ID IN
+            <foreach collection="memberRoleIdList" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+            
+        <choose>
+	        <when test="condition == 'nickName'">
+	        	AND INSTR(md.NICKNAME, #{keyword}) > 0
+	        </when>
+	        <when test="condition == 'email'">
+	            AND INSTR(EMAIL, #{keyword}) > 0
+	        </when>
+	        <otherwise>
+	            	
+	        </otherwise>
+        </choose>
+		ORDER BY REG_DATE DESC;
+    </select>
+    
+	<select id="findMembersByCondition" parameterType="map" resultType="com.sp.app.domain.member.Member">
+	    SELECT m.MEMBER_ID AS memberId, MEMBER_ROLE_ID AS memberRoleId, EMAIL, NAME, TEL, POST_NUM AS postNum, ADDRESS1, ADDRESS2, NICKNAME, PASSWORD, REG_DATE AS regDate, PROFILE_IMG_NAME AS profileImgName, INFO
+	    FROM MEMBER m
+	    JOIN MEMBER_DETAIL md ON m.MEMBER_ID = md.MEMBER_ID
+	    LEFT JOIN ADDRESS_BUNDLE ab ON m.MEMBER_ID = ab.MEMBER_ID
+	    WHERE
+       	 
+        <if test="memberRoleIdList != null and memberRoleIdList.size() &gt; 0">
+            m.MEMBER_ROLE_ID IN
+            <foreach collection="memberRoleIdList" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+            
+        <choose>
+	        <when test="condition == 'nickName'">
+	        	AND INSTR(md.NICKNAME, #{keyword}) > 0
+	        </when>
+	        <when test="condition == 'email'">
+	            AND INSTR(EMAIL, #{keyword}) > 0
+	        </when>
+	        <otherwise>
+	            	
+	        </otherwise>
+        </choose>
+        
+        <choose>
+        	<when test="sort == 'asc'">
+        	 	ORDER BY REG_DATE ASC
+        	</when>
+        	<when test="sort == 'desc'">
+        	 	ORDER BY REG_DATE DESC
+        	</when>
+        </choose>
+		
+	</select>
 
-
-	
+   
+    
+    
+  
+ 
 
 </mapper>

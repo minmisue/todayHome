@@ -40,7 +40,7 @@ function submitAdjustment() {
         <input type="number" id="amountInput" name="inputAmount" step="10000" min="0" required>
         <button type="button" onclick="submitAdjustment()">정산하기</button>
         <input type="hidden" name="inputAmount" id="inputAmount" value="">
-      </form>
+      </form> 
     </div>
   </div>
 </div>

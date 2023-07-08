@@ -37,5 +37,6 @@ public interface MemberManagementRepository {
 	
 	List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition, String sort) throws Exception; 
 	
+	void updateMemberPwd(Member member) throws Exception;
 	
 }

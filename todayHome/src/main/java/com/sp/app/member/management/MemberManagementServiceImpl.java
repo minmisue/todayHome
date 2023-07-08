@@ -187,5 +187,10 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 		return result;
 	}
 
+	@Override
+	public void updateMemberPwd(Member member) throws Exception {
+		memberManagementRepository.updateMemberPwd(member);
+	}
+
 	
 }

@@ -110,4 +110,9 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 		return commonDAO.selectList("management.findMembersByCondition", map);
 	
 	}
+
+	@Override
+	public void updateMemberPwd(Member member) throws Exception {
+		commonDAO.updateData("management.updateMemberPwd", member);
+	}
 }

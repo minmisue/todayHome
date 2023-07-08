@@ -115,12 +115,66 @@
 			selectMyPage(4,1);
     });
     
+    let nicknameValidateStatus = false;
+    
     function sendOk() {
     	const f = document.memberForm;
+    	let str;
+    	
+    	if (nicknameValidateStatus === false) {
+            str = "닉네임 인증이 실행되지 않았습니다.";
+            alert(str)
+            return;
+        }
+    	
+    	str = f.selectFileName.value;
+    	if(! str){
+    		alert("파일을 등록해주세요");
+    		f.selectFileName.focus();
+    		return false;
+    	}
     	
     	f.action = "${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/edit";
     	f.submit();
 	}
+    
+    function nickNameCheckOk() {
+
+        let nickName = document.getElementById('nickName');
+
+        let str = nickName.value;
+        if (!str) {
+            alert("닉네임을 입력하세요. ");
+            nickName.focus();
+            return;
+        }
+
+        if (!/^.{2,15}$/.test(str)) {
+            alert("닉네임을 다시 입력하세요. ");
+            nickName.focus();
+            return;
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/member/nickName-check",
+            type: 'GET',
+            data: 'nickName=' + nickName.value,
+            dataType: 'text',
+            success: function (response) {
+                if (response === 'true') {
+                    alert('이미 존재하는 닉네임 입니다.')
+                } else {
+                    alert('사용 가능한 닉네임 입니다.')
+					nickName.readOnly = true;
+                    nicknameValidateStatus = true;
+                }
+            },
+            error: function (xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+    }
+    
 </script>
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -136,11 +190,14 @@
 			    <label for="nickname">별명</label>
 			    <input type="text" id="nickName" name="nickName" required value="${member.nickName}">
 			    <div class="required-text">* 필수항목</div>
+			    <button class="nickName-certify" type="button" onclick="nickNameCheckOk();">
+					닉네임 확인하기
+				</button>
 			</div>
 			
 			<div class="form-group">
 				<label for="profile-image">프로필 이미지</label>
-				<input type="file" id="profileImgName" name="profileImgName">
+				<input type="file" id="selectFileName" name="selectFileName">
 				${member.profileImgName}
 			</div>
 			
@@ -149,8 +206,10 @@
 				<input type="text" id=info name="info" required value="${member.info}">
 			</div>
 			<button class="submit-button" type="button" onclick="sendOk();">회원 정보 수정</button>
+			<input type="hidden" name="memberId" value="${member.memberId}">
+			<input type="hidden" name="password" value="${member.password}">
 		</form>
-
+		${msg}
 	</div>
 </div>
 

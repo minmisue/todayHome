@@ -66,6 +66,11 @@
 		where MEMBER_ID = #{memberId}
     </update>
     
+    <update id="updateMemberPwd" parameterType="com.sp.app.domain.member.Member">
+		UPDATE MEMBER_DETAIL SET PASSWORD = #{password}
+		where MEMBER_ID = #{memberId}
+    </update>
+    
     <update id="updateMemberDetail" parameterType="com.sp.app.domain.member.Member">
 		update MEMBER_DETAIL set NICKNAME = #{nickName}, PASSWORD = #{password}, PROFILE_IMG_NAME = #{profileImgName, jdbcType=VARCHAR}, INFO = #{info, jdbcType=VARCHAR}
 		where MEMBER_ID = #{memberId}

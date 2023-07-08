@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +73,36 @@ public class MypageController {
 		return "mypage/my-book";
 	}
 	
+	@GetMapping("{memberId}/pwd")
+	public String myPagemewPwd(@PathVariable Long memberId, HttpSession session, Model model) throws Exception{
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		
+		if(info.getMemberId() == null) {
+			return "/home";
+		}
+		
+		Member member = memberManagementService.readMemberById(memberId);
+		
+		model.addAttribute("member", member);
+		
+		return "mypage/edit-pwd";
+	}
+	
+	@PostMapping("{memberId}/pwd")
+	public String myPagemewPwdSubmit(Member member, HttpSession session, Model model) throws Exception{
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		
+		if(info.getMemberId() == null) {
+			return "/home";
+		}
+		
+		memberManagementService.updateMemberPwd(member);
+		
+		return "redirect:/mypage/"+member.getMemberId();
+	}
+	
 	@GetMapping("{memberId}/edit")
 	public String myPageMemberedit(@PathVariable Long memberId, HttpSession session, Model model) throws Exception{
 		
@@ -91,24 +120,50 @@ public class MypageController {
 	}
 	
 	@PostMapping("{memberId}/edit")
-	public String myPageMemberUpdate(
-			@ModelAttribute Member member, HttpSession session) throws Exception{
+	public String myPageMemberUpdate(@RequestParam MultipartFile selectFileName,
+			Member member, HttpSession session, Model model) throws Exception{
 		
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "member";
-		
-		System.out.println("테스트 : " + member.getMemberId() + " : " + member.getNickName() + " : " + member.getProfileImgName() + " : " + member.getInfo());
+		String pathname = root + "resources" + File.separator + "picture" + File.separator + "member";
 		
 		try {
+			
+			String saveFileName = fileManager.doFileUpload(selectFileName, pathname);
+			member.setProfileImgName(saveFileName);
+			
+			memberManagementService.updateMemberDetail(member);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
-
 		
 		return "redirect:/mypage/"+member.getMemberId();
+	}
+	
+	@GetMapping("{memberId}/houses")
+	public String myPageHouses(Model model, @PathVariable Long memberId) throws Exception{
+		Member member = memberManagementService.readMemberById(memberId);
+		int couponCount = couponService.memberCouponCount(memberId);
+		int followerCount = followService.followerCount(memberId);
+		int followeeCount = followService.followingCount(memberId);
+		model.addAttribute("member",member);
+		model.addAttribute("couponCount",couponCount);
+		model.addAttribute("followerCount", followerCount);
+		model.addAttribute("followeeCount", followeeCount);
+		return "mypage/my-houses";
+	}
+	
+	@GetMapping("{memberId}/like")
+	public String myPageLike(Model model, @PathVariable Long memberId) throws Exception{
+		Member member = memberManagementService.readMemberById(memberId);
+		int couponCount = couponService.memberCouponCount(memberId);
+		int followerCount = followService.followerCount(memberId);
+		int followeeCount = followService.followingCount(memberId);
+		model.addAttribute("member",member);
+		model.addAttribute("couponCount",couponCount);
+		model.addAttribute("followerCount", followerCount);
+		model.addAttribute("followeeCount", followeeCount);
+		return "mypage/my-like";
 	}
 	
 }

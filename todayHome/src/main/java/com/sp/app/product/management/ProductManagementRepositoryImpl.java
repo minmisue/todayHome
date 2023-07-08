@@ -64,6 +64,16 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("keyword", keyword);
+		map.put("sort", sort);
+		map.put("sellerId", sellerId);
+
+		return commonDAO.selectList("productManagement.searchProductBySellerId", map);
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(Long categoryId) {
 		return null;
 	}

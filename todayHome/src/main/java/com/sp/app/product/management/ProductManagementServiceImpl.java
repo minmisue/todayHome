@@ -501,4 +501,13 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) {
+		try {
+			return productManagementRepository.searchProductBySellerId(sellerId, keyword, sort);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

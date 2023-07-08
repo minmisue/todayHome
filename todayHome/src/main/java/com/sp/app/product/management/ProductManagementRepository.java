@@ -25,6 +25,7 @@ public interface ProductManagementRepository {
 	List<ProductForList> getAllProducts() throws Exception;
 
 	List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception;
+	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception;
 
 	List<Product> getProductsByCategory(Long categoryId);
 

@@ -277,8 +277,9 @@
         FROM product_img
         WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
         <where>
+            p.seller_id = #{sellerId}
             <if test="#{keyword} != null">
-                instr(p.product_name, #{keyword}) > 0
+                AND instr(p.product_name, #{keyword}) > 0
             </if>
         </where>
         <choose>

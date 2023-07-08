@@ -11,7 +11,7 @@
 							<i class="bi bi-share"></i>
 						</div>
 						<div class="image-wrapper">
-							<img alt="" src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png">
+							<img alt="" src="${pageContext.request.contextPath}/resources/picture/member/${member.profileImgName}">
 						</div>
 						<h2>${member.nickName}</h2>
 						<dl class="follow-wrapper">
@@ -20,7 +20,7 @@
 							<dt class="following">팔로잉</dt>
 							<dd class="follower-data" onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId }/followee'">${followeeCount}</dd>
 						</dl>
-						<button class="setting" type="button">설정</button>
+						<button class="setting" type="button" onclick="location.href='${pageContext.request.contextPath}/mypage/${member.memberId}/edit'">설정</button>
 					</div>
 
 					<p class="line"></p>

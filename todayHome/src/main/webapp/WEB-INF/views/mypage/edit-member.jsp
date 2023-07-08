@@ -114,6 +114,13 @@
 			// 첫번째 파라미터에 0 입력시 숨김
 			selectMyPage(4,1);
     });
+    
+    function sendOk() {
+    	const f = document.memberForm;
+    	
+    	f.action = "${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/edit";
+    	f.submit();
+	}
 </script>
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -123,47 +130,25 @@
 		<div class="subject">
 			<h4>회원정보 수정</h4>
 		</div>
-		<form action="/update-member" method="post" enctype="multipart/form-data">
-			<div class="form-group">
-				<div class="email-input">
-				<label for="email">이메일</label>
-					<input type="email" id="email" name="email" required>
-					<span>@</span>
-					<input type="email" id="email-domain" name="email-domain" required>
-				</div>
-				<div class="required-text">* 필수항목</div>
-			</div>
+		<form method="post" name="memberForm" enctype="multipart/form-data">
 			
 			<div class="form-group">
 			    <label for="nickname">별명</label>
-			    <input type="text" id="nickname" name="nickname" required>
+			    <input type="text" id="nickName" name="nickName" required value="${member.nickName}">
 			    <div class="required-text">* 필수항목</div>
 			</div>
 			
 			<div class="form-group">
-				<label for="website">홈페이지</label>
-				<input type="url" id="website" name="website">
-			</div>
-			<div class="form-group">
-				<label>성별</label>
-				<input type="radio" id="gender-male" name="gender" value="male">
-				<label for="gender-male">남성</label>
-				<input type="radio" id="gender-female" name="gender" value="female">
-				<label for="gender-female">여성</label>
-			</div>
-			<div class="form-group">
-				<label for="birthdate">생년월일</label>
-				<input type="text" id="birthdate" name="birthdate" placeholder="https://ohou.se">
-			</div>
-			<div class="form-group">
 				<label for="profile-image">프로필 이미지</label>
-				<input type="file" id="profile-image" name="profile-image">
+				<input type="file" id="profileImgName" name="profileImgName">
+				${member.profileImgName}
 			</div>
+			
 			<div class="form-group">
 				<label for="bio">한줄 소개</label>
-				<input type="text" id="introduce" name="introduce" required>
+				<input type="text" id=info name="info" required value="${member.info}">
 			</div>
-			<button class="submit-button" type="submit">회원 정보 수정</button>
+			<button class="submit-button" type="button" onclick="sendOk();">회원 정보 수정</button>
 		</form>
 
 	</div>

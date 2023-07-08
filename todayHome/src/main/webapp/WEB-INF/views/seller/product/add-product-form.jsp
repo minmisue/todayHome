@@ -240,17 +240,6 @@
 <body>
 <div class="main-container">
 	<div class="content shadow" style="width: 80%; padding-top: 50px; padding-bottom: 50px;">
-
-<%--		<div class="input-object">카테고리</div>--%>
-<%--		<div class="input-object">상품 이름</div>--%>
-<%--		<div class="input-object">상품 설명</div>--%>
-<%--		<div class="input-object">기본 가격</div>--%>
-<%--		<div class="input-object">할인율</div>--%>
-<%--		<div class="input-object">배달비</div>--%>
-
-<%--		<div>옵션 설정</div>--%>
-<%--		<div>옵션 이름</div>--%>
-
 		<div class="sub-menu">
 			<div style="display: flex; flex-direction: row; gap: 5px" >
 				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="location.href='#'">뒤로가기</button>
@@ -316,11 +305,6 @@
 
 
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">기본 가격</span></div>
-						<input type="number" class="form-control product-info" id="defaultPrice" name="price" value="${mode == "post" ? "" : product.price}">
-					</div>
-
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">할인율</span></div>
 						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.discountPercent}">
@@ -425,6 +409,8 @@
 </div>
 
 <script>
+    let nameCheckStatus = false
+
     function displayOptions() {
         let optionCombine = generateOptionCombine();
 		let mainOptionList = optionCombine[0];
@@ -569,7 +555,7 @@
 
 <script>
     let imgPool = document.getElementById('imgPool');
-    let productImgInput = document.getElementById('imgInput');
+    let productImgInput = document.getElementById('productImgInput');
 
     // 이미지 미리보기
     productImgInput.addEventListener('change', function () {
@@ -659,9 +645,8 @@
         addMainOption(tag, $('.option-container'))
     });
 
-    // addQualificationBtn.addEventListener('click', function () {
+
 	function addSubOption(obj) {
-        // let tag = $('#qualificationsFormContainer').find(':first').clone()
         let tag =
             `
 				<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
@@ -674,7 +659,6 @@
     }
 
     function addBtn(tag, obj) {
-
         obj.append(tag)
     }
 
@@ -687,37 +671,83 @@
         addBtn(tag, obj);
 	}
 
+    // 메인 옵션 삭제
     function deleteObject(obj) {
 		if (!confirm('해당 옵션을 삭제합니다.')) {
             return
 		}
-        console.log('삭제')
-        // let formBox = $(obj).closest('.form-box')
-        // let cnt = formBox.children().length
+        let cnt = $('.main-option').length
+
+        if (cnt === 1) {
+            alert('옵션은 한개 이상 존재해야 합니다.')
+			return;
+        }
 
         $(obj).parent().parent().remove()
-
-        // if (cnt === 2) {
-        //     formBox.find(':first').children('i').remove()
-        // }
     }
 
-
+	// 서브옵션 삭제
     function deleteSubObject(obj) {
 
         if (!confirm('해당 옵션을 삭제합니다.')) {
             return
         }
         console.log('삭제')
-        // let formBox = $(obj).closest('.form-box')
-        // let cnt = formBox.children().length
 
         $(obj).parent().remove()
-
-        // if (cnt === 2) {
-        //     formBox.find(':first').children('i').remove()
-        // }
     }
+
+    let nameCheckBtn = $('#productNameCheckBtn');
+
+    // 상품 이름 중복 체크
+    nameCheckBtn.click(function () {
+        let productNameInput = $('#productName')
+        let productName = $(productNameInput).val()
+
+        if (nameCheckStatus === true) {
+            productNameInput.attr('readOnly', false);
+            productNameInput.css('background-color', 'white')
+
+            nameCheckBtn.text('중복 검사')
+            nameCheckStatus = false
+
+            alert('변경 할 상품명을 입력하고 다시 중복확인을 해주세요.')
+			return;
+		}
+
+        // 상품명이 빈 문자열일때 리턴
+        if (productName.trim() === '') {
+            alert('상품명을 입력해 주세요.')
+            productName.focus()
+            return
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/product/validation-product-name",
+            type: 'POST',
+            data: "productName=" + productName,
+            dataType: 'json',
+            success: function(response) {
+                let state = response.result;
+                if (state === true) {
+                    alert('이미 존재하는 상품명입니다.')
+                } else {
+                    productNameInput.attr('readOnly', true);
+                    productNameInput.css('background-color', '#F8F9FA')
+
+					nameCheckBtn.text('이름 변경')
+
+                    nameCheckStatus = true
+                    alert('사용 가능한 상품명입니다.')
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+                alert('이미 존재하는 상품명입니다.')
+            }
+        });
+    });
+
 </script>
 </body>
 </html>

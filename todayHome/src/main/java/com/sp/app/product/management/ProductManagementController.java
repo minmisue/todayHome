@@ -14,9 +14,13 @@ import com.sp.app.seller.SellerService;
 import org.apache.poi.util.StringUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.xmlbeans.ResourceLoader;
+import org.bson.json.JsonObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -204,21 +208,19 @@ public class ProductManagementController {
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("rating", rating);
 
-		for (ProductStock stock : stockList) {
-			System.out.println(stock);
-		}
-
 		return "shop/product-detail";
 	}
 
-	// 장바구니 버튼 클릭
+	// 장바구니 버튼 클릭시 ajax 응답
 	@PostMapping("product/cart")
 	@ResponseBody
-	public String addProductToCart(
+	public ResponseEntity<String> addProductToCart(
 			@SessionAttribute(value = "sessionInfo") SessionInfo sessionInfo,
 			@RequestBody Map<String, Object> data) {
-		Cart cart = new Cart();
 
+		JSONObject response = new JSONObject();
+
+		Cart cart = new Cart();
 		Long memberId = sessionInfo.getMemberId();
 
 		System.out.println(data);
@@ -235,40 +237,63 @@ public class ProductManagementController {
 			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
 		}
 
-//		Cart cart = new Cart(memberId, productId, cartOptionMapList);
-
 		cart.setProductId(productId);
 		cart.setMemberId(memberId);
 		cart.setStockList(cartOptionMapList);
 
-		System.out.println(cart.getMemberId());
-
-
 		try {
 			cartService.createCart(cart);
+			response.put("result", true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response.toString());
 		}
 
-		return "ok";
+		return ResponseEntity.status(HttpStatus.OK).body(response.toString());
 	}
 
 	@ResponseBody
 	@PostMapping("product/scrap")
-	public boolean scrapProduct(@RequestParam Long productId, @SessionAttribute(value = "sessionInfo", required = false) SessionInfo sessionInfo) {
+	public ResponseEntity<String> scrapProduct(@RequestParam Long productId, @SessionAttribute(value = "sessionInfo", required = false) SessionInfo sessionInfo) {
+
+		JSONObject jsonObject = new JSONObject();
+
 		if (sessionInfo == null) {
-			return false;
+			jsonObject.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
 		}
+
 		Long memberId = sessionInfo.getMemberId();
 
 		try {
 			productManagementService.scrapProduct(memberId, productId);
+			int scrapCnt = productManagementService.scrapCnt(productId);
+			jsonObject.put("scrapCnt", scrapCnt);
+			jsonObject.put("result", true);
 		} catch (Exception e) {
-			return false;
+			jsonObject.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
 		}
 
-		return true;
+		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
 	}
 
+	@ResponseBody
+	@PostMapping("product/validation-product-name")
+	public ResponseEntity<String> validationProductName(@RequestParam String productName) {
+
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			boolean isPresent = productManagementService.checkProductName(productName);
+			jsonObject.put("result", isPresent);
+		} catch (Exception e) {
+			jsonObject.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
 
 }

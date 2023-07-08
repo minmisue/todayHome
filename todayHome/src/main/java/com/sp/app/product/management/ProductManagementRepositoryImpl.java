@@ -214,4 +214,14 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 
 		commonDAO.deleteData("productManagement.deleteProductImg", map);
 	}
+
+	@Override
+	public int checkProductName(String productName) throws Exception {
+		return commonDAO.selectOne("productManagement.checkProductName", productName);
+	}
+
+	@Override
+	public List<ProductForList> getScrapProductList(Long memberId) throws Exception {
+		return commonDAO.selectList("productManagement.getScrapProductList", memberId);
+	}
 }

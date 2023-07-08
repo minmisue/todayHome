@@ -83,4 +83,8 @@ public interface ProductManagementRepository {
 
 	void deleteProductImg(Long productId, int type) throws Exception;
 
+	int checkProductName(String productName) throws Exception;
+
+	List<ProductForList> getScrapProductList(Long memberId) throws Exception;
+
 }

@@ -52,7 +52,7 @@
             background-color: #64C2EB;
             color: white;
             padding: 14px 10px;
-            margin: 0 3px;
+            margin-left: 3px;
             border-radius: 5px;
             border: none;
         }
@@ -211,6 +211,13 @@
             color: #35c5f0;
         }
 
+        .bookmark-cnt {
+            margin-top: 2px;
+            font-size: 11px;
+            line-height: 14px;
+            letter-spacing: -.3px;
+            color: #424242;
+        }
 	</style>
 </head>
 <body>
@@ -285,7 +292,7 @@
 				<div class="product-name">${product.productName}</div>
 				<div class="flex-col" style="justify-content: center; align-items: center; padding: 5px 5px; margin-left: 15px">
 					<div><i class="bi bi-bookmark bookmark-btn" style="font-size: 25px" onclick="scrapProduct()"></i></div>
-					<div style="margin-top: 2px; font-size: 11px; line-height: 14px; letter-spacing: -.3px; color: #424242">${scrapCnt}</div>
+					<div class="bookmark-cnt">${scrapCnt}</div>
 				</div>
 			</div>
 			<div class="rating">
@@ -347,8 +354,8 @@
 			</div>
 
 			<div class="flex-row" style="justify-content: space-between">
-				<button class="cart-btn" id="addCartBtn">장바구니</button>
-				<button class="direct-purchase-btn" id="buyNowBtn" >바로구매</button>
+				<button class="cart-btn">장바구니</button>
+				<button class="direct-purchase-btn" >바로구매</button>
 			</div>
 		</div>
 	</div>
@@ -374,20 +381,6 @@
 					<img style="width: 100%; height: 100%"
 						 src="${pageContext.request.contextPath}/resources/picture/shop/product/content/${productImg.saveName}">
 				</c:forEach>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/1.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/5.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/6.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/7.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/8.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/9.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/10.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/11.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/12.jpg">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/13.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/14.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/15.avif">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/16.webp">--%>
-<%--				<img src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/17.webp">--%>
 			</div>
 
 			<div class="product-review-container flex-col">
@@ -531,24 +524,11 @@
 
 		<div style="flex: 1; padding: 0 40px; margin-left: 20px">
 			<div class="flex-col" style="width: 100%; position: sticky; top: 205px; justify-content: space-between; height: 74vh;">
-				<select class="form-control" style="border: 1px solid #DBDBDB; border-radius: 5px; height: 40px; padding: 0 10px; font-size: 15px">
-					<option selected="" value="" disabled="">색상</option>
-
-					<option value="0">투명 (PET) (25,600원)</option>
-					<option value="1">**라탄/투명(PC) (48,900원)</option>
-					<option value="2">**라탄/틴트브라운(PC) (48,900원)</option>
-					<option value="3">크림 (PET) (25,600원)</option>
-					<option value="4">투명민트 (PET) (25,600원)</option>
-					<option value="5">다크블루 (PET) (25,600원)</option>
-					<option value="6">투명브라운 (PET) (25,600원)</option>
-					<option value="7">다크브라운 (PET) (25,600원)</option>
-					<option value="8">투명핑크 (PET) (25,600원)</option>
-				</select>
-
+				<div></div>
 				<div class="flex-col">
-					<div class="flex-row" style="justify-content: space-between">
-						<div style="margin-bottom: 20px; font-weight: 600">주문금액</div>
-						<div style="font-size: 20px; line-height: 28px; font-weight: 700"><span class="total-price">0</span>원</div>
+					<div class="flex-row" style="justify-content: space-between; padding: 0 3px; align-items: center; margin-bottom: 20px; ">
+						<div style="font-weight: 600">주문금액</div>
+						<div style="font-size: 20px; line-height: 28px; font-weight: 700;"><span class="total-price">0</span>원</div>
 					</div>
 
 					<div class="flex-row">
@@ -657,10 +637,6 @@
                 console.log('옵션 모두 선택 완료!')
 
 				let selectedOption = getSelectedOption();
-
-                // console.log(selectedOption)
-                // console.log('[0][0]' + selectedOption[0][0] + ' [1][0]' + selectedOption[1][0])
-
 				let selectOptionInfo
 
 				if (mainOptionCnt === 0) {
@@ -674,10 +650,6 @@
                         return parseInt(item.subOptionId1) === parseInt(selectedOption[0][0]) && parseInt(item.subOptionId2) === parseInt(selectedOption[1][0])
                     })
 				}
-
-                console.log(stockList);
-
-                console.log(selectedOption);
 
                 let stockId = selectOptionInfo.stockId;
                 let allSelectedOptions = getAllSelectedOptions();
@@ -703,8 +675,6 @@
                 return parseInt(stock.subOptionId1) === parseInt(currentSubOptionId) && parseInt(stock.quantity) !== 0
             });
 
-            console.log('nextSubOptions : ' + nextSubOptions)
-
 			let optionTag = `<option selected="" value="" disabled="">` + nextSubOptions[0].mainOptionName2 + `</option>`
 
             for (const nextSubOption of nextSubOptions) {
@@ -714,7 +684,6 @@
 					`
             }
 
-            // $(selectOptions[i + 1]).children().show();
             $(selectOptions[i + 1]).html(optionTag).show()
         });
     }
@@ -832,14 +801,13 @@
 
 
 	// 장바구니
-    $("#addCartBtn").click(function () {
+    $(".cart-btn").click(function () {
         if (${empty sessionScope.sessionInfo}) {
             if (confirm("로그인이 필요한 서비스 입니다.\n로그인 페이지로 이동하시겠습니까?")) {
                 $(location).attr('href', '${pageContext.request.contextPath}/login')
-                return;
-            } else {
-                return;
             }
+
+            return;
         }
 
         let msg = "상품을 장바구니에 저장합니다."
@@ -849,6 +817,10 @@
         }
 
         let selectedOptions = getAllSelectedOptions();
+        if (selectedOptions.length === 0) {
+            alert("먼저 옵션을 선택해 주세요.");
+            return;
+        }
 
         let productId = "${product.productId}";
 
@@ -873,12 +845,13 @@
             },
             error: function(xhr, status, error) {
                 // 요청이 실패했을 때 실행되는 코드
+				alert("장바구니 추가에 실패했습니다.")
             }
         });
     });
 
     // 바로 주문
-    $("#buyNowBtn").click(function () {
+    $(".direct-purchase-btn").click(function () {
         if (${empty sessionScope.sessionInfo}) {
             if (confirm("로그인이 필요한 서비스 입니다.\n로그인 페이지로 이동하시겠습니까?")) {
                 $(location).attr('href', '${pageContext.request.contextPath}/login')
@@ -994,23 +967,24 @@
             url: "${pageContext.request.contextPath}/product/scrap",
             type: 'POST',
             data: 'productId=' + productId,
-            dataType: 'text',
+            dataType: 'json',
             success: function(response) {
-                if (response === 'false') {
-                    alert("서버와의 연결이 불안정합니다.");
+                if (response.result === true) {
+					$('.bookmark-cnt').text(response.scrapCnt)
+                    showToast()
                 } else {
-					showToast()
+                    alert("서버와의 연결이 불안정합니다.");
                 }
             },
             error: function(xhr, status, error) {
                 // 요청이 실패했을 때 실행되는 코드
+                alert("서버와의 연결이 불안정합니다.");
             }
         });
     }
 </script>
 
 <script>
-
     function showToast() {
         let elementById
 

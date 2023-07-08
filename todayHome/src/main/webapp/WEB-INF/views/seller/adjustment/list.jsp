@@ -4,155 +4,248 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
 <style type="text/css">
-.body-main {
-  max-width: 930px;
+
+p{
+	font-weight: bold;
 }
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
 h1 {
   text-align: center;
 }
 
-.search-container {
+.status-box {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-h2 {
-  margin-bottom: 10px;
+.status-item {
+  width: 100%;
+  height: 100px;
+  padding: 10px 15px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.status-item:hover {
+  border-color: blue;
+}
+.status-item-content{
+ font-weight: bold;
+}
+.filters {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: 	#F5F5F5;
+  flex-direction: column;
+      width: 100%; 
+    padding: 20px; 
+    box-sizing: border-box; 
 }
 
-input[type="date"] {
-  width: 20%;
-  padding: 5px;
+.date-range {
+	padding:20px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.date-range label {
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.status-filter label {
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.search input[type="text"],
+.search button {
+  margin-left: 5px;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #778899;
+  }
+  
+  .delivery-table {
+  background: white;
+  padding: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+
+
+.delivery-table th,
+.delivery-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid lightgray;
+}
+
+.delivery-table th {
+  font-weight: bold;
+}
+
+.delivery-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.button-container  button{
+    width: 10%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+
+.styled-button button{
+  margin: 0 10px;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   font-size: 16px;
 }
 
-.result-container table {
-  width: 100%;
-  border-collapse: collapse;
+.styled-button:hover {
+  border: 2px solid blue;
+  color: blue;
 }
-
-.result-container th, .result-container td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
+.page-navigation {
+	clear: both;
+	padding: 20px 0;
+	text-align: center;
 }
-
-.result-container th {
-  background-color: #f5f5f5;
+.paginate {
+	clear: both;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 14px;	
+}
+.paginate a {
+	border: 1px solid #ccc;
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate a:hover, .paginate a:active {
+	color: #6771ff;
+}
+.paginate span {
+	border: 1px solid #e28d8d;
+	color: #cb3536;
+	font-weight: 600;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate :first-child {
+	margin-left: 0;
 }
 </style>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css" type="text/css">
-
-<script type="text/javascript">
-function ajaxFun(url, method, query, dataType, fn) {
-  $.ajax({
-    type: method,
-    url: url,
-    data: query,
-    dataType: dataType,
-    success: function(data) {
-      fn(data);
-    },
-    beforeSend: function(jqXHR) {
-      jqXHR.setRequestHeader("AJAX", true);
-    },
-    error: function(jqXHR) {
-      if (jqXHR.status === 403) {
-        location.href = "${pageContext.request.contextPath}/seller/login";
-        return false;
-      } else if (jqXHR.status === 400) {
-        alert("요청 처리가 실패했습니다.");
-        return false;
-      }
-      console.log(jqXHR.responseText);
-    }
-  });
-}
-function search() {
-    var startDate = document.getElementById("startDate").value;
-    var endDate = document.getElementById("endDate").value;
-
-    var table = document.getElementById("resultTable");
-    var rows = table.getElementsByTagName("tr");
-
-    var totalAmount = 0; 
-
-    for (var i = 1; i < rows.length - 1; i++) { 
-      var row = rows[i];
-      var adjustmentDate = row.cells[0].innerHTML;
-      var amount = parseInt(row.cells[1].innerHTML.replace(/[^0-9]+/g, ''));
-      
-      if ((!startDate || !endDate) || (adjustmentDate >= startDate && adjustmentDate <= endDate)) {
-        row.style.display = ""; 
-        totalAmount += amount; 
-      } else {
-        row.style.display = "none"; 
-      }
-    }
-
-    var totalAmountCell = document.getElementById("totalAmountCell");
-    totalAmountCell.innerHTML = totalAmount.toLocaleString() + "원";
+</head>
+<body>
+<script>
+  function submitForm() {
+		const f = document.searchForm;
+		f.submit();
   }
-
-  window.onload = search;
+  
 </script>
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-calculator"></i> 정산 현황 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-calculator"></i> 정산 리스트 </h2>
   </div>
-  
-  <div class="search-container">
-    <h2>검색조건</h2>
-    <label for="date">날짜</label>
-    <div>
-      <p>
-        <input type="date" id="startDate">
-        ~
-        <input type="date" id="endDate">
-        
-        <button type="button" id="search" onclick="search()">검색</button>
-      </p>
-    </div>
-  </div>
-  
-  <div class="result-container">
-    <h2>검색결과</h2>
-    <table id="resultTable">
-      <tr>
-        <th>정산일</th>
-        <th>최종지급액</th>
-      </tr>
-      <c:forEach var="sellerAdjustment" items="${sellerAdjustmentList}">
+
+    
+  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/adjustment/list" method="post">
+    <div class="filters">
+      <div class="date-range">
+        <label for="start-date">기간:</label>
+        <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
+        <label for="end-date">-</label>
+        <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
+      </div>
+    <hr>
+    <table class="delivery-table" style="background: white; padding: 20px;">
+      <thead>
+        <tr>
+          <th>정산일</th>
+          <th>정산 지급액</th>
+        </tr>
+      </thead>
+      <c:forEach var="sellerAdjustment" items="${sellerAdjustmentList}" varStatus="status">
         <tr>
           <td>${sellerAdjustment.adjustmentDate}</td>
           <td>${sellerAdjustment.amount}원</td> 
         </tr>
       </c:forEach>
-      <c:if test="${empty sellerAdjustmentList}">
+	<c:if test="${empty sellerAdjustmentList}">
         <tr>
           <td colspan="2">정보가 없습니다.</td>
         </tr>
         <tr id="totalAmountRow">
-          <th>총 최종 지급액</th>
+          <th>정산된 금액</th>
           <th id="totalAmountCell">0원</th>
         </tr>
       </c:if>
-      <c:if test="${not empty sellerAdjustmentList}">
-        <tr id="totalAmountRow">
-          <th>총 최종 지급액</th>
-          <th id="totalAmountCell"></th>
-        </tr>
-      </c:if>
+     <c:if test="${not empty sellerAdjustmentList}">
+  <tr id="totalAmountRow">
+    <th>총 정산 금액</th>
+    <th id="totalAmountCell">
+      <c:set var="totalAmount" value="0"/>
+      <c:forEach var="sellerAdjustment" items="${sellerAdjustmentList}">
+        <c:set var="totalAmount" value="${totalAmount + sellerAdjustment.amount}"/>
+      </c:forEach>
+      ${totalAmount}원
+    </th>
+    
+  </tr>
+</c:if>
     </table>
+        <div class="button-container" style="display: flex; justify-content: center;">
+          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/seller/adjustment/list';">초기화</button>
+          <button id="search-button" class="styled-button" type="button" onclick="submitForm()">검색</button>
+        </div>
+    <div class="page-navigation">   
+       ${paging}
+    </div>
   </div>
+  </form>
 </div>
 
 

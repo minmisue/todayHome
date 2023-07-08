@@ -1,7 +1,6 @@
 package com.sp.app.seller.adjustment;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,11 +44,11 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 	}
 
 	@Override
-	public List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId) throws Exception {
+	public List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId,int offset,int size, String startDate,String endDate) throws Exception {
 		List<SellerAdjustment> sellerAdjustment = null;
 		
 		try {
-			sellerAdjustment = adjustmentRepository.getAdjustmentsBySellerId(sellerId);
+			sellerAdjustment = adjustmentRepository.getAdjustmentsBySellerId(sellerId,offset,size,startDate,endDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -83,6 +82,12 @@ public class AdjustmentServiceImpl implements AdjustmentService {
 	@Override
 	public int adjustmentCount(String startDate,String endDate, String keyword,String condition) throws Exception {
 		return adjustmentRepository.adjustmentCount(startDate,endDate,keyword,condition);
+	}
+
+
+	@Override
+	public int adjustmentCountBysellerId(Long sellerId, String startDate,String endDate) throws Exception {
+		return adjustmentRepository.adjustmentCountBysellerId(sellerId,startDate,endDate);
 	}
 
 }

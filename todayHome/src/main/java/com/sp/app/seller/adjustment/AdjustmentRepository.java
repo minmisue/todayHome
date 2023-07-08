@@ -1,7 +1,7 @@
 package com.sp.app.seller.adjustment;
 
 import java.util.List;
-import java.util.Map;
+
 
 import com.sp.app.domain.seller.SellerAdjustment;
 
@@ -13,7 +13,7 @@ public interface AdjustmentRepository {
     List<SellerAdjustment> getAdjustmentByAdjustmentId(Long adjustmentId) throws Exception;
 
     // 판매자 아이디로 정산 목록 반환 ok
-    List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId) throws Exception;
+    List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId,int offset,int size, String startDate,String endDate) throws Exception;
 
     // 정산 기록 생성 ok
    void createAdjustment(SellerAdjustment adjustment) throws Exception;
@@ -24,5 +24,7 @@ public interface AdjustmentRepository {
    //정산 카운트
    int adjustmentCount(String startDate,String endDate, String keyword,String condition) throws Exception;
 
+   //정산리스트 카운트
+   int adjustmentCountBysellerId(Long sellerId, String startDate,String endDate) throws Exception;
 }
 

@@ -52,9 +52,9 @@ h1 {
   margin-bottom: 20px;
   background: 	#F5F5F5;
   flex-direction: column;
-      width: 100%; /* 크기 조정 */
-    padding: 20px; /* 크기 조정 */
-    box-sizing: border-box; /* 크기 조정 */
+      width: 100%; 
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .date-range {
@@ -183,6 +183,7 @@ input[type="checkbox"]:checked {
 		const f = document.searchForm;
 		f.submit();
   }
+  
 </script>
 
 <div class="body-container">
@@ -219,9 +220,9 @@ input[type="checkbox"]:checked {
       <div class="search" style="padding: 20px;">
       <label for="search-input">정렬:</label>
 		<select id="search-option" name="orderBy">
-		  <option value="amount_DESC" ${orderByAmount == '' ? 'selected="selected"' : ''}>정산금액 높은순</option>
+		  <option value="amount_DESC" ${orderByAmount == 'DESC' ? 'selected="selected"' : ''}>정산금액 높은순</option>
 		  <option value="amount_ASC" ${orderByAmount == 'ASC' ? 'selected="selected"' : ''}>정산금액 낮은순</option>
-		  <option value="regDate_DESC" ${orderByDate == '' ? 'selected="selected"' : ''}>가입일 최신순</option>
+		  <option value="regDate_DESC" ${orderByDate == 'DESC' ? 'selected="selected"' : ''}>가입일 최신순</option>
 		  <option value="regDATE_ASC" ${orderByDate == 'ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
 		</select>
         </div>

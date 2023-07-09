@@ -238,7 +238,7 @@
 				<div>
 					스크랩했습니다
 				</div>
-				<a href="#" style="text-decoration: none; color: #63BDE6; font-weight: 650;">스크랩북 보기</a>
+				<a href="${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book" style="text-decoration: none; color: #63BDE6; font-weight: 650;">스크랩북 보기</a>
 			</div>
 		</div>
 
@@ -997,5 +997,6 @@
         instance.show()
     }
 </script>
+
 </body>
 </html>

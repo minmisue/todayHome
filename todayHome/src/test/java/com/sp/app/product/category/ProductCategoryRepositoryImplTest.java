@@ -56,7 +56,15 @@ public class ProductCategoryRepositoryImplTest {
 
 	@Test
 	public void getAllCategoryHierarchy() throws Exception {
-		List<ProductCategory> childCategories = productCategoryRepository.getChildCategories(1L);
+		List<ProductCategory> allCategoryHierarchy = productCategoryRepository.getAllCategoryHierarchy();
+		for (ProductCategory categoryHierarchy : allCategoryHierarchy) {
+			System.out.println(categoryHierarchy);
+		}
+	}
+
+	@Test
+	public void getChild() throws Exception {
+		List<ProductCategory> childCategories = productCategoryRepository.getChildCategories(4L);
 		for (ProductCategory childCategory : childCategories) {
 			System.out.println(childCategory);
 		}

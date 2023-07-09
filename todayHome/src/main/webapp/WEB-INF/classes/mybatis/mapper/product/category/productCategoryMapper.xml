@@ -16,7 +16,12 @@
     <select id="getChildCategories" parameterType="Long" resultType="com.sp.app.domain.product.ProductCategory">
         SELECT product_category_id AS productCategoryId, parent_category_id AS parentCategoryId, category_name AS categoryName, 1 AS categoryLevel
         FROM product_category
-        WHERE parent_category_id = #{parentCategoryId}
+        <if test="parentCategoryId == null">
+            WHERE parent_category_id IS NULL
+        </if>
+        <if test="parentCategoryId != null">
+            WHERE parent_category_id = #{parentCategoryId, jdbcType=VARCHAR}
+        </if>
     </select>
 
     <select id="getAllCategoryHierarchy" resultType="com.sp.app.domain.product.ProductCategory">
@@ -27,7 +32,7 @@
         FROM product_category pc
         START WITH pc.parent_category_id IS NULL
         CONNECT BY PRIOR pc.product_category_id = pc.parent_category_id
-        ORDER BY categoryLevel
+        ORDER SIBLINGS BY pc.product_category_id
     </select>
 
 </mapper>

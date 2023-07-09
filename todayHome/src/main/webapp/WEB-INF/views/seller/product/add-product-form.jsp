@@ -261,48 +261,23 @@
 				</div>
 				<input type="hidden" name="id" value="${mode.equals("post") ? "" : product.productId}">
 
-				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
-						<select class="form-select form-control product-info" name="productCategoryId" id="category">
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
+<%--				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">--%>
+				<div class="flex-row" style="gap: 15px; align-items: center; justify-content: space-between; align-content: center; margin-top: 35px; ">
+					<div style="display: grid; grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr; gap: 10px;" id="subcategoriesContainer">
+						<div class="input-group">
+							<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
+							<select class="form-select form-control product-info category-select" name="productCategoryId" id="category" onchange="fetchSubcategories(this.value, 1)">
+								<option selected value="">카테고리 선택</option>
+								<c:forEach items="${categories}" var="category">
+									<option value="${category.productCategoryId}">
+											${category.categoryName}
+									</option>
+								</c:forEach>
+							</select>
+						</div>
 					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 2</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 3</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
+					<div style="background-color: #dedede; padding: 7px 12px; border-radius: 4px">확인</div>
 				</div>
-
 
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
 					<div class="input-group">
@@ -748,6 +723,100 @@
         });
     });
 
+</script>
+
+<script>
+    // 카테고리 선택 스크립트
+
+    let categories = ${jsonCategories};
+    let currentCategories = ${jsonCategories};
+
+
+    function fetchSubcategories(parentCategoryId, level) {
+        let container = document.getElementById("subcategoriesContainer");
+
+        if (parentCategoryId !== "") {
+
+            let select = document.createElement("select");
+            select.className = "form-select form-control product-info category-select";
+            select.name = level;
+            select.onchange = function () {
+                fetchSubcategories(this.value, level+1);
+            };
+
+            console.log(parentCategoryId)
+
+            let defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.text = "전체";
+            select.appendChild(defaultOption);
+
+            let categories = findSubcategories(currentCategories, parentCategoryId);
+
+
+            let elements = $(container).children()
+            let find = $(container).find('select:gt(' + (level-1) + ')');
+
+            console.log('level = ' + level)
+            for (const x of find) {
+                console.log('value = ' + $(x).html())
+            }
+
+            $(find).remove()
+
+            if (categories === null) {
+                return
+            }
+
+            if (categories.length === 0) {
+                return;
+            }
+
+            let levelName = level + 1
+
+            // if (a !== null) {
+            //     $(a).remove()
+            // }
+
+            currentCategories = categories;
+            // parentCategoryId = currentCategories.productCategoryId
+
+            for (let i = 0; i < categories.length; i++) {
+                let category = categories[i];
+
+                let option = document.createElement("option");
+                option.value = category.productCategoryId;
+                option.text = category.categoryName;
+                select.appendChild(option);
+            }
+
+            container.appendChild(select);
+
+
+            // let find = $(elements).find('select:gt(' + level-2 + ')');
+            // console.log('find = ' + $(container).find('div:gt(' + 0 + ')'))
+
+
+
+            // $(elements).find('div:gt(' + level-1 + ')').remove();
+            // console.log('level = ' + level-2)
+        }
+    }
+
+    function findSubcategories(currentCategories, parentCategoryId) {
+
+        let subcategories = [];
+
+        subcategories = currentCategories.find(function (item) {
+            return parseInt(item.productCategoryId) === parseInt(parentCategoryId);
+        })
+
+        if (typeof subcategories !== 'undefined') {
+            return subcategories.subCategoryList;
+        } else {
+            return null;
+        }
+    }
 </script>
 </body>
 </html>

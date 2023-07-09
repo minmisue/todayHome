@@ -9,6 +9,7 @@ import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.product.*;
 import com.sp.app.domain.seller.Seller;
+import com.sp.app.product.category.ProductCategoryService;
 import com.sp.app.product.review.ProductReviewService;
 import com.sp.app.seller.SellerService;
 import org.apache.poi.util.StringUtil;
@@ -50,6 +51,9 @@ public class ProductManagementController {
 	private ProductReviewService productReviewService;
 
 	@Autowired
+	private ProductCategoryService productCategoryService;
+
+	@Autowired
 	private SellerService sellerService;
 
 	@Autowired
@@ -78,6 +82,28 @@ public class ProductManagementController {
 
 	@GetMapping("seller/product")
 	public String addProductForm(Model model) {
+
+
+		List<ProductCategory> categories = null;
+		List<ProductCategory> productCategories = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		String json = null;
+
+		try {
+			// 최상위 카테고리
+			categories = productCategoryService.getChildCategories(null);
+
+			// 하위 카테고리 계층
+			productCategories = productCategoryService.fetchCategory(null);
+			// js에서 객체로 매핑하기 위해 json 변환
+			json = objectMapper.writeValueAsString(productCategories);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("categories", categories);
+		model.addAttribute("jsonCategories", json);
+
 		// 임시 셀러 아이디
 		model.addAttribute("sellerId", 1L);
 		model.addAttribute("mode", "post");
@@ -292,7 +318,7 @@ public class ProductManagementController {
 			jsonObject.put("result", false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
 		}
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
 	}
 

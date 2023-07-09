@@ -2,6 +2,7 @@ package com.sp.app.seller.adjustment;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.app.common.APISerializer;
 import com.sp.app.common.MyUtil;
 import com.sp.app.domain.member.Member;
 import com.sp.app.domain.seller.Seller;
@@ -29,7 +32,9 @@ import com.sp.app.seller.SellerSessionInfo;
 
 @Controller
 public class AdjustmentController {
-
+	@Autowired
+	private APISerializer apiSerializer;
+	
 	@Autowired
 	MemberManagementService memberManagementService;
 	@Autowired
@@ -51,7 +56,11 @@ public class AdjustmentController {
 	        Model model) throws Exception {
 	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
 	    Long sellerId = sellerSessionInfo.getSellerId();
-
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
 	    int size = 10;
 	    int total_page = 0;
 	    int dataCount = 0;
@@ -303,6 +312,12 @@ public class AdjustmentController {
 	public String adjustment(HttpSession httpSession,
 			Model model) throws Exception{
 		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+			    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
+	    
 		Long sellerId = sellerSessionInfo.getSellerId();
 		Seller seller = sellerService.getSellerBySellerId(sellerId);
 		

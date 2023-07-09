@@ -11,7 +11,7 @@
 			</div>
 			<div class="info-box">
 				<div class="info-message">
-					${message}
+					판매자 상태를 확인해주세요.
 				</div>
 				<div class="info-footer">
 					<button type="button" class="btnConfirm" onclick="javascript:history.back();">이전화면으로 이동</button>

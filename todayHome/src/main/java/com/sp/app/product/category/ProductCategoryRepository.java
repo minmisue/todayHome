@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductCategoryRepository {
 	// 모든 카테고리 출력
-	List<ProductCategory> getAllCategories();
+	List<ProductCategory> getAllCategories() throws Exception;
 
 	// 카테고리 아이디로 카테고리 반환
 	ProductCategory getCategoryById(Long categoryId);
@@ -23,4 +23,8 @@ public interface ProductCategoryRepository {
 
 	// 카테고리 삭제
 	void deleteCategory(Long categoryId);
+
+	List<ProductCategory> getChildCategories(Long parentCategoryId) throws Exception;
+
+	List<ProductCategory> getAllCategoryHierarchy() throws Exception;
 }

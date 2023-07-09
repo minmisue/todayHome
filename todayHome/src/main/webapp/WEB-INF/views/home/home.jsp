@@ -13,6 +13,10 @@
 			border-radius: 5px;
 		}
 
+		.img-container {
+            border-radius: 5px;
+		}
+
 		.banner-card-img:hover {
 			transform: scale(1.05);
             cursor: pointer;
@@ -117,6 +121,12 @@
             color: #B2E0F5;
             cursor: pointer;
         }
+
+        .home-img-container {
+            width: 100%;
+            height: 180px;
+            border-radius: 5px;
+        }
 	</style>
 </head>
 <body>
@@ -131,7 +141,7 @@
 	<div class="main-container">
 		<div class="content flex-row" style="height: 508px;">
 			<div class="w-75" style="padding-right: 20px">
-				<div class="w-100 h-100" style="overflow: hidden; position: relative">
+				<div class="w-100 h-100 img-container" style="overflow: hidden; position: relative">
 					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-banner.png">
 					<div class="flex-col main-banner-info">
 						<div class="fw-bolder fs-2 text-white main-banner-text">컬러감이 돋보이는 24평 홈스타일 반려동물과 함께</div>
@@ -143,7 +153,7 @@
 				</div>
 			</div>
 			<div class="w-25">
-				<div class="w-100 h-100" style="overflow: hidden;">
+				<div class="w-100 h-100 img-container" style="overflow: hidden;">
 					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-event1.png">
 				</div>
 			</div>
@@ -214,7 +224,7 @@
 
 			<div class="main-best-board-container">
 				<div class="flex-col banner-card-container">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/168412784958746261.jpg?w=360&h=180&c=c">
 					</div>
 
@@ -223,7 +233,7 @@
 				</div>
 
 				<div class="flex-col banner-card-container">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/cards/projects/167661874383565334.jpg">
 					</div>
 
@@ -232,7 +242,7 @@
 				</div>
 
 				<div class="flex-col banner-card-container">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/168339197459485679.JPG?w=1280&h=850&c=c">
 					</div>
 
@@ -241,7 +251,7 @@
 				</div>
 
 				<div class="flex-col banner-card-container">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/168438306650616160.jpg?w=850&h=640&c=c">
 					</div>
 
@@ -262,7 +272,7 @@
 
 			<div class="main-best-board-container">
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/166246625944344065.JPG?w=850&h=640&c=c">
 					</div>
 
@@ -271,7 +281,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/168438319689948709.jpg?w=850">
 					</div>
 
@@ -280,7 +290,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/projects/cover_images/162280293856900243.jpg?w=850&h=640&c=c">
 					</div>
 
@@ -289,7 +299,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/projects/cover_images/167469927873998349.png">
 					</div>
 
@@ -311,7 +321,7 @@
 
 			<div class="main-best-board-container">
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/165936125893801169.jpg?w=640&h=360&c=c">
 					</div>
 
@@ -320,7 +330,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/projects/cover_images/159364806618945549.jpg?w=640&h=360&c=c">
 					</div>
 
@@ -329,7 +339,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/projects/cover_images/167161229182910445.png">
 					</div>
 
@@ -338,7 +348,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/cards/expert_reviews/168497804300036152.JPG">
 					</div>
 
@@ -364,7 +374,7 @@
 
 			<div class="main-best-board-container">
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168130872193819157.jpg?w=2560&h=2560&c=c">
 					</div>
 
@@ -373,7 +383,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168308667455982722.png?w=2560&h=2560&c=c">
 					</div>
 
@@ -382,7 +392,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/projects/cover_images/165518609078536085.jpg?w=2560&h=2560&c=c">
 					</div>
 
@@ -391,7 +401,7 @@
 				</div>
 
 				<div class="flex-col">
-					<div style="width: 100%; height: 180px">
+					<div class="home-img-container">
 						<img style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/projects/cover_images/168508161129572623.jpg?w=1920&h=2560&c=c">
 					</div>
 

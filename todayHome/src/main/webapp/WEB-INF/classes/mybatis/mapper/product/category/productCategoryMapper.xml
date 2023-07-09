@@ -35,5 +35,20 @@
         ORDER SIBLINGS BY pc.product_category_id
     </select>
 
+    <insert id="createCategory" parameterType="com.sp.app.domain.product.ProductCategory">
+        insert INTO product_category (product_category_id, parent_category_id, category_name)
+        VALUES (seq_product_category.nextval, #{parentCategoryId, jdbcType=VARCHAR}, #{categoryName})
+    </insert>
+    
+    <update id="updateCategory" parameterType="com.sp.app.domain.product.ProductCategory">
+        UPDATE PRODUCT_CATEGORY SET CATEGORY_NAME = #{categoryName}
+        where PRODUCT_CATEGORY_ID = #{productCategoryId}
+    </update>
+    
+    <delete id="deleteCategory" parameterType="Long">
+        DELETE PRODUCT_CATEGORY WHERE PRODUCT_CATEGORY_ID = #{productCategoryId}
+    </delete>
+
+
 </mapper>
 

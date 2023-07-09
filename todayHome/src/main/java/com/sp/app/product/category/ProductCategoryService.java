@@ -16,10 +16,10 @@ public interface ProductCategoryService {
 	List<ProductCategory> getCategoriesByParentId(Long parentId);
 
 	// 카테고리 생성
-	ProductCategory createCategory(ProductCategory productCategory);
+	void createCategory(ProductCategory productCategory);
 
 	// 카테고리 수정
-	ProductCategory updateCategory(Long categoryId, ProductCategory productCategory);
+	void updateCategory(ProductCategory productCategory);
 
 	// 카테고리 삭제
 	void deleteCategory(Long categoryId);

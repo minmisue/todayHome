@@ -28,18 +28,30 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	@Override
-	public ProductCategory createCategory(ProductCategory productCategory) {
-		return null;
+	public void createCategory(ProductCategory productCategory) {
+		try {
+			productCategoryRepository.createCategory(productCategory);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public ProductCategory updateCategory(Long categoryId, ProductCategory productCategory) {
-		return null;
+	public void updateCategory(ProductCategory productCategory) {
+		try {
+			productCategoryRepository.updateCategory(productCategory);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public void deleteCategory(Long categoryId) {
-
+		try {
+			productCategoryRepository.deleteCategory(categoryId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

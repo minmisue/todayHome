@@ -5,137 +5,166 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>카테고리 선택</title>
+	<title>category edit</title>
 	<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<style>
-        .indent {
-            margin-left: 10px;
+        .add-btn, .remove-btn, .edit-btn{
+            /*font-size: 18px;*/
         }
+
+        .add-btn {
+            color: #6D90E0
+        }
+
+        .remove-btn {
+            color: indianred;
+        }
+
+        .add-btn:hover, .remove-btn:hover, .edit-btn:hover{
+            filter: brightness(80%);
+            cursor: pointer;
+        }
+
+		.category {
+			/*border: 1px solid black;*/
+			padding: 8px;
+		}
 	</style>
 </head>
-<body>
-<h1>카테고리 선택</h1>
+<body style="padding: 30px; text-align: center">
+	<h3 style="margin-top: 40px;">카테고리 수정</h3>
+	<div style="width: 500px; margin: 50px auto; padding: 30px; border-radius: 5px" class="shadow">
 
-<form>
+		<div id="selectContainer">
+			<div class="flex-row category" style="gap: 10px">
+				<div>카테고리 목록</div>
+				<i class="bi bi-plus-square-fill add-btn" onclick="addCategory(this, 'add')"></i>
+				<input type="hidden" value="">
+			</div>
 
-	<div id="selectContainer">
-		<label for="parentCategory">상위 카테고리:</label>
-		<select class="category-select" name="parentCategory" id="parentCategory">
-			<option value="">전체</option>
-			<c:forEach items="${categories}" var="category">
-				<option value="${category.productCategoryId}">
-						<%--        <c:forEach begin="1" step="1" end="${category.categoryLevel}">--%>
-						<%--          &nbsp;--%>
-						<%--        </c:forEach>--%>
-
-						${category.categoryName}
-				</option>
-			</c:forEach>
-		</select>
-
-		<br><br>
-
-<%--		<label for="childCategory">하위 카테고리:</label>--%>
-<%--		<select name="childCategory" id="childCategory" disabled>--%>
-<%--			<option value="">선택하세요</option>--%>
-<%--			<c:forEach items="${childCategories}" var="childCategory">--%>
-<%--				<option value="${childCategory.productCategoryId}">--%>
-<%--						${childCategory.categoryName}--%>
-<%--				</option>--%>
-<%--			</c:forEach>--%>
-<%--		</select>--%>
-	</div>
-</form>
-
-<div>
-	<label for="parentCategory">상위 카테고리:</label>
-	<select class="category-select" name="parentCategory">
-		<option value="">전체</option>
-		<c:forEach items="${productCategories}" var="category">
-			<c:choose>
-				<c:when test="${not empty category.subCategoryList}">
-					<c:forEach items="${category.subCategoryList}" var="subcategory">
-						<c:set var="indent" value="" />
-						<c:forEach begin="1" end="${subcategory.categoryLevel}" varStatus="loop">
-							<c:set var="indent" value="${indent}  " />
-						</c:forEach>
-						<option value="${subcategory.productCategoryId}">
-								${indent}${subcategory.categoryName}
-						</option>
-						<c:forEach items="${subcategory.subCategoryList}" var="subsubcategory">
-							<c:set var="indent" value="${indent}  " />
-							<option value="${subsubcategory.productCategoryId}">
-									${indent}${subsubcategory.categoryName}
-							</option>
-							<!-- 계층 구조에 따라 더 하위 계층이 있다면 위와 같이 반복하여 출력 -->
-						</c:forEach>
+			<c:forEach items="${allCategories}" var="category">
+				<div class="flex-row category" style="gap: 10px; align-content: center; align-items: center">
+					<c:forEach begin="1" step="1" end="${category.categoryLevel}">
+					  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<option value="${category.productCategoryId}">
-							${category.categoryName}
-					</option>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-	</select>
 
+					<c:if test="${category.categoryLevel == 1}">
+						<i class="bi bi-circle-fill" style="font-size: 8px; color: #676767"></i>
+					</c:if>
+					<c:if test="${category.categoryLevel != 1}">
+						<i class="bi bi-caret-right-fill" style="color: #676767"></i>
+					</c:if>
+					<div class="category-name">${category.categoryName}</div>
+					<i class="bi bi-plus-square-fill add-btn" onclick="addCategory(this, 'add')"></i>
+					<i class="bi bi-dash-square-fill remove-btn" onclick="addCategory(this, 'delete')"></i>
+					<i class="bi bi-pencil-square edit-btn" onclick="addCategory(this, 'edit')"></i>
+					<input type="hidden" class="product-category-id" value="${category.productCategoryId}"/>
+					<input type="hidden" class="category-level" value="${category.categoryLevel}"/>
+				</div>
+			</c:forEach>
+
+		</div>
+	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="categoryInputModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLabel">카테고리 추가</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body flex-col" style="">
+				<div style="margin-bottom: 15px;">상위 카테고리 : <span id="parentCategoryName"></span></div>
+				<input class="form-control" type="text" id="categoryName" placeholder="카테고리 이름">
+				<input type="hidden" id="parentCategoryId">
+				<input type="hidden" id="type">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary" onclick="addCategoryAjax()">확인</button>
+			</div>
+		</div>
+	</div>
 </div>
 
-<%--<br>--%>
-
-<%--<h2>선택된 카테고리 정보</h2>--%>
-<%--<div>--%>
-<%--  <c:forEach items="${selectedCategoryPath}" var="category">--%>
-<%--    <span class="indent">${category.categoryName}</span>--%>
-<%--    <br>--%>
-<%--  </c:forEach>--%>
-<%--</div>--%>
-
 <script>
-    <%--$(document).ready(function () {--%>
-    <%--    $("#parentCategory").change(function () {--%>
-    <%--        let selectContainer = $('#selectContainer');--%>
+    function addCategory(obj, type) {
+        let selectedValue = $(obj).parent().find('.product-category-id').val();
+        let categoryLevel = $(obj).parent().find('.category-level').val();
+        let selectedName = $(obj).parent().find('.category-name').text();
 
-    <%--        var selectedCategoryId = $(this).val();--%>
-    <%--        var url = "${pageContext.request.contextPath}/categories/" + selectedCategoryId;--%>
-    <%--        $.ajax({--%>
-    <%--            url: url,--%>
-    <%--            type: "GET",--%>
-    <%--            dataType: "json",--%>
-    <%--            success: function (data) {--%>
-    <%--                var options = "";--%>
 
-    <%--                console.log(data.length)--%>
+        console.log(selectedValue)
 
-    <%--                if (data.length === 0) {--%>
-    <%--                    return;--%>
-    <%--                } else {--%>
-    <%--                    console.log('hello')--%>
-    <%--                    for (var i = 0; i < data.length; i++) {--%>
-    <%--                        options += "<option value='" + data[i].productCategoryId + "'>" + data[i].categoryName + "</option>";--%>
-    <%--                    }--%>
+        if (selectedValue === '' || selectedValue === null || typeof selectedValue === 'undefined') {
+            selectedValue = null
+			selectedName = '최상위 카테고리'
+		} else {
+            if (categoryLevel >= 4 && type === 'add') {
+                alert('하위 카테고리의 깊이는 4 이하만 가능합니다.')
+				return
+			}
+		}
 
-    <%--                    let selectTag =--%>
-    <%--                        `--%>
-	<%--								<label for="childCategory">하위 카테고리:</label>--%>
-	<%--								<select name="childCategory" id="childCategory">--%>
-	<%--									<option value="">선택하세요</option>--%>
-	<%--									` + options + `--%>
-	<%--								</select>--%>
-	<%--							`--%>
+        $('#parentCategoryName').text(selectedName)
+        $('#parentCategoryId').val(selectedValue)
+		$('#type').val(type)
 
-    <%--                    // $("#childCategory").removeAttr("disabled");--%>
-    <%--                    selectContainer.append(selectTag);--%>
-    <%--                }--%>
-    <%--            },--%>
-    <%--            error: function () {--%>
-    <%--                alert("카테고리 조회 중 오류가 발생했습니다.");--%>
-    <%--            }--%>
-    <%--        });--%>
-    <%--    });--%>
-    <%--});--%>
+		// 삭제라면 모달창 생략
+		if (type === 'delete') {
+            if (confirm('하위카테고리가 있거나 이 카테고리에 등록된 상품이 있다면 삭제할 수 없습니다.\n삭제를 진행하시겠습니까?')) {
+                addCategoryAjax()
+			}
+            return;
+		} else if (type === 'edit') {
+            $('#modalLabel').text('카테고리 수정')
+		}
+
+        // alert(selectedValue + " " + selectedName)
+
+		let inputModal = $('#categoryInputModal');
+
+        let modal = new bootstrap.Modal(inputModal);
+        modal.toggle()
+    }
+
+    function addCategoryAjax() {
+
+        let categoryName = $('#categoryName').val();
+        let parentCategoryId = $('#parentCategoryId').val();
+        let type = $('#type').val();
+
+        let query = 'categoryName=' + categoryName + '&parentCategoryId=' + parentCategoryId
+
+		if (type === 'add') {
+            if (parentCategoryId === null || parentCategoryId === '' || typeof parentCategoryId === 'undefined') {
+                query = 'categoryName=' + categoryName
+            }
+		}
+
+		$.ajax({
+			url: "${pageContext.request.contextPath}/category/" + type,
+			type: 'POST',
+			data: query,
+			dataType: 'text',
+			success: function(response) {
+				if (response === 'true') {
+					alert('요청이 완료되었습니다.')
+                    location.reload();
+				} else {
+					alert('요청이 실패하였습니다.')
+				}
+
+			},
+			error: function(xhr, status, error) {
+                alert('요청이 실패하였습니다.')
+			}
+		});
+
+    }
+
 </script>
 </body>
 </html>

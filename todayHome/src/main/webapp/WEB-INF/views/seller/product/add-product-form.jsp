@@ -235,6 +235,17 @@
 			border-radius: 4px;
 
         }
+
+        #categoryConfirmBtn {
+            background-color: #dedede;
+            padding: 7px 12px;
+            border-radius: 4px;
+        }
+
+		#categoryConfirmBtn:hover {
+            cursor: pointer;
+			background-color: #c5c5c5;
+		}
 	</style>
 
 <body>
@@ -250,7 +261,7 @@
 			<%-- enctype="multipart/form-data" --%>
 			<form method="post" class="main-content-card" enctype="multipart/form-data" action="${pageContext.request.contextPath}/seller/${mode}-product" id="form">
 				<%-- 임시 데이터 --%>
-				<input type="hidden" name="sellerId" value="1"/>
+				<input type="hidden" name="sellerId" value="${sellerId}"/>
 
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
 					<div class="input-group">
@@ -270,13 +281,13 @@
 								<option selected value="">카테고리 선택</option>
 								<c:forEach items="${categories}" var="category">
 									<option value="${category.productCategoryId}">
-											${category.categoryName}
+										${category.categoryName}
 									</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
-					<div style="background-color: #dedede; padding: 7px 12px; border-radius: 4px">확인</div>
+					<div id="categoryConfirmBtn">확인</div>
 				</div>
 
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
@@ -817,6 +828,18 @@
             return null;
         }
     }
+
+    $('#categoryConfirmBtn').click(function () {
+        let categoryList = $('.category-select');
+        let len = categoryList.length;
+        let finalValue = $(categoryList[len-1]).val();
+
+		if (finalValue === null || finalValue === '') {
+            alert('옵션을 모두 선택해주세요.')
+		} else {
+            alert('옵션이 모두 선택되었습니다.')
+		}
+    });
 </script>
 </body>
 </html>

@@ -29,18 +29,18 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 	}
 
 	@Override
-	public ProductCategory createCategory(ProductCategory productCategory) {
-		return null;
+	public void createCategory(ProductCategory productCategory) throws Exception {
+		commonDAO.selectOne("productCategory.createCategory", productCategory);
 	}
 
 	@Override
-	public ProductCategory updateCategory(Long categoryId, ProductCategory productCategory) {
-		return null;
+	public void updateCategory(ProductCategory productCategory) throws Exception {
+		commonDAO.updateData("productCategory.updateCategory", productCategory);
 	}
 
 	@Override
-	public void deleteCategory(Long categoryId) {
-
+	public void deleteCategory(Long categoryId) throws Exception {
+		commonDAO.updateData("productCategory.deleteCategory", categoryId);
 	}
 
 	@Override

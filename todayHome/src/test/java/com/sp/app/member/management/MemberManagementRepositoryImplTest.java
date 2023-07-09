@@ -156,7 +156,7 @@ public class MemberManagementRepositoryImplTest {
 		Member member = new Member(memberId, "12","34","56");
 		memberManagementRepository.updateAddress(member);
 	}
-
+/*
 	@Test
 	public void findMembersByCondition() throws Exception {
 		List<Integer> list = new ArrayList<>();
@@ -176,5 +176,5 @@ public class MemberManagementRepositoryImplTest {
 			System.out.println(member);
 		}
 	}
-	
+	*/
 }

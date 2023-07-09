@@ -35,7 +35,9 @@ public interface MemberManagementService {
 	
 	List<Member> findMembersByNickname(String nickName) throws Exception; 
 	
-	List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition, String sort) throws Exception; 
+	List<Member> findMembersByCondition(List<String> memberRoleIdList, String keyword, String condition, String sort,int offset,int size) throws Exception; 
 	
 	void updateMemberPwd(Member member) throws Exception;
+	
+	int memberCount(List<String> memberRoleIdList, String keyword,String condition, String sort) throws Exception;
 }

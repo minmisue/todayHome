@@ -129,27 +129,27 @@
 	    FROM MEMBER m
 	    JOIN MEMBER_DETAIL md ON m.MEMBER_ID = md.MEMBER_ID
 	    LEFT JOIN ADDRESS_BUNDLE ab ON m.MEMBER_ID = ab.MEMBER_ID
-	    WHERE
-       	 
-        <if test="memberRoleIdList != null and memberRoleIdList.size() &gt; 0">
-            m.MEMBER_ROLE_ID IN
-            <foreach collection="memberRoleIdList" item="roleId" open="(" close=")" separator=",">
-                #{roleId}
+	    <where>       	 
+        <if test="memberRoleIdList != null and status !=''">
+            <foreach collection="memberRoleIdList" item="roleId" open="(" close=")" separator="OR">
+            m.MEMBER_ROLE_ID = #{roleId}
             </foreach>
         </if>
             
         <choose>
 	        <when test="condition == 'nickName'">
-	        	AND INSTR(md.NICKNAME, #{keyword}) > 0
+	        	<if test="keyword != null and  keyword !='' ">
+	        	AND INSTR(md.NICKNAME, #{keyword}) &gt; 0
+	        	</if>
 	        </when>
 	        <when test="condition == 'email'">
-	            AND INSTR(EMAIL, #{keyword}) > 0
+	        	<if test="keyword != null and  keyword !='' ">
+	            AND INSTR(EMAIL, #{keyword}) &gt; 0
+	        	</if>
 	        </when>
-	        <otherwise>
-	            	
-	        </otherwise>
         </choose>
-        
+		</where>
+       <if test="sort != null and sort != ''"> 
         <choose>
         	<when test="sort == 'asc'">
         	 	ORDER BY REG_DATE ASC
@@ -158,10 +158,35 @@
         	 	ORDER BY REG_DATE DESC
         	</when>
         </choose>
-		
+        </if>
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 
-   
+   <select id="memberCount" parameterType="map" resultType="int">
+        SELECT NVL(COUNT(*), 0) as dataCount
+		FROM MEMBER m
+	    JOIN MEMBER_DETAIL md ON m.MEMBER_ID = md.MEMBER_ID
+	    LEFT JOIN ADDRESS_BUNDLE ab ON m.MEMBER_ID = ab.MEMBER_ID
+	    <where>       	 
+        <if test="memberRoleIdList != null and status !=''">
+            <foreach collection="memberRoleIdList" item="roleId" open="(" close=")" separator="OR">
+            m.MEMBER_ROLE_ID = #{roleId}
+            </foreach>
+        </if>           
+        <choose>
+	        <when test="condition == 'nickName'">
+	        	<if test="keyword != null and  keyword !='' ">
+	        	AND INSTR(md.NICKNAME, #{keyword}) &gt; 0
+	        	</if>
+	        </when>
+	        <when test="condition == 'email'">
+	        	<if test="keyword != null and  keyword !='' ">
+	            AND INSTR(EMAIL, #{keyword}) &gt; 0
+	        	</if>
+	        </when>
+        </choose>
+		</where>
+	</select>
     
     
   

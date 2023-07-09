@@ -68,7 +68,7 @@
 		WHERE adjustment_id = #{adjustmentId}
 	</select>
 	
-	<select id="adjustmentCount" parameterType="int" resultType="int">
+	<select id="adjustmentCount" parameterType="map" resultType="int">
 		SELECT NVL(COUNT(*), 0) as dataCount
 		FROM adjustment adj
 		JOIN seller sel ON adj.seller_id = sel.seller_id

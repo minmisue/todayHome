@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.common.MyUtil;
+import com.sp.app.domain.member.Member;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.domain.seller.SellerAdjustment;
+import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.seller.SellerService;
 import com.sp.app.seller.SellerSessionInfo;
 
@@ -27,6 +30,8 @@ import com.sp.app.seller.SellerSessionInfo;
 @Controller
 public class AdjustmentController {
 
+	@Autowired
+	MemberManagementService memberManagementService;
 	@Autowired
 	SellerService sellerService;
 	@Autowired
@@ -157,6 +162,70 @@ public class AdjustmentController {
 		model.addAttribute("keyword", keyword);
 	    return ".admin.adjustment.list";
 	}
+	
+	@RequestMapping("admin/members/membersList")
+	public String membersList(
+	        Member member,
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
+	        @RequestParam(value = "memberRoleIdList", defaultValue = "") List<String> memberRoleIdList,
+	        @RequestParam(value = "condition",defaultValue = "") String condition,
+	        @RequestParam(value = "keyword",defaultValue = "") String keyword,
+	        @RequestParam(value = "sort",defaultValue = "") String sort,
+	        HttpServletRequest req, Model model) throws Exception {
+	    int size = 5;
+	    int total_page = 0;
+	    int dataCount = 0;
+	    if (req.getMethod().equalsIgnoreCase("GET")) {
+	        keyword = URLDecoder.decode(keyword, "utf-8");
+	    }
+
+	    dataCount = memberManagementService.memberCount(memberRoleIdList, keyword, condition, sort);
+	    if (dataCount != 0) {
+	        total_page = myUtil.pageCount(dataCount, size);
+	    }
+
+	    if (current_page > total_page) {
+	        current_page = total_page;
+	    }
+
+	    int offset = (current_page - 1) * size;
+	    if (offset < 0) offset = 0;
+
+	    List<Member> adminMemberList = memberManagementService.findMembersByCondition(memberRoleIdList, keyword, condition, sort, offset, size);
+	    String cp = req.getContextPath();
+	    String query = "";
+	    String listUrl = cp + "/admin/members/membersList";
+
+
+		if (keyword.length() != 0) {
+		    query += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+
+		if (sort.length() != 0) {
+		    query += "&sort=" + URLEncoder.encode(sort, "UTF-8");
+		}
+		
+		if (!memberRoleIdList.isEmpty()) {
+		    String listString = String.join(",", memberRoleIdList); 
+		    query += "&memberRoleIdList=" + URLEncoder.encode(listString, "UTF-8");
+		}
+	    listUrl += "?" + query;
+
+	    String paging = myUtil.paging(current_page, total_page, listUrl);
+
+	    model.addAttribute("adminMemberList", adminMemberList);
+	    model.addAttribute("page", current_page);
+	    model.addAttribute("memberCount", dataCount);
+	    model.addAttribute("total_page", total_page);
+	    model.addAttribute("paging", paging);
+
+	    model.addAttribute("memberRoleIdList", memberRoleIdList);
+	    model.addAttribute("sort", sort);
+	    model.addAttribute("condition", condition);
+	    model.addAttribute("keyword", keyword);
+	    return ".admin.members.membersList";
+	}
+
 	
 	@RequestMapping("admin/members/sellerList")
 	public String sellerList(

@@ -111,7 +111,7 @@ $(function(){
 			
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">일반 회원</a>
+					<a href="<c:url value='/admin/members/membersList'/>" class="sub_menu--link">일반 회원</a>
 				</li>
 			</ul>
 			<ul class="sub_menu">

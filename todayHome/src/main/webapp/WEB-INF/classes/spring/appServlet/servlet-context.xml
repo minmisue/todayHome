@@ -31,7 +31,7 @@
         <aop:pointcut id="controllerOperation" expression="execution(public * com.sp.app..*Controller.*(..))"/>
     </aop:config>
 
-    <!-- 타일즈 환경 설정-->
+    <!-- 타일즈 환경 설정 -->
      <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <beans:property name="definitions">
             <beans:list>

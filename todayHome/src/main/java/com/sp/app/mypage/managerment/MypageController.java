@@ -1,6 +1,7 @@
 package com.sp.app.mypage.managerment;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,10 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sp.app.common.FileManager;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
-
+import com.sp.app.domain.product.ProductForList;
 import com.sp.app.member.follow.FollowService;
 
 import com.sp.app.member.management.MemberManagementService;
+import com.sp.app.product.management.ProductManagementService;
 
 @Controller
 @RequestMapping("mypage")
@@ -31,6 +33,9 @@ public class MypageController {
 	
 	@Autowired
 	MemberManagementService memberManagementService;
+	
+	@Autowired
+	ProductManagementService productManagementService;
 	
 	@Autowired
 	CouponService couponService;
@@ -67,9 +72,10 @@ public class MypageController {
 	@GetMapping("{memberId}/book")
 	public String myPageBook(@PathVariable Long memberId, Model model) throws Exception{
 		Member member = memberManagementService.readMemberById(memberId);
-		int couponCount = couponService.memberCouponCount(memberId);
+		List<ProductForList> productForList = productManagementService.getScrapProductList(memberId);
+		
 		model.addAttribute("member",member);
-		model.addAttribute("couponCount",couponCount);
+		model.addAttribute("productForList",productForList);
 		return "mypage/my-book";
 	}
 	

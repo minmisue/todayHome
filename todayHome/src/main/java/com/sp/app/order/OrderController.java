@@ -25,6 +25,7 @@ import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
 import com.sp.app.domain.order.OrderItemStock;
+import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.member.management.MemberManagementService;
@@ -117,52 +118,44 @@ public class OrderController {
 			HttpSession session,
 			@RequestParam Long productId,
 			@RequestParam List<Long> stockId,
-			@RequestParam List<Integer> quantity,
+			@RequestParam List<Long> quantity,
 			Model model) {
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		if(info == null) {
+			return "redirect:/login";
+		}
+		
+		Long memberId = info.getMemberId();
+		Member member = null;
+		try {
+			member = memberservie.readMemberById(memberId);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 
-		System.out.println("productId = " + productId);
-		System.out.println(stockId);
-		System.out.println(quantity);
-//		System.out.println(data);
-//
-//		Long productId = Long.valueOf((String) data.get("productId"));
-//
-//		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
-//
-//		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
-//
-//		for (List<Object> option : options) {
-//			Long stockId = Long.valueOf((String) option.get(0));
-//			Long quantity = Long.valueOf((String) option.get(1));
-//
-//			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
-//		}
-//
-//		// 상품 정보
-//		Product product =  productservice.getProductById(productId);
-//
-//		// stock 정보
-//		List<ProductStock> productStockList = new ArrayList<ProductStock>();
-//
-//		for(CartOptionMap vo : cartOptionMapList) {
-//			Long stockId = vo.getStockId();
-//
-//			Long quantity = vo.getQuantity();
-//
-//			ProductStock productStock = productservice.getStockByStockId(stockId);
-//			// 그냥 옵션 가격
-//			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
-//
-//			// 수량
-//			productStock.setCartQuantity(quantity);
-//			productStockList.add(productStock);
-//		}
-//
-//		product.setProductStockList(productStockList);
-//		model.addAttribute("cartList", product);
-//		model.addAttribute("mode","buyNow");
-//
-//		return "/cart/cart-list";
+		String orderBundleId = orderManagementService.productOrderNumber();
+		List<Product> productList = new ArrayList<Product>();
+		Product product =  productservice.getProductById(productId);
+		
+		List<ProductStock> productStockList = new ArrayList<ProductStock>();
+		for(int i= 0; i<stockId.size(); i++) {
+			Long stock = stockId.get(i);
+			Long stockQuantity = quantity.get(i);
+			
+			ProductStock productStock = productservice.getStockByStockId(stock);
+			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
+			
+			productStock.setCartQuantity(stockQuantity);
+			productStockList.add(productStock);
+		}
+		
+		product.setProductStockList(productStockList);
+		productList.add(product);
+		model.addAttribute("cartList", productList);
+		model.addAttribute("mode","buyNow");
+		model.addAttribute("member",member);
+		model.addAttribute("orderBundleId",orderBundleId);
 		return "/payment/payment-page";
 	}
 
@@ -239,9 +232,7 @@ public class OrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println("++++++++" + remainPoint);
-		System.out.println(remainPoint instanceof Integer);
+
 		if(remainPoint != 0 || remainPoint.equals("")) {
 			// 포인트
 			Point point = new Point();
@@ -278,8 +269,10 @@ public class OrderController {
 		
 
 		// 결제 완료 후 장바구니 삭제
-		for(Long cartId : cartIdList) {
-			cartservice.deleteCart(cartId);
+		if(cartIdList != null) {
+			for(Long cartId : cartIdList) {
+				cartservice.deleteCart(cartId);
+			}
 		}
 		
 		return "redirect:/payment/complete";

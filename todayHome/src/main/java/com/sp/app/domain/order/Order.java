@@ -18,11 +18,20 @@ public class Order {
 	private int finalDeliveryCost; // 총배송비
 	private String buyerName; // 주문자
 	private String buyerTel;
-
+	private int quantity; // 주문조회할때 수량
+	
 	private String deliveryNumber;
 	private int deliveryCost;
 	private String arrivedDate;
 
+	//주문조회
+	private int orderCount;
+	private int orderPrice;
+	private int finalPrice;
+	private Long orderItemId;
+	private int discountPercent;
+	private int status;
+	private Long stockId;
 	public Order() {
 	}
 
@@ -46,6 +55,83 @@ public class Order {
 
 	
 	
+	@Override
+	public String toString() {
+		return "Order [orderBundleId=" + orderBundleId + ", memberId=" + memberId + ", memberName=" + memberName
+				+ ", orderRegDate=" + orderRegDate + ", receiveName=" + receiveName + ", tel=" + tel + ", postNum="
+				+ postNum + ", address2=" + address2 + ", address1=" + address1 + ", usedPoint=" + usedPoint
+				+ ", payMethod=" + payMethod + ", finalTotPrice=" + finalTotPrice + ", finalDiscountPrice="
+				+ finalDiscountPrice + ", finalDeliveryCost=" + finalDeliveryCost + ", buyerName=" + buyerName
+				+ ", buyerTel=" + buyerTel + ", quantity=" + quantity + ", deliveryNumber=" + deliveryNumber
+				+ ", deliveryCost=" + deliveryCost + ", arrivedDate=" + arrivedDate + ", orderCount=" + orderCount
+				+ ", orderPrice=" + orderPrice + ", finalPrice=" + finalPrice + ", orderItemId=" + orderItemId
+				+ ", discountPercent=" + discountPercent + ", status=" + status + ", stockId=" + stockId + "]";
+	}
+
+	public int getFinalPrice() {
+		return finalPrice;
+	}
+
+	public void setFinalPrice(int finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+
+	public Long getOrderItemId() {
+		return orderItemId;
+	}
+
+	public void setOrderItemId(Long orderItemId) {
+		this.orderItemId = orderItemId;
+	}
+
+	public int getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(int discountPercent) {
+		this.discountPercent = discountPercent;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Long getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
+	}
+
+	public int getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(int orderCount) {
+		this.orderCount = orderCount;
+	}
+
+	public int getOrderPrice() {
+		return orderPrice;
+	}
+
+	public void setOrderPrice(int orderPrice) {
+		this.orderPrice = orderPrice;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	public String getBuyerName() {
 		return buyerName;
 	}

@@ -1,5 +1,7 @@
 package com.sp.app.order;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +35,14 @@ public class OrderManagementRepositoryImplTest {
 	
 	
 	@Test
-	public void createOrderDetail() throws Exception{
-		
-		// 주어진 값
-
-
-
-		
-		
+	public void getOrderDetail() throws Exception{
+		List<Order> order = orderManagementRepository.getOrderDetailList(1L,"202307072054571640953792718100");
+		for(Order o:order) {
+			System.out.println("!!!!!!!!!!!!" + o.getFinalPrice());
+		}
+		System.out.println(order);
 		
 	}
+
+
 }

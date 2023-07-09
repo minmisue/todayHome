@@ -204,6 +204,7 @@
     padding: 6px;
     
 }
+
 </style>
 </head>
 <body>
@@ -281,7 +282,7 @@ function usePointChange() {
 function iamport(){
 
     var buyerName = $("#buyer-name").val();
-    var buyerTel = $("#buyer-tel").val();
+    var buyerTel = $("#buyerTelFirst").val() + $("#buyerTelSecond").val();
     var email = $("#email1").val() + "@" + $("#email2").val();
     var postNum = $("#postNum").val();
     var address = $("#address1").val() + " " + $("#address2").val();
@@ -336,6 +337,58 @@ function iamport(){
 
 }
 
+$(function() {
+	let email = '${member.email}';
+	let index = email.indexOf('@');
+	if(index!=-1){
+		email = email.substr(0,index);
+		$('#email1').val(email);
+		$('#email1').attr("readonly",true);
+		$('#email1').css("background-color","#ebebeb");
+	}
+});
+
+function sendOk() {
+	const f = document.buyForm;
+	let firstTel = $("#receive-tel-first-num").val();
+	let secondTel = $("#receive-tel").val();
+	
+	let tel = firstTel+secondTel;
+
+	if(! f.name.value){
+		alert('주문자의 이름을 입력해 주세요');
+		return;
+	}
+
+	if(! f.buyerTelSecond.value){
+		alert('주문자의 번호를 입력해 주세요');
+		return;
+	}
+	
+	if(! f.receiveName.value){
+		alert('받는사람을 입력해주세요');
+		return;
+	}
+	
+	if(!$('#receive-tel').val()){
+		alert('받는사람의 번호를 입력해주세요');
+		return;
+	}
+	if(!f.postNum.value){
+		alert('우편번호를 입력해주세요');
+		return;
+	}
+	
+	if(!f.address1.value){
+		alert('주소를 입력해주세요');
+		return;
+	}
+	if(!f.address2.value){
+		alert('상세주소를 입력해주세요');
+		return;
+	}
+
+}
 </script>
 
 
@@ -375,8 +428,7 @@ function iamport(){
 					</div>
 
 					<%-- 사용자 주소 --%>
-					<div style="margin-top: 10px; color: rgb(41, 41, 41)">서울 광진구
-						동일로11길 11호</div>
+
 
 					<%-- 사용자 전화번호 --%>
 					<div style="font-size: 15px; color: rgb(117, 117, 117)">
@@ -421,7 +473,7 @@ function iamport(){
 							<div class="payment-form-grid-input-label">휴대전화</div>
 							<div style="display: grid; grid-template-columns: 35% 65%;">
 								<div style="padding-right: 8px;">
-									<select style="width: 100%" class="payment-form-grid-input">
+									<select style="width: 100%" class="payment-form-grid-input" id="buyerTelFirst">
 										<option value="010">010</option>
 										<option value="011">011</option>
 										<option value="031">031</option>
@@ -430,7 +482,7 @@ function iamport(){
 									</select>
 								</div>
 
-								<input class="payment-form-grid-input" type="text">
+								<input class="payment-form-grid-input" type="text" id="buyerTelSecond">
 								<input type="hidden" name="buyerTel" value="">
 							</div>
 						</div>
@@ -482,7 +534,7 @@ function iamport(){
 									<div><input type="text" name="postNum" id="postNum" class="payment-form-grid-input" style="width: 163;"></div>
 								</div>
 								<div><input type="text" name="address1" id="address1" class="payment-form-grid-input" style="width: 554"></div>
-								<div><input type="text" name="address2" id="address2" class="payment-form-grid-input" style="width: 554"></div>
+								<div><input type="text" name="address2" id="address2" class="payment-form-grid-input" style="width: 554" placeholder="상세주소"></div>
 
 							</div>
 						</div>
@@ -496,7 +548,7 @@ function iamport(){
 						<div class="payment-obj-label">주문상품</div>
 						<div style="margin-left: 10px;">
 							<span></span>
-							<c:if test="${mode == 'buyNow' }">
+							<c:if test="${mode != 'buyNow' }">
 								${fn:length(cartList)}
 							</c:if>
 							1
@@ -774,7 +826,7 @@ function iamport(){
 						</div>
 					</div>
 
-					<div onclick="test()" class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="sendOk()" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span id="finalTotPrice"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />

@@ -43,16 +43,55 @@
 		INSERT INTO delivery(ORDER_ITEM_ID,DELIVERY_NUMBER,DELIVERY_COST,ARRIVED_DATE)
 			VALUES (#{orderItemId},#{deliveryNumber, jdbcType=VARCHAR},#{deliveryCost},#{arrivedDate, jdbcType=	DATE})
 	</insert>
-
-	<!-- 주문 전체 조회 -->
-	<select id="getOrderList" resultType="com.sp.app.domain.order.Order">
-		select ORDER_BUNDLE_ID orderBundleId, ob.MEMBER_ID memberId, m.NAME memberName,
-		       ob.REG_DATE orderRegDate, FINAL_TOT_PRICE finalTotPrice
+	
+	<!-- 판매자별 주문 조회 -->
+	<select id="getOrderList" parameterType="Long" resultType="com.sp.app.domain.order.Order">
+		select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
 		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID	
+		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+		where p.SELLER_ID = #{sellerId}
+		group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
 	</select>
 	
-	<!-- 주문 전체 조회 눌렀을때 위에 뜨는 리스트 -->
+	<!-- 주문조회 상세 -->
+	<select id="getOrderDetailList" parameterType="map" resultType="com.sp.app.domain.order.Order">	
+		select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId, oi.final_price finalPrice, oi.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId 
+		from ORDER_BUNDLE ob
+		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+		where p.SELLER_ID = #{sellerId} AND ORDER_BUNDLE_ID = #{orderBundleId}
+	</select>
+	
+	
+	<!-- 판매건수 -->
+	<select id="getOrderCount" parameterType="map" resultType="com.sp.app.domain.order.Order">
+		select NVL(SUM(oisb.quantity),0) orderCount , NVL(SUM(oi.final_price),0) orderPrice
+		from ORDER_BUNDLE ob
+		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+		where p.SELLER_ID = #{sellerId} AND status = 1 
+		<if test="date == 'today'">		
+			AND TRUNC(ob.reg_date) = TRUNC(SYSDATE)
+		</if>
+		<if test="date == 'week'">		
+			AND TRUNC(ob.reg_date) &gt;= TRUNC(SYSDATE) - 7
+		</if>
+		<if test="date == 'month'">		
+			AND EXTRACT(MONTH FROM ob.reg_date) = EXTRACT(MONTH FROM SYSDATE)
+  			AND EXTRACT(YEAR FROM  ob.reg_date) = EXTRACT(YEAR FROM SYSDATE)
+		</if>		
+	</select>
+	
 </mapper>
 
 

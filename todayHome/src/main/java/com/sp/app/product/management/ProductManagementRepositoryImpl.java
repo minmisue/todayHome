@@ -64,6 +64,16 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("keyword", keyword);
+		map.put("sort", sort);
+		map.put("sellerId", sellerId);
+
+		return commonDAO.selectList("productManagement.searchProductBySellerId", map);
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(Long categoryId) {
 		return null;
 	}
@@ -203,5 +213,15 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 		map.put("type", type);
 
 		commonDAO.deleteData("productManagement.deleteProductImg", map);
+	}
+
+	@Override
+	public int checkProductName(String productName) throws Exception {
+		return commonDAO.selectOne("productManagement.checkProductName", productName);
+	}
+
+	@Override
+	public List<ProductForList> getScrapProductList(Long memberId) throws Exception {
+		return commonDAO.selectList("productManagement.getScrapProductList", memberId);
 	}
 }

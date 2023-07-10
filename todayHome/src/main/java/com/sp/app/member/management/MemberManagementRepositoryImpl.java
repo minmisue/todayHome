@@ -98,7 +98,7 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 	}
 
 	@Override
-	public List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition ,String sort)
+	public List<Member> findMembersByCondition(List<String> memberRoleIdList, String keyword, String condition ,String sort,int offset,int size)
 			throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		
@@ -106,8 +106,27 @@ public class MemberManagementRepositoryImpl implements MemberManagementRepositor
 		map.put("keyword", keyword);
 		map.put("condition", condition);
 		map.put("sort", sort);
-		
+	    map.put("offset", offset);
+	    map.put("size", size);
+	    
 		return commonDAO.selectList("management.findMembersByCondition", map);
 	
+	}
+
+	@Override
+	public void updateMemberPwd(Member member) throws Exception {
+		commonDAO.updateData("management.updateMemberPwd", member);
+	}
+
+	@Override
+	public int memberCount(List<String> memberRoleIdList, String keyword, String condition, String sort)
+			throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberRoleIdList", memberRoleIdList);
+		map.put("keyword", keyword);
+		map.put("condition", condition);
+		map.put("sort", sort);
+		return commonDAO.selectOne("management.memberCount",map);
 	}
 }

@@ -3,7 +3,6 @@ package com.sp.app.seller;
 import java.util.List;
 import java.util.Map;
 
-import com.sp.app.domain.member.Member;
 import com.sp.app.domain.seller.Seller;
 
 public interface SellerRepository {

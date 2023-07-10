@@ -235,22 +235,22 @@
 			border-radius: 4px;
 
         }
+
+        #categoryConfirmBtn {
+            background-color: #dedede;
+            padding: 7px 12px;
+            border-radius: 4px;
+        }
+
+		#categoryConfirmBtn:hover {
+            cursor: pointer;
+			background-color: #c5c5c5;
+		}
 	</style>
 
 <body>
 <div class="main-container">
 	<div class="content shadow" style="width: 80%; padding-top: 50px; padding-bottom: 50px;">
-
-<%--		<div class="input-object">카테고리</div>--%>
-<%--		<div class="input-object">상품 이름</div>--%>
-<%--		<div class="input-object">상품 설명</div>--%>
-<%--		<div class="input-object">기본 가격</div>--%>
-<%--		<div class="input-object">할인율</div>--%>
-<%--		<div class="input-object">배달비</div>--%>
-
-<%--		<div>옵션 설정</div>--%>
-<%--		<div>옵션 이름</div>--%>
-
 		<div class="sub-menu">
 			<div style="display: flex; flex-direction: row; gap: 5px" >
 				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="location.href='#'">뒤로가기</button>
@@ -261,7 +261,7 @@
 			<%-- enctype="multipart/form-data" --%>
 			<form method="post" class="main-content-card" enctype="multipart/form-data" action="${pageContext.request.contextPath}/seller/${mode}-product" id="form">
 				<%-- 임시 데이터 --%>
-				<input type="hidden" name="sellerId" value="1"/>
+				<input type="hidden" name="sellerId" value="${sellerId}"/>
 
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between;">
 					<div class="input-group">
@@ -272,55 +272,25 @@
 				</div>
 				<input type="hidden" name="id" value="${mode.equals("post") ? "" : product.productId}">
 
-				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
-						<select class="form-select form-control product-info" name="productCategoryId" id="category">
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
+<%--				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">--%>
+				<div class="flex-row" style="gap: 15px; align-items: center; justify-content: space-between; align-content: center; margin-top: 35px; ">
+					<div style="display: grid; grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr; gap: 10px;" id="subcategoriesContainer">
+						<div class="input-group">
+							<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
+							<select class="form-select form-control product-info category-select" name="productCategoryId" id="category" onchange="fetchSubcategories(this.value, 1)">
+								<option selected value="">카테고리 선택</option>
+								<c:forEach items="${categories}" var="category">
+									<option value="${category.productCategoryId}">
+										${category.categoryName}
+									</option>
+								</c:forEach>
+							</select>
+						</div>
 					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 2</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
-
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">상세 3</span></div>
-						<select class="form-select form-control product-info" disabled>
-							<option selected value="0">카테고리 선택</option>
-							<option value="1">가구</option>
-							<option value="2">디지털</option>
-							<option value="3">잡화</option>
-						</select>
-					</div>
+					<div id="categoryConfirmBtn">확인</div>
 				</div>
 
-
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
-					<div class="input-group">
-						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">기본 가격</span></div>
-						<input type="number" class="form-control product-info" id="defaultPrice" name="price" value="${mode == "post" ? "" : product.price}">
-					</div>
-
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">할인율</span></div>
 						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.discountPercent}">
@@ -425,6 +395,8 @@
 </div>
 
 <script>
+    let nameCheckStatus = false
+
     function displayOptions() {
         let optionCombine = generateOptionCombine();
 		let mainOptionList = optionCombine[0];
@@ -569,7 +541,7 @@
 
 <script>
     let imgPool = document.getElementById('imgPool');
-    let productImgInput = document.getElementById('imgInput');
+    let productImgInput = document.getElementById('productImgInput');
 
     // 이미지 미리보기
     productImgInput.addEventListener('change', function () {
@@ -659,9 +631,8 @@
         addMainOption(tag, $('.option-container'))
     });
 
-    // addQualificationBtn.addEventListener('click', function () {
+
 	function addSubOption(obj) {
-        // let tag = $('#qualificationsFormContainer').find(':first').clone()
         let tag =
             `
 				<div id="sub-option" style="flex-direction: row; align-items: center" class="form-box">
@@ -674,7 +645,6 @@
     }
 
     function addBtn(tag, obj) {
-
         obj.append(tag)
     }
 
@@ -687,37 +657,189 @@
         addBtn(tag, obj);
 	}
 
+    // 메인 옵션 삭제
     function deleteObject(obj) {
 		if (!confirm('해당 옵션을 삭제합니다.')) {
             return
 		}
-        console.log('삭제')
-        // let formBox = $(obj).closest('.form-box')
-        // let cnt = formBox.children().length
+        let cnt = $('.main-option').length
+
+        if (cnt === 1) {
+            alert('옵션은 한개 이상 존재해야 합니다.')
+			return;
+        }
 
         $(obj).parent().parent().remove()
-
-        // if (cnt === 2) {
-        //     formBox.find(':first').children('i').remove()
-        // }
     }
 
-
+	// 서브옵션 삭제
     function deleteSubObject(obj) {
 
         if (!confirm('해당 옵션을 삭제합니다.')) {
             return
         }
         console.log('삭제')
-        // let formBox = $(obj).closest('.form-box')
-        // let cnt = formBox.children().length
 
         $(obj).parent().remove()
-
-        // if (cnt === 2) {
-        //     formBox.find(':first').children('i').remove()
-        // }
     }
+
+    let nameCheckBtn = $('#productNameCheckBtn');
+
+    // 상품 이름 중복 체크
+    nameCheckBtn.click(function () {
+        let productNameInput = $('#productName')
+        let productName = $(productNameInput).val()
+
+        if (nameCheckStatus === true) {
+            productNameInput.attr('readOnly', false);
+            productNameInput.css('background-color', 'white')
+
+            nameCheckBtn.text('중복 검사')
+            nameCheckStatus = false
+
+            alert('변경 할 상품명을 입력하고 다시 중복확인을 해주세요.')
+			return;
+		}
+
+        // 상품명이 빈 문자열일때 리턴
+        if (productName.trim() === '') {
+            alert('상품명을 입력해 주세요.')
+            productName.focus()
+            return
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/product/validation-product-name",
+            type: 'POST',
+            data: "productName=" + productName,
+            dataType: 'json',
+            success: function(response) {
+                let state = response.result;
+                if (state === true) {
+                    alert('이미 존재하는 상품명입니다.')
+                } else {
+                    productNameInput.attr('readOnly', true);
+                    productNameInput.css('background-color', '#F8F9FA')
+
+					nameCheckBtn.text('이름 변경')
+
+                    nameCheckStatus = true
+                    alert('사용 가능한 상품명입니다.')
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+                alert('이미 존재하는 상품명입니다.')
+            }
+        });
+    });
+
+</script>
+
+<script>
+    // 카테고리 선택 스크립트
+
+    let categories = ${jsonCategories};
+    let currentCategories = ${jsonCategories};
+
+
+    function fetchSubcategories(parentCategoryId, level) {
+        let container = document.getElementById("subcategoriesContainer");
+
+        if (parentCategoryId !== "") {
+
+            let select = document.createElement("select");
+            select.className = "form-select form-control product-info category-select";
+            select.name = level;
+            select.onchange = function () {
+                fetchSubcategories(this.value, level+1);
+            };
+
+            console.log(parentCategoryId)
+
+            let defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.text = "전체";
+            select.appendChild(defaultOption);
+
+            let categories = findSubcategories(currentCategories, parentCategoryId);
+
+
+            let elements = $(container).children()
+            let find = $(container).find('select:gt(' + (level-1) + ')');
+
+            console.log('level = ' + level)
+            for (const x of find) {
+                console.log('value = ' + $(x).html())
+            }
+
+            $(find).remove()
+
+            if (categories === null) {
+                return
+            }
+
+            if (categories.length === 0) {
+                return;
+            }
+
+            let levelName = level + 1
+
+            // if (a !== null) {
+            //     $(a).remove()
+            // }
+
+            currentCategories = categories;
+            // parentCategoryId = currentCategories.productCategoryId
+
+            for (let i = 0; i < categories.length; i++) {
+                let category = categories[i];
+
+                let option = document.createElement("option");
+                option.value = category.productCategoryId;
+                option.text = category.categoryName;
+                select.appendChild(option);
+            }
+
+            container.appendChild(select);
+
+
+            // let find = $(elements).find('select:gt(' + level-2 + ')');
+            // console.log('find = ' + $(container).find('div:gt(' + 0 + ')'))
+
+
+
+            // $(elements).find('div:gt(' + level-1 + ')').remove();
+            // console.log('level = ' + level-2)
+        }
+    }
+
+    function findSubcategories(currentCategories, parentCategoryId) {
+
+        let subcategories = [];
+
+        subcategories = currentCategories.find(function (item) {
+            return parseInt(item.productCategoryId) === parseInt(parentCategoryId);
+        })
+
+        if (typeof subcategories !== 'undefined') {
+            return subcategories.subCategoryList;
+        } else {
+            return null;
+        }
+    }
+
+    $('#categoryConfirmBtn').click(function () {
+        let categoryList = $('.category-select');
+        let len = categoryList.length;
+        let finalValue = $(categoryList[len-1]).val();
+
+		if (finalValue === null || finalValue === '') {
+            alert('옵션을 모두 선택해주세요.')
+		} else {
+            alert('옵션이 모두 선택되었습니다.')
+		}
+    });
 </script>
 </body>
 </html>

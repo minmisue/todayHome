@@ -1,6 +1,7 @@
 package com.sp.app.product.management;
 
 import com.sp.app.domain.product.Product;
+import com.sp.app.domain.product.ProductForList;
 import com.sp.app.domain.product.ProductImg;
 import com.sp.app.domain.product.ProductStock;
 import org.junit.After;
@@ -87,5 +88,21 @@ public class ProductManagementServiceImplTest {
 		int quantityByStockId = productManagementService.getQuantityByStockId(92L);
 
 		System.out.println(quantityByStockId);
+	}
+
+	@Test
+	public void searchSeller() {
+		List<ProductForList> productForLists = productManagementService.searchProductBySellerId(1L, "옵", "price_asc");
+		for (ProductForList productForList : productForLists) {
+			System.out.println(productForList);
+		}
+	}
+
+	@Test
+	public void scrapList() {
+		List<ProductForList> productForLists = productManagementService.getScrapProductList(1L);
+		for (ProductForList productForList : productForLists) {
+			System.out.println(productForList);
+		}
 	}
 }

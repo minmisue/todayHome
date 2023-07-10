@@ -14,4 +14,9 @@ public interface OrderManagementService {
 	// 주문 번호
 	public String productOrderNumber();
 	
+	// 주문 조회 
+	public List<Order> getOrderList(Long sellerId) throws Exception;
+	
+	// 주문 상세 조회
+	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception; 
 }

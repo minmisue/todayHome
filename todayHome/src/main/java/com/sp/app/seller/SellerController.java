@@ -147,20 +147,35 @@ public class SellerController {
 	}
 	
 	@GetMapping("seller/deliveryManage")
-	public String deliveryManage() {
-		
+	public String deliveryManage(HttpSession httpSession) {
+	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
 		return ".seller.deliveryManage.deliverymanage";
 	}
 	
 	@GetMapping("seller/orderManage")
-	public String orderManage() {
-		
+	public String orderManage(HttpSession httpSession) {
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
 		return ".seller.deliveryManage.ordermanage";
 	}
 	
 	@GetMapping("seller/refund")
-	public String refundManage() {
-		
+	public String refundManage(HttpSession httpSession) {
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
 		return ".seller.refund.refund";
 	}
 	
@@ -189,4 +204,9 @@ public class SellerController {
 	    }
 	    return "redirect:/admin/members/sellerList";
 	}
+	@GetMapping("seller/error")
+	public String errorPage() {
+		return ".seller.error.error";
+	}
+
 }

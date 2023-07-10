@@ -137,8 +137,9 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public long updateAccumulatedAmount(Seller seller) throws Exception {
 		
-		long result = sellerRepository.updateAccumulatedAmount(seller);
+	long result = sellerRepository.updateAccumulatedAmount(seller);
 			
+
 		return result;
 	}
 	

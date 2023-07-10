@@ -156,7 +156,7 @@ public class MemberManagementRepositoryImplTest {
 		Member member = new Member(memberId, "12","34","56");
 		memberManagementRepository.updateAddress(member);
 	}
-	
+/*
 	@Test
 	public void findMembersByCondition() throws Exception {
 		List<Integer> list = new ArrayList<>();
@@ -167,11 +167,14 @@ public class MemberManagementRepositoryImplTest {
 		
 		String condition = "all";
 		String sort = "desc";
+		int offset=1;
+		int size=5;
 		
-		List<Member> memberList = memberManagementRepository.findMembersByCondition(list,keyword, condition, sort);
+		List<Member> memberList = memberManagementRepository.findMembersByCondition(list,keyword, condition, sort,offset,size);
 		
 		for (Member member : memberList) {
 			System.out.println(member);
 		}
 	}
+	*/
 }

@@ -176,15 +176,26 @@ public class MemberManagementServiceImpl implements MemberManagementService {
 
 
 	@Override
-	public List<Member> findMembersByCondition(List<Integer> memberRoleIdList, String keyword, String condition, String sort)
+	public List<Member> findMembersByCondition(List<String> memberRoleIdList, String keyword, String condition, String sort,int offset,int size)
 			throws Exception {
 		List<Member> result = null;
 		try {
-			result = memberManagementRepository.findMembersByCondition(memberRoleIdList, keyword, condition, sort);
+			result = memberManagementRepository.findMembersByCondition(memberRoleIdList, keyword, condition, sort,offset,size);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		return result;
+	}
+
+	@Override
+	public void updateMemberPwd(Member member) throws Exception {
+		memberManagementRepository.updateMemberPwd(member);
+	}
+
+	@Override
+	public int memberCount(List<String> memberRoleIdList, String keyword, String condition, String sort)throws Exception{
+		
+		return memberManagementRepository.memberCount(memberRoleIdList, keyword, condition, sort);
 	}
 
 	

@@ -1,37 +1,71 @@
 package com.sp.app.domain.product;
 
+
+import java.util.List;
+
 public class ProductCategory {
-	private Long CategoryId;
-	private String name;
-	private Long parentId;
+	private Long productCategoryId;
+	private Long parentCategoryId;
+	private String categoryName;
+	private Integer categoryLevel;
+	private List<ProductCategory> subCategoryList;
 
-	public ProductCategory(Long categoryId, String name, Long parentId) {
-		CategoryId = categoryId;
-		this.name = name;
-		this.parentId = parentId;
+	public ProductCategory() {
 	}
 
-	public Long getCategoryId() {
-		return CategoryId;
+	public ProductCategory(Long parentCategoryId, String categoryName) {
+		this.parentCategoryId = parentCategoryId;
+		this.categoryName = categoryName;
 	}
 
-	public void setCategoryId(Long categoryId) {
-		CategoryId = categoryId;
+	@Override
+	public String toString() {
+		return "ProductCategory{" +
+				"productCategoryId=" + productCategoryId +
+				", parentCategoryId=" + parentCategoryId +
+				", categoryName='" + categoryName + '\'' +
+				", categoryLevel=" + categoryLevel +
+				", subCategoryList=" + subCategoryList +
+				'}';
 	}
 
-	public String getName() {
-		return name;
+	public Long getProductCategoryId() {
+		return productCategoryId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProductCategoryId(Long productCategoryId) {
+		this.productCategoryId = productCategoryId;
 	}
 
-	public Long getParentId() {
-		return parentId;
+	public Long getParentCategoryId() {
+		return parentCategoryId;
 	}
 
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
+	public void setParentCategoryId(Long parentCategoryId) {
+		this.parentCategoryId = parentCategoryId;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Integer getCategoryLevel() {
+		return categoryLevel;
+	}
+
+	public void setCategoryLevel(Integer categoryLevel) {
+		this.categoryLevel = categoryLevel;
+	}
+
+	public List<ProductCategory> getSubCategoryList() {
+		return subCategoryList;
+	}
+
+	public void setSubCategoryList(List<ProductCategory> subCategoryList) {
+		this.subCategoryList = subCategoryList;
 	}
 }

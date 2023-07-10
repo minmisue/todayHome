@@ -37,28 +37,17 @@ public class AdjustmentRepositoryImplTest {
 		
 	}
 	
-	
-	@Test
-	public void createAdjustment() throws Exception{
-		SellerAdjustment sellerAdjustment = new SellerAdjustment(4L,10000L);
-		// 테스트 할 메소드
-		adjustmentRepository.createAdjustment(sellerAdjustment);
-	}
-	@Test	
-	public void getAdjustmentsBySellerId() throws Exception{
-		Long sellerId = 1L;
-		
-		List<SellerAdjustment> adjustmentList=adjustmentRepository.getAdjustmentsBySellerId(sellerId);
-		
-		for (SellerAdjustment sellerAdjustment : adjustmentList) {
-			System.out.println(sellerAdjustment);
-		}
-	}
+
 	
 
 	@Test
 	public void adjustmentCount() throws Exception{
-//		adjustmentRepository.adjustmentCount();
+        String startDate = "2011-01-01";
+        String endDate = "2011-12-31";
+        String keyword = "테스트";
+        String condition = "brandName";
 		
+        int count = adjustmentRepository.adjustmentCount(startDate, endDate, keyword, condition);		
+        System.out.println(count);
 	}
 }

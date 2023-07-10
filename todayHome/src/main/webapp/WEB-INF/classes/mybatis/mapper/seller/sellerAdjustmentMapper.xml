@@ -10,8 +10,8 @@
 	
 	<!-- 정산 기록 생성 -->
 	<insert id="createAdjustment" parameterType="com.sp.app.domain.seller.SellerAdjustment">
-		INSERT INTO adjustment (adjustment_id, seller_id, adjustment_date,amount)
-		VALUES (SEQ_ADJUSTMENT.NEXTVAL,#{sellerId},SYSDATE,#{amount})
+			INSERT INTO adjustment (adjustment_id, seller_id, adjustment_date,amount)
+			VALUES (SEQ_ADJUSTMENT.NEXTVAL,#{sellerId},SYSDATE,#{amount})
 	</insert>
 	
 	<!-- 모든 정산 목록 반환  -->
@@ -48,10 +48,17 @@
 	</select>
 	
 	<!-- 판매자 아이디로 정산 목록 반환 -->
-	<select id="getAdjustmentsBySellerId" parameterType="Long" resultType="com.sp.app.domain.seller.SellerAdjustment">
+	<select id="getAdjustmentsBySellerId" parameterType="map" resultType="com.sp.app.domain.seller.SellerAdjustment">
 		SELECT adjustment_id as adjustmentId, to_char(adjustment_date, 'YYYY-MM-DD') as adjustmentDate, amount
 		FROM adjustment
-		WHERE seller_id = #{sellerId}
+		<where>
+		 seller_id = #{sellerId}
+		    <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+		     AND adjustment_date BETWEEN #{startDate} AND #{endDate}
+		    </if>
+		</where>
+		ORDER BY adjustment_date DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<!-- 정산 아이디로 정산 반환  -->
@@ -61,7 +68,7 @@
 		WHERE adjustment_id = #{adjustmentId}
 	</select>
 	
-	<select id="adjustmentCount" parameterType="int" resultType="int">
+	<select id="adjustmentCount" parameterType="map" resultType="int">
 		SELECT NVL(COUNT(*), 0) as dataCount
 		FROM adjustment adj
 		JOIN seller sel ON adj.seller_id = sel.seller_id
@@ -87,6 +94,16 @@
       </when>
     </choose>
 		 </where>
+	</select>
+	<select id="adjustmentCountBysellerId" parameterType="Long" resultType="int">
+        SELECT NVL(COUNT(*), 0) as dataCount
+		FROM adjustment
+		<where>
+		 seller_id = #{sellerId}
+		    <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+		     AND adjustment_date BETWEEN #{startDate} AND #{endDate}
+		    </if>
+		</where>
 	</select>
 </mapper>
 

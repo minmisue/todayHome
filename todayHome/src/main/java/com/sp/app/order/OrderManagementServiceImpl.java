@@ -57,4 +57,16 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		return productOrderNumber;
 	}
 
+	@Override
+	public List<Order> getOrderList(Long sellerId) throws Exception {
+		List<Order> orderList = orderManagementRepository.getOrderList(sellerId);
+		return orderList;
+	}
+
+	@Override
+	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception {
+		List<Order> orderDetailList = orderManagementRepository.getOrderDetailList(sellerId, orderBundleId);
+		return orderDetailList;
+	}
+
 }

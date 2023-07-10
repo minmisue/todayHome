@@ -111,7 +111,7 @@ $(function(){
 			
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">일반 회원</a>
+					<a href="<c:url value='/admin/members/membersList'/>" class="sub_menu--link">일반 회원</a>
 				</li>
 			</ul>
 			<ul class="sub_menu">
@@ -148,12 +148,12 @@ $(function(){
 		</li>
 
 		<li class="menu--item">
-			<a href="#" class="menu--link" title="주문통계">
+			<a href="<c:url value='/admin/echart/chart'/>" class="menu--link" title="주문통계">
 				<i class="menu--icon  fa-fw fa-solid fa-chart-pie"></i>
 				<span class="menu--label">주문 통계</span>
 			</a>
 		</li>
-
+ 
 		<li class="menu--item">
 			<a href="<c:url value='/admin/adjustment/list'/>" class="menu--link" title="정산 리스트">
 				<i class="menu--icon  fa-fw fa-solid fa-calculator"></i>

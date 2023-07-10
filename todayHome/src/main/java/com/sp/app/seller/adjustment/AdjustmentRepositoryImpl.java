@@ -38,8 +38,14 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 	}
 
 	@Override
-	public List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId) throws Exception{
-		return commonDAO.selectList("sellerAdjustment.getAdjustmentsBySellerId",sellerId);
+	public List<SellerAdjustment> getAdjustmentsBySellerId(Long sellerId, int offset, int size, String startDate,String endDate) throws Exception {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("offset", offset);
+	    map.put("size", size);
+	    map.put("sellerId", sellerId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);	    
+	    return commonDAO.selectList("sellerAdjustment.getAdjustmentsBySellerId", map);
 	}
 
 	@Override
@@ -61,6 +67,15 @@ public class AdjustmentRepositoryImpl implements AdjustmentRepository {
 		map.put("condition", condition);
 		return commonDAO.selectOne("sellerAdjustment.adjustmentCount",map);
 		
+	}
+
+	@Override
+	public int adjustmentCountBysellerId(Long sellerId, String startDate,String endDate) throws Exception {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("sellerId", sellerId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);	    
+	    return commonDAO.selectOne("sellerAdjustment.adjustmentCountBysellerId", map);
 	}
 
 

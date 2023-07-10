@@ -1,5 +1,8 @@
 package com.sp.app.order;
 
+import java.util.List;
+import java.util.Map;
+
 import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
@@ -20,4 +23,12 @@ public interface OrderManagementRepository {
 	public void insertOrderStatus(OrderDetail orderDetail) throws Exception;
 	
 	public void insertDelivery(Delivery delivery) throws Exception;
+	
+	// 셀러별 주문 조회
+	public List<Order> getOrderList(Long sellerId) throws Exception;
+	
+	// 셀러별 주문 조회 상세
+	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception;
+	
+	
 }

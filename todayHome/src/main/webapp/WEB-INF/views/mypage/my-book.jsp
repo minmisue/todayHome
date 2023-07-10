@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 	<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
@@ -182,7 +183,7 @@
         // 마이페이지일때 메뉴
 		// 메인메뉴, 서브메뉴 숫자 입력
 		// 첫번째 파라미터에 0 입력시 숨김
-		selectMyPage(1,6);
+		selectMyPage(1,4);
     });
 </script>
 
@@ -210,16 +211,17 @@
 		      </div> -->
 		
 		      <!-- 콘텐츠가 있을 때 UI -->
+		      <c:forEach var="productForList" items="${productForList}" varStatus="status">
 		      <li class="scrapBook">
 		        <div class="scrap-image">
-		          <img src="./assets/images/picture01.png" alt="scrap image">
+		          <img src="${pageContext.request.contextPath}resources/picture/product/${productForList.saveName}" alt="scrap image">
 		        </div>
 		        <div class="scrap-content">
-		          <span class="scrap-brand">DF동서가구</span>
-		          <strong class="scrap-name">엔티크 프린세스 침대 프레임 SS/Q</strong>
+		          <span class="scrap-brand">${productForList.brandName}</span>
+		          <strong class="scrap-name">${productForList.productName }</strong>
 		          <div class="price-wrapper">
 		            <span class="rate">55%</span>
-		            <span class="price">19,900</span>
+		            <span class="price">${productForList.price}</span>
 		          </div>
 		          <p class="rating-wrapper">
 		            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path fill="currentColor" fill-rule="evenodd" d="M12 19.72l-5.677 2.405c-.76.322-1.318-.094-1.247-.906l.533-6.142-4.042-4.656c-.54-.624-.317-1.283.477-1.467l6.006-1.39L11.23 2.28c.426-.707 1.122-.699 1.542 0l3.179 5.282 6.006 1.391c.805.187 1.011.851.477 1.467l-4.042 4.656.533 6.142c.072.822-.497 1.224-1.247.906L12 19.72z"></path></svg>
@@ -228,6 +230,7 @@
 		          </p>
 		        </div>
 		      </li>
+		      </c:forEach>
 		    </ul>
 		  </section>
 		</div>

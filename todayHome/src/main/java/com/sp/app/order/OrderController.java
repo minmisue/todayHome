@@ -2,14 +2,17 @@ package com.sp.app.order;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.cart.CartService;
 import com.sp.app.domain.cart.Cart;
@@ -25,12 +28,10 @@ import com.sp.app.domain.order.OrderItemStock;
 import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
-import com.sp.app.domain.seller.SellerAdjustment;
 import com.sp.app.member.management.MemberManagementService;
 import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
 import com.sp.app.seller.SellerService;
-import com.sp.app.seller.adjustment.AdjustmentService;
 
 @Controller("order.orderController")
 @RequestMapping("/payment/*")
@@ -117,52 +118,44 @@ public class OrderController {
 			HttpSession session,
 			@RequestParam Long productId,
 			@RequestParam List<Long> stockId,
-			@RequestParam List<Integer> quantity,
+			@RequestParam List<Long> quantity,
 			Model model) {
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		if(info == null) {
+			return "redirect:/login";
+		}
+		
+		Long memberId = info.getMemberId();
+		Member member = null;
+		try {
+			member = memberservie.readMemberById(memberId);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 
-		System.out.println("productId = " + productId);
-		System.out.println(stockId);
-		System.out.println(quantity);
-//		System.out.println(data);
-//
-//		Long productId = Long.valueOf((String) data.get("productId"));
-//
-//		List<List<Object>> options = (List<List<Object>>) data.get("selectedOptions");
-//
-//		List<CartOptionMap> cartOptionMapList = new ArrayList<>();
-//
-//		for (List<Object> option : options) {
-//			Long stockId = Long.valueOf((String) option.get(0));
-//			Long quantity = Long.valueOf((String) option.get(1));
-//
-//			cartOptionMapList.add(new CartOptionMap(stockId, quantity));
-//		}
-//
-//		// 상품 정보
-//		Product product =  productservice.getProductById(productId);
-//
-//		// stock 정보
-//		List<ProductStock> productStockList = new ArrayList<ProductStock>();
-//
-//		for(CartOptionMap vo : cartOptionMapList) {
-//			Long stockId = vo.getStockId();
-//
-//			Long quantity = vo.getQuantity();
-//
-//			ProductStock productStock = productservice.getStockByStockId(stockId);
-//			// 그냥 옵션 가격
-//			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
-//
-//			// 수량
-//			productStock.setCartQuantity(quantity);
-//			productStockList.add(productStock);
-//		}
-//
-//		product.setProductStockList(productStockList);
-//		model.addAttribute("cartList", product);
-//		model.addAttribute("mode","buyNow");
-//
-//		return "/cart/cart-list";
+		String orderBundleId = orderManagementService.productOrderNumber();
+		List<Product> productList = new ArrayList<Product>();
+		Product product =  productservice.getProductById(productId);
+		
+		List<ProductStock> productStockList = new ArrayList<ProductStock>();
+		for(int i= 0; i<stockId.size(); i++) {
+			Long stock = stockId.get(i);
+			Long stockQuantity = quantity.get(i);
+			
+			ProductStock productStock = productservice.getStockByStockId(stock);
+			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
+			
+			productStock.setCartQuantity(stockQuantity);
+			productStockList.add(productStock);
+		}
+		
+		product.setProductStockList(productStockList);
+		productList.add(product);
+		model.addAttribute("cartList", productList);
+		model.addAttribute("mode","buyNow");
+		model.addAttribute("member",member);
+		model.addAttribute("orderBundleId",orderBundleId);
 		return "/payment/payment-page";
 	}
 
@@ -181,8 +174,8 @@ public class OrderController {
 			@RequestParam List<Integer> state,
 			@RequestParam List<Integer> deliveryCostList,
 			@RequestParam List<Long> sellerNums,
-			@RequestParam(defaultValue = "-1") Integer remainPoint,
-			@RequestParam(defaultValue = "-1") Integer usedPoint,
+			@RequestParam(required = false ,defaultValue = "-1") Integer remainPoint,
+			@RequestParam(required = false, defaultValue = "-1") Integer usedPoint,
 			@RequestParam Integer reward,
 			Model model
 			) {
@@ -239,8 +232,8 @@ public class OrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if(remainPoint != -1 ) {
+
+		if(remainPoint != 0 || remainPoint.equals("")) {
 			// 포인트
 			Point point = new Point();
 			point.setMemberId(order.getMemberId());
@@ -262,25 +255,31 @@ public class OrderController {
 				e1.printStackTrace();
 			}
 			
-			// 적립금
-			MemberPoint memberPoint2 = new MemberPoint();
-			memberPoint2.setAmount(reward);
-			memberPoint2.setMemberId(order.getMemberId());
-			memberPoint2.setStatus(1);
-			try {
-				pointService.insertMemberPoint(memberPoint2);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+		}
+		// 적립금
+		MemberPoint memberPoint2 = new MemberPoint();
+		memberPoint2.setAmount(reward);
+		memberPoint2.setMemberId(order.getMemberId());
+		memberPoint2.setStatus(1);
+		try {
+			pointService.insertMemberPoint(memberPoint2);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		
 
 		// 결제 완료 후 장바구니 삭제
-		for(Long cartId : cartIdList) {
-			cartservice.deleteCart(cartId);
+		if(cartIdList != null) {
+			for(Long cartId : cartIdList) {
+				cartservice.deleteCart(cartId);
+			}
 		}
 		
-		return "redirect:/order/complete";
+		return "redirect:/payment/complete";
 	}
-		
+	
+	@GetMapping("complete")
+	public String complete() {
+		return "/payment/complete-page";
+	}
 }

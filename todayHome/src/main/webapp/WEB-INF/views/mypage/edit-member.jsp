@@ -114,6 +114,67 @@
 			// 첫번째 파라미터에 0 입력시 숨김
 			selectMyPage(4,1);
     });
+    
+    let nicknameValidateStatus = false;
+    
+    function sendOk() {
+    	const f = document.memberForm;
+    	let str;
+    	
+    	if (nicknameValidateStatus === false) {
+            str = "닉네임 인증이 실행되지 않았습니다.";
+            alert(str)
+            return;
+        }
+    	
+    	str = f.selectFileName.value;
+    	if(! str){
+    		alert("파일을 등록해주세요");
+    		f.selectFileName.focus();
+    		return false;
+    	}
+    	
+    	f.action = "${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/edit";
+    	f.submit();
+	}
+    
+    function nickNameCheckOk() {
+
+        let nickName = document.getElementById('nickName');
+
+        let str = nickName.value;
+        if (!str) {
+            alert("닉네임을 입력하세요. ");
+            nickName.focus();
+            return;
+        }
+
+        if (!/^.{2,15}$/.test(str)) {
+            alert("닉네임을 다시 입력하세요. ");
+            nickName.focus();
+            return;
+        }
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/member/nickName-check",
+            type: 'GET',
+            data: 'nickName=' + nickName.value,
+            dataType: 'text',
+            success: function (response) {
+                if (response === 'true') {
+                    alert('이미 존재하는 닉네임 입니다.')
+                } else {
+                    alert('사용 가능한 닉네임 입니다.')
+					nickName.readOnly = true;
+                    nicknameValidateStatus = true;
+                }
+            },
+            error: function (xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+            }
+        });
+    }
+    
 </script>
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
@@ -123,49 +184,32 @@
 		<div class="subject">
 			<h4>회원정보 수정</h4>
 		</div>
-		<form action="/update-member" method="post" enctype="multipart/form-data">
-			<div class="form-group">
-				<div class="email-input">
-				<label for="email">이메일</label>
-					<input type="email" id="email" name="email" required>
-					<span>@</span>
-					<input type="email" id="email-domain" name="email-domain" required>
-				</div>
-				<div class="required-text">* 필수항목</div>
-			</div>
+		<form method="post" name="memberForm" enctype="multipart/form-data">
 			
 			<div class="form-group">
 			    <label for="nickname">별명</label>
-			    <input type="text" id="nickname" name="nickname" required>
+			    <input type="text" id="nickName" name="nickName" required value="${member.nickName}">
 			    <div class="required-text">* 필수항목</div>
+			    <button class="nickName-certify" type="button" onclick="nickNameCheckOk();">
+					닉네임 확인하기
+				</button>
 			</div>
 			
 			<div class="form-group">
-				<label for="website">홈페이지</label>
-				<input type="url" id="website" name="website">
-			</div>
-			<div class="form-group">
-				<label>성별</label>
-				<input type="radio" id="gender-male" name="gender" value="male">
-				<label for="gender-male">남성</label>
-				<input type="radio" id="gender-female" name="gender" value="female">
-				<label for="gender-female">여성</label>
-			</div>
-			<div class="form-group">
-				<label for="birthdate">생년월일</label>
-				<input type="text" id="birthdate" name="birthdate" placeholder="https://ohou.se">
-			</div>
-			<div class="form-group">
 				<label for="profile-image">프로필 이미지</label>
-				<input type="file" id="profile-image" name="profile-image">
+				<input type="file" id="selectFileName" name="selectFileName">
+				${member.profileImgName}
 			</div>
+			
 			<div class="form-group">
 				<label for="bio">한줄 소개</label>
-				<input type="text" id="introduce" name="introduce" required>
+				<input type="text" id=info name="info" required value="${member.info}">
 			</div>
-			<button class="submit-button" type="submit">회원 정보 수정</button>
+			<button class="submit-button" type="button" onclick="sendOk();">회원 정보 수정</button>
+			<input type="hidden" name="memberId" value="${member.memberId}">
+			<input type="hidden" name="password" value="${member.password}">
 		</form>
-
+		${msg}
 	</div>
 </div>
 

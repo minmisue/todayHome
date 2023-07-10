@@ -198,11 +198,9 @@
         <div class="sub-menubar" style="justify-content: center;">
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}'">모두보기</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/photo'">사진</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">집들이</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">노하우</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">질문과답변</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/houses'">집들이</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book'">스크랩북</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">좋아요</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/like'">좋아요</div>
         </div>
     </div>
 
@@ -226,8 +224,8 @@
 
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/edit'">회원정보수정</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/edit-pwd'">비밀번호 변경</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/edit'">회원정보수정</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/pwd'">비밀번호 변경</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">사용자 숨기기 설정</div>
 		</div>
 	</div>

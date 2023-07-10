@@ -151,7 +151,13 @@ $(function(){
 				<span class="menu--label">정산 현황</span>
 			</a>
 		</li>
-
+		
+		<li class="menu--item">
+	        <a href="<c:url value='/seller/adjustment/money'/>" class="menu--link" title="정산 받기">
+				<i class="menu--icon  fa-fw fa-solid fa-won-sign"></i>
+				<span class="menu--label">정산 받기</span>
+			</a>
+		</li>		
 
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="고객 관리">

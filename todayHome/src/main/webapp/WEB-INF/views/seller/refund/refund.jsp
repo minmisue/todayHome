@@ -53,9 +53,9 @@ h1 {
   margin-bottom: 20px;
   background: gainsboro;
   flex-direction: column;
-      width: 100%; /* 크기 조정 */
-    padding: 20px; /* 크기 조정 */
-    box-sizing: border-box; /* 크기 조정 */
+      width: 100%; 
+    padding: 20px; 
+    box-sizing: border-box; 
 }
 
 .date-range {

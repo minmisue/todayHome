@@ -73,4 +73,10 @@ public interface ProductManagementService {
 	int getQuantityByStockId(Long stockId);
 
 	void deleteProductImg(Long productId, int type);
+
+	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort);
+
+	boolean checkProductName(String productName);
+
+	List<ProductForList> getScrapProductList(Long memberId);
 }

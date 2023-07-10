@@ -124,6 +124,7 @@
             aspect-ratio: 1/1;
             overflow: hidden;
             position: relative;
+			border-radius: 5px;
         }
 
         .today-deal-product-container:hover {

@@ -1,11 +1,11 @@
 package com.sp.app.product.category;
 
-
 import com.sp.app.domain.product.ProductCategory;
 
 import java.util.List;
 
-public interface ProductCategoryRepository {
+public interface ProductCategoryService {
+
 	// 모든 카테고리 출력
 	List<ProductCategory> getAllCategories() throws Exception;
 
@@ -16,15 +16,21 @@ public interface ProductCategoryRepository {
 	List<ProductCategory> getCategoriesByParentId(Long parentId);
 
 	// 카테고리 생성
-	void createCategory(ProductCategory productCategory) throws Exception;
+	void createCategory(ProductCategory productCategory);
 
 	// 카테고리 수정
-	void updateCategory(ProductCategory productCategory) throws Exception;
+	void updateCategory(ProductCategory productCategory);
 
 	// 카테고리 삭제
-	void deleteCategory(Long categoryId) throws Exception;
+	void deleteCategory(Long categoryId);
 
 	List<ProductCategory> getChildCategories(Long parentCategoryId) throws Exception;
 
 	List<ProductCategory> getAllCategoryHierarchy() throws Exception;
+
+	List<ProductCategory> fetchCategory(Long parentCategoryId) throws Exception;
+
+	void printCategory(Long parentCategoryId) throws Exception;
+
+	void printCategoryWithSubcategories(ProductCategory category, int depth);
 }

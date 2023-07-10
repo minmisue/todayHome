@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.domain.mail.Mail;
 
-	@Controller
-	@RequestMapping("mail")
-	public class MailController {
+@Controller
+@RequestMapping("mail")
+public class MailController {
+	
 	@Autowired
 	private MailServiceImpl mailSender;
 	
-	String resetPwd = null;
+	
 
 	@PostMapping("send")
 	@ResponseBody
 	public boolean sendSubmit(@RequestParam String email,HttpSession session) throws Exception {
-		
+		String resetPwd = null;
 		// 임의의 암호를 생성해준다.
 		try {
 			resetPwd = mailSender.resetPwd(session);
@@ -45,12 +46,17 @@ import com.sp.app.domain.mail.Mail;
 	}
 	
 	@PostMapping("complete")
-	public String complete(@RequestParam String Code, HttpSession session) throws Exception{
-		
+	@ResponseBody
+	public String complete(@RequestParam String verificationCode, HttpSession session) throws Exception{
+		String resetPwd = (String)session.getAttribute("vertificationCode");
+	
 		try {
-			if(resetPwd == Code) {
+			if(resetPwd.equals(verificationCode)) {
+				session.invalidate();
 				return "true";
+				
 			} 
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

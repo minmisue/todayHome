@@ -6,7 +6,7 @@ public class Mail {
 	private String senderName;
 	private String subject;
 	private String content;
-	
+	private Long validTime;
 	
 	public String getReceiverEmail() {
 		return receiverEmail;
@@ -37,5 +37,11 @@ public class Mail {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Long getValidTime() {
+		return validTime;
+	}
+	public void setValidTime(Long validTime) {
+		this.validTime = validTime;
 	}
 }

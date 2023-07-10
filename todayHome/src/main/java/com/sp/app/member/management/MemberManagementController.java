@@ -140,22 +140,29 @@ public class MemberManagementController {
 		return "member/resetPassword";
 	}
 	
-	@GetMapping("resetPassword")
-	@ResponseBody
-	public boolean resetPasswordSubmit(@RequestParam("email") String email, HttpSession session) {
+	@PostMapping("resetPassword")
+	public String resetPasswordSubmit(@RequestParam String newPassword, @RequestParam String finalEmail) {
 		
 		try {
+
+			Member memberforId = memberManagementService.readMemberByEmail(finalEmail);
+			Long memberId = memberforId.getMemberId();
 			
-		return memberManagementService.emailCheck(email);
-		 
-		
-			 
-			 
+			Member member = new Member();
+			member.setPassword(newPassword);
+			member.setMemberId(memberId);
+			
+			memberManagementService.updateMemberPwd(member);
+			
+			return "redirect:/login";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
+			return "redirect:/resetPassword";
 		}
 		
-		return false;
+		
 	}
 	
 	

@@ -30,5 +30,7 @@ public interface OrderManagementRepository {
 	// 셀러별 주문 조회 상세
 	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception;
 	
+	// 카운트
+	public Order getOrderCount(Long sellerId, String date) throws Exception;
 	
 }

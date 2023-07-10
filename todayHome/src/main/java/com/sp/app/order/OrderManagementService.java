@@ -19,4 +19,6 @@ public interface OrderManagementService {
 	
 	// 주문 상세 조회
 	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception; 
+	
+	public Order getOrderCount(Long sellerId, String date) throws Exception;
 }

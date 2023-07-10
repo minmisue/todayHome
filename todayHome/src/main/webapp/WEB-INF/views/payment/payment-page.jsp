@@ -204,7 +204,14 @@
     padding: 6px;
     
 }
-
+.coupon-select-btn{
+	background-color: #35c5f0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15;
+    padding: 5 10;
+}
 </style>
 </head>
 <body>
@@ -309,7 +316,7 @@ function iamport(){
     }, function(rsp) {
 		console.log(rsp);
     	if(rsp.success){
-    		alert('ok');
+    		console.log(rsp);
     		const f = document.buyForm;
     		let inputs = f.querySelectorAll("input[name=state]");
     		let state = 1;
@@ -329,6 +336,9 @@ function iamport(){
     		$("input[name=payMethod]").val(rsp.pay_method);
     		$("input[name=buyerName]").val(buyerName);
     		$("input[name=buyerTel]").val(buyerTel);
+    		if(f.defaultAddress.checked){
+    			$('input[name=defaultAddress]').val('true');
+    		}
     		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
     		f.submit();
 
@@ -387,10 +397,68 @@ function sendOk() {
 		alert('상세주소를 입력해주세요');
 		return;
 	}
+	
 
 }
-</script>
 
+$(function() {
+	$("#orderDetailStateDialogModal").model("hide");
+});
+
+$(function(){
+	$(".orderbasket-display").click(function(){
+		
+		$("#orderDetailStateDialogModal").modal("show");
+	});
+});
+
+
+$(function name() {
+	
+})
+</script>
+<!-- 장바구니 모달  -->
+<div class="modal fade" id="orderDetailStateDialogModal" tabindex="-1" aria-labelledby="orderDetailStateDialogModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="orderDetailStateDialogModalLabel">장바구니쿠폰</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body pt-1">
+				<div class="mt-1 p-1">
+					<div class="p-1"><p class="form-control-plaintext optionDetail-value"></p></div>
+					
+					<table class="table board-list">
+						<thead class="table-light">
+							<tr>
+								<td width="50">코드</td>
+								<td width="150">쿠폰이름</td>
+								<td width="100">할인퍼센트</td>
+								<td width="120">최대할인금액</td>
+								<td width="50"></td>
+							</tr>
+						</thead>
+					<c:forEach var="coupon" items="${memberCoupon}">
+							
+							<tr>
+								<td width="50">${coupon.couponId}</td>
+								<td width="120">${coupon.name}</td>
+								<td width="90">${coupon.discountPercent }</td>
+								<td width="120">${coupon.maxDiscountAmount}원</td>
+								<td><button type="button" class="coupon-select-btn" onclick="couponSelectBtn('${coupon.couponId}')">선택</button></td>
+								
+							</tr>							
+						
+					</c:forEach>
+					</table>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
 	<form name="buyForm" method="post">
@@ -493,6 +561,7 @@ function sendOk() {
 					<div class="flex-row"
 						style="align-items: center; margin-bottom: 10px">
 						<div class="payment-obj-label">배송지</div>
+						
 					</div>
 
 					<div class="border-line"></div>
@@ -535,7 +604,7 @@ function sendOk() {
 								</div>
 								<div><input type="text" name="address1" id="address1" class="payment-form-grid-input" style="width: 554"></div>
 								<div><input type="text" name="address2" id="address2" class="payment-form-grid-input" style="width: 554" placeholder="상세주소"></div>
-
+								<div style="font-size: 15px;"><input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="" style="margin-right: 10px;" name="defaultAddress">기본 배송지로 설정하기</div>
 							</div>
 						</div>
 					</div>
@@ -670,11 +739,6 @@ function sendOk() {
 						<div class="flex-row" style="align-items: center">
 							<div class="payment-obj-label">장바구니 쿠폰</div>
 						</div>
-
-						<div class="flex-row"
-							style="font-size: 15px; color: rgb(117, 117, 117)">
-							<div>사용 가능한 쿠폰이 없습니다</div>
-						</div>
 					</div>
 
 					<div class="border-line"></div>
@@ -683,15 +747,12 @@ function sendOk() {
 						style="gap: 5px; font-size: 16px; margin-top: 15px; background-color: #F7F8FA">
 						<div class="flex-col" style="padding: 20px">
 
-							<div
-								style="text-align: right; font-size: 14px; color: rgb(164, 172, 179);">쿠폰
-								코드가 있으신가요?</div>
 							<div class="flex-row" style="margin-top: 20px">
 								<input
 									style="border-radius: 4px; border: 1px solid #DBDBDB; width: 250px"
 									type="text">
 								<div
-									style="background-color: #65C2EC; padding: 8px 15px; border-radius: 4px; color: white; margin-left: 10px">확인</div>
+									style="background-color: #65C2EC; padding: 8px 15px; border-radius: 4px; color: white; margin-left: 10px" class="orderbasket-display">쿠폰확인하러가기</div>
 							</div>
 						</div>
 					</div>

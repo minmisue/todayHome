@@ -69,4 +69,10 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		return orderDetailList;
 	}
 
+	@Override
+	public Order getOrderCount(Long sellerId, String date) throws Exception {
+		Order orderCount = orderManagementRepository.getOrderCount(sellerId, date);
+		return orderCount;
+	}
+
 }

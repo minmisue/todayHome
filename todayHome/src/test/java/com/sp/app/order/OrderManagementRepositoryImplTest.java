@@ -20,7 +20,8 @@ import com.sp.app.domain.order.OrderDetail;
 public class OrderManagementRepositoryImplTest {
 	@Autowired
 	OrderManagementRepository orderManagementRepository;
-	
+	@Autowired
+	OrderManagementService orderManagementService;
 	
 	@Test
 	public void createOrder() throws Exception{
@@ -35,12 +36,9 @@ public class OrderManagementRepositoryImplTest {
 	
 	
 	@Test
-	public void getOrderDetail() throws Exception{
-		List<Order> order = orderManagementRepository.getOrderDetailList(1L,"202307072054571640953792718100");
-		for(Order o:order) {
-			System.out.println("!!!!!!!!!!!!" + o.getFinalPrice());
-		}
-		System.out.println(order);
+	public void getOr() throws Exception{
+		Order order = orderManagementService.getOrderCount(1L, "week");
+		System.out.println(order.getOrderCount()+ "!!!!!!!!!!" +order.getOrderPrice());
 		
 	}
 

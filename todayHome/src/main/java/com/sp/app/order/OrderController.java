@@ -19,6 +19,7 @@ import com.sp.app.domain.cart.Cart;
 import com.sp.app.domain.cart.CartOptionMap;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
+import com.sp.app.domain.mypage.MemberCoupon;
 import com.sp.app.domain.mypage.MemberPoint;
 import com.sp.app.domain.mypage.Point;
 import com.sp.app.domain.order.Delivery;
@@ -29,6 +30,7 @@ import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductStock;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.member.management.MemberManagementService;
+import com.sp.app.mypage.managerment.CouponService;
 import com.sp.app.mypage.managerment.PointService;
 import com.sp.app.product.management.ProductManagementService;
 import com.sp.app.seller.SellerService;
@@ -53,6 +55,9 @@ public class OrderController {
 	
 	@Autowired
 	SellerService sellerService;
+	
+	@Autowired
+	CouponService couponService;
 	
 	@GetMapping("list")
 	public String listCartOrder(HttpSession session,
@@ -102,6 +107,11 @@ public class OrderController {
 		System.out.println(dataCount);
 		if(dataCount == null) {
 			return "redirect:/cart/cart-empty";
+		}
+		
+		List<MemberCoupon> memberCoupon = couponService.getMemberCouponById(memberId);
+		if(memberCoupon != null) {
+			model.addAttribute("memberCoupon",memberCoupon);
 		}
 		
 		model.addAttribute("dataCount",dataCount);
@@ -177,6 +187,7 @@ public class OrderController {
 			@RequestParam(required = false ,defaultValue = "-1") Integer remainPoint,
 			@RequestParam(required = false, defaultValue = "-1") Integer usedPoint,
 			@RequestParam Integer reward,
+			@RequestParam String defaultAddress,
 			Model model
 			) {
 		
@@ -231,6 +242,20 @@ public class OrderController {
 			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		if(defaultAddress.equals("true")) {
+			Member member = new Member();
+			member.setMemberId(order.getMemberId());
+			member.setAddress1(order.getAddress1());
+			member.setAddress2(order.getAddress2());
+			member.setPostNum(order.getPostNum());
+			
+			try {
+				memberservie.insertAddress(member);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		if(remainPoint != 0 || remainPoint.equals("")) {

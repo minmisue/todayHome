@@ -66,5 +66,14 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 		return OrderDetailList;
 	}
 
+	@Override
+	public Order getOrderCount(Long sellerId, String date) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sellerId", sellerId);
+		map.put("date", date);
+		Order orderCount = commondao.selectOne("order.getOrderCount",map);
+		return orderCount;
+	}
+
 
 }

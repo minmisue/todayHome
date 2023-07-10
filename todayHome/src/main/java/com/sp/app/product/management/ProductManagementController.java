@@ -126,70 +126,75 @@ public class ProductManagementController {
 
 	@PostMapping("seller/post-product")
 	public String addProductSubmit(
-			@ModelAttribute Product product,
-			@RequestParam List<String> mainOptionName,
-			@RequestParam String subOptionName,
-			@RequestParam List<Integer> stockPrice,
-			@RequestParam List<Integer> stockQuantity,
-			@RequestParam MultipartFile[] contentImg,
-			@RequestParam MultipartFile[] productImg,
-			HttpSession httpSession
+//			@ModelAttribute Product product,
+//			@RequestParam List<String> mainOptionName,
+//			@RequestParam String subOptionName,
+//			@RequestParam List<Integer> stockPrice,
+//			@RequestParam List<Integer> stockQuantity,
+//			@RequestParam MultipartFile[] contentImg,
+			@RequestParam MultipartFile[] productImg
+//			HttpSession httpSession,
 		) {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		System.out.println("product = " + product);
-		System.out.println("mainOptionName = " + mainOptionName);
-		System.out.println("subOptionName = " + subOptionName);
-		System.out.println("stockPrice = " + stockPrice);
-		System.out.println("stockQuantity = " + stockQuantity);
-		String[][] readSubNamesList;
-
-		try {
-			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
+		for (MultipartFile multipartFile : productImg) {
+			System.out.println(multipartFile);
 		}
 
-		for (String[] subNames : readSubNamesList) {
-			for (String subName : subNames) {
-				System.out.print(subName + " ");
-			}
-			System.out.println();
-		}
-
-		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
-
-		Long productId = product.getProductId();
-
-		try {
-			// 이미지 저장 경로 설정
-			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
-			System.out.println("root = " + root);
-
-			String uploadDir = root + "product" + File.separator + "product";
-
-			System.out.println("uploadDir = " + uploadDir);
-
-			int sequence = 0;
-			for (MultipartFile img : productImg) {
-				String saveFileName = fileManager.doFileUpload(img, uploadDir);
-				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
-				sequence++;
-			}
-
-			uploadDir = root + "product" + File.separator + "content";
-
-			sequence = 0;
-			for (MultipartFile img : contentImg) {
-				String saveFileName = fileManager.doFileUpload(img, uploadDir);
-				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
-				sequence++;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		System.out.println("product = " + product);
+//		System.out.println("mainOptionName = " + mainOptionName);
+//		System.out.println("subOptionName = " + subOptionName);
+//		System.out.println("stockPrice = " + stockPrice);
+//		System.out.println("stockQuantity = " + stockQuantity);
+//		String[][] readSubNamesList;
+//
+//		try {
+//			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
+//		} catch (JsonProcessingException e) {
+//			throw new RuntimeException(e);
+//		}
+//
+//		for (String[] subNames : readSubNamesList) {
+//			for (String subName : subNames) {
+//				System.out.print(subName + " ");
+//			}
+//			System.out.println();
+//		}
+//
+//		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
+//
+//		Long productId = product.getProductId();
+//
+//		try {
+//			// 이미지 저장 경로 설정
+//			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+//			System.out.println("root = " + root);
+//
+//			String uploadDir = root + "product" + File.separator + "product";
+//
+//			System.out.println("uploadDir = " + uploadDir);
+//
+//			int sequence = 0;
+//			for (MultipartFile img : productImg) {
+//				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+//				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
+//				sequence++;
+//			}
+//
+//			uploadDir = root + "product" + File.separator + "content";
+//
+//			sequence = 0;
+//			for (MultipartFile img : contentImg) {
+//				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+//				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
+//				sequence++;
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		return "redirect:/home";
 	}

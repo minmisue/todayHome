@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sp.app.domain.follow.Follow;
+import com.sp.app.domain.member.SimpleMember;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -19,6 +20,9 @@ import com.sp.app.domain.follow.Follow;
 public class FollowRepositoryImplTest {
 	@Autowired
 	FollowRepository followRepository;
+	
+	@Autowired
+	FollowService followService;
 
 	@Test
 	public void insertFollow() throws Exception {
@@ -96,6 +100,16 @@ public class FollowRepositoryImplTest {
 		List<Follow> followerList =followRepository.followerList(memberId);
 		
 		for(Follow f : followerList) {
+			System.out.println("결과 : " + f );
+		}
+	}
+	
+	@Test
+	public void followerList2() throws Exception{
+		Long memberId = 1L;
+		List<SimpleMember> followerList =followService.followingPageList(memberId);
+		
+		for(SimpleMember f : followerList) {
 			System.out.println("결과 : " + f );
 		}
 	}

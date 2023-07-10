@@ -246,24 +246,25 @@
 
 	<script type="text/javascript">
 
-function passwordCheck() {
-	let newPassword = document.getElementById("newPassword");
-	let newPasswordConfirm = document.getElementById("newPasswordConfirm");
-	let email = document.getElementById("email");
-	let finalEmail = document.getElementById("finalEmail");
-	finalEmail.value = email.value;
-	
-	let finalForm = document.getElementById("finalForm");
-	
 
-	if (newPassword.value !== newPasswordConfirm.value) {
-		alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요. ");
-		return;
-	} 
-	
-	finalForm.submit();
-}
-</script>
+		function passwordCheck() {
+			let newPassword = document.getElementById("newPassword");
+			let newPasswordConfirm = document
+					.getElementById("newPasswordConfirm");
+			let email = document.getElementById("email");
+			let finalEmail = document.getElementById("finalEmail");
+			finalEmail.value = email.value;
+
+			let finalForm = document.getElementById("finalForm");
+
+			if (newPassword.value !== newPasswordConfirm.value) {
+				alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요. ");
+				return;
+			}
+
+			finalForm.submit();
+		}
+	</script>
 
 </body>
 </html>

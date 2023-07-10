@@ -10,7 +10,8 @@
 	</insert>
 
 	<delete id="deleteFollow" parameterType="map">
-		delete FOLLOW where FOLLOWING_ID = #{followingId} AND FOLLOWER_ID =
+		delete FOLLOW where
+		FOLLOWING_ID = #{followingId} AND FOLLOWER_ID =
 		#{followerId}
 	</delete>
 
@@ -41,25 +42,46 @@
 		FOLLOWING_ID = #{followingId}
 	</select>
 
-	<select id="followingList" parameterType="Long" resultType="com.sp.app.domain.follow.Follow">
-		select FOLLOWING_ID AS followingId , NICKNAME AS followingNickname,
-		PROFILE_IMG_NAME AS fileImgName, INFO 
+	<select id="followingList" parameterType="Long"
+		resultType="com.sp.app.domain.follow.Follow">
+		select FOLLOWING_ID AS followingId , NICKNAME AS
+		followingNickname,
+		PROFILE_IMG_NAME AS fileImgName, INFO
 		from FOLLOW f
 		join MEMBER_DETAIL md on md.MEMBER_ID = f.FOLLOWING_ID
-		where FOLLOWER_ID = #{followerId}
+		where
+		FOLLOWER_ID = #{followerId}
 
 	</select>
 
-	<select id="followerList" parameterType="Long" resultType="com.sp.app.domain.follow.Follow">
+	<select id="followerList" parameterType="Long"
+		resultType="com.sp.app.domain.follow.Follow">
 		select FOLLOWER_ID AS followerId , NICKNAME AS
-		followerNickname, PROFILE_IMG_NAME AS fileImgName, INFO 
+		followerNickname, PROFILE_IMG_NAME AS fileImgName, INFO
 		from FOLLOW f
 		join MEMBER_DETAIL md on md.MEMBER_ID = f.FOLLOWER_ID
-		where FOLLOWING_ID = #{followingId}
+		where
+		FOLLOWING_ID = #{followingId}
 	</select>
 
+	<select id="followingPageList" parameterType="Long"
+		resultType="com.sp.app.domain.member.SimpleMember">
+		SELECT MEMBER_ID as memberId, NICKNAME, PROFILE_IMG_NAME as profileImgName,
+		INFO
+		FROM (
+		SELECT m.MEMBER_ID, NICKNAME, PROFILE_IMG_NAME, INFO
+		FROM MEMBER m
+		join MEMBER_DETAIL md on md.MEMBER_ID = m.MEMBER_ID
+		WHERE m.MEMBER_ID NOT IN (
+		SELECT FOLLOWING_ID
+		FROM FOLLOW
+		WHERE FOLLOWER_ID = 1
+		)
+		ORDER BY DBMS_RANDOM.VALUE
+		)
+		WHERE ROWNUM &lt; 11
 
-
+	</select>
 
 
 </mapper>

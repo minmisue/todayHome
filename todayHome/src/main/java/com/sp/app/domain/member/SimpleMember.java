@@ -18,6 +18,14 @@ public class SimpleMember {
 		this.nickName = nickName;
 		this.profileImgName = profileImgName;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "SimpleMember [memberId=" + memberId + ", nickName=" + nickName + ", profileImgName=" + profileImgName
+				+ ", info=" + info + "]";
+	}
 
 	public String getInfo() {
 		return info;

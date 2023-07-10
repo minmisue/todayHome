@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sp.app.common.CommonDAO;
 import com.sp.app.domain.follow.Follow;
+import com.sp.app.domain.member.SimpleMember;
 
 @Repository
 public class FollowRepositoryImpl implements FollowRepository {
@@ -75,6 +76,12 @@ public class FollowRepositoryImpl implements FollowRepository {
 	public List<Follow> followerList(Long memberId) throws Exception {
 		return commonDAO.selectList("follow.followerList",memberId);
 
+		
+	}
+
+	@Override
+	public List<SimpleMember> followingPageList(Long memberId) throws Exception {
+		return commonDAO.selectList("follow.followingPageList",memberId);
 		
 	}
 

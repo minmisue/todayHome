@@ -199,28 +199,28 @@
 
 	<div class="content" style="padding: 0 240px;">
 		<div class="flex-col follow-label-container">
-			<div class="follow-label-main"><span class="label-highlighting-color">${member.nickName}</span>님을 위한 추천 유저</div>
+			<div class="follow-label-main"><span class="label-highlighting-color">${sessionScope.sessionInfo.userNickname}</span>님을 위한 추천 유저</div>
 			<div class="follow-label-sub">유저를 팔로우하고 새 소식을 확인하세요!</div>
 		</div>
 	</div>
 
 	<div class="content" style="padding: 0 240px;">
 		<div class="following-grid">
-			<c:forEach begin="0" end="15" step="1">
+			<c:forEach var="member" items="${memberList}">
 				<%-- 팔로우 컨테이너 --%>
 				<div class="flex-col following-container">
 					<div class="flex-row following-img-info-container">
 						<div class="flex-row following-img-info">
 							<img class="profile-img"
-								 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/2.webp">
+								 src="${pageContext.request.contextPath}/resources/picture/member/${member.profileImgName} ">
 							<div class="flex-col">
-								<div class="follow-user-name">리빙유</div>
-								<div class="follow-user-info-text">우리 가족의 따뜻한 이야기 우리 가족의 따뜻한 이야기 우리 가족의 따뜻한 이야기</div>
+								<div class="follow-user-name">${member.nickName}</div>
+								<div class="follow-user-info-text">${member.info}</div>
 							</div>
 						</div>
 
 						<div class="form-check follow-check-container">
-							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="">
+							<input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="${member.memberId }">
 						</div>
 					</div>
 
@@ -242,10 +242,9 @@
 	</div>
 
 	<div class="content following-feed-btn-container" style="padding: 0 240px;">
-		<div class="following-feed-btn">팔로잉 피드 시작해보기
+		<button class="following-feed-btn" onclick="sendCheckedValues();">팔로잉 피드 시작해보기</button>
 			<div class="check-cnt-circle">
 				<div id="check-cnt"></div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -264,6 +263,44 @@
         }
         $('#check-cnt').text(cnt)
     });
+    
+
+		
+	  function sendCheckedValues() {
+		    const checkboxes = document.querySelectorAll('.follow-check-input');
+		    const checkedValues = [];
+
+		    checkboxes.forEach(checkbox => {
+		      if (checkbox.checked) {
+		        checkedValues.push(checkbox.value);
+		      }
+		    });
+
+		
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/community/follow/feed",
+			type : 'POST',
+			data : 'checkedValues=' + checkedValues,
+			dataType : 'text',
+			success : function(response) {
+				alert(response)
+			alert("성공적으로 팔로우 하였습니다. ");
+			
+			
+
+		
+			},
+			error : function(xhr, status, error) {
+				// 요청이 실패했을 때 실행되는 코드
+			}
+		});  
+	} 
 </script>
+
+
+
+
+
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.sp.app.member.follow;
 import java.util.List;
 
 import com.sp.app.domain.follow.Follow;
+import com.sp.app.domain.member.SimpleMember;
 
 public interface FollowService {
 	boolean followMember(Long memberId, Long targetId) throws Exception; 
@@ -14,6 +15,6 @@ public interface FollowService {
 	boolean followerCheck(Long memberId, Long targetId) throws Exception;
 	List<Follow> followingList(Long memberId) throws Exception; 
 	List<Follow> followerList(Long memberId) throws Exception; 
-	
+	List<SimpleMember> followingPageList(Long memberId) throws Exception; 
 	
 }

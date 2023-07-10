@@ -80,7 +80,37 @@
         SELECT count(*) cnt
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-        WHERE oi.product_id = #{productId};
+        WHERE oi.product_id = #{productId}
+    </select>
+
+<!--    <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">-->
+<!--        adj.adjustment_date BETWEEN #{startDate} AND #{endDate}-->
+<!--    </if>-->
+
+    <select id="searchReview" parameterType="map" resultType="com.sp.app.domain.product.ProductReview">
+        SELECT pr.order_item_id AS orderItemId, ob.member_id AS memberId, nickname, profile_img_name AS profileImgName, oi.product_id AS productId, rating, pr.content, pr.reg_date AS regDate, review_img_name AS reviewImgName, product_name as productName
+        FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+            JOIN member_detail md ON ob.member_id = md.member_id
+            JOIN product p ON oi.product_id = p.product_id
+        <where>
+            <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+                pr.reg_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+
+            <if test="sellerId != null and sellerId != ''">
+                AND seller_id = #{sellerId}
+            </if>
+
+            <if test="keyword != null and  keyword !='' ">
+                AND INSTR(p.product_name, #{keyword}) &gt; 0
+            </if>
+
+            <if test="rating != 6">
+                AND rating = #{rating}
+            </if>
+        </where>
     </select>
 </mapper>
 

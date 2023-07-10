@@ -95,4 +95,13 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 
 		return root + "product" + File.separator + "review";
 	}
+
+	@Override
+	public List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating) {
+		try {
+			return productReviewRepository.searchReview(sellerId, startDate, endDate, keyword, rating);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

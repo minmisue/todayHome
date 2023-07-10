@@ -22,4 +22,6 @@ public interface ProductReviewRepository {
 	List<ProductReview> getComposableProductList(Long memberId) throws Exception;
 
 	List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception;
+
+	List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating) throws Exception;
 }

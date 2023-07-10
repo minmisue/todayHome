@@ -26,4 +26,6 @@ public interface ProductReviewService {
 
 	String getReviewImgPath(HttpSession httpSession);
 
+	List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating);
+
 }

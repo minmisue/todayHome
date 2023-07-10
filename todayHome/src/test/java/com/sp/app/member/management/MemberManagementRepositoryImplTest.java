@@ -26,14 +26,6 @@ public class MemberManagementRepositoryImplTest {
 	@Autowired
 	MemberManagementRepository memberManagementRepository;
 
-	@Autowired
-	FollowService followService;
-
-	@Test
-	public void insertFollow() throws Exception {
-		followService.insertFollow(1L, 62L);
-	}ㅎ
-
 	@Before
 	public void hello() {
 

@@ -1,7 +1,9 @@
 package com.sp.app.notice.board;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +39,11 @@ public class NoticeBoardRepositoryImpl implements NoticeBoardRepository{
 	@Override
 	public NoticeBoard getNoticeBoardById(Long noticeBoardId) throws Exception{
 		return commonDAO.selectOne("noticeboard.getNoticeBoardById", noticeBoardId);
+	}
+
+	@Override
+	public int dataCount() throws Exception {
+		return commonDAO.selectOne("noticeboard.dataCount");
 	}
 
 }

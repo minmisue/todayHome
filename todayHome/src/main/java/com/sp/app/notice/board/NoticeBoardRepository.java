@@ -15,4 +15,6 @@ public interface NoticeBoardRepository {
 	List<NoticeBoard> getAllNoticeBoard() throws Exception;
 	
 	NoticeBoard getNoticeBoardById(Long noticeBoardId) throws Exception;
+	
+	int dataCount() throws Exception;
 }

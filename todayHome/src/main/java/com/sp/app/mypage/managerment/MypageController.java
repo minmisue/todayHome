@@ -73,6 +73,9 @@ public class MypageController {
 	public String myPageBook(@PathVariable Long memberId, Model model) throws Exception{
 		Member member = memberManagementService.readMemberById(memberId);
 		List<ProductForList> productForList = productManagementService.getScrapProductList(memberId);
+		for(ProductForList product : productForList) {
+			System.out.println("금액 : " + Math.floor(product.getPrice()));
+		}
 		
 		model.addAttribute("member",member);
 		model.addAttribute("productForList",productForList);

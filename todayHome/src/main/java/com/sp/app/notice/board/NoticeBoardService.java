@@ -15,4 +15,6 @@ public interface NoticeBoardService {
 	List<NoticeBoard> getAllNoticeBoard();
 	
 	NoticeBoard getNoticeBoardById(Long noticeBoardId);
+	
+	int dataCount() throws Exception;
 }

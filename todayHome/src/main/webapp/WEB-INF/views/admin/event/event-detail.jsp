@@ -130,6 +130,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="event-detail-container">
+			<form name="eventForm">
 				<div>${eventBoard.content }</div>
 				<div><span class="eventwin-2">발표 일자는 : ${eventBoard.winningDate}</span></div>
 			<c:if test="${eventBoard.winningDate <= sysdate }">
@@ -137,7 +138,9 @@
 					<tr>
 						<td colspan="2" align="center">
 							<c:if test="${eventBoard.winnerNumber != 0}">
-								<button type="button" class="btn btnEventWinnerInsert">이벤트 당첨자 발표</button>		
+								<button type="button" class="btn btnEventWinnerInsert">이벤트 당첨자 발표</button>	
+								<input type="hidden" name="eventBoardId" value="${eventBoard.eventBoardId}">	
+								<input type="hidden" name="winnerNumber" value="${eventBoard.winnerNumber}">	
 							</c:if>
 							<c:if test="${eventBoard.winnerNumber != 0}">
 								<button type="button" class="btn btnEventWinnerList">이벤트 당첨자 확인</button>		
@@ -145,7 +148,9 @@
 						</td>
 					</tr>
 			</table>
+			
 			</c:if>
+			</form>
 			<div class="reply">
 				<form name="replyForm" method="post">
 					
@@ -168,13 +173,24 @@
 		</div>
 	</div>
 
-<c:if test="${listEventWinner.size() != 0}">
+<c:if test="${eventWinnerlist.size() != 0}">
 	<script type="text/javascript">
 		$(function(){
 			$(".btnEventWinnerList").click(function(){
 				$("#eventWinnerModal").modal("show");	
 			});
+			
+			$(".btnEventWinnerInsert").click(function () {
+				const f = document.eventForm;
+				if(confirm("담청자를 추첨하시겠습니까 ? ")) {
+					f.action = '${pageContext.request.contextPath}/admin/event/winner';
+					f.method = 'POST';
+			    	f.submit();
+			    }
+			});
 		});
+		
+		
 	</script>
 	
 	<div class="modal fade" id="eventWinnerModal" tabindex="-1" aria-labelledby="eventWinnerModalLabel" aria-hidden="true">
@@ -189,13 +205,8 @@
 	                 	<c:forEach var="winner" items="${eventWinnerlist}" varStatus="status">
 	                 		<div class="col">
 	                 			<div class="border">
-		                 			<c:if test="${winner.rank != 0}">
-										<span>
-											${vo.rank}등 :
-										</span>
-									</c:if>
 									<span style="font-weight: 500;">
-										${vo.userName}(${vo.userId})
+										${winner.nickName}
 									</span>
 								</div>
 	                 		</div>

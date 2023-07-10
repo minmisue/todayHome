@@ -132,7 +132,10 @@ $(function(){
 					<a href="<c:url value='/admin/event/list'/>" class="sub_menu--link">이벤트 글 생성</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">회원 글 리스트</a>
+					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">공지사항 게시판</a>
+					
+				<li class="sub_menu--item">
+					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">질문과 답변</a>
 				</li>
 			</ul>
 		</li>

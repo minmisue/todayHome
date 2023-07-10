@@ -82,8 +82,10 @@ public class EventBoardController {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 			String strNowDate = simpleDateFormat.format(nowDate); 
 			EventBoard eventBoard = eventBoardService.getEventBoardById(eventBoardId);
+			List<EventBoard> eventWinnerlist = eventBoardService.eventWinnerMember(eventBoard.getEventBoardId());
 			
 			
+			model.addAttribute("eventWinnerlist", eventWinnerlist);
 			model.addAttribute("eventBoard", eventBoard);
 			model.addAttribute("sysdate", strNowDate);
 		} catch (Exception e) {
@@ -134,6 +136,7 @@ public class EventBoardController {
 		String state = "true";
 		try {
 			eventReply.setMemberId(info.getMemberId());
+			System.out.println("--------------" + eventReply.getMemberId());
 			eventBoardService.insertEventReply(eventReply);
 		} catch (Exception e) {
 			state = "false";

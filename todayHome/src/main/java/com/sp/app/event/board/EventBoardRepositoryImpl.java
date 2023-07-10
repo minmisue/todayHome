@@ -69,8 +69,8 @@ public class EventBoardRepositoryImpl implements EventBoardRepository{
 	}
 
 	@Override
-	public List<EventBoard> eventWinnerMember(EventBoard eventBoard) throws Exception {
-		return commonDAO.selectList("eventboard.eventWinnerMember", eventBoard);
+	public List<EventBoard> eventWinnerMember(Long eventBoardId) throws Exception {
+		return commonDAO.selectList("eventboard.eventWinnerMember", eventBoardId);
 	}
 
 }

@@ -4,7 +4,7 @@
 <mapper namespace="noticeboard">
 	<insert id="insertNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">
 		INSERT INTO notice_board(notice_board_id, member_id, created_date, subject, content, hit_count, notice)
-		VALUES (seq_notice_board.NEXTVAL, #{memberId}, SYSDATE, #{subject}, #{content}, 0, 1)
+		VALUES (seq_notice_board.NEXTVAL, #{memberId}, SYSDATE, #{subject}, #{content}, 0, #{notice})
 	</insert>
 	
 	<update id="updateNoticeBoard" parameterType="com.sp.app.domain.board.NoticeBoard">
@@ -22,8 +22,13 @@
 	</select>
 	
 	<select id="getNoticeBoardById" parameterType="Long" resultType="com.sp.app.domain.board.NoticeBoard">
-		SELECT notice_board_id as noticeBoardId, member_id as memberId, created_date as createdDate, subject, content, hit_count as hitCount, notice
-		FROM notice_board
+		SELECT notice_board_id as noticeBoardId, nb.member_id as memberId, nickName, created_date as createdDate, subject, content, hit_count as hitCount, notice
+		FROM notice_board nb
+		JOIN member_detail md on nb.member_id = md.member_id
 		WHERE notice_board_id = #{noticeBoardId}
+	</select>
+	
+	<select id="dataCount" resultType="Integer">
+		SELECT count(*) dataCount FROM notice_board
 	</select>
 </mapper>

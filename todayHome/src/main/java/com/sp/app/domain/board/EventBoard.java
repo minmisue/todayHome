@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class EventBoard {
 	private Long eventBoardId;
 	private Long memberId;
+	private String nickName;
+	
 	private String startDate;
 	private String sday;
 	private String stime;
@@ -164,6 +166,14 @@ public class EventBoard {
 
 	public void setSelectFile(MultipartFile selectFile) {
 		this.selectFile = selectFile;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 	

@@ -12,14 +12,6 @@
 </style>
 
 <script type="text/javascript">
-<c:if test="${mode=='update'}">
-  function deleteFile(fileNum) {
-		let url = "${pageContext.request.contextPath}/admin/noticeManage/deleteFile";
-		$.post(url, {fileNum:fileNum}, function(data){
-			$("#f"+fileNum).remove();
-		}, "json");
-  }
-</c:if>
 </script>
 
 <script type="text/javascript">
@@ -58,58 +50,32 @@
 				<tr> 
 					<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 					<td> 
-						<input type="text" name="subject" maxlength="100" class="form-control" value="${dto.subject}">
+						<input type="text" name="subject" maxlength="100" class="form-control" value="${noticeBoard.subject}">
 					</td>
 				</tr>
 			
 				<tr> 
 					<td>공지여부</td>
 					<td> 
-						<input type="checkbox" name="notice" id="notice" class="form-check-input" value="1" ${dto.notice==1 ? "checked='checked' ":"" }>
+						<input type="checkbox" name="notice" id="notice" class="form-check-input" value="1" ${noticeBoard.notice==1 ? "checked='checked' ":"" }>
 						<label for="notice" class="form-check-label">공지</label>
 					</td>
 				</tr>
 
 				<tr> 
-					<td>출력여부</td>
-					<td> 
-						<input type="checkbox" name="showNotice" id="showNotice" class="form-check-input" value="1" ${mode=="write" || dto.showNotice==1 ? "checked='checked' ":"" }>
-						<label for="showNotice" class="form-check-label">표시</label>
-					</td>
-				</tr>
-			  
-				<tr> 
 					<td>작성자</td>
 					<td> 
-						<p class="form-control-plaintext">${sessionScope.member.userName}</p>
+						<p class="form-control-plaintext">${sessionScope.sessionInfo.userNickname}</p>
 					</td>
 				</tr>
 			
 				<tr> 
 					<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 					<td valign="top"> 
-						<textarea name="content" id="ir1" class="form-control">${dto.content}</textarea>
+						<textarea name="content" id="ir1" class="form-control">${noticeBoard.content}</textarea>
 					</td>
 				</tr>
 			  
-				<tr>
-					<td>첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
-					<td> 
-						<input type="file" name="selectFile" class="form-control" multiple="multiple">
-					</td>
-				</tr>
-	              
-				<c:if test="${mode=='update'}">
-					<c:forEach var="vo" items="${listFile}">
-						<tr id="f${vo.fileNum}"> 
-							<td>첨부된파일</td>
-							<td> 
-								<a href="javascript:deleteFile('${vo.fileNum}');"><i class="fa-solid fa-trash-can"></i></a> 
-								${vo.originalFilename}
-							</td>
-						  </tr>
-					</c:forEach>
-				</c:if>
 			</table>
 				
 			<table class="table">
@@ -119,8 +85,7 @@
 						<button type="reset" class="btn">다시입력</button>
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/noticeManage/list';">${mode=='update'?'수정취소':'등록취소'}</button>
 						<c:if test="${mode=='update'}">
-							<input type="hidden" name="num" value="${dto.num}">
-							<input type="hidden" name="page" value="${page}">
+							<input type="hidden" name="noticeBoardId" value="${noticeBoard.noticeBoardId}">
 						</c:if>
 					</td>
 				</tr>

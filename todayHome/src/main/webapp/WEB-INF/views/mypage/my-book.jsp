@@ -49,7 +49,7 @@
 
 .scrapBook .scrapBook-content {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 0;
@@ -169,6 +169,21 @@
   color: #424242;
   font-weight: 600;
 }
+
+.scrap-div:hover{
+	cursor: pointer;
+}
+
+.today-deal-product-img {
+	width: 100%;
+	border-radius: 5px;
+	transition: 0.2s;
+}
+
+.today-deal-product-img:hover {
+	transform: scale(1.05);
+	cursor: pointer;
+}
 	</style>
 </head>
 <body>
@@ -213,21 +228,21 @@
 		      <!-- 콘텐츠가 있을 때 UI -->
 		      <c:forEach var="productForList" items="${productForList}" varStatus="status">
 		      <li class="scrapBook">
+		      	<div class="scrap-div" onclick="location.href='${pageContext.request.contextPath}/product/${productForList.productId}'">
 		        <div class="scrap-image">
-		          <img src="${pageContext.request.contextPath}resources/picture/product/${productForList.saveName}" alt="scrap image">
+		          <img class="today-deal-product-img" src="${pageContext.request.contextPath}resources/picture/product/${productForList.saveName}" alt="scrap image">
 		        </div>
 		        <div class="scrap-content">
 		          <span class="scrap-brand">${productForList.brandName}</span>
 		          <strong class="scrap-name">${productForList.productName }</strong>
 		          <div class="price-wrapper">
-		            <span class="rate">55%</span>
-		            <span class="price">${productForList.price}</span>
+		            <span class="price">${Math.round(productForList.price)}</span>
 		          </div>
 		          <p class="rating-wrapper">
 		            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path fill="currentColor" fill-rule="evenodd" d="M12 19.72l-5.677 2.405c-.76.322-1.318-.094-1.247-.906l.533-6.142-4.042-4.656c-.54-.624-.317-1.283.477-1.467l6.006-1.39L11.23 2.28c.426-.707 1.122-.699 1.542 0l3.179 5.282 6.006 1.391c.805.187 1.011.851.477 1.467l-4.042 4.656.533 6.142c.072.822-.497 1.224-1.247.906L12 19.72z"></path></svg>
-		            <strong>4.6</strong>
-		            리뷰 2,406
+		            <strong>${productForList.rating}</strong>
 		          </p>
+		        </div>
 		        </div>
 		      </li>
 		      </c:forEach>

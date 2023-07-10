@@ -36,13 +36,13 @@
 	</insert>
 	
 	<select id="eventListReply" parameterType="map" resultType="com.sp.app.domain.board.EventReply">
-		SELECT eb.event_board_id as eventBoardId, name, eb.member_id as memberId,ebc.content
+		SELECT eb.event_board_id as eventBoardId, ebc.member_id as memberId, nickname as nickName, ebc.content as content
 		FROM event_board eb
-		JOIN member m on eb.member_id = m.member_id
-		LEFT OUTER JOIN (SELECT event_board_id,content, EVENT_BOARD_COMMENT_ID
+		JOIN (SELECT event_board_id,content, EVENT_BOARD_COMMENT_ID, member_id
 		FROM event_board_comment
-		group by EVENT_BOARD_COMMENT_ID,event_board_id,content) ebc on eb.event_board_id = ebc.event_board_id
-		WHERE eb.event_board_id = #{eventBoardId}
+		GROUP BY EVENT_BOARD_COMMENT_ID,event_board_id, member_id,content) ebc on eb.event_board_id = ebc.event_board_id
+		JOIN member_detail md on ebc.member_id = md.member_id
+		WHERE eb.event_board_id = ${eventBoardId}
 		ORDER BY event_board_comment_id DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
@@ -54,10 +54,10 @@
 		GROUP BY event_board_id
 	</select>
 	
-	<select id="eventWinnerMember" parameterType="com.sp.app.domain.board.EventBoard" resultType="com.sp.app.domain.board.EventBoard">
-		SELECT event_board_id as eventBoardId, ew.member_id as memberId, name, reg_date as regDate
+	<select id="eventWinnerMember" parameterType="long" resultType="com.sp.app.domain.board.EventBoard">
+		SELECT event_board_id as eventBoardId, ew.member_id as memberId, md.nickName as nickName, ew.reg_date as regDate
 		FROM event_winner ew
-		JOIN member m on ew.member_id = m.member_id
+		JOIN member_detail md on ew.member_id = md.member_id
 		WHERE event_board_id = #{eventBoardId}
 	</select>
 	
@@ -68,7 +68,7 @@
 		JOIN member m on ebc.member_id = m.member_id
 		WHERE event_board_id = #{eventBoardId}
 		ORDER BY DBMS_RANDOM.VALUE)
-		WHERE rownum <= #{winnerNumber};
+		WHERE rownum <= #{winnerNumber}
 		]]>
 	</update>
 </mapper>

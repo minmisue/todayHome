@@ -4,7 +4,7 @@ public class Order {
 	private String orderBundleId; // 주문 묶음 아이디
 	private Long memberId;
 	private String memberName;
-	
+	private Long couponId; 
 	private String orderRegDate; // 주문 날짜
 	private String receiveName; // 수령인 이름
 	private String tel; // 수령인 번호
@@ -66,6 +66,15 @@ public class Order {
 				+ ", deliveryCost=" + deliveryCost + ", arrivedDate=" + arrivedDate + ", orderCount=" + orderCount
 				+ ", orderPrice=" + orderPrice + ", finalPrice=" + finalPrice + ", orderItemId=" + orderItemId
 				+ ", discountPercent=" + discountPercent + ", status=" + status + ", stockId=" + stockId + "]";
+	}
+
+	
+	public Long getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(Long couponId) {
+		this.couponId = couponId;
 	}
 
 	public int getFinalPrice() {

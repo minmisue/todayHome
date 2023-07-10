@@ -337,7 +337,7 @@ function iamport(){
     		$("input[name=buyerName]").val(buyerName);
     		$("input[name=buyerTel]").val(buyerTel);
     		if(f.defaultAddress.checked){
-    			$('input[name=defaultAddress]').val('true');
+    			$('input[name=defaultAddress]').val('istrue');
     		}
     		f.action = "${pageContext.request.contextPath}/payment/paymentOk";
     		f.submit();
@@ -621,7 +621,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 								</div>
 								<div><input type="text" name="address1" id="address1" class="payment-form-grid-input" style="width: 554"></div>
 								<div><input type="text" name="address2" id="address2" class="payment-form-grid-input" style="width: 554" placeholder="상세주소"></div>
-								<div style="font-size: 15px;"><input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="" style="margin-right: 10px;" name="defaultAddress">기본 배송지로 설정하기</div>
+								<div style="font-size: 15px;"><input class="form-check-input follow-check-input flex-check-default" type="checkbox" value="isNottrue" style="margin-right: 10px;" name="defaultAddress">기본 배송지로 설정하기</div>
 							</div>
 						</div>
 					</div>
@@ -749,7 +749,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 
 
 				</div>
-
+				<c:if test="${mode == 'buy' }">
 				<div class="flex-col payment-obj-container">
 					<div class="flex-row"
 						style="align-items: center; justify-content: space-between; margin-bottom: 10px;">
@@ -775,7 +775,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 						</div>
 					</div>
 				</div>
-
+				</c:if>
 				<div class="flex-col payment-obj-container">
 					<div class="flex-row" style="align-items: center">
 						<div class="payment-obj-label">포인트</div>
@@ -834,7 +834,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div class="payment-result-label">쿠폰 사용</div>
 								<div>
-									<span id="usedCoupon"></span>원
+									<span id="usedCoupon">0</span>원
 								</div>
 							</div>
 
@@ -905,7 +905,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 						</div>
 					</div>
 
-					<div onclick="sendOk()" class="purchase-btn" style="margin-top: 20px;">
+					<div onclick="sendOk();iamport();" class="purchase-btn" style="margin-top: 20px;">
 						<%-- 결제 가격 --%>
 						<span id="finalTotPrice"><fmt:formatNumber value="${totPrice+ totDeliveryCost}" /></span>원 결제하기
 						<fmt:parseNumber var= "finalTotPrice" integerOnly= "true" value= "${totPrice+ totDeliveryCost}" />

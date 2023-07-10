@@ -118,6 +118,7 @@ public class OrderController {
 		model.addAttribute("point", point);
 		model.addAttribute("orderBundleId", orderBundleId);
 		model.addAttribute("member", member);
+		model.addAttribute("mode","buy");
 		model.addAttribute("cartList", cartList);
 		
 		return "/payment/payment-page";
@@ -187,7 +188,7 @@ public class OrderController {
 			@RequestParam(required = false ,defaultValue = "-1") Integer remainPoint,
 			@RequestParam(required = false, defaultValue = "-1") Integer usedPoint,
 			@RequestParam Integer reward,
-			@RequestParam String defaultAddress,
+			@RequestParam(defaultValue = "isNottrue") String defaultAddress,
 			Model model
 			) {
 		
@@ -244,7 +245,7 @@ public class OrderController {
 			e.printStackTrace();
 		}
 		
-		if(defaultAddress.equals("true")) {
+		if(defaultAddress.equals("istrue")) {
 			Member member = new Member();
 			member.setMemberId(order.getMemberId());
 			member.setAddress1(order.getAddress1());
@@ -280,6 +281,15 @@ public class OrderController {
 				e1.printStackTrace();
 			}
 			
+		}
+		
+		if(order.getCouponId() != null) {
+			try {
+				couponService.deleteCoupon(order.getCouponId());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		// 적립금
 		MemberPoint memberPoint2 = new MemberPoint();

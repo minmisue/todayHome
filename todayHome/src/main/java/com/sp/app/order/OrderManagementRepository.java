@@ -25,7 +25,7 @@ public interface OrderManagementRepository {
 	public void insertDelivery(Delivery delivery) throws Exception;
 	
 	// 셀러별 주문 조회
-	public List<Order> getOrderList(Long sellerId) throws Exception;
+	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate,String endDate,String keyword,String condition) throws Exception;
 	
 	// 셀러별 주문 조회 상세
 	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception;
@@ -33,4 +33,5 @@ public interface OrderManagementRepository {
 	// 카운트
 	public Order getOrderCount(Long sellerId, String date) throws Exception;
 	
+	int getOrderListCount(Long sellerId,String startDate,String endDate,String keyword,String condition)throws Exception;
 }

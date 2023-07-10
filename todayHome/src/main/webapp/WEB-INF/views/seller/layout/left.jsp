@@ -139,13 +139,6 @@ $(function(){
 		</li>
 
 		<li class="menu--item">
-	        <a href="<c:url value='/seller/refund'/>" class="menu--link" title="반품/환불 관리">
-				<i class="menu--icon  fa-fw fa-solid fa-money-bill-transfer"></i>
-				<span class="menu--label">반품/환불 관리</span>
-			</a>
-		</li>
-
-		<li class="menu--item">
 	        <a href="<c:url value='/seller/adjustment/list'/>" class="menu--link" title="정산 현황">
 				<i class="menu--icon  fa-fw fa-solid fa-calculator"></i>
 				<span class="menu--label">정산 현황</span>
@@ -175,7 +168,7 @@ $(function(){
 		</li>
 		
 		<li class="menu--item">
-	        <a href="#" class="menu--link" title="판매 통계">
+	        <a href="<c:url value='/seller/chart/chart'/>" class="menu--link" title="판매 통계">
 				<i class="menu--icon  fa-fw fa-solid fa-chart-pie"></i>
 				<span class="menu--label">판매 통계</span>
 			</a>

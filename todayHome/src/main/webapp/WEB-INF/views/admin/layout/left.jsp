@@ -134,9 +134,6 @@ $(function(){
 				<li class="sub_menu--item">
 					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">회원 글 리스트</a>
 				</li>
-				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">회원 글 수정</a>
-				</li>
 			</ul>
 		</li>
 

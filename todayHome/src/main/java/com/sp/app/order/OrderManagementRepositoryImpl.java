@@ -50,8 +50,16 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 	}
 
 	@Override
-	public List<Order> getOrderList(Long sellerId) throws Exception {
-		List<Order> orderList = commondao.selectList("order.getOrderList", sellerId);
+	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("offset", offset);			
+		map.put("size", size);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("keyword", keyword);
+		map.put("condition", condition);
+		
+		List<Order> orderList = commondao.selectList("order.getOrderList", map);
 		return orderList;
 	}
 
@@ -73,6 +81,17 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 		map.put("date", date);
 		Order orderCount = commondao.selectOne("order.getOrderCount",map);
 		return orderCount;
+	}
+
+	@Override
+	public int getOrderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition)throws Exception{
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("sellerId", sellerId);
+	map.put("startDate", startDate);
+	map.put("endDate", endDate);
+	map.put("keyword", keyword);
+	map.put("condition", condition);
+	return commondao.selectOne("order.getOrderListCount",map);
 	}
 
 

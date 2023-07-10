@@ -58,8 +58,8 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	}
 
 	@Override
-	public List<Order> getOrderList(Long sellerId) throws Exception {
-		List<Order> orderList = orderManagementRepository.getOrderList(sellerId);
+	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception {
+		List<Order> orderList = orderManagementRepository.getOrderList(sellerId,offset,size,startDate,endDate,keyword,condition);
 		return orderList;
 	}
 
@@ -75,4 +75,10 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		return orderCount;
 	}
 
+	@Override
+	public int getOrderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition) throws Exception{
+	
+		return orderManagementRepository.getOrderListCount(sellerId, startDate,endDate,keyword,condition);
+	
+}
 }

@@ -307,7 +307,7 @@ function iamport(){
         pay_method : 'card',
         merchant_uid : '${orderBundleId}',
         name : name,
-        amount : 10,
+        amount : price,
         buyer_email : email,
         buyer_name : buyerName,
         buyer_tel : buyerTel,
@@ -416,23 +416,27 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 	$("#orderDetailStateDialogModal").modal("hide");
 	$("input[name=couponId]").val(couponId);
 	$("input[name=couponName]").val(name);
+	let delivery = Number($("input[name=finalDeliveryCost]").val());
+	alert(delivery)
 	let price = $('#totalPriceAmount').text().replace(/,/gi, "");
 	let roundPrice =  Math.round(price * (discountPercent/100));
 	if(roundPrice > maxAmount){
 		$("#usedCoupon").html(maxAmount);
-		$('#final-price').html((price-maxAmount).toLocaleString());
-		$('#final-tot-price').val(price-maxAmount);
-		$('#finalTotPrice').html((price-maxAmount).toLocaleString());
+		$('#final-price').html((price-maxAmount+delivery).toLocaleString());
+		$('#final-tot-price').val(price-maxAmount+delivery);
+		$('#finalTotPrice').html((price-maxAmount+delivery).toLocaleString());
 
 	} else{
 		$("#usedCoupon").html(roundPrice);
-		$('#final-price').html((price-roundPrice).toLocaleString());
-		$('#final-tot-price').val(price-roundPrice);
-		$('#finalTotPrice').html((price-roundPrice).toLocaleString());
+		$('#final-price').html((price-roundPrice+delivery).toLocaleString());
+		$('#final-tot-price').val(price-roundPrice+delivery);
+		$('#finalTotPrice').html((price-roundPrice+delivery).toLocaleString());
 
 	}
 	
 }
+
+
 </script>
 <!-- 장바구니 모달  -->
 <div class="modal fade" id="orderDetailStateDialogModal" tabindex="-1" aria-labelledby="orderDetailStateDialogModalLabel" aria-hidden="true">
@@ -497,9 +501,6 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 							<div class="payment-obj-label">배송지</div>
 						</div>
 
-						<div class="flex-row sub-label">
-							<div>변경</div>
-						</div>
 					</div>
 
 					<div class="border-line"></div>
@@ -634,10 +635,10 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 						<div class="payment-obj-label">주문상품</div>
 						<div style="margin-left: 10px;">
 							<span></span>
-							<c:if test="${mode != 'buyNow' }">
+							
 								${fn:length(cartList)}
-							</c:if>
-							1
+							
+							
 							건</div>
 					</div>
 
@@ -762,7 +763,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 
 					<div class="flex-col"
 						style="gap: 5px; font-size: 16px; margin-top: 15px; background-color: #F7F8FA">
-						<div class="flex-col" style="padding: 20px">
+						<div class="flex-col">
 
 							<div class="flex-row" style="margin-top: 20px">
 								<input

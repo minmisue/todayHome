@@ -4,6 +4,7 @@ public class SimpleMember {
 	private Long memberId;
 	private String nickName;
 	private String profileImgName;
+	private String info;
 
 	public SimpleMember() {
 	}
@@ -16,6 +17,14 @@ public class SimpleMember {
 		this.memberId = memberId;
 		this.nickName = nickName;
 		this.profileImgName = profileImgName;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 	public Long getMemberId() {

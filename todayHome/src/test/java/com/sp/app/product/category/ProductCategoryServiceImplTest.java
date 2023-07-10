@@ -50,4 +50,9 @@ public class ProductCategoryServiceImplTest {
 			productCategoryService.printCategoryWithSubcategories(productCategory, 0);
 		}
 	}
+
+	@Test
+	public void getChild() throws Exception {
+
+	}
 }

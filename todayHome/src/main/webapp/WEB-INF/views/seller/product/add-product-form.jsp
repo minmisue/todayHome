@@ -316,7 +316,7 @@
 
 				<%-- 이미지 미리보기 --%>
 				<div style="margin-top: 35px;">
-					<div style="height: 210px; display: flex; flex-direction: row; border-radius: 4px">
+					<div id="presentationPreviewImg" style="height: 210px; display: flex; flex-direction: row; border-radius: 4px">
 						<img src="${pageContext.request.contextPath}/resources/picture/default.png"
 							 style="height: 100%; width: 210px; object-fit: cover; border: 1px solid #DFE2E6; border-radius: 4px"
 							 id="productImg">
@@ -387,11 +387,12 @@
 				</label>
 
 				<div style="text-align: right; margin-top: 10px;">
-					<button type="submit" class="btn btn-success" style="width: 100px; margin-top: 20px">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
+					<button type="button" class="btn btn-success" style="width: 100px; margin-top: 20px" onclick="sendImageToServer()">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
 				</div>
 			</form>
 		</div>
 	</div>
+	<button onclick="sendImageToServer()">test</button>
 </div>
 
 <script>
@@ -542,23 +543,117 @@
 <script>
     let imgPool = document.getElementById('imgPool');
     let productImgInput = document.getElementById('productImgInput');
+    let productImg = document.getElementById('presentationPreviewImg');
 
     // 이미지 미리보기
     productImgInput.addEventListener('change', function () {
-        $(imgPool).empty()
+        // $(imgPool).empty()
 
         for (const file of productImgInput.files) {
             const reader = new FileReader();
             reader.onload = ({ target }) => {
-                let img = document.createElement('img');
-                img.src = target.result;
-                imgPool.appendChild(img)
+                // let img = document.createElement('img');
+                // img.src = target.result;
+                // img.className = 'preview-img'
+
+				let imgTag = `
+								<img src="` + target.result + `" onclick="clickImg(this)"/>
+							`
+
+
+
+                $(imgPool).append($(imgTag))
+                // imgPool.appendChild(imgTag)
                 // productImg.src = target.result;
             };
 
             reader.readAsDataURL(file);
         }
     });
+
+    function clickImg(obj) {
+        let currentImg = $(productImg).find('img')
+
+        console.log($(currentImg).attr('id'))
+
+		if ($(currentImg).attr('id') !== 'productImg') {
+             $(imgPool).append(currentImg);
+		}
+
+        $(productImg).empty()
+		$(productImg).append(obj)
+    }
+
+    // 이미지 전송 함수
+    function sendImageToServer() {
+        let productImgList = [];
+        let presentImg = $(productImg).find('img');
+        if (presentImg === null || presentImg === '' || typeof presentImg === 'undefined') {
+            alert('대표 이미지를 설정해주세요.')
+			return
+		}
+
+        productImgList.push(presentImg.src)
+
+        let children = $(imgPool).children();
+        for (const x of children) {
+            productImgList.push(x.src)
+        }
+
+        let form = document.getElementById('form');
+
+
+        productImgInput.files = productImgList
+
+		form.submit();
+		//
+        // let formData = new FormData();
+        // for (let i = 0; i < productImgList.length; i++) {
+        //     formData.append('productImg', productImgList[i]);
+        // }
+		//
+        // for (const file of productImgList) {
+        //     const field = document.createElement('input');
+        //     field.setAttribute('type', 'file');
+        //     field.setAttribute('name', 'images');
+        //     form.appendChild(field);
+        //     formData.append('images', file);
+        // }
+
+
+
+
+        // FormData 객체 생성
+        // const formData = new FormData();
+
+        // 이미지 데이터를 FormData에 추가
+        // formData.append('image', );
+
+        // AJAX 요청을 통해 FormData를 서버로 전송
+
+        // $.ajax({
+        //     url: '서버 URL',
+        //     method: 'POST',
+        //     data: formData,
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (response) {
+        //         // 성공적으로 이미지가 서버에 저장된 경우에 수행할 작업
+        //         console.log('이미지가 성공적으로 서버에 저장되었습니다.');
+        //     },
+        //     error: function (xhr, status, error) {
+        //         // 이미지 전송 중에 발생한 에러 처리
+        //         console.log('이미지 전송 중에 에러가 발생했습니다.');
+        //         console.log('에러 상태:', status);
+        //         console.log('에러 내용:', error);
+        //     }
+        // });
+
+
+    }
+
+
+
 </script>
 
 <script>
@@ -739,14 +834,30 @@
 <script>
     // 카테고리 선택 스크립트
 
-    let categories = ${jsonCategories};
+    let wholeCategories = ${jsonCategories};
     let currentCategories = ${jsonCategories};
-
+	let selectedCategoriesList = []
+	let isFirst = true;
 
     function fetchSubcategories(parentCategoryId, level) {
         let container = document.getElementById("subcategoriesContainer");
 
         if (parentCategoryId !== "") {
+            console.log('current = ' + selectedCategoriesList[level-2])
+            console.log('a' + level)
+
+                if (Number(level) === 1) {
+                    currentCategories = wholeCategories;
+                } else {
+                    currentCategories = selectedCategoriesList[level - 2];
+                }
+
+            let find = $(container).find('select:gt(' + (level-1) + ')');
+            $(find).remove()
+			selectedCategoriesList.splice(level)
+
+            console.log('selectedCategoryList = ' + selectedCategoriesList)
+            console.log('길이 = ' + selectedCategoriesList.length)
 
             let select = document.createElement("select");
             select.className = "form-select form-control product-info category-select";
@@ -759,23 +870,12 @@
 
             let defaultOption = document.createElement("option");
             defaultOption.value = "";
-            defaultOption.text = "전체";
+            defaultOption.text = "카테고리 선택";
             select.appendChild(defaultOption);
 
             let categories = findSubcategories(currentCategories, parentCategoryId);
 
-
-            let elements = $(container).children()
-            let find = $(container).find('select:gt(' + (level-1) + ')');
-
-            console.log('level = ' + level)
-            for (const x of find) {
-                console.log('value = ' + $(x).html())
-            }
-
-            $(find).remove()
-
-            if (categories === null) {
+            if (categories === null || typeof categories === 'undefined') {
                 return
             }
 
@@ -790,6 +890,7 @@
             // }
 
             currentCategories = categories;
+            selectedCategoriesList.push(categories)
             // parentCategoryId = currentCategories.productCategoryId
 
             for (let i = 0; i < categories.length; i++) {
@@ -815,6 +916,8 @@
     }
 
     function findSubcategories(currentCategories, parentCategoryId) {
+
+        console.log(currentCategories)
 
         let subcategories = [];
 

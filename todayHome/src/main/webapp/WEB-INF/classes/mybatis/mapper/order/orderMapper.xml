@@ -59,14 +59,14 @@
 	
 	<!-- 주문조회 상세 -->
 	<select id="getOrderDetailList" parameterType="map" resultType="com.sp.app.domain.order.Order">	
-		select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId, oi.final_price finalPrice, oi.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId 
+		select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId,oisb.price * ((100-oi.discount_percent)/100) finalPrice, oisb.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId
 		from ORDER_BUNDLE ob
 		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
 		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
 		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
 		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
 		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		where p.SELLER_ID = #{sellerId} AND ORDER_BUNDLE_ID = #{orderBundleId}
+		where p.SELLER_ID = #{sellerId) AND ORDER_BUNDLE_ID = #{orderBundleId}
 	</select>
 	
 	

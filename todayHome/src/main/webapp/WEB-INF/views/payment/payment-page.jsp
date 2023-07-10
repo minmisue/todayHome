@@ -412,10 +412,27 @@ $(function(){
 	});
 });
 
+function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
+	$("#orderDetailStateDialogModal").modal("hide");
+	$("input[name=couponId]").val(couponId);
+	$("input[name=couponName]").val(name);
+	let price = $('#totalPriceAmount').text().replace(/,/gi, "");
+	let roundPrice =  Math.round(price * (discountPercent/100));
+	if(roundPrice > maxAmount){
+		$("#usedCoupon").html(maxAmount);
+		$('#final-price').html((price-maxAmount).toLocaleString());
+		$('#final-tot-price').val(price-maxAmount);
+		$('#finalTotPrice').html((price-maxAmount).toLocaleString());
 
-$(function name() {
+	} else{
+		$("#usedCoupon").html(roundPrice);
+		$('#final-price').html((price-roundPrice).toLocaleString());
+		$('#final-tot-price').val(price-roundPrice);
+		$('#finalTotPrice').html((price-roundPrice).toLocaleString());
+
+	}
 	
-})
+}
 </script>
 <!-- 장바구니 모달  -->
 <div class="modal fade" id="orderDetailStateDialogModal" tabindex="-1" aria-labelledby="orderDetailStateDialogModalLabel" aria-hidden="true">
@@ -446,7 +463,7 @@ $(function name() {
 								<td width="120">${coupon.name}</td>
 								<td width="90">${coupon.discountPercent }</td>
 								<td width="120">${coupon.maxDiscountAmount}원</td>
-								<td><button type="button" class="coupon-select-btn" onclick="couponSelectBtn('${coupon.couponId}')">선택</button></td>
+								<td><button type="button" class="coupon-select-btn" onclick="couponSelectBtn('${coupon.couponId}','${coupon.name }','${coupon.maxDiscountAmount }','${coupon.discountPercent }')">선택</button></td>
 								
 							</tr>							
 						
@@ -750,7 +767,8 @@ $(function name() {
 							<div class="flex-row" style="margin-top: 20px">
 								<input
 									style="border-radius: 4px; border: 1px solid #DBDBDB; width: 250px"
-									type="text">
+									type="text" name="couponName" value="">
+								<input type="hidden" name="couponId" value="">
 								<div
 									style="background-color: #65C2EC; padding: 8px 15px; border-radius: 4px; color: white; margin-left: 10px" class="orderbasket-display">쿠폰확인하러가기</div>
 							</div>
@@ -798,7 +816,7 @@ $(function name() {
 								style="justify-content: space-between; font-size: 15px; font-weight: 400;">
 								<div class="payment-result-label">총 상품 금액</div>
 								<div style="font-weight: 700;">
-									<span><fmt:formatNumber value="${totPrice}" /></span>원
+									<span id="totalPriceAmount"><fmt:formatNumber value="${totPrice}" /></span>원
 								</div>
 							</div>
 
@@ -816,7 +834,7 @@ $(function name() {
 								style="justify-content: space-between; font-size: 15px; font-weight: 400; color: #424242">
 								<div class="payment-result-label">쿠폰 사용</div>
 								<div>
-									<span>620</span>원
+									<span id="usedCoupon"></span>원
 								</div>
 							</div>
 

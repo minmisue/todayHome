@@ -174,6 +174,29 @@ public class FollowController {
 		return false;
 	}
 	
+	@PostMapping("mypage/{memberId}/follow")
+	@ResponseBody
+	public String insertFollow (@PathVariable Long memberId, Long targetId, HttpSession session ) {
+		String result = "false";
+		try {
+			SessionInfo sessionInfo = (SessionInfo) session.getAttribute("sessionInfo");
+			if(sessionInfo == null) {
+				return "login";
+			}
+			
+			if(! sessionInfo.getMemberId().equals(memberId)) {
+				return "false";
+			}
+			
+			
+			result = String.valueOf(followService.followMember(memberId, targetId));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
 	@GetMapping("community/follow/feed")
 	public String followingForm(Model model, HttpSession session) {
 		SessionInfo sessionInfo = (SessionInfo) session.getAttribute("sessionInfo");

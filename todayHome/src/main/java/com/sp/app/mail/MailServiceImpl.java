@@ -153,7 +153,7 @@ public class MailServiceImpl implements MailService {
 		StringBuilder sb = new StringBuilder();
 		
 		Random rd = new Random();
-		String s =  "!@#$%^&*()_+=-QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopsdfghjklzxcvbnm1234567890";
+		String s =  "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopsdfghjklzxcvbnm1234567890";
 		for (int i =0; i <10; i ++) {
 			int n = rd.nextInt(s.length());
 			sb.append(s.substring(n, n+1));

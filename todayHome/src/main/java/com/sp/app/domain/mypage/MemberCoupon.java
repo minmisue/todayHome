@@ -4,8 +4,10 @@ public class MemberCoupon {
 	private Long memberCouponId;
 	private Long couponId;
 	private String name;
-
+	
+	private int maxDiscountAmount;
 	private int discountPercent;
+	
 	private Long memberId;
 	private String expireDate;
 	private String regDate;
@@ -24,6 +26,15 @@ public class MemberCoupon {
 
 	public void setDiscountPercent(int discountPercent) {
 		this.discountPercent = discountPercent;
+	}
+	
+
+	public int getMaxDiscountAmount() {
+		return maxDiscountAmount;
+	}
+
+	public void setMaxDiscountAmount(int maxDiscountAmount) {
+		this.maxDiscountAmount = maxDiscountAmount;
 	}
 
 	public MemberCoupon(Long couponId, Long memberId, String expireDate) {

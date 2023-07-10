@@ -5,6 +5,7 @@ import com.sp.app.domain.member.Member;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sp.app.member.follow.FollowService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,6 +25,14 @@ public class MemberManagementRepositoryImplTest {
 
 	@Autowired
 	MemberManagementRepository memberManagementRepository;
+
+	@Autowired
+	FollowService followService;
+
+	@Test
+	public void insertFollow() throws Exception {
+		followService.insertFollow(1L, 62L);
+	}ㅎ
 
 	@Before
 	public void hello() {

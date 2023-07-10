@@ -133,7 +133,7 @@ $(function(){
 					<a href="<c:url value='/seller/deliveryManage'/>" class="sub_menu--link">배송조회/수정</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="<c:url value='/seller/orderManage'/>" class="sub_menu--link">주문 조회</a>
+					<a href="<c:url value='/seller/delivery/ordermanage'/>" class="sub_menu--link">주문 조회</a>
 				</li>
 			</ul>
 		</li>

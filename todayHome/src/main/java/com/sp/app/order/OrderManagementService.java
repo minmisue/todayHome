@@ -18,11 +18,12 @@ public interface OrderManagementService {
 	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception;
 	
 	// 주문 상세 조회
-	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception; 
+	public List<Order> getOrderDetailList(String orderBundleId,int offset,int size) throws Exception; 
 	
 	public Order getOrderCount(Long sellerId, String date) throws Exception;
 
 	//주문조회 카운트
-	int getOrderListCount(Long sellerId,String startDate,String endDate,String keyword,String condition)throws Exception;
+	int orderListCount(Long sellerId,String startDate,String endDate,String keyword,String condition)throws Exception;
 
+	int orderDetailCount(String orderBundleId) throws Exception;
 }

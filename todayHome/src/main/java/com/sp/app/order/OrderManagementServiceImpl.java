@@ -59,13 +59,19 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 
 	@Override
 	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception {
-		List<Order> orderList = orderManagementRepository.getOrderList(sellerId,offset,size,startDate,endDate,keyword,condition);
+		List<Order> orderList = null;
+		try {
+			orderList = orderManagementRepository.getOrderList(sellerId,offset,size,startDate,endDate,keyword,condition);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		return orderList;
 	}
 
 	@Override
-	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception {
-		List<Order> orderDetailList = orderManagementRepository.getOrderDetailList(sellerId, orderBundleId);
+	public List<Order> getOrderDetailList( String orderBundleId,int offset, int size) throws Exception {
+		List<Order> orderDetailList = orderManagementRepository.getOrderDetailList(orderBundleId,offset,size);
 		return orderDetailList;
 	}
 
@@ -76,9 +82,15 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	}
 
 	@Override
-	public int getOrderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition) throws Exception{
+	public int orderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition) throws Exception{
 	
-		return orderManagementRepository.getOrderListCount(sellerId, startDate,endDate,keyword,condition);
+		return orderManagementRepository.orderListCount(sellerId, startDate,endDate,keyword,condition);
 	
 }
+
+	@Override
+	public int orderDetailCount(String orderBundleId) throws Exception {
+		
+		return orderManagementRepository.orderDetailCount(orderBundleId);
+	}
 }

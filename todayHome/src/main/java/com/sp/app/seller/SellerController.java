@@ -1,5 +1,6 @@
 package com.sp.app.seller;
 
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.app.common.MyUtil;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.seller.Seller;
-import com.sp.app.domain.seller.SellerAdjustment;
 import com.sp.app.order.OrderManagementService;
 
 @Controller
@@ -29,6 +30,12 @@ public class SellerController {
 	
 	@Autowired
 	SellerService sellerService;
+
+	@Autowired
+	private MyUtil myUtil;
+	
+	@Autowired
+	OrderManagementService orderManagementService;
 	
 	@GetMapping("seller/join")
 	public String sellerSignUp() {
@@ -164,16 +171,6 @@ public class SellerController {
 		return ".seller.deliveryManage.deliverymanage";
 	}
 	
-	@GetMapping("seller/orderManage")
-	public String orderManage(HttpSession httpSession) {
-		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
-	    
-	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
-	        
-	        return "redirect:/seller/error";
-	    }
-		return ".seller.deliveryManage.ordermanage";
-	}
 	
 	@GetMapping("seller/refund")
 	public String refundManage(HttpSession httpSession) {
@@ -215,14 +212,15 @@ public class SellerController {
 	public String errorPage() {
 		return ".seller.error.error";
 	}
-	/*
-	@RequestMapping("seller/orderMange")
+	
+	@RequestMapping("seller/delivery/ordermanage")
 	public String orderList(
+			Seller seller,
 	        Order order,
 	        HttpServletRequest req,
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
 	        @RequestParam(value = "startDate", defaultValue="") String startDate,
 	        @RequestParam(value = "endDate", defaultValue = "") String endDate,	       
-	        @RequestParam(value = "page", defaultValue = "1") int current_page,
 	        @RequestParam(value = "condition", defaultValue = "") String condition,
 			@RequestParam(value ="keyword", defaultValue = "") String keyword,	        
 	        HttpSession httpSession,
@@ -238,7 +236,11 @@ public class SellerController {
 	    int total_page = 0;
 	    int dataCount = 0;
 	    
-	    dataCount = OrderManagementService.order(sellerId,startDate,endDate);
+	    if (req.getMethod().equalsIgnoreCase("GET")) { 
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}
+	    
+	    dataCount = orderManagementService.orderListCount(sellerId, startDate, endDate, keyword, condition);
 	    if (dataCount != 0) {
 	        total_page = myUtil.pageCount(dataCount, size);
 	    }
@@ -250,35 +252,80 @@ public class SellerController {
 	    int offset = (current_page - 1) * size;
 	    if (offset < 0) offset = 0;
 
-	    List<SellerAdjustment> sellerAdjustmentList = adjustmentService.getAdjustmentsBySellerId(sellerId, offset, size,startDate,endDate);
-	    
-	    int totalAmount = 0;
-	    for (SellerAdjustment sellerAdjustment : sellerAdjustmentList) {
-	        totalAmount += sellerAdjustment.getAmount();
-	    }	    
+	    List<Order> getOrderList = orderManagementService.getOrderList(sellerId, offset, size, startDate, endDate, keyword, condition);
+	        
 	    
 	    String cp = req.getContextPath();
 	    String query = "";
-	    String listUrl = cp + "/seller/adjustment/list";
+	    String listUrl = cp + "/seller/delivery/ordermanage";
 	    
 	    if (startDate != null && endDate != null) {
 		    query += "&startDate=" + URLEncoder.encode(startDate, "UTF-8") + "&endDate=" + URLEncoder.encode(endDate, "UTF-8");
+		}
+		
+		if (startDate != null && endDate != null && keyword.length() != 0) {
+		    query += "&startDate=" + URLEncoder.encode(startDate, "UTF-8") + "&endDate=" + URLEncoder.encode(endDate, "UTF-8") + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		} 
+			
+		if (keyword.length() != 0) {
+		    query += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
 	    
 	    listUrl += "?" + query;
 	    
 	    String paging = myUtil.paging(current_page, total_page, listUrl);
 
-	    model.addAttribute("sellerAdjustmentList", sellerAdjustmentList);
+	    model.addAttribute("getOrderList", getOrderList);
 	    model.addAttribute("page", current_page);
-	    model.addAttribute("adjustmentCount", dataCount);
+	    model.addAttribute("orderListCount", dataCount);
 	    model.addAttribute("total_page", total_page);
 	    model.addAttribute("paging", paging);
+	    
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
-		model.addAttribute("totalAmount", totalAmount);
-		
-	    return ".seller.adjustment.list";
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
+	    return ".seller.deliveryManage.ordermanage";
 	}
-	*/
+	@RequestMapping(value = "/seller/deliveryManage/ordermanagedetail/{orderBundleId}", method = RequestMethod.GET)
+	public String orderDetail(HttpServletRequest req,
+			@PathVariable("orderBundleId") String orderBundleId,
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			Model model, Order order ) throws Exception{
+		int size = 10;
+	    int total_page = 0;
+	    int dataCount = 0;
+	    	    
+	    dataCount = orderManagementService.orderDetailCount(orderBundleId);
+	    if (dataCount != 0) {
+	        total_page = myUtil.pageCount(dataCount, size);
+	    }
+
+	    if (total_page < current_page) {
+	        current_page = total_page;
+	    }
+
+	    int offset = (current_page - 1) * size;
+	    if (offset < 0) offset = 0;
+
+	    List<Order> getOrderDetailList = orderManagementService.getOrderDetailList( orderBundleId,offset,size);	        	    
+	    String cp = req.getContextPath();
+	    String query =  orderBundleId; // Include orderBundleId in the query string
+	    String listUrl = cp + "/seller/deliveryManage/ordermanagedetail/";
+
+	    listUrl +=  query;
+	    
+	    String paging = myUtil.paging(current_page, total_page, listUrl);
+
+
+		    model.addAttribute("page", current_page);
+		    model.addAttribute("orderDetailCount", dataCount);
+		    model.addAttribute("total_page", total_page);
+		    model.addAttribute("paging", paging);       
+			model.addAttribute("order", order);
+			model.addAttribute("getOrderDetailList", getOrderDetailList);
+
+		return ".seller.deliveryManage.ordermanagedetail";
+	}
+	
 }

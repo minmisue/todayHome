@@ -51,7 +51,8 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 
 	@Override
 	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("sellerId", sellerId);
 		map.put("offset", offset);			
 		map.put("size", size);
 		map.put("startDate", startDate);
@@ -59,17 +60,17 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 		map.put("keyword", keyword);
 		map.put("condition", condition);
 		
-		List<Order> orderList = commondao.selectList("order.getOrderList", map);
-		return orderList;
+		return commondao.selectList("order.getOrderList", map);
+		
 	}
 
 	@Override
-	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception {
+	public List<Order> getOrderDetailList( String orderBundleId,int offset, int size) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("sellerId", sellerId);
 		map.put("orderBundleId", orderBundleId);
-		
+		map.put("offset", offset);
+		map.put("size", size);
 		List<Order> OrderDetailList = commondao.selectList("order.getOrderDetailList", map);
 		return OrderDetailList;
 	}
@@ -84,14 +85,20 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 	}
 
 	@Override
-	public int getOrderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition)throws Exception{
-	Map<String, Object> map = new HashMap<String, Object>();
-	map.put("sellerId", sellerId);
-	map.put("startDate", startDate);
-	map.put("endDate", endDate);
-	map.put("keyword", keyword);
-	map.put("condition", condition);
-	return commondao.selectOne("order.getOrderListCount",map);
+	public int orderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition)throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("sellerId", sellerId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("keyword", keyword);
+		map.put("condition", condition);
+		return commondao.selectOne("order.orderListCount",map);
+	}
+
+	@Override
+	public int orderDetailCount(String orderBundleId) throws Exception {
+		
+		return commondao.selectOne("order.orderDetailCount", orderBundleId);
 	}
 
 

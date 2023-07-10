@@ -1,5 +1,9 @@
 package com.sp.app.seller;
 
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.order.Order;
 import com.sp.app.domain.seller.Seller;
+import com.sp.app.domain.seller.SellerAdjustment;
+import com.sp.app.order.OrderManagementService;
 
 @Controller
 public class SellerController {
@@ -208,5 +215,70 @@ public class SellerController {
 	public String errorPage() {
 		return ".seller.error.error";
 	}
+	/*
+	@RequestMapping("seller/orderMange")
+	public String orderList(
+	        Order order,
+	        HttpServletRequest req,
+	        @RequestParam(value = "startDate", defaultValue="") String startDate,
+	        @RequestParam(value = "endDate", defaultValue = "") String endDate,	       
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
+	        @RequestParam(value = "condition", defaultValue = "") String condition,
+			@RequestParam(value ="keyword", defaultValue = "") String keyword,	        
+	        HttpSession httpSession,
+	        Model model) throws Exception {
+	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    Long sellerId = sellerSessionInfo.getSellerId();
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
+	    int size = 5;
+	    int total_page = 0;
+	    int dataCount = 0;
+	    
+	    dataCount = OrderManagementService.order(sellerId,startDate,endDate);
+	    if (dataCount != 0) {
+	        total_page = myUtil.pageCount(dataCount, size);
+	    }
 
+	    if (total_page < current_page) {
+	        current_page = total_page;
+	    }
+
+	    int offset = (current_page - 1) * size;
+	    if (offset < 0) offset = 0;
+
+	    List<SellerAdjustment> sellerAdjustmentList = adjustmentService.getAdjustmentsBySellerId(sellerId, offset, size,startDate,endDate);
+	    
+	    int totalAmount = 0;
+	    for (SellerAdjustment sellerAdjustment : sellerAdjustmentList) {
+	        totalAmount += sellerAdjustment.getAmount();
+	    }	    
+	    
+	    String cp = req.getContextPath();
+	    String query = "";
+	    String listUrl = cp + "/seller/adjustment/list";
+	    
+	    if (startDate != null && endDate != null) {
+		    query += "&startDate=" + URLEncoder.encode(startDate, "UTF-8") + "&endDate=" + URLEncoder.encode(endDate, "UTF-8");
+		}
+	    
+	    listUrl += "?" + query;
+	    
+	    String paging = myUtil.paging(current_page, total_page, listUrl);
+
+	    model.addAttribute("sellerAdjustmentList", sellerAdjustmentList);
+	    model.addAttribute("page", current_page);
+	    model.addAttribute("adjustmentCount", dataCount);
+	    model.addAttribute("total_page", total_page);
+	    model.addAttribute("paging", paging);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("totalAmount", totalAmount);
+		
+	    return ".seller.adjustment.list";
+	}
+	*/
 }

@@ -58,6 +58,12 @@
         display: none;
         margin: 0;
     }
+    
+    .cart-cnt {
+	    color: white;
+	    font-size: 10px;
+	    font-weight: 700
+	}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/menubar.css">
 
@@ -81,7 +87,16 @@
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || sessionScope.sessionInfo.userRole == 2 && not empty sessionScope.sessionInfo}">
 				<i class="bi bi-bookmark menubar-icon"></i>
-				<i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/notification'"></i>
+				
+				<div style="position: relative">
+				 <i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/notification'"></i>
+				<c:if test="${sessionScope.notificationCount != 0 && not empty sessionScope.sessionInfo}">
+					<div class="cart-badge">
+						<span class="cart-cnt">${sessionScope.notificationCount}</span>
+					</div>
+				</c:if>
+	
+			</div>
 			</c:if>
             <%--            --%>
 
@@ -91,7 +106,7 @@
                 <%-- 장바구니에 상품 없을시 표시 X --%>
                <c:if test="${sessionScope.dataCartCount != 0 && not empty sessionScope.sessionInfo}">
 	                <div class="cart-badge">
-	                    <span id="cart-cnt">${sessionScope.dataCartCount}</span>
+	                    <span class="cart-cnt">${sessionScope.dataCartCount}</span>
 	                </div>
                </c:if>
          

@@ -2,6 +2,7 @@ package com.sp.app.mail;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -11,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -128,5 +130,35 @@ public class MailServiceImpl implements MailService {
 		}
 
 		return b;
+	}
+
+	@Override
+	public String resetPwd(HttpSession session) throws Exception {
+		try {
+			String vertificationCode =  generatePwd();
+			session.setAttribute("vertificationCode",vertificationCode);
+			return vertificationCode ;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		return null;
+		
+	}
+	
+	
+	public String generatePwd() {
+		StringBuilder sb = new StringBuilder();
+		
+		Random rd = new Random();
+		String s =  "!@#$%^&*()_+=-QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopsdfghjklzxcvbnm1234567890";
+		for (int i =0; i <10; i ++) {
+			int n = rd.nextInt(s.length());
+			sb.append(s.substring(n, n+1));
+			
+		}
+		return sb.toString();
 	}
 }

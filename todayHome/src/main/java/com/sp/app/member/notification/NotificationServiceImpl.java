@@ -231,9 +231,15 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void isReadupdateNotification(Long notificationId) throws Exception {
+	public void isReadupdateNotification(Long notificationId, HttpSession session) throws Exception {
 		try {
+			SessionInfo sessionInfo = (SessionInfo)session.getAttribute("sessionInfo");
+			if(sessionInfo != null ) {
 			 notificationRepository.isReadupdateNotification(notificationId);
+			 Long memberId = sessionInfo.getMemberId();
+			 int notificationCount = notificationRepository.getNotReadNotificationCount(memberId);
+				session.setAttribute("notificationCount", notificationCount);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

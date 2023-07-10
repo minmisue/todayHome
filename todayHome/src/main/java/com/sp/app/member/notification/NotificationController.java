@@ -45,11 +45,11 @@ public class NotificationController {
 	
 	@PostMapping("notification/isRead")
 	@ResponseBody
-	public boolean isReadupdateNotification(@RequestParam Long notificationId) {
+	public boolean isReadupdateNotification(@RequestParam Long notificationId ,  HttpSession session) {
 		boolean result = false;
 		try {
 			System.out.println(notificationId);
-			notificationService.isReadupdateNotification(notificationId);
+			notificationService.isReadupdateNotification(notificationId,session);
 			result = true;
 			System.out.println("hello");
 			

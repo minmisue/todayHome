@@ -1,9 +1,9 @@
 package com.sp.app.mail;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,20 +11,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.app.domain.mail.Mail;
 
-@Controller
-@RequestMapping("mail")
-public class MailController {
+	@Controller
+	@RequestMapping("mail")
+	public class MailController {
 	@Autowired
 	private MailServiceImpl mailSender;
 	
+	String resetPwd = null;
 
 	@PostMapping("send")
 	@ResponseBody
-	public boolean sendSubmit(@RequestParam String email) throws Exception {
+	public boolean sendSubmit(@RequestParam String email,HttpSession session) throws Exception {
 		
+		// 임의의 암호를 생성해준다.
+		try {
+			resetPwd = mailSender.resetPwd(session);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+		
+	
+		}
 		Mail mail = new Mail();
 		mail.setReceiverEmail(email);
-		mail.setContent("인증번호입니다.");
+		mail.setContent("인증번호는" + resetPwd + "입니다.");
 		mail.setSubject("인증메일");
 		mail.setSenderEmail("gogogo960922@gmail.com");
 		mail.setSenderName("오늘의집");
@@ -33,15 +44,18 @@ public class MailController {
 		return mailSender.mailSend(mail);
 	}
 	
-	@GetMapping("complete")
-	public String complete(@ModelAttribute("message") String message) throws Exception{
+	@PostMapping("complete")
+	public String complete(@RequestParam String Code, HttpSession session) throws Exception{
 		
-		// 컴플릿 페이지(complete.jsp)의 출력되는 message와 title는 RedirectAttributes 값이다. 
-		// F5를 눌러 새로 고침을 하면 null이 된다.
+		try {
+			if(resetPwd == Code) {
+				return "true";
+			} 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		if(message==null || message.length()==0) // F5를 누른 경우
-			return "redirect:/";
-		
-		return ".mail.complete";
+		return "false";
 	}
 }

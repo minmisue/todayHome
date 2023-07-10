@@ -39,13 +39,13 @@
 			<%--            --%>
 			<div style="position: relative">
 				 <i class="bi bi-bell menubar-icon"></i>
-				<c:if
-					test="${sessionScope.notificationCount != 0 && not empty sessionScope.sessionInfo}">
+				<%-- <c:if test="${sessionScope.notificationCount != 0 && not empty sessionScope.sessionInfo}"> --%>
 					<div class="cart-badge">
-						<span id="cart-cnt">${sessionScope.notificationCount}</span>
+						<%-- <span>${sessionScope.notificationCount}</span> --%>
+						<span>1</span>
 					</div>
-				</c:if>
-
+				<%-- </c:if> --%>
+	
 			</div>
 			<div style="position: relative">
 				<i class="bi bi-cart menubar-icon"></i>

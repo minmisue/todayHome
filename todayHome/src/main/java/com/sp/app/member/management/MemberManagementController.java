@@ -58,8 +58,16 @@ public class MemberManagementController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println(notificationCount);
+		
 		httpSession.setAttribute("dataCartCount", dataCartCount);
 		httpSession.setAttribute("notificationCount", notificationCount);
+		
+		int result = (int) httpSession.getAttribute("notificationCount");
+		
+		System.out.println("getFromSession : " + result);
+		
 		return "redirect:/home";
 	}
 
@@ -134,15 +142,21 @@ public class MemberManagementController {
 	
 	@GetMapping("resetPassword")
 	@ResponseBody
-	public boolean resetPasswordSubmit(@RequestParam("email") String email) {
-	
+	public boolean resetPasswordSubmit(@RequestParam("email") String email, HttpSession session) {
+		
 		try {
-			return memberManagementService.emailCheck(email);
+			
+		return memberManagementService.emailCheck(email);
+		 
+		
+			 
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return false;
 	}
+	
 	
 }

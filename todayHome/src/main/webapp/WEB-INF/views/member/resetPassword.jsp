@@ -39,7 +39,7 @@
 		function showVerificationField() {
         	verificationField.style.display = "flex";
         	let email = document.getElementById('email');
-        	
+        	alert(email.value);
         	$.ajax({
                 url: "${pageContext.request.contextPath}/mail/send",
                 type: 'POST',
@@ -101,6 +101,30 @@
                 }
             });
         }
+		function codeOk() {
+        	let code = document.getElementById('verificationCode');
+        	
+        	$.ajax({
+                url: "${pageContext.request.contextPath}/mail/complete",
+                type: 'POST',
+                data: 'verificationCode=' + verificationCode.value,
+                dataType: 'text',
+                success: function (response) {
+                	if(response == 'true') {
+                		alert("오키오키 ");
+                	}    
+               	
+                		
+                	
+                },
+                error: function (xhr, status, error) {
+                    // 요청이 실패했을 때 실행되는 코드
+                }
+            });
+
+		}
+
+
 	</script>
 
 	<jsp:include page="/WEB-INF/views/fragment/menubar.jsp" />
@@ -123,7 +147,7 @@
 				
 				<div id="verificationField" style="position: relative; display: none;">
 					<input class="form-control" type="text" id="verificationCode" placeholder="인증번호를 입력하세요" style="margin-top: 20px; height: 45px">
-					<button class="codeOk-btn" style="" type="button" onclick="codeOk();">확인</button>
+					<button class="codeOk-btn" style="" type="button"  onclick="codeOk();">확인</button>
 				</div>
 				
 				<div

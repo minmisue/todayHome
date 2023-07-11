@@ -171,7 +171,7 @@
     <div class="sub-menubar-container">
         <div class="sub-menubar">
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/home'">쇼핑홈</div>
-            <div class="sub-item">카테고리</div>
+            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">카테고리</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/ranks'">베스트</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/shop/today-deals'">오늘의딜</div>
         </div>

@@ -37,9 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping()
@@ -136,6 +134,9 @@ public class ProductManagementController {
 			@RequestParam MultipartFile[] productImg,
 			HttpSession httpSession
 		) {
+
+		Optional<Integer> min = stockPrice.stream().min(Comparator.naturalOrder());
+		product.setPrice(min.orElse(0));
 
 		ObjectMapper objectMapper = new ObjectMapper();
 

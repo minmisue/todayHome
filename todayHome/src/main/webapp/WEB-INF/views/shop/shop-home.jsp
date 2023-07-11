@@ -67,6 +67,9 @@
             line-height: 17px;
             max-height: 34px;
             color: #424242;
+			/*white-space: nowrap;*/
+			/*overflow: hidden;*/
+			/*text-overflow: ellipsis;*/
         }
 
         .today-deal-sale-percent {
@@ -316,7 +319,7 @@
 		<div class="grid-col-4 grid-row">
 
 			<c:forEach items="${productList}" var="product">
-				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${review.productId}'">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
 					<div class="today-deal-img-container">
 						<img class="today-deal-product-img"
 							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">

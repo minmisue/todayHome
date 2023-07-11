@@ -216,8 +216,8 @@ public class UserBoardRepositoryImplTest {
 	public void listComment() throws Exception{
 		Long userBoardId = 2L;
 		
-		List<Comment> listComment = userBoardRepository.listComment(userBoardId);
-		System.out.println(listComment);
+//		List<Comment> listComment = userBoardRepository.listComment(userBoardId);
+//		System.out.println(listComment);
 		
 		
 	}

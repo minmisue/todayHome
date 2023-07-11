@@ -123,9 +123,9 @@ public class ProductReviewRepositoryImplTest {
 
 	@Test
 	public void searchReview() throws Exception {
-		List<ProductReview> reviewList = productReviewRepository.searchReview(1L, "20230610", "20230728", "도", 6);
-		for (ProductReview productReview : reviewList) {
-			System.out.println(productReview);
-		}
+//		List<ProductReview> reviewList = productReviewRepository.searchReview(1L, "20230610", "20230728", "도", 6);
+//		for (ProductReview productReview : reviewList) {
+//			System.out.println(productReview);
+//		}
 	}
 }

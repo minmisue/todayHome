@@ -164,6 +164,10 @@ public class MemberManagementController {
 		
 		
 	}
+	@GetMapping("oauth")
+	public String loginKakao() {
+		return "member/oauth";
+	}
 	
 	
 }

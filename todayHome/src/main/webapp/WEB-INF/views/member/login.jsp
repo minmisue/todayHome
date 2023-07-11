@@ -154,9 +154,9 @@
 
 	<div class="wow">
 		SNS계정으로 간편 로그인/회원가입
-		<div class="social">
+		<a class="social social-kakao-login" href="https://kauth.kakao.com/oauth/authorize?client_id=3ebf8bbbb7b91d2e8e34c1ae7d68f0db&redirect_uri=http://localhost:9090/app/oauth&response_type=code">
 			<img class="sns-img" src="${pageContext.request.contextPath}/resources/picture/social/kakaotalk.png">
-		</div>
+		</a>
 
 		<div class="login-error">
 			<a class="yah" href="">로그인에 문제가 있으신가요?</a>
@@ -170,5 +170,6 @@
 	</footer>
 
 </div>
+
 </body>
 </html>

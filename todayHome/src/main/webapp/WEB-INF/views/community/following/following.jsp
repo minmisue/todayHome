@@ -284,8 +284,8 @@
 			data : 'checkedValues=' + checkedValues,
 			dataType : 'text',
 			success : function(response) {
-				alert(response)
-			alert("성공적으로 팔로우 하였습니다. ");
+				location.href="${pageContext.request.contextPath}/community/follow/feed";
+			
 			
 			
 

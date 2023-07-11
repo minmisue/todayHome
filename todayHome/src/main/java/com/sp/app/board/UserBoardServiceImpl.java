@@ -225,9 +225,9 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public void insertScrapLike(Long userBoardId, Long memberId) throws Exception {
+	public void insertBoardScrap(Long userBoardId, Long memberId) throws Exception {
 		try {
-			userBoardRepository.insertScrapLike(userBoardId, memberId);
+			userBoardRepository.insertBoardScrap(userBoardId, memberId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -274,8 +274,11 @@ public class UserBoardServiceImpl implements UserBoardService{
 
 	@Override
 	public void insertComment(Comment comment) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			userBoardRepository.insertComment(comment);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -286,46 +289,64 @@ public class UserBoardServiceImpl implements UserBoardService{
 
 	@Override
 	public int commentCount(Long userBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return userBoardRepository.commentCount(userBoardId);
 	}
 
 	@Override
-	public List<Comment> listComment(Long userBoardId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Comment> listComment(Long memberId, Long userBoardId, int offset, int size) throws Exception {
+		return userBoardRepository.listComment(memberId, userBoardId, offset, size);
 	}
 
 	@Override
-	public List<Comment> listCommentAnswer() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Comment> listCommentAnswer(Map<String, Object> map) throws Exception {
+		return userBoardRepository.listCommentAnswer(map);
 	}
 
 	@Override
 	public void insertCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			userBoardRepository.insertCommentLike(userBoardCommentId, memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public void deleteCommentLike(Long userBoardCommentId, Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			userBoardRepository.deleteCommentLike(userBoardCommentId, memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
 	public int commentLikeCount(Long userBoardCommentId) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		try {
+			result = userBoardRepository.commentCount(userBoardCommentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
 	}
 
 	@Override
 	public boolean userCommentLiked(Long userBoardCommentId, Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		try {
+			result = userBoardRepository.userCommentLiked(userBoardCommentId, memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
 	}
-
 	
 
 }

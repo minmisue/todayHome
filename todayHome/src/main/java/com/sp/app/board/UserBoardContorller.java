@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mongodb.DuplicateKeyException;
 import com.sp.app.common.MyUtil;
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.EventReply;
 import com.sp.app.domain.board.ListBoard;
 import com.sp.app.domain.board.UserBoard;
 import com.sp.app.domain.common.SessionInfo;
@@ -134,8 +136,10 @@ public class UserBoardContorller {
 
 		
 		boolean userBoardLiked = userBoardservice.userBoardLiked(userBoardId, memberId);
+		boolean userBoardScraped = userBoardservice.userBoardScraped(userBoardId, memberId);
 		
 		model.addAttribute("userBoardLiked", userBoardLiked);
+		model.addAttribute("userBoardScraped", userBoardScraped);
 		model.addAttribute("userBoard", userBoard);
 		model.addAttribute("userBoardContent",userBoardContent);
 		
@@ -205,7 +209,7 @@ public class UserBoardContorller {
 			if(userBoardScraped) {
 				userBoardservice.deleteBoardScrap(userBoardId, memberId);
 			} else {
-				userBoardservice.insertScrapLike(userBoardId, memberId);
+				userBoardservice.insertBoardScrap(userBoardId, memberId);
 			}
 			
 		} catch (DuplicateKeyException e) {
@@ -224,4 +228,113 @@ public class UserBoardContorller {
 		
 	}
 	
+	@GetMapping("listReply")
+	public String picturelistReply(@RequestParam long userBoardId,
+			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			HttpSession session, Model model) throws Exception{
+		
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+
+		dataCount = userBoardservice.commentCount(userBoardId);
+		
+		total_page = myUtil.pageCount(dataCount, size);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		long memberId = info.getMemberId();
+		
+		List<Comment> listReply = userBoardservice.listComment(memberId, userBoardId, offset, size);
+		
+		for (Comment comment : listReply) {
+			comment.setContent(comment.getContent().replaceAll("\n", "<br>"));
+		}
+
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
+		
+
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		return "community/picture/picture-reply";
+	}
+	
+	@PostMapping("insertReply")
+	@ResponseBody
+	public String pictureReply(Comment comment, HttpSession session,Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		String state = "true";
+		try {
+			comment.setMemberId(info.getMemberId());
+			userBoardservice.insertComment(comment);
+		} catch (Exception e) {
+			state = "false";
+		}
+		model.addAttribute("state", state);
+		return "redirect:/community/picture/picture-list";
+	}
+	
+	@PostMapping("insertCommentLike")
+	@ResponseBody
+	public Map<String, Object> insertCommentLike(@RequestParam long userBoardCommentId,
+			@RequestParam boolean commentLiked,
+			HttpSession session) throws Exception{
+		
+		String state = "true";
+		int replyLikeCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		long memberId = info.getMemberId();
+		
+		try {
+			if(commentLiked) {
+				userBoardservice.deleteBoardLike(userBoardCommentId, memberId);
+			} else {
+				userBoardservice.insertBoardLike(userBoardCommentId, memberId);
+			}
+			
+		} catch (DuplicateKeyException e) {
+			state = "liked";
+		} catch (Exception e) {
+			state = "false";
+		}
+			
+		replyLikeCount = userBoardservice.commentLikeCount(userBoardCommentId);
+			
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			model.put("replyLikeCount", replyLikeCount);
+			
+			return model;
+		
+	}
+	
+	@GetMapping("listReplyAnswer")
+	public String listReplyAnswer(@RequestParam Map<String, Object> paramMap, 
+			HttpSession session, Model model) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		paramMap.put("memberId", info.getMemberId());
+		
+		List<Comment> listReplyAnswer = userBoardservice.listCommentAnswer(paramMap);
+		
+		for (Comment comment : listReplyAnswer) {
+			comment.setContent(comment.getContent().replaceAll("\n", "<br>"));
+		}
+
+		model.addAttribute("listReplyAnswer", listReplyAnswer);
+		return "community/picture/listReplyAnswer";
+	}
 }

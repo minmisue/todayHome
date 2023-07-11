@@ -76,7 +76,8 @@
 	
 	<select id="readBoard" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">
 		SELECT b.user_board_id as userBoardId, b.member_Id as memberId, nickname, subject,
-				hit_count as hitCount, boardLikeCount, boardScrapCount, profile_img_name as profileImgName
+				hit_count as hitCount, bsc.boardScrapCount, boardLikeCount, replyCount,
+			    profile_img_name as profileImgName
 		FROM user_board b
 		JOIN member_detail m ON b.member_Id = m.member_Id
 		LEFT OUTER JOIN (
@@ -87,6 +88,12 @@
 			SELECT user_board_id, COUNT(*) boardLikeCount FROM user_board_like 
 			GROUP BY user_board_id
 		) blc ON b.user_board_id = blc.user_board_id
+		LEFT OUTER JOIN (
+				SELECT user_board_id, COUNT(*) as replyCount
+				FROM user_board_comment 
+				WHERE parent_comment_id IS NULL
+				GROUP BY user_board_id
+		) brc ON b.user_Board_id = brc.user_board_id
 		WHERE b.user_board_id = #{userBoardId}                       
 	</select>
 	
@@ -160,7 +167,7 @@
 	</select>
 	
 	<!-- 게시글 스크랩 추가 -->
-	<insert id="insertScrapLike" parameterType="map">
+	<insert id="insertBoardScrap" parameterType="map">
 		INSERT INTO user_board_scrap(user_board_id, member_id) VALUES (#{userBoardId}, #{memberId})
 	</insert>
 	
@@ -176,7 +183,7 @@
 	
 	<!-- 게시글 스크랩 여부 -->
 	<select id="userBoardScraped" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
-		SELECT user_board_id, member_id FROM user_board_scrap WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
+		SELECT user_board_id as userBoardId, member_id as memberId FROM user_board_scrap WHERE user_board_id = #{userBoardId} AND member_id = #{memberId}
 	</select>
 	
 	<!-- 댓글 -->
@@ -192,9 +199,10 @@
 	</select>
 	
 	<!-- 댓글리스트 -->
-	<select id="listComment" parameterType="Long" resultType="com.sp.app.domain.board.Comment">
-		SELECT c.user_board_comment_id as userBoardCommentId, c.member_id as memberId, m.nickname, c.user_board_id as userBoardId, c.content, c.reg_date as regDate,
-		  NVL(ci.comment_like_count, 0) AS likeCount, PROFILE_IMG_NAME as profileImgName
+	<select id="listComment" parameterType="map" resultType="com.sp.app.domain.board.Comment">
+		SELECT c.user_board_comment_id as userBoardCommentId, c.member_id as memberId, m.nickName, c.user_board_id as userBoardId, c.content, c.reg_date as regDate,
+		  NVL(ci.comment_like_count, 0) AS likeCount, PROFILE_IMG_NAME as profileImgName,
+		  NVL(commentLiked, 0) AS commentLiked
 		FROM user_board_comment c
 		JOIN member_detail m ON c.member_id = m.member_id
 		LEFT JOIN (
@@ -202,8 +210,14 @@
 		  FROM user_board_comment_like
 		  GROUP BY user_board_comment_id
 		) ci ON c.user_board_comment_id = ci.user_board_comment_id
+		LEFT OUTER JOIN (
+		    SELECT user_board_comment_id, 1 commentLiked
+		    FROM USER_BOARD_COMMENT_LIKE
+		    WHERE member_id = #{memberId}
+        ) bc ON c.USER_BOARD_COMMENT_ID = bc.USER_BOARD_COMMENT_ID
 		WHERE c.user_board_id = #{userBoardId} AND c.parent_comment_id IS NULL
 		ORDER BY c.user_board_comment_id DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 	
 	<delete id="deleteComment" parameterType="map">

@@ -31,6 +31,28 @@
         .content-text {
             margin-top: 15px;
         }
+        
+        .picture-btn {
+			position: absolute;
+ 		    top: 18;
+		    right: 6px;
+		    background-color: transparent;
+		    border: none;
+		    font-size: 16px;
+            line-height: 20px;
+            color: rgb(53, 197, 240);
+            font-weight: 700
+		}
+		
+			.picture-reply-text {
+		    display: inline-block;
+		    height: 40px;
+ 	  	    width: 670px;
+ 		    margin-top: 9px;
+ 		    border: 1px solid rgb(218, 221, 224);
+ 		    border-radius: 4px;
+ 		    resize: none;
+		}
 	</style>
 </head>
 <body>
@@ -78,14 +100,32 @@
 						</div>
 					</div>
 			</c:forEach>
-		</div>
-		<div>
+			<div>
 			<c:choose>
 				<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">
   					<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
   				</c:when>
   			</c:choose>
 		</div>
+		
+			<div class="reply">
+					<form name="replyForm" method="post">
+						
+						<div style="display: flex;">
+							<div>
+								<img style="width: 50px; height:50px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${sessionInfo.profileImgName}">
+							</div>  
+							<div style="position: relative;">
+								<textarea class="picture-reply-text" name="content" id="content" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)"></textarea>
+								<button class="picture-btn" type="button"> 입력</button>
+							</div>
+						</div>
+					</form>
+					
+					<div id=listReply></div>
+		    </div>
+		</div>
+		
 		
 		<div style="position:absolute; top: 50px; right: 120px; padding-left: 20px; padding-top: 20px; margin-top: 40px; height: 100%">
 			<div class="flex-col" style="position: sticky; top: 180px; text-align: center">
@@ -100,7 +140,7 @@
 					<div class="flex-col shadow-sm" style="border: 1px solid #C2C8CB; border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px;">
 					<button type="button" class="btn btnSendBoardScrap" title="북마크">	<i class="bi ${userBoardScraped ? 'bi-bookmark-fill':'bi-bookmark'}" style="font-size: 22px"></i></button>
 					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardScrapCount">${userBoard.boardScrapCount }</div>
+					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardScrapCount">${userBoard.boardScrapCount}</div>
 				</div>
 
 				<div class="border-line" style="margin-top: 20px; margin-bottom: 10px;"></div>
@@ -109,15 +149,9 @@
 					<div class="flex-col shadow-sm" style="border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px; background-color: #F8F9FA">
 						<i class="bi bi-chat" style="font-size: 22px"></i>
 					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;">4,316</div>
+					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="replyCount">${userBoard.replyCount}</div>
 				</div>
 
-				<div>
-					<div class="flex-col shadow-sm" style="border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px; background-color: #F8F9FA">
-						<i class="bi bi-share" style="font-size: 22px"></i>
-					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;">4,316</div>
-				</div>
 		
 
 			</div>
@@ -157,7 +191,7 @@
 
 <jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
 </body>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 	function deleteBoard() {
 	    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
@@ -238,14 +272,13 @@
 			const fn = function(data){
 				let state = data.state;
 				if(state === "true") {
-					if( userBoardLiked ) {
+					if( userBoardScraped ) {
 						$i.removeClass("bi-bookmark-fill").addClass("bi-bookmark");
-						
 					} else {
 						$i.removeClass("bi-bookmark").addClass("bi-bookmark-fill");
 					}
 					
-					var count = data.boardLikeScrap;
+					var count = data.boardScrapCount;
 					$("#boardScrapCount").text(count);
 				} else if(state === "liked") {
 					alert("게시글 좋아요는 한번만 가능합니다. !!!");
@@ -257,6 +290,136 @@
 			ajaxFun(url, "post", query, "json", fn);
 		});
 	});
+	
+	 $(function(){
+	    	listPage(1);
+	    });
+
+	     function listPage(page) {
+	    	let url = "${pageContext.request.contextPath}/community/picture/listReply";
+	    	let query = "userBoardId=${userBoard.userBoardId}&pageNo="+page;
+	    	let selector = "#listReply";
+	    	const fn = function(data){
+	    		$(selector).html(data);
+	    	};
+	    	ajaxFun(url, "get", query, "html", fn);
+	    } 
+	    
+	    $(function () {
+	    	$("button[class='picture-btn']").on("click", function () {
+	    		let userBoardId = "${userBoard.userBoardId}";
+	    		let content = $("#content").val();
+	    		if(! content) {
+	    			$("#content").focus();
+	    			return false;
+	    		}
+	    		content = encodeURIComponent(content);
+	    		
+	    		let url = "${pageContext.request.contextPath}/community/picture/insertReply";
+	    		let query = "userBoardId=" + userBoardId + "&content=" + content;
+
+	    		const fn = function(){
+	    			$("#content").val("");
+	    			listPage(1);
+	    		};
+	    		ajaxFun(url, "post", query, "html", fn);
+	    	});
+		});
+	    
+		$(function(){
+			$("body").on("click", ".btnSendReplyLike", function(){
+				const $i = $(this).find("i");
+				let commentLiked = $i.hasClass("bi-heart-fill");
+				
+				let url = "${pageContext.request.contextPath}/community/picture/insertCommentLike";
+				let userBoardCommentId = "${comment.userBoardCommentId}";
+				let query = "userBoardCommentId="+userBoardCommentId;
+				
+				const fn = function(data){
+					let state = data.state;
+					if(state === "true") {
+						if( commentLiked ) {
+							$i.removeClass("bi-heart-fill").addClass("bi-heart");
+							
+						} else {
+							$i.removeClass("bi-heart").addClass("bi-heart-fill");
+						}
+						
+						var count = data.replyLikeCount;
+						$("#likeCount").text(count);
+					} else if(state === "liked") {
+						alert("게시글 좋아요는 한번만 가능합니다. !!!");
+					} else if(state === "false") {
+						alert("게시물 좋아요 여부 처리가 실패했습니다. !!!");
+					}
+				};
+				
+				ajaxFun(url, "post", query, "json", fn);
+			});
+		});
+		
+		// 답글 버튼(댓글별 답글 등록폼 및 답글리스트)
+		$(function(){
+			$("body").on("click", ".btnReplyAnswerLayout", function(){
+				const $trReplyAnswer = $(this).closest("tr").next();
+				
+				let isVisible = $trReplyAnswer.is(':visible');
+				let replyNum = $(this).attr("data-replyNum");
+					
+				if(isVisible) {
+					$trReplyAnswer.hide();
+				} else {
+					$trReplyAnswer.show();
+		            
+					// 답글 리스트
+					listReplyAnswer(userBoardCommentId);
+					
+					// 답글 개수
+					// countReplyAnswer(userBoardCommentId);
+				}
+			});
+			
+		});
+		
+		$(function(){
+		    function initialize() {
+		        const $trReplyAnswer = $(".btnReplyAnswerLayout").closest("tr").nextAll("tr");
+		        $trReplyAnswer.hide();
+		    }
+		    
+		    initialize();
+		});
+		
+		// 댓글별 답글 등록
+		$(function(){
+		$("body").on("click", ".btnSendReplyAnswer", function(){
+			let userBoardId = "${userBoard.userBoardId}";
+			let userBoardCommentId = $(this).attr("data-userBoardCommentId");
+			const $td = $(this).closest("td");
+			
+			let content = $td.find("textarea").val().trim();
+			if(! content) {
+				$td.find("textarea").focus();
+				return false;
+			}
+			content = encodeURIComponent(content);
+			
+			let url = "${pageContext.request.contextPath}/community/picture/insertReply";
+			let query = "userBoardId=" + userBoardId + "&content=" + content + "&parentCommentId=" + userBoardCommentId;
+			
+			const fn = function(data){
+				$td.find("textarea").val("");
+				
+				var state = data.state;
+				if(state === "true") {
+					listReplyAnswer(userBoardCommentId);
+				}
+			};
+			
+			ajaxFun(url, "post", query, "json", fn);
+		});
+	});
+
 </script>
 
 </html>

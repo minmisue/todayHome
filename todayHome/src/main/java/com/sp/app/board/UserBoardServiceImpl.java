@@ -282,9 +282,13 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public void deleteComment(Long commentId) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void deleteComment(Map<String, Object> map) throws Exception {
+		try {
+			userBoardRepository.deleteComment(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override

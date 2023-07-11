@@ -8,25 +8,21 @@
 		<div class='row p-1'>
 			<div class='col-auto'>
 				<div class='row reply-writer'>
-					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
+					<img class="profile-img"
+								 src="${pageContext.request.contextPath}/resources/picture/member/${replyAnswer.profileImgName}">
 					<div class='col ms-2 align-self-center'>
-						<div class='name'>${replyAnswer.nickName}</div>
-						<div class='date'>${replyAnswer.regDate}</div>
+						<div class='name' style="font-size: 16px; font-weight: bold; padding: 0 0 5px">${replyAnswer.nickName}</div>
+						<div class='content' style="padding: 0">${replyAnswer.content}</div>
+						<div class='date' style="font-size: 12px;">${replyAnswer.regDate}
+							<button type="button" class="btn btn-outline-secondary btnSendReplyLike" style= "border: none;" title="좋아요"><i class="bi ${replyAnswer.commentLiked ==	 1 ? 'bi-heart-fill':'bi-heart'}" style="font-size: 15px;"></i></button>
+							<span id="likeCount">${replyAnswer.likeCount}&nbsp;&nbsp;</span>
+							<c:if test="${sessionScope.sessionInfo.memberId==replyAnswer.memberId}">
+								<div class='deleteReplyAnswer reply-menu-item' style="display: inline" data-userBoardCommentId='${replyAnswer.userBoardCommentId}' data-parentCommentId='${replyAnswer.parentCommentId}'>삭제</div>							
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class='col align-self-center text-end'>
-				<span class='reply-dropdown'><i class='bi bi-three-dots-vertical'></i></span>
-				<div class='reply-menu'>
-						<c:if test="${ssessionScope.sessionInfo.memberId==userBoard.memberId}">
-							<div class='deleteReplyAnswer reply-menu-item' data-replyNum='${replyAnswer.replyNum}' data-answer='${vo.answer}'>삭제</div>
-						</c:if>
-				</div>
-			</div>
-		</div>
-
-		<div class='p-2'>
-			${replyAnswer.content}
 		</div>
 	</div>
 </c:forEach>

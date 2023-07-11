@@ -37,6 +37,23 @@ public class NotificationParse {
 		this.regDate = regDate;
 	}
 
+	@Override
+	public String toString() {
+		return "NotificationParse{" +
+				"notificationId=" + notificationId +
+				", memberId=" + memberId +
+				", nickName='" + nickName + '\'' +
+				", profileImgName='" + profileImgName + '\'' +
+				", userBoardId=" + userBoardId +
+				", pointAmount=" + pointAmount +
+				", profileUri='" + profileUri + '\'' +
+				", bodyUri='" + bodyUri + '\'' +
+				", msg='" + msg + '\'' +
+				", type=" + type +
+				", regDate='" + regDate + '\'' +
+				'}';
+	}
+
 	public NotificationParse() {
 	}
 

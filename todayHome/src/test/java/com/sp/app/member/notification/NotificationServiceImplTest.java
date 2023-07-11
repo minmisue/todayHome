@@ -133,6 +133,7 @@ public class NotificationServiceImplTest {
 
 			System.out.println(nickName + msg);
 
+			System.out.println("type = " + notificationParse.getType());
 			System.out.println("profileUri = " + profileUri);
 			System.out.println("bodyUri = " + bodyUri);
 			System.out.println("profileImgName = " + profileImgName);

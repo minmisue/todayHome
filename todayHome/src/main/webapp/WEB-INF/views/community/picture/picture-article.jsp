@@ -53,6 +53,11 @@
  		    border-radius: 4px;
  		    resize: none;
 		}
+		
+			.reply-answer { 
+			display: none; 
+		}
+		
 	</style>
 </head>
 <body>
@@ -77,9 +82,7 @@
 					<div class="flex-row" style="gap: 5px; align-items: center; font-weight: 350; font-size: 16px; color: rgb(130, 140, 148); margin-bottom: 5px;">
 						<div>20평대</div>
 						<div style="color: #DBDBDB">|</div>
-						<div>내추럴 스타일</div>
-						<div style="color: #DBDBDB">|</div>
-						<div>빌라&연립</div>
+						<div>${boardContentList.categoryName }</div>
 					</div>
 				</div>
 	
@@ -200,7 +203,7 @@
 	    	location.href = url;
 	    }
 	}
-	
+
 	function ajaxFun(url, method, query, dataType, fn) {
 		$.ajax({
 			type:method,
@@ -316,7 +319,7 @@
 	    		content = encodeURIComponent(content);
 	    		
 	    		let url = "${pageContext.request.contextPath}/community/picture/insertReply";
-	    		let query = "userBoardId=" + userBoardId + "&content=" + content;
+	    		let query = "userBoardId=" + userBoardId + "&content=" + content + "&userBoardMemberId=" + ${userBoard.memberId} ;
 
 	    		const fn = function(){
 	    			$("#content").val("");
@@ -325,6 +328,28 @@
 	    		ajaxFun(url, "post", query, "html", fn);
 	    	});
 		});
+	    
+	    $(function(){
+	    	$("body").on("click", ".deleteReply", function(){
+	    		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
+	    		    return false;
+	    		}
+	    		
+	    		let userBoardCommentId = $(this).attr("data-userBoardCommentId");
+	    		let page = $(this).attr("data-pageNo");
+	    		
+	    		let url = "${pageContext.request.contextPath}/community/picture/deleteReply";
+	    		let query = "userBoardCommentId=" + userBoardCommentId + "&mode=reply";
+	    		
+	    		const fn = function(data){
+	    			listPage(page);
+	    		};
+	    		
+	    		ajaxFun(url, "post", query, "json", fn);
+	    	});
+	    });
+	    
+	  
 	    
 		$(function(){
 			$("body").on("click", ".btnSendReplyLike", function(){
@@ -358,13 +383,25 @@
 			});
 		});
 		
+		
+		function listReplyAnswer(parentCommentId) {
+			let url = "${pageContext.request.contextPath}/community/picture/listReplyAnswer";
+			let query = "parentCommentId=" + parentCommentId;
+			let selector = "#listReplyAnswer" + parentCommentId;
+			
+			const fn = function(data){
+				$(selector).html(data);
+			};
+			ajaxFun(url, "get", query, "text", fn);
+		}
+		
 		// 답글 버튼(댓글별 답글 등록폼 및 답글리스트)
 		$(function(){
 			$("body").on("click", ".btnReplyAnswerLayout", function(){
 				const $trReplyAnswer = $(this).closest("tr").next();
 				
 				let isVisible = $trReplyAnswer.is(':visible');
-				let replyNum = $(this).attr("data-replyNum");
+				let userBoardCommentId = $(this).attr("data-userBoardCommentId");
 					
 				if(isVisible) {
 					$trReplyAnswer.hide();
@@ -374,20 +411,9 @@
 					// 답글 리스트
 					listReplyAnswer(userBoardCommentId);
 					
-					// 답글 개수
-					// countReplyAnswer(userBoardCommentId);
 				}
 			});
 			
-		});
-		
-		$(function(){
-		    function initialize() {
-		        const $trReplyAnswer = $(".btnReplyAnswerLayout").closest("tr").nextAll("tr");
-		        $trReplyAnswer.hide();
-		    }
-		    
-		    initialize();
 		});
 		
 		// 댓글별 답글 등록
@@ -419,6 +445,27 @@
 			ajaxFun(url, "post", query, "json", fn);
 		});
 	});
+		
+		// 댓글별 답글 삭제
+		  $(function(){
+		    	$("body").on("click", ".deleteReplyAnswer", function(){
+		    		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
+		    		    return false;
+		    		}
+		    		
+		    		let userBoardCommentId = $(this).attr("data-userBoardCommentId");
+		    		let parentCommentId = $(this).attr("data-parentCommentId");
+		    		
+		    		let url = "${pageContext.request.contextPath}/community/picture/deleteReply";
+		    		let query = "userBoardCommentId=" + userBoardCommentId + "&mode=answer";
+		    		
+		    		const fn = function(data){
+		    			listReplyAnswer(answer);
+		    		};
+		    		
+		    		ajaxFun(url, "post", query, "json", fn);
+		    	});
+		    });
 
 </script>
 

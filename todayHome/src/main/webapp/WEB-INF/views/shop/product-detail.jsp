@@ -310,7 +310,7 @@
 			<div class="flex-col" style="margin-top: 8px">
 				<div class="sale-percent">${product.discountPercent}%</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
-					<div class="price"><fmt:formatNumber value="${product.price}"/></div>
+					<div class="price"><fmt:formatNumber value="${product.price/product.discountPercent}"/></div>
 					<div style="font-size: 24px">원</div>
 				</div>
 			</div>

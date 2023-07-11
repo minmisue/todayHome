@@ -25,12 +25,17 @@ import com.sp.app.domain.board.EventReply;
 import com.sp.app.domain.board.ListBoard;
 import com.sp.app.domain.board.UserBoard;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.member.Notification;
+import com.sp.app.member.notification.NotificationService;
 
 @Controller
 @RequestMapping("/community/picture/")
 public class UserBoardContorller {
 	@Autowired
 	private UserBoardService userBoardservice;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
 	private MyUtil myUtil;
@@ -272,17 +277,48 @@ public class UserBoardContorller {
 	
 	@PostMapping("insertReply")
 	@ResponseBody
-	public String pictureReply(Comment comment, HttpSession session,Model model) {
+	public String pictureReply(Comment comment,
+			@RequestParam Long userBoardMemberId,
+			HttpSession session,
+			Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
 		String state = "true";
 		try {
-			comment.setMemberId(info.getMemberId());
+			Long memberId = info.getMemberId();
+			
+			comment.setMemberId(memberId);
 			userBoardservice.insertComment(comment);
+			
+			Notification notification = new Notification();
+			notification.setMemberId(userBoardMemberId);
+			notification.setType(1);
+			notification.setParameter1(String.valueOf(memberId));
+			notification.setParameter2(String.valueOf(comment.userBoardId));
+			
+	
+			notificationService.createNotification(notification, session);
+			
 		} catch (Exception e) {
 			state = "false";
 		}
 		model.addAttribute("state", state);
 		return "redirect:/community/picture/picture-list";
+	}
+	
+	@PostMapping("deleteReply")
+	@ResponseBody
+	public Map<String, Object> deleteReply(@RequestParam Map<String, Object> paramMap) {
+		String state = "true";
+		
+		try {
+			 userBoardservice.deleteComment(paramMap);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", state);
+		return map;
 	}
 	
 	@PostMapping("insertCommentLike")
@@ -331,10 +367,10 @@ public class UserBoardContorller {
 		List<Comment> listReplyAnswer = userBoardservice.listCommentAnswer(paramMap);
 		
 		for (Comment comment : listReplyAnswer) {
-			comment.setContent(comment.getContent().replaceAll("\n", "<br>"));
+			comment.setContent(comment.getContent().replaceAll("\n", "<br>")); 
 		}
 
 		model.addAttribute("listReplyAnswer", listReplyAnswer);
-		return "community/picture/listReplyAnswer";
+		return "community/picture/picture-replyAnswer";
 	}
 }

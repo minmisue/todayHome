@@ -19,6 +19,7 @@ public class UserBoard {
 	private int boardScrapCount;
 	private String nickName;
 	private String profileImgName;
+	private String categoryName;
 	
 	private Long userBoardContentId;
 	
@@ -541,5 +542,21 @@ public class UserBoard {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
+
+
+
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+
+
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
+	
 
 }

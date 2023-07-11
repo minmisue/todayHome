@@ -216,7 +216,6 @@ a:not(:last-of-type):after {
     align-items: center;
     border-top: 1px solid rgb(234, 237, 239);
     padding: 20px 10px;
-    cursor: pointer;
 	}
 	
 	.css-oc7sge > div {
@@ -234,7 +233,7 @@ a:not(:last-of-type):after {
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    color: rgb(194, 200, 204);
+    color: rgb(53, 197, 240);
 	}
 	
 	.css-15jzb03 {
@@ -308,16 +307,7 @@ $(function () {
 	// 메인메뉴, 서브메뉴 숫자 입력
 	// 첫번째 파라미터에 0 입력시 숨김
 	selectMyPage(2,1);
-    
 });
-
-	function orderdetail(data) {
-		const f = document.orderForm;
-		let orderBundleId = data;
-		f.action = "${pageContext.request.contextPath}/mypage/order?orderBundleId="+orderBundleId;
-		f.method = "POST";
-		f.submit();
-	}
 
 </script>
 </head>
@@ -327,76 +317,26 @@ $(function () {
 
 	<div class="main-container">
 		<div class="content">
- <div>
-            <div class="menu-item">
-               <a class="coupon" onclick="location.href='${pageContext.request.contextPath}/mypage/coupon'">
-                  <div class="menu-item-content">
-                     <span>쿠폰</span> <span>${couponCount}</span>
-                  </div>
-               </a> 
-               <a class="point" onclick="location.href='${pageContext.request.contextPath}/mypage/point'" style="border: none;">
-                  <div class="menu-item-content">
-                     <span>포인트</span> <span>${point.remainPoint }P</span>
-                  </div>
-               </a> 
-            </div>
-
-            <div class="status-item">
-               <a>
-                  <div class="status-item-content">
-                     <div>입금대기</div>
-                     <div>0</div>
-                  </div>
-               </a> <a>
-                  <div class="status-item-content">
-                     <div>결제완료</div>
-                     <div>0</div>
-                  </div>
-               </a> <a>
-                  <div class="status-item-content">
-                     <div>배송준비</div>
-                     <div>0</div>
-                  </div>
-               </a> <a>
-                  <div class="status-item-content">
-                     <div>배송중</div>
-                     <div>0</div>
-                  </div>
-               </a> <a>
-                  <div class="status-item-content">
-                     <div>배송완료</div>
-                     <div>0</div>
-                  </div>
-               </a> <a>
-                  <div class="status-item-content">
-                     <div>구매확정</div>
-                     <div>0</div>
-                  </div>
-               </a>
-            </div>
-         </div>
 
          <div class="css-a4hf5k">
 				<div class="css-1066lcq">
 					<h2 class="css-o538wr">결제 내역</h2>
 				</div>
 				<div class="css-18ewygj">
-				<c:forEach var="orderList" items="${orderList }" varStatus="status">
-				<form name="orderForm">
-					<div class="css-oc7sge" onclick="orderdetail('${orderList.orderBundleId}');">
+				<c:forEach var="orderdetailList" items="${orderdetailList }" varStatus="status">
+					<div class="css-oc7sge">
 						<div class="css-1kwo4sf">
-							<div class="css-3eylin">${orderList.orderRegDate}</div>
+							<div class="css-3eylin">${orderdetailList.status == 5 ? "결제" : ""}</div>
 							<div class="css-15jzb03 e1rx7pum5">
 								<div class="css-s5xdrg e1rx7pum4">
 									<div class="css-y3863i"></div>
-									<h2 class="css-1kzfo6n">상품번호 : ${orderList.orderBundleId }</h2>
+									<h2 class="css-1kzfo6n">상품번호 : ${orderdetailList.productName }</h2>
 								</div>
 							</div>
 						</div>
 						
-						<div class="css-lgp5e9red">${orderList.payMethod}</div>
+						<div class="css-lgp5e9red">가격 : ${orderdetailList.finalPrice}</div>
 					</div>
-				</form>
 				</c:forEach>
 				</div>
 			</div>
@@ -408,3 +348,7 @@ $(function () {
 	<jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
 </body>
 </html>
+
+
+	<script type="text/javascript">
+	</script>

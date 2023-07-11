@@ -121,7 +121,7 @@
 
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}">마이페이지</a></li>
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/notice">나의 쇼핑</a></li>
+						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/order">나의 쇼핑</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/event/list">이벤트</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/seller/join">판매자 신청</a></li>
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/seller/login">판매자 페이지</a></li>

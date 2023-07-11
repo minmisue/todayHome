@@ -407,7 +407,7 @@
 				</label>
 
 				<div style="text-align: right; margin-top: 10px;">
-					<button type="submit" class="btn btn-success" style="width: 100px; margin-top: 20px" >${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
+					<button type="button" class="btn btn-success" style="width: 100px; margin-top: 20px" onclick="sendImageToServer()">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
 				</div>
 			</form>
 		</div>
@@ -930,7 +930,8 @@
 
         $('#productCategoryId').val(finalCategoryValue)
 
-		// select 밸류 삭제
+		alert($('#productCategoryId').val())
+
 
         form.submit();
     }

@@ -72,11 +72,24 @@ public class ProductManagementController {
 		}
 
 		model.addAttribute("productList", productList);
-		for (ProductForList product : productList) {
-			System.out.println(product);
-		}
 
 		return "shop/shop-home";
+	}
+
+
+	@GetMapping("shop/ranks")
+	public String shopRankList(Model model) {
+		List<ProductForList> productList;
+
+		try {
+			productList = productManagementService.getBestProduct();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("productList", productList);
+
+		return "shop/shop-best-recent";
 	}
 
 	@GetMapping("seller/product")

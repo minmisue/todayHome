@@ -81,4 +81,6 @@ public interface ProductManagementService {
 	boolean checkProductName(String productName);
 
 	List<ProductForList> getScrapProductList(Long memberId);
+
+	List<ProductForList> getBestProduct();
 }

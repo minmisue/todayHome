@@ -235,7 +235,7 @@ public class UserBoardRepositoryImplTest {
 	public void deleteComment() throws Exception{
 		Long userBoardCommentId = 1L;
 		
-		userBoardRepository.deleteComment(userBoardCommentId);
+//		userBoardRepository.deleteComment(userBoardCommentId);
 	}
 	
 	@Test

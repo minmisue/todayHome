@@ -229,4 +229,9 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public List<ProductForList> getScrapProductList(Long memberId) throws Exception {
 		return commonDAO.selectList("productManagement.getScrapProductList", memberId);
 	}
+
+	@Override
+	public List<ProductForList> getBestProduct() throws Exception {
+		return commonDAO.selectList("productManagement.getBestProduct");
+	}
 }

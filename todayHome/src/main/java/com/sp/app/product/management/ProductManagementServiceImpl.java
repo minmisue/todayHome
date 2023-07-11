@@ -537,4 +537,13 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public List<ProductForList> getBestProduct() {
+		try {
+			return productManagementRepository.getBestProduct();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

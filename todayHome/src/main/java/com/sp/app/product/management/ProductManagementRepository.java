@@ -89,6 +89,5 @@ public interface ProductManagementRepository {
 
 	List<ProductForList> getScrapProductList(Long memberId) throws Exception;
 
-
-
+	List<ProductForList> getBestProduct() throws Exception;
 }

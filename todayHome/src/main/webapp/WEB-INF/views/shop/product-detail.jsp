@@ -310,7 +310,10 @@
 			<div class="flex-col" style="margin-top: 8px">
 				<div class="sale-percent">${product.discountPercent}%</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
-					<div class="price"><fmt:formatNumber value="${product.price/product.discountPercent}"/></div>
+					<div class="price">
+						<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
+						${formatNumber}
+					</div>
 					<div style="font-size: 24px">원</div>
 				</div>
 			</div>
@@ -558,10 +561,15 @@
 	<%--let stockList = ${stockList};--%>
     <c:set var="productStocks" value="${stockList}" />
 
+
     let stockList = [
         <c:forEach items="${productStocks}" var="productStock" varStatus="status">{
+            <c:set var="productStocks" value="${stockList}" />
+
+			<c:set var="stockOptionPrice" value="${productStock.optionPrice * (product.discountPercent/100)}"/>
+
             stockId: ${productStock.stockId},
-            optionPrice: ${productStock.optionPrice},
+            optionPrice:  ${stockOptionPrice},
             quantity: ${productStock.quantity},
             <c:if test="${productStock.mainOptionId1 != null}">
             	mainOptionId1: ${productStock.mainOptionId1},

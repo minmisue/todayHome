@@ -216,8 +216,8 @@ input[type="checkbox"]:checked {
       <div class="search" style="padding: 20px;">
       <label for="search-input">정렬:</label>
 		<select id="search-option" name="sort">
-		  <option value="desc" ${sort == 'DESC' ? 'selected="selected"' : ''}>가입일 최신순</option>
-		  <option value="asc" ${sort == 'ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
+		  <option value="desc" ${sort == 'desc' ? 'selected="selected"' : ''}>가입일 최신순</option>
+		  <option value="asc" ${sort == 'asc' ? 'selected="selected"' : ''}>가입일 오래된순</option>
 		</select>
         </div>
     <hr>

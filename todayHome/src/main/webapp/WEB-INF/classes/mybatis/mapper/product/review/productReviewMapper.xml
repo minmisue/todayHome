@@ -95,12 +95,38 @@
             JOIN member_detail md ON ob.member_id = md.member_id
             JOIN product p ON oi.product_id = p.product_id
         <where>
+            <if test="sellerId != null and sellerId != ''">
+                 seller_id = #{sellerId}
+            </if>
             <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-                pr.reg_date BETWEEN #{startDate} AND #{endDate}
+                 AND pr.reg_date BETWEEN #{startDate} AND #{endDate}
             </if>
 
+            <if test="keyword != null and  keyword !='' ">
+                AND INSTR(p.product_name, #{keyword}) &gt; 0
+            </if>
+
+            <if test="rating != 6">
+                AND rating = #{rating}
+            </if>
+        </where>
+        OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+    </select>
+    
+    <select id="searchReviewCount" parameterType="map" resultType="int">
+    	SELECT NVL(COUNT(*), 0) as dataCount
+    	 FROM product_review pr
+            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+            JOIN order_bundle ob on oi.order_id = ob.order_bundle_id
+            JOIN member_detail md ON ob.member_id = md.member_id
+            JOIN product p ON oi.product_id = p.product_id
+         <where>
             <if test="sellerId != null and sellerId != ''">
-                AND seller_id = #{sellerId}
+                 seller_id = #{sellerId}
+            </if>
+            
+            <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+                 AND pr.reg_date BETWEEN #{startDate} AND #{endDate}
             </if>
 
             <if test="keyword != null and  keyword !='' ">

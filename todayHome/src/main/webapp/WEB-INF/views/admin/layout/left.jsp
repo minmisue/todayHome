@@ -140,11 +140,19 @@ $(function(){
 			</ul>
 		</li>
 
-		<li class="menu--item">
-	        <a href="#" class="menu--link" title="상품 관리">
+		<li class="menu--item menu--item__has_sub_menu">
+	        <label class="menu--link" title="상품 관리">
 				<i class="menu--icon fa-fw fa-solid fa-basket-shopping"></i>
 				<span class="menu--label">상품 관리</span>
-			</a>
+			</label>
+			<ul class="sub_menu">
+				<li class="sub_menu--item">
+					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">상품 조회</a>
+				</li>
+				<li class="sub_menu--item">
+					<a href="<c:url value='/categories'/>" class="sub_menu--link">카테고리 수정</a>
+				</li>			
+			</ul>
 		</li>
 
 		<li class="menu--item">

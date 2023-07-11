@@ -695,7 +695,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 															${productStock.subOptionName2 }</div>
 														<!-- 상품 할인율 계산한 가격 -->
 														<c:set var="productPrice"
-															value="${productStock.price*((100-cart.discountPercent)/100)*productStock.cartQuantity}"></c:set>
+															value="${productStock.price*((cart.discountPercent)/100)*productStock.cartQuantity}"></c:set>
 														<fmt:parseNumber var= "price" integerOnly= "true" value= "${productStock.price}" />
 														<!-- 상품 원래가격 -->
 														<input type="hidden" name="price" value="${price}">

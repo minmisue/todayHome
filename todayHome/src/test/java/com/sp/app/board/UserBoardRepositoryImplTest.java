@@ -125,6 +125,7 @@ public class UserBoardRepositoryImplTest {
 	
 	@Test
 	public void updateBoardContent() throws Exception{
+
 		Long userBoardContentId = 38L;
 		UserBoard userBoard = new UserBoard();
 		userBoard.setContent("수정!");

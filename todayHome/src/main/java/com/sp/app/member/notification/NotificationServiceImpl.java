@@ -73,36 +73,36 @@ public class NotificationServiceImpl implements NotificationService {
 				int type = notification.getType();
 
 				switch (type) {
-				case 1: {
-					String message = "님이 댓글을 남겼어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 2: {
-					String message = "님이 답글을 남겼어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 3: {
-					String message = "님이 회원님을 언급 했어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 4: {
-					String message = "님이 좋아요를 눌렀어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 5: {
-					String message = "님 포인트가 적립되었어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 6: {
-					String message = "님이 팔로우 했어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
+					case 1: {
+						String message = "님이 댓글을 남겼어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
+					case 2: {
+						String message = "님이 답글을 남겼어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
+					case 3: {
+						String message = "님이 회원님을 언급 했어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
+					case 4: {
+						String message = "님이 좋아요를 눌렀어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
+					case 5: {
+						String message = "님 포인트가 적립되었어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
+					case 6: {
+						String message = "님이 팔로우 했어요.";
+						notificationParse.setMsg(message);
+						break;
+					}
 				}
 
 				if (type == 1 || type == 2 || type == 3 || type == 4) {
@@ -116,7 +116,7 @@ public class NotificationServiceImpl implements NotificationService {
 					String profileImgName = member.getProfileImgName();
 					Long userBoardId = Long.valueOf(notification.getParameter2());
 					String message = notification.getMessage();
-					String bodyUri = "/board/" + userBoardId;
+					String bodyUri = "/community/picture/picture-article?userBoardId=" + userBoardId;
 					// "/profile/memberId";
 					String profileUri = "/mypage/" + commenterId;
 					String regDate = notification.getRegDate();

@@ -24,6 +24,8 @@ public interface ProductManagementRepository {
 
 	List<ProductForList> getAllProducts() throws Exception;
 
+	List<ProductForList> getProductsByCategoryId(Long categoryId) throws Exception;
+
 	List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception;
 	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception;
 
@@ -86,5 +88,7 @@ public interface ProductManagementRepository {
 	int checkProductName(String productName) throws Exception;
 
 	List<ProductForList> getScrapProductList(Long memberId) throws Exception;
+
+
 
 }

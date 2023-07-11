@@ -3,10 +3,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productCategory">
     <select id="getAllCategories" resultType="com.sp.app.domain.product.ProductCategory">
-        SELECT pc.product_category_id AS porudctCategoryId,
-               pc.parent_category_id AS parentCategoryId,
-               pc.category_name AS categoryName,
-               LEVEL AS categoryLevel
+        SELECT pc.product_category_id AS productCategoryId,
+                pc.parent_category_id AS parentCategoryId,
+                pc.category_name AS categoryName,
+                LEVEL AS categoryLevel
         FROM product_category pc
         START WITH pc.parent_category_id IS NULL
         CONNECT BY PRIOR pc.product_category_id = pc.parent_category_id
@@ -24,13 +24,18 @@
         </if>
     </select>
 
-    <select id="getAllCategoryHierarchy" resultType="com.sp.app.domain.product.ProductCategory">
+    <select id="getAllCategoryHierarchy" parameterType="Long" resultType="com.sp.app.domain.product.ProductCategory">
         SELECT pc.product_category_id AS ProductCategoryId,
         pc.parent_category_id AS parentCategoryId,
         pc.category_name AS categoryName,
         LEVEL AS categoryLevel
         FROM product_category pc
-        START WITH pc.parent_category_id IS NULL
+        <if test="categoryId == null or categoryId == ''">
+            START WITH pc.parent_category_id IS NULL
+        </if>
+        <if test="categoryId != null and categoryId != ''">
+            START WITH pc.parent_category_id = #{categoryId}
+        </if>
         CONNECT BY PRIOR pc.product_category_id = pc.parent_category_id
         ORDER SIBLINGS BY pc.product_category_id
     </select>
@@ -49,6 +54,23 @@
         DELETE PRODUCT_CATEGORY WHERE PRODUCT_CATEGORY_ID = #{productCategoryId}
     </delete>
 
+    <select id="getCategoryById" parameterType="Long" resultType="com.sp.app.domain.product.ProductCategory">
+        select product_category_id AS productCategoryId,
+                parent_category_id AS parentCategoryId,
+                category_name AS categoryName
+        from PRODUCT_CATEGORY
+        WHERE PRODUCT_CATEGORY_ID = #{categoryId}
+    </select>
+
+    <select id="getTopLevelCategory" parameterType="Long" resultType="com.sp.app.domain.product.ProductCategory">
+        select product_category_id AS productCategoryId,
+               parent_category_id AS parentCategoryId,
+               category_name AS categoryName
+        FROM product_category
+        where parent_category_id is null
+        START WITH product_category_id = #{categoryId}
+        CONNECT BY PRIOR parent_category_id = product_category_id
+    </select>
 
 </mapper>
 

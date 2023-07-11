@@ -10,7 +10,7 @@ public interface ProductCategoryRepository {
 	List<ProductCategory> getAllCategories() throws Exception;
 
 	// 카테고리 아이디로 카테고리 반환
-	ProductCategory getCategoryById(Long categoryId);
+	ProductCategory getCategoryById(Long categoryId) throws Exception;
 
 	// 하위 카테고리 리스트 반환
 	List<ProductCategory> getCategoriesByParentId(Long parentId);
@@ -26,5 +26,8 @@ public interface ProductCategoryRepository {
 
 	List<ProductCategory> getChildCategories(Long parentCategoryId) throws Exception;
 
-	List<ProductCategory> getAllCategoryHierarchy() throws Exception;
+	List<ProductCategory> getAllCategoryHierarchy(Long categoryId) throws Exception;
+
+	ProductCategory getTopLevelCategory(Long categoryId) throws Exception;
+
 }

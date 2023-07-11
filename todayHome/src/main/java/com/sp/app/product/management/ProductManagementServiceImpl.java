@@ -278,6 +278,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
+	public List<ProductForList> getProductsByCategoryId(Long categoryId) {
+		try {
+			return productManagementRepository.getProductsByCategoryId(categoryId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(Long categoryId) {
 		return productManagementRepository.getProductsByCategory(categoryId);
 	}

@@ -32,7 +32,7 @@ public class ProductCategoryController {
 
 		try {
 			categories = productCategoryRepository.getChildCategories(null);
-			allCategories = productCategoryRepository.getAllCategoryHierarchy();
+			allCategories = productCategoryRepository.getAllCategoryHierarchy(null);
 			productCategories = productCategoryService.fetchCategory(null);
 			json = objectMapper.writeValueAsString(productCategories);
 		} catch (Exception e) {

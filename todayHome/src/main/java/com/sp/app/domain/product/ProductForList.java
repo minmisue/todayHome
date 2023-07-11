@@ -8,7 +8,7 @@ public class ProductForList {
 	private int productCategoryId;
 	private String productName;
 	private String regDate;
-	private float price;
+	private int price;
 	private int remainQuantity;
 	private int discountPercent;
 	private int reviewCnt;
@@ -30,6 +30,14 @@ public class ProductForList {
 				", rating=" + rating +
 				", saveName='" + saveName + '\'' +
 				'}';
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public Long getProductId() {
@@ -72,13 +80,6 @@ public class ProductForList {
 		this.regDate = regDate;
 	}
 
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
 
 	public int getRemainQuantity() {
 		return remainQuantity;

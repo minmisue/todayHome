@@ -19,8 +19,8 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 	}
 
 	@Override
-	public ProductCategory getCategoryById(Long categoryId) {
-		return null;
+	public ProductCategory getCategoryById(Long categoryId) throws Exception {
+		return commonDAO.selectOne("productCategory.getCategoryById", categoryId);
 	}
 
 	@Override
@@ -49,7 +49,12 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 	}
 
 	@Override
-	public List<ProductCategory> getAllCategoryHierarchy() throws Exception {
-		return commonDAO.selectList("productCategory.getAllCategoryHierarchy");
+	public List<ProductCategory> getAllCategoryHierarchy(Long categoryId) throws Exception {
+		return commonDAO.selectList("productCategory.getAllCategoryHierarchy", categoryId);
+	}
+
+	@Override
+	public ProductCategory getTopLevelCategory(Long categoryId) throws Exception {
+		return commonDAO.selectOne("productCategory.getTopLevelCategory", categoryId);
 	}
 }

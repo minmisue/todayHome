@@ -105,4 +105,12 @@ public class ProductManagementServiceImplTest {
 			System.out.println(productForList);
 		}
 	}
+
+	@Test
+	public void categorySearch() {
+		List<ProductForList> productsByCategoryId = productManagementService.getProductsByCategoryId(8L);
+		for (ProductForList productForList : productsByCategoryId) {
+			System.out.println(productForList);
+		}
+	}
 }

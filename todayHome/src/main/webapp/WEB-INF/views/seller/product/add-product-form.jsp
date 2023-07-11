@@ -290,7 +290,7 @@
 					<div style="display: grid; grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr; gap: 10px;" id="subcategoriesContainer">
 						<div class="input-group">
 							<div class="input-group-text" style="width: 85px;"><span style="margin: auto">카테고리</span></div>
-							<select class="form-select form-control product-info category-select" name="productCategoryId" id="category" onchange="fetchSubcategories(this.value, 1)">
+							<select class="form-select form-control product-info category-select" id="category" onchange="fetchSubcategories(this.value, 1)">
 								<option selected value="">카테고리 선택</option>
 								<c:forEach items="${categories}" var="category">
 									<option value="${category.productCategoryId}">
@@ -299,6 +299,7 @@
 								</c:forEach>
 							</select>
 						</div>
+						<input type="hidden" name="productCategoryId" id="productCategoryId">
 					</div>
 					<div id="categoryConfirmBtn">확인</div>
 				</div>
@@ -895,7 +896,11 @@
             alert('옵션을 모두 선택해주세요.')
 		} else {
             alert('옵션이 모두 선택되었습니다.')
+            alert(finalValue)
 		}
+
+        // form.appendChild(categoryInput)
+
     });
 
     function getFinalCategoryValue() {
@@ -921,13 +926,12 @@
 			return;
         }
 
-        let categoryInput = document.createElement('input')
-		categoryInput.type = 'text';
-        categoryInput.value = finalCategoryValue;
-        categoryInput.name = 'productCategoryId'
+        $('.category-select').remove()
+
+        $('#productCategoryId').val(finalCategoryValue)
 
 		// select 밸류 삭제
-        $('.category-select').remove()
+
         form.submit();
     }
 

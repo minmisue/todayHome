@@ -22,6 +22,8 @@ public interface ProductManagementService {
 
 	List<ProductForList> getAllProducts() throws Exception;
 
+	List<ProductForList> getProductsByCategoryId(Long categoryId);
+
 	List<Product> getProductsByCategory(Long categoryId);
 
 	void updateProduct(Product product);

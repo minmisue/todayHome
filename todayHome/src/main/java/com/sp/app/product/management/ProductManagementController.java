@@ -31,6 +31,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.nio.LongBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -323,6 +324,44 @@ public class ProductManagementController {
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
+
+	@GetMapping("shop/category/{category}")
+	public String categoryProducts(@PathVariable(required = false) Long category, Model model) {
+		ProductCategory topLevelCategory = null;
+
+		if (category == null) {
+			category = 1L;
+		}
+
+		List<ProductForList> productList;
+		List<ProductCategory> categories = null;
+		List<ProductCategory> allCategories = null;
+		List<ProductCategory> productCategories = null;
+
+		try {
+//			productList = productManagementService.getAllProducts();
+			System.out.println("topLevelCategory = " + topLevelCategory);
+			System.out.println("category = " + category);
+
+			topLevelCategory = productCategoryService.getTopLevelCategory(category);
+			categories = productCategoryService.getChildCategories(null);
+			allCategories = productCategoryService.getAllCategoryHierarchy(topLevelCategory.getProductCategoryId());
+			productCategories = productCategoryService.fetchCategory(null);
+
+			productList = productManagementService.getProductsByCategoryId(category);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("categories", categories);
+		model.addAttribute("allCategories", allCategories);
+		model.addAttribute("productCategories", productCategories);
+		model.addAttribute("productList", productList);
+		model.addAttribute("topLevelCategory", topLevelCategory);
+
+		return "shop/category-product";
 	}
 
 }

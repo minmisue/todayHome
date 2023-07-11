@@ -218,6 +218,10 @@
             letter-spacing: -.3px;
             color: #424242;
         }
+
+		a {
+			color: black;
+		}
 	</style>
 </head>
 <body>
@@ -364,10 +368,10 @@
 <%--		<p>${stock}</p>--%>
 <%--	</c:forEach>--%>
 
-
+	<div id="product-content" style="margin-bottom: 120px"></div>
 	<div class="sub-menubar-container" style="margin: 50px 0 30px 0; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
 		<div class="sub-menubar" style="padding: 0 55px; height: 48px">
-			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center; margin-bottom: -1px;">상품정보</div>
+			<a class="sub-item selected-sub-item" href="#product-content" style="text-decoration: none; width: 130px; text-align: center; margin-bottom: -1px;">상품정보</a>
 			<a class="sub-item" href="#product-review-container" style="width: 130px; text-align: center; text-decoration: none;">리뷰 <span class="count">${reviewCount}</span></a>
 <%--			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>--%>
 <%--			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>--%>
@@ -375,7 +379,7 @@
 	</div>
 
 	<div class="content flex-row">
-		<div class="flex-col product-content">
+		<div class="flex-col product-content" >
 			<div class="content-img-container flex-col" style="width: 100%;">
 				<c:forEach items="${product.contentImgList}" var="productImg">
 					<img style="width: 100%; height: 100%"

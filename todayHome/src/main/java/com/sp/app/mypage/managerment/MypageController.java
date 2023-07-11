@@ -175,4 +175,9 @@ public class MypageController {
 		return "mypage/my-like";
 	}
 	
+	@GetMapping("order")
+	public String myPageOrder(Model model) throws Exception{
+		return "mypage/my-orderdelivery";
+	}
+	
 }

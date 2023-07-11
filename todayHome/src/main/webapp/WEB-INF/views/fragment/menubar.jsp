@@ -206,7 +206,7 @@
 
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">주문배송내역 조회</div>
+			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/order'">주문배송내역 조회</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">상품 스크랩북</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/list'">나의문의내역</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/point'">포인트</div>

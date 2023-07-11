@@ -26,4 +26,6 @@ public interface OrderManagementService {
 	int orderListCount(Long sellerId,String startDate,String endDate,String keyword,String condition)throws Exception;
 
 	int orderDetailCount(String orderBundleId) throws Exception;
+	
+	public void createOrderState(OrderDetail orderDetail) throws Exception;
 }

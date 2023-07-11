@@ -93,4 +93,10 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		
 		return orderManagementRepository.orderDetailCount(orderBundleId);
 	}
+
+	@Override
+	public void createOrderState(OrderDetail orderDetail) throws Exception {
+		orderManagementRepository.insertOrderStatus(orderDetail);
+		
+	}
 }

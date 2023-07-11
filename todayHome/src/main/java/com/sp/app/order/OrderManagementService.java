@@ -32,4 +32,6 @@ public interface OrderManagementService {
 	public Integer dateCountByStatus(Long memberId, Integer status);
 	
 	public List<Order> getOrderDetailMypage(String orderBundleId, Long memberId) throws Exception;
+	
+	public List<Order> getOrderListMyPage(Long memberId) throws Exception;
 }

@@ -79,6 +79,18 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
 	</select>
 		
+	<select id="getOrderListMyPage" parameterType="map" resultType="com.sp.app.domain.order.Order">
+	    select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
+		from ORDER_BUNDLE ob
+		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+		join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
+		where m.member_id = #{memberId}
+		group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
+		
+	</select>
 	<!-- 판매자별 주문 조회 카운트 -->
 	 <select id="orderListCount" parameterType="map" resultType="int">
 		SELECT COUNT(DISTINCT ob.ORDER_BUNDLE_ID) AS dataCount

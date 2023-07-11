@@ -1,6 +1,6 @@
 package com.sp.app.order;
 
-import java.util.List;
+import java.util.List;import org.aspectj.weaver.ast.Or;
 
 import com.sp.app.domain.order.Delivery;
 import com.sp.app.domain.order.Order;
@@ -39,4 +39,6 @@ public interface OrderManagementRepository {
 	public Integer dateCountByStatus(Long memberId, Integer status) throws Exception;
 	
 	public List<Order> getOrderDetailMypage(String orderBundleId, Long memberId) throws Exception;
+	
+	public List<Order> getOrderListMyPage(Long memberId) throws Exception;
 }

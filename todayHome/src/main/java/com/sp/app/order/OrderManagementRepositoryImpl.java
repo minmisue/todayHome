@@ -118,5 +118,12 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 		return commondao.selectList("order.getOrderDetailMypage", map);
 	}
 
+	@Override
+	public List<Order> getOrderListMyPage(Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		return commondao.selectList("order.getOrderListMyPage", map);
+	}
+
 
 }

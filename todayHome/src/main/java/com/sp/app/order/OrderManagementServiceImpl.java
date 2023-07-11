@@ -99,4 +99,16 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		orderManagementRepository.insertOrderStatus(orderDetail);
 		
 	}
+
+	@Override
+	public Integer dateCountByStatus(Long memberId, Integer status) {
+		Integer count = null;
+		try {
+			count = orderManagementRepository.dateCountByStatus(memberId, status);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
 }

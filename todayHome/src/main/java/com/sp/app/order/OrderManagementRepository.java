@@ -35,4 +35,6 @@ public interface OrderManagementRepository {
 	int orderListCount(Long sellerId,String startDate,String endDate,String keyword,String condition)throws Exception;
 
 	int orderDetailCount(String orderBundleId) throws Exception;
+	
+	public Integer dateCountByStatus(Long memberId, Integer status) throws Exception;
 }

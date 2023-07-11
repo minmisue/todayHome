@@ -32,6 +32,7 @@ public class Order {
 	private int discountPercent;
 	private int status;
 	private Long stockId;
+
 	public Order() {
 	}
 

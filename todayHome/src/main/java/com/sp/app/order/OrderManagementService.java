@@ -28,4 +28,6 @@ public interface OrderManagementService {
 	int orderDetailCount(String orderBundleId) throws Exception;
 	
 	public void createOrderState(OrderDetail orderDetail) throws Exception;
+	
+	public Integer dateCountByStatus(Long memberId, Integer status);
 }

@@ -158,6 +158,13 @@
 		</if>		
 	</select>
 	
+	<select id="dateCountByStatus" parameterType="map" resultType="Integer">
+		select COUNT(*) count
+		from ORDER_BUNDLE ob
+		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+		left outer join ORDER_STATUS on oi.ORDER_ITEM_ID = ORDER_STATUS.ORDER_ITEM_ID
+		where ob.MEMBER_ID = #{memberId} and STATUS = #{status};
+	</select>
 </mapper>
 
 

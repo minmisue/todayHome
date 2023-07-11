@@ -183,48 +183,81 @@ input[type="checkbox"]:checked {
 		const f = document.searchForm;
 		f.submit();
   }
+  var rating = "${rating}";
+  document.getElementById("search-option").value = rating;
 </script>
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 상품상세 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
   </div>
+
+    
+  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/review/reviewList" method="POST">
+    <div class="filters">
+      <div class="date-range">
+        <label for="start-date">기간:</label>
+        <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
+        <label for="end-date">-</label>
+        <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
+      </div>
+      <hr>
+    <div class="search" style="padding: 20px;">
+      <label for="search-input">별점:</label>
+		<select id="search-option" name="rating">
+			<option value="" >전체</option>	
+			<option value="0.5" ${rating == '0.5' ? 'selected="selected"' : ''}>0.5</option>        
+        	<option value="1.0" ${rating == '1.0' ? 'selected="selected"' : ''}>1.0</option>            	
+        	<option value="1.5" ${rating == '1.5' ? 'selected="selected"' : ''}>1.5</option>
+			<option value="2.0" ${rating == '2.0' ? 'selected="selected"' : ''}>2.0</option>
+			<option value="2.5" ${rating == '2.5' ? 'selected="selected"' : ''}>2.5</option>
+		  	<option value="3.0" ${rating == '3.0' ? 'selected="selected"' : ''}>3.0</option>
+		 	<option value="3.5" ${rating == '3.5' ? 'selected="selected"' : ''}>3.5</option>
+		  	<option value="4.0" ${rating == '4.0' ? 'selected="selected"' : ''}>4.0</option>
+		  	<option value="4.5" ${rating == '4.5' ? 'selected="selected"' : ''}>4.5</option>
+		  	<option value="5.0" ${rating == '5.0' ? 'selected="selected"' : ''}>5.0</option>		
+		</select>
+     </div>
+     <hr>
+     
+      <div class="search" style="padding: 20px;">
+        <label for="search-input">상품 이름:</label>
+        <input type="text" id="search-input" name="keyword" value="${keyword}">
+      </div>
+    <hr>
     <table class="delivery-table" style="background: white; padding: 20px;">
       <thead>
         <tr>
-          <th>주문 묶음 아이디</th>
-          <th>회원 아이디</th>
           <th>주문 상품 아이디</th>
-          <th>최종 가격</th>
-          <th>원래 가격</th>
-          <th>주소</th>
-          <th>상세주소</th>
-          <th>우편번호</th>
-          <th>할인율</th>
-          <th>상태</th>
-          <th>수량</th>
-          <th>재고 아이디</th>
-
-        </tr> 
+          <th>멤버 아이디</th>
+          <th>닉네임</th>
+          <th>상품 이름</th>
+          <th>상품 아이디</th>
+          <th>별점</th>
+          <th>내용</th>
+          <th>등록일</th>
+        </tr>
       </thead>
-      <c:forEach var="order" items="${getOrderDetailList}" varStatus="status">
-        <tr>
-          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/seller/deliveryManage/order-status-change/${order.orderItemId}">${order.orderBundleId}</a></td>
-          <td>${order.memberId}</td>
-          <td>${order.orderItemId}</td>
-          <td>${order.finalPrice}</td>
-          <td>${order.orderPrice}</td>
-          <td>${order.address1}</td>
-          <td>${order.address2}</td>
-          <td>${order.postNum}</td>
-          <td>${order.discountPercent}</td>
-          <td>${order.status}</td>         
-          <td>${order.quantity}</td>
-          <td>${order.stockId}</td>
+      <c:forEach var="productReview" items="${searchReview}" varStatus="status">
+        <tr>        
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/product/${productReview.orderItemId}#product-review-container">${productReview.orderItemId}</a></td>
+          <td>${productReview.memberId}</td>
+          <td>${productReview.nickName}</td>
+          <td>${productReview.productName}</td>
+          <td>${productReview.productId}</td>
+          <td>${productReview.rating}</td>
+          <td>${productReview.content}</td>
+          <td>${productReview.regDate}</td>
         </tr>
       </c:forEach>
     </table>
-      <div class="page-navigation">   
+        <div class="button-container" style="display: flex; justify-content: center;">
+          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/seller/review/reviewList';">초기화</button>
+          <button id="search-button" class="styled-button" type="button" onclick="submitForm()">검색</button>
+        </div>
+    <div class="page-navigation">   
        ${paging}
     </div>
   </div>
+  </form>
+</div>

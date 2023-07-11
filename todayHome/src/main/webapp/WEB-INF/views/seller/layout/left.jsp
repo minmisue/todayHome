@@ -159,10 +159,7 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/faqManage/main'/>" class="sub_menu--link">상품 문의 답변</a>
-				</li>
-				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/noticeManage/list'/>" class="sub_menu--link">상품 리뷰</a>
+					<a href="<c:url value='/seller/review/reviewList'/>" class="sub_menu--link">상품 리뷰</a>
 				</li>
 			</ul>
 		</li>

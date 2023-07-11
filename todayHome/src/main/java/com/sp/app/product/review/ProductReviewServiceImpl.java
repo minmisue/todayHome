@@ -97,9 +97,9 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	}
 
 	@Override
-	public List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating) {
+	public List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating,int offset,int size) {
 		try {
-			return productReviewRepository.searchReview(sellerId, startDate, endDate, keyword, rating);
+			return productReviewRepository.searchReview(sellerId, startDate, endDate, keyword, rating,offset,size);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -112,5 +112,15 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public int searchReviewCount(Long sellerId, String startDate, String endDate, String keyword, float rating)throws Exception {
+		try {
+			return productReviewRepository.searchReviewCount(sellerId, startDate, endDate, keyword, rating);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

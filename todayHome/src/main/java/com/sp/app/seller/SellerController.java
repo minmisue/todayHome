@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.MyUtil;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.order.Order;
+import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.order.OrderManagementService;
+import com.sp.app.product.review.ProductReviewService;
 
 @Controller
 public class SellerController {
-
+	
+	@Autowired
+	ProductReviewService productReviewService;
 	
 	@Autowired
 	SellerService sellerService;
@@ -328,4 +332,97 @@ public class SellerController {
 		return ".seller.deliveryManage.ordermanagedetail";
 	}
 	
-}
+	@RequestMapping("seller/review/reviewList")
+	public String reviewList(
+			Seller seller,
+	        ProductReview productReview, 
+	        HttpServletRequest req,
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
+	        @RequestParam(value = "startDate", defaultValue="") String startDate,
+	        @RequestParam(value = "endDate", defaultValue = "") String endDate,	       
+	        @RequestParam(value = "rating", defaultValue = "6") float rating,
+			@RequestParam(value ="keyword", defaultValue = "") String keyword,	        
+	        HttpSession httpSession,
+	        Model model) throws Exception {
+	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    Long sellerId = sellerSessionInfo.getSellerId();
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
+	    int size = 5;
+	    int total_page = 0;
+	    int dataCount = 0;
+	    
+	    if (req.getMethod().equalsIgnoreCase("GET")) { 
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}
+	    
+	    dataCount = productReviewService.searchReviewCount(sellerId, startDate, endDate, keyword, rating);
+	    if (dataCount != 0) {
+	        total_page = myUtil.pageCount(dataCount, size);
+	    }
+
+	    if (total_page < current_page) {
+	        current_page = total_page;
+	    }
+
+	    int offset = (current_page - 1) * size;
+	    if (offset < 0) offset = 0;
+
+	    List<ProductReview> searchReview = productReviewService.searchReview(sellerId, startDate, endDate, keyword, rating, offset, size);
+	        
+	    
+	    String cp = req.getContextPath();
+	    String query = "";
+	    String listUrl = cp + "/seller/review/reviewList";
+	    
+	    if (startDate != null && endDate != null) {
+		    query += "&startDate=" + URLEncoder.encode(startDate, "UTF-8") + "&endDate=" + URLEncoder.encode(endDate, "UTF-8");
+		}		
+			
+		if (keyword.length() != 0) {
+		    query += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		if (rating != 0) {
+		    query += "&rating=" + rating;
+		}
+	    listUrl += "?" + query;
+	    
+	    String paging = myUtil.paging(current_page, total_page, listUrl);
+
+	    model.addAttribute("searchReview", searchReview);
+	    model.addAttribute("page", current_page);
+	    model.addAttribute("searchReviewCount", dataCount);
+	    model.addAttribute("total_page", total_page);
+	    model.addAttribute("paging", paging);
+	    
+	    model.addAttribute("rating",rating);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("keyword", keyword);
+	    
+		return ".seller.review.reviewList";
+	}
+
+	@RequestMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}", method = RequestMethod.GET)
+	public String reviewPage(@PathVariable("orderItemId") String orderItemId, Model model,Order order) {
+
+		
+		model.addAttribute("order",order);
+		return ".seller.deliveryManage.order-status-change";
+
+	}
+	@RequestMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}", method = RequestMethod.POST)
+	public String updateReviewPage(@PathVariable("orderItemId") String orderItemId, Model model,Order order) {
+
+		
+		model.addAttribute("order",order);
+		return ".seller.deliveryManage.order-status-change";
+
+	}
+} 
+
+

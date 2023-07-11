@@ -26,7 +26,9 @@ public interface ProductReviewService {
 
 	String getReviewImgPath(HttpSession httpSession);
 
-	List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating);
+	List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating,int offset,int size);
 
 	int getReviewCount(Long productId);
+	
+	int searchReviewCount(Long sellerId,String startDate,String endDate,String keyword,float rating) throws Exception;
 }

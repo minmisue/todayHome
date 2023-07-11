@@ -98,9 +98,11 @@
 	</select>
 	
 	<select id="readContent" parameterType="Long" resultType="com.sp.app.domain.board.UserBoard">
-		SELECT ub.user_board_id as userBoardId, ubc.user_board_content_id as userBoardContentId, content, content_sequence as contentSequence, img_name as imgName, user_board_content_category_id as userBoardContentCategoryId
+	SELECT ub.user_board_id as userBoardId, ubc.user_board_content_id as userBoardContentId, content, content_sequence as contentSequence, img_name as imgName, ubc.user_board_content_category_id as userBoardContentCategoryId
+		        , CATEGORY_NAME as categoryName
 			FROM user_board ub
 			JOIN user_board_content ubc ON ub.user_board_id = ubc.user_board_id
+			JOIN USER_BOARD_CONTENT_CATEGORY ubcc ON ubc.USER_BOARD_CONTENT_CATEGORY_ID = ubcc.USER_BOARD_CONTENT_CATEGORY_ID
 		WHERE	ub.user_board_id = #{userBoardId}
 	</select>
 	
@@ -228,11 +230,24 @@
 	
 	<!-- 댓글의 답글 리스트 -->
 	<select id="listCommentAnswer" parameterType="map" resultType="com.sp.app.domain.board.Comment">
-		SELECT user_board_comment_id, user_board_id, c.member_id, nickname, content, c.reg_date, parent_comment_id
+		SELECT c.user_board_comment_id as userBoardCommentId, user_board_id as userBoardId,
+			 c.member_id as memberId, profile_Img_Name as profileImgName,
+			 nickname, content, c.reg_date as regDate, parent_comment_id as parentCommentId,
+			 NVL(commentLiked, 0) AS commentLiked, NVL(ci.comment_like_count, 0) AS likeCount
 		FROM user_board_comment c
-		JOIN member_detail m ON c.user_board_comment_id = m.member_id
-		WHERE parent_comment_id = #{parentCommentId}
-		ORDER BY user_board_comment_id DESC
+		JOIN member_detail m ON c.member_id = m.member_id
+		LEFT JOIN (
+		  SELECT user_board_comment_id, COUNT(*) AS comment_like_count
+		  FROM user_board_comment_like
+		  GROUP BY user_board_comment_id
+		) ci ON c.user_board_comment_id = ci.user_board_comment_id
+		LEFT OUTER JOIN (
+		    SELECT user_board_comment_id, 1 commentLiked
+		    FROM USER_BOARD_COMMENT_LIKE
+		    WHERE member_id = #{memberId}
+        ) bc ON c.USER_BOARD_COMMENT_ID = bc.USER_BOARD_COMMENT_ID
+		WHERE c.parent_comment_id = #{parentCommentId}
+		ORDER BY c.user_board_comment_id DESC
 	</select>
 	
 	<insert id="insertCommentLike" parameterType="map">

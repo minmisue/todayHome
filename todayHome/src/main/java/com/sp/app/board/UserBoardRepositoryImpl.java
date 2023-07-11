@@ -186,8 +186,8 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void deleteComment(Long userBoardCommentId) throws Exception {
-		commonDAO.deleteData("userBoard.deleteComment", userBoardCommentId);
+	public void deleteComment(Map<String, Object> map) throws Exception {
+		commonDAO.deleteData("userBoard.deleteComment", map);
 	}
 
 	@Override

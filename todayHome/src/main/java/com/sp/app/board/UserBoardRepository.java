@@ -77,7 +77,7 @@ public interface UserBoardRepository {
     void insertComment(Comment comment) throws Exception;
 
     // 댓글 삭제
-    void deleteComment(Long commentId) throws Exception;
+    void deleteComment(Map<String, Object> map) throws Exception;
 
     // 댓글 개수 조회
     int commentCount(Long userBoardId) throws Exception;

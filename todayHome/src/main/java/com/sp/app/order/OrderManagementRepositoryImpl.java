@@ -110,5 +110,13 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 		return commondao.selectOne("order.dateCountByStatus", map);
 	}
 
+	@Override
+	public List<Order> getOrderDetailMypage(String orderBundleId, Long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("orderBundleId", orderBundleId);
+		map.put("memberId", memberId);
+		return commondao.selectList("order.getOrderDetailMypage", map);
+	}
+
 
 }

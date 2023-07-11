@@ -111,4 +111,10 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		
 		return count;
 	}
+
+	@Override
+	public List<Order> getOrderDetailMypage(String orderBundleId , Long memberId) throws Exception {
+		List<Order> list = orderManagementRepository.getOrderDetailMypage(orderBundleId,memberId);
+		return list;
+	}
 }

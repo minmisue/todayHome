@@ -307,7 +307,7 @@ function iamport(){
         pay_method : 'card',
         merchant_uid : '${orderBundleId}',
         name : name,
-        amount : price,
+        amount : 10,
         buyer_email : email,
         buyer_name : buyerName,
         buyer_tel : buyerTel,

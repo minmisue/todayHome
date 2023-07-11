@@ -37,4 +37,6 @@ public interface OrderManagementRepository {
 	int orderDetailCount(String orderBundleId) throws Exception;
 	
 	public Integer dateCountByStatus(Long memberId, Integer status) throws Exception;
+	
+	public List<Order> getOrderDetailMypage(String orderBundleId, Long memberId) throws Exception;
 }

@@ -30,4 +30,6 @@ public interface OrderManagementService {
 	public void createOrderState(OrderDetail orderDetail) throws Exception;
 	
 	public Integer dateCountByStatus(Long memberId, Integer status);
+	
+	public List<Order> getOrderDetailMypage(String orderBundleId, Long memberId) throws Exception;
 }

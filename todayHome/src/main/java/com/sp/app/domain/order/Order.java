@@ -33,6 +33,7 @@ public class Order {
 	private int status;
 	private Long stockId;
 
+	private String productName;
 	public Order() {
 	}
 
@@ -70,6 +71,14 @@ public class Order {
 	}
 
 	
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	public Long getCouponId() {
 		return couponId;
 	}

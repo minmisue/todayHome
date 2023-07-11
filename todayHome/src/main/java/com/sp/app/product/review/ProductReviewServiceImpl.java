@@ -104,4 +104,13 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public int getReviewCount(Long productId) {
+		try {
+			return productReviewRepository.getReviewCount(productId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

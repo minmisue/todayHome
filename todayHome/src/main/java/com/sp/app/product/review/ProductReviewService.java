@@ -28,4 +28,5 @@ public interface ProductReviewService {
 
 	List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating);
 
+	int getReviewCount(Long productId);
 }

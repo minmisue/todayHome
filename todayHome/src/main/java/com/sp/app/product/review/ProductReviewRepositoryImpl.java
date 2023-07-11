@@ -72,4 +72,9 @@ public class ProductReviewRepositoryImpl implements ProductReviewRepository {
 
 		return commonDAO.selectList("productReview.searchReview", map);
 	}
+
+	@Override
+	public int getReviewCount(Long productId) throws Exception {
+		return commonDAO.selectOne("productReview.getReviewCount", productId);
+	}
 }

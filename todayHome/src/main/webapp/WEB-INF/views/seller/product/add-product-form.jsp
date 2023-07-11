@@ -246,6 +246,19 @@
             cursor: pointer;
 			background-color: #c5c5c5;
 		}
+
+        #presentationPreviewImg:hover {
+            cursor: pointer;
+        }
+
+		#presentationPreviewImg img {
+			border-radius: 4px;
+		}
+
+
+        #imgPool img {
+			border-radius: 4px;
+        }
 	</style>
 
 <body>
@@ -308,6 +321,9 @@
 
 				<div style="width: 100%; border-bottom: 1px solid #DFE2E6; margin-top: 35px;"></div>
 
+
+				<input type="file" class="form-control" id="presentProductImgInput" style="display: none"
+					   aria-label="Upload" accept="image/jpeg,image/png,image/gif,image/avif" name="productImg">
 				<div style="margin-top: 35px; font-weight: 700;">상품 이미지</div>
 				<div class="input-group" style="flex: 1; margin-top: 10px;">
 					<input type="file" class="form-control" id="productImgInput"
@@ -316,11 +332,14 @@
 
 				<%-- 이미지 미리보기 --%>
 				<div style="margin-top: 35px;">
-					<div id="presentationPreviewImg" style="height: 210px; display: flex; flex-direction: row; border-radius: 4px">
+					<div id="presentationPreviewImg" style="height: 210px; width: 210px; display: flex; flex-direction: row; border-radius: 4px; position: relative" onclick="uploadPresentImg()">
 						<img src="${pageContext.request.contextPath}/resources/picture/default.png"
 							 style="height: 100%; width: 210px; object-fit: cover; border: 1px solid #DFE2E6; border-radius: 4px"
 							 id="productImg">
+						<div style="position: absolute; bottom: 25px; left: 25%">대표 이미지 설정</div>
 					</div>
+
+
 
 					<div class="selected-product" id="imgPool"></div>
 				</div>
@@ -387,12 +406,11 @@
 				</label>
 
 				<div style="text-align: right; margin-top: 10px;">
-					<button type="button" class="btn btn-success" style="width: 100px; margin-top: 20px" onclick="sendImageToServer()">${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
+					<button type="submit" class="btn btn-success" style="width: 100px; margin-top: 20px" >${mode.equals('post') ? '등록 완료' : '수정 완료'}</button>
 				</div>
 			</form>
 		</div>
 	</div>
-	<button onclick="sendImageToServer()">test</button>
 </div>
 
 <script>
@@ -421,6 +439,11 @@
 		sendStockMap(valueMap)
 
 	}
+
+    function uploadPresentImg() {
+
+        presentImgInput.click();
+    }
 
 
     function sendStockMap (valueMap) {
@@ -544,10 +567,11 @@
     let imgPool = document.getElementById('imgPool');
     let productImgInput = document.getElementById('productImgInput');
     let productImg = document.getElementById('presentationPreviewImg');
+    let presentImgInput = document.getElementById('presentProductImgInput');
 
     // 이미지 미리보기
     productImgInput.addEventListener('change', function () {
-        // $(imgPool).empty()
+        $(imgPool).empty()
 
         for (const file of productImgInput.files) {
             const reader = new FileReader();
@@ -556,17 +580,33 @@
                 // img.src = target.result;
                 // img.className = 'preview-img'
 
-				let imgTag = `
-								<img src="` + target.result + `" onclick="clickImg(this)"/>
-							`
-
-
+				let imgTag = `<img src="` + target.result + `"/>`
 
                 $(imgPool).append($(imgTag))
                 // imgPool.appendChild(imgTag)
                 // productImg.src = target.result;
             };
+            reader.readAsDataURL(file);
+        }
+    });
 
+    // 이미지 미리보기
+    presentImgInput.addEventListener('change', function () {
+        $(productImg).empty()
+
+        for (const file of presentImgInput.files) {
+            const reader = new FileReader();
+            reader.onload = ({ target }) => {
+                // let img = document.createElement('img');
+                // img.src = target.result;
+                // img.className = 'preview-img'
+
+                let imgTag = `<img src="` + target.result + `"/>`
+
+                $(productImg).append($(imgTag))
+                // imgPool.appendChild(imgTag)
+                // productImg.src = target.result;
+            };
             reader.readAsDataURL(file);
         }
     });
@@ -583,75 +623,6 @@
         $(productImg).empty()
 		$(productImg).append(obj)
     }
-
-    // 이미지 전송 함수
-    function sendImageToServer() {
-        let productImgList = [];
-        let presentImg = $(productImg).find('img');
-        if (presentImg === null || presentImg === '' || typeof presentImg === 'undefined') {
-            alert('대표 이미지를 설정해주세요.')
-			return
-		}
-
-        productImgList.push(presentImg.src)
-
-        let children = $(imgPool).children();
-        for (const x of children) {
-            productImgList.push(x.src)
-        }
-
-        let form = document.getElementById('form');
-
-
-        productImgInput.files = productImgList
-
-		form.submit();
-		//
-        // let formData = new FormData();
-        // for (let i = 0; i < productImgList.length; i++) {
-        //     formData.append('productImg', productImgList[i]);
-        // }
-		//
-        // for (const file of productImgList) {
-        //     const field = document.createElement('input');
-        //     field.setAttribute('type', 'file');
-        //     field.setAttribute('name', 'images');
-        //     form.appendChild(field);
-        //     formData.append('images', file);
-        // }
-
-
-
-
-        // FormData 객체 생성
-        // const formData = new FormData();
-
-        // 이미지 데이터를 FormData에 추가
-        // formData.append('image', );
-
-        // AJAX 요청을 통해 FormData를 서버로 전송
-
-        // $.ajax({
-        //     url: '서버 URL',
-        //     method: 'POST',
-        //     data: formData,
-        //     processData: false,
-        //     contentType: false,
-        //     success: function (response) {
-        //         // 성공적으로 이미지가 서버에 저장된 경우에 수행할 작업
-        //         console.log('이미지가 성공적으로 서버에 저장되었습니다.');
-        //     },
-        //     error: function (xhr, status, error) {
-        //         // 이미지 전송 중에 발생한 에러 처리
-        //         console.log('이미지 전송 중에 에러가 발생했습니다.');
-        //         console.log('에러 상태:', status);
-        //         console.log('에러 내용:', error);
-        //     }
-        // });
-
-
-    }
-
 
 
 </script>
@@ -838,19 +809,19 @@
     let currentCategories = ${jsonCategories};
 	let selectedCategoriesList = []
 	let isFirst = true;
+    let preLevel = 0;
+
+    selectedCategoriesList.push(wholeCategories)
 
     function fetchSubcategories(parentCategoryId, level) {
         let container = document.getElementById("subcategoriesContainer");
 
         if (parentCategoryId !== "") {
-            console.log('current = ' + selectedCategoriesList[level-2])
-            console.log('a' + level)
+			currentCategories = selectedCategoriesList[level - 1];
 
-                if (Number(level) === 1) {
-                    currentCategories = wholeCategories;
-                } else {
-                    currentCategories = selectedCategoriesList[level - 2];
-                }
+            for (const x of selectedCategoriesList) {
+                console.log(x[0].categoryName)
+            }
 
             let find = $(container).find('select:gt(' + (level-1) + ')');
             $(find).remove()
@@ -874,6 +845,7 @@
             select.appendChild(defaultOption);
 
             let categories = findSubcategories(currentCategories, parentCategoryId);
+            console.log('categories = ' + categories)
 
             if (categories === null || typeof categories === 'undefined') {
                 return
@@ -883,15 +855,8 @@
                 return;
             }
 
-            let levelName = level + 1
-
-            // if (a !== null) {
-            //     $(a).remove()
-            // }
-
             currentCategories = categories;
             selectedCategoriesList.push(categories)
-            // parentCategoryId = currentCategories.productCategoryId
 
             for (let i = 0; i < categories.length; i++) {
                 let category = categories[i];
@@ -903,22 +868,11 @@
             }
 
             container.appendChild(select);
-
-
-            // let find = $(elements).find('select:gt(' + level-2 + ')');
-            // console.log('find = ' + $(container).find('div:gt(' + 0 + ')'))
-
-
-
-            // $(elements).find('div:gt(' + level-1 + ')').remove();
-            // console.log('level = ' + level-2)
+            preLevel = level
         }
     }
 
     function findSubcategories(currentCategories, parentCategoryId) {
-
-        console.log(currentCategories)
-
         let subcategories = [];
 
         subcategories = currentCategories.find(function (item) {
@@ -943,6 +897,40 @@
             alert('옵션이 모두 선택되었습니다.')
 		}
     });
+
+    function getFinalCategoryValue() {
+        let categoryList = $('.category-select');
+        let len = categoryList.length;
+        return $(categoryList[len - 1]).val();
+    }
+
+    // 이미지 전송 함수
+    function sendImageToServer() {
+        let presentImg = $(productImg).find('img');
+        if (presentImg === null || presentImg === '' || typeof presentImg === 'undefined') {
+            alert('대표 이미지를 설정해주세요.')
+            return
+        }
+
+        let form = document.getElementById('form');
+
+        let finalCategoryValue = getFinalCategoryValue();
+
+        if (finalCategoryValue === null || finalCategoryValue === '') {
+            alert('카테고리 옵션을 모두 선택해주세요.')
+			return;
+        }
+
+        let categoryInput = document.createElement('input')
+		categoryInput.type = 'text';
+        categoryInput.value = finalCategoryValue;
+        categoryInput.name = 'productCategoryId'
+
+		// select 밸류 삭제
+        $('.category-select').remove()
+        form.submit();
+    }
+
 </script>
 </body>
 </html>

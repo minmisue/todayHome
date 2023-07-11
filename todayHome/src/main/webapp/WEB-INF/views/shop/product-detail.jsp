@@ -368,9 +368,9 @@
 	<div class="sub-menubar-container" style="margin: 50px 0 30px 0; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
 		<div class="sub-menubar" style="padding: 0 55px; height: 48px">
 			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center; margin-bottom: -1px;">상품정보</div>
-			<div class="sub-item" style="width: 130px; text-align: center">리뷰 <span class="count">23,222</span></div>
-			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>
-			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>
+			<a class="sub-item" href="#product-review-container" style="width: 130px; text-align: center; text-decoration: none;">리뷰 <span class="count">${reviewCount}</span></a>
+<%--			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>--%>
+<%--			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>--%>
 		</div>
 	</div>
 
@@ -383,7 +383,7 @@
 				</c:forEach>
 			</div>
 
-			<div class="product-review-container flex-col">
+			<div class="product-review-container flex-col" id="product-review-container">
 				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px; margin-top: 20px;">
 					<div>리뷰</div>
 					<div style="color: #65C2EC">541</div>

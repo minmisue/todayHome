@@ -65,7 +65,23 @@
 		  .OtherBoard img:hover {
         cursor: pointer; /* 커서 스타일을 변경하고자 하는 형식으로 설정합니다. */
     }
-		
+
+		.btnSendBoardLike:hover , .btnSendBoardScrap:hover, .reply-btn:hover {
+			color: #c5c5c5;
+            cursor: pointer;
+        }
+
+        .reply-btn {
+            display: flex;
+            color: black;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            background-color: #F8F9FA
+        }
 	</style>
 </head>
 <body>
@@ -132,7 +148,7 @@
   					
 		</div>
 		
-			<div class="reply">
+			<div class="reply" id="reply">
 					<form name="replyForm" method="post">
 						
 						<div style="display: flex;">
@@ -156,24 +172,28 @@
 			<div class="flex-col" style="position: sticky; top: 180px; text-align: center">
 				<div>
 					<div class="flex-col shadow-sm" style="border: 1px solid #C2C8CB; border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center">
-					<button type="button" class="btn btn-outline-secondary btnSendBoardLike" title="좋아요">	<i class="bi ${userBoardLiked ? 'bi-heart-fill':'bi-heart'}" style="font-size: 22px"></i></button>
+						<div class="btnSendBoardLike" title="좋아요">
+							<i class="bi ${userBoardLiked ? 'bi-heart-fill':'bi-heart'}" style="font-size: 22px"></i>
+						</div>
 					</div>
 					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardLikeCount" >${userBoard.boardLikeCount}</div>
 				</div>
 
 				<div>
 					<div class="flex-col shadow-sm" style="border: 1px solid #C2C8CB; border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px;">
-					<button type="button" class="btn btnSendBoardScrap" title="북마크">	<i class="bi ${userBoardScraped ? 'bi-bookmark-fill':'bi-bookmark'}" style="font-size: 22px"></i></button>
+					<div class="btnSendBoardScrap" title="북마크">
+						<i class="bi ${userBoardScraped ? 'bi-bookmark-fill':'bi-bookmark'}" style="font-size: 22px"></i>
 					</div>
-					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardScrapCount">${userBoard.boardScrapCount}</div>
+					</div>
+					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="boardScrapCount" >${userBoard.boardScrapCount}</div>
 				</div>
 
 				<div class="border-line" style="margin-top: 20px; margin-bottom: 10px;"></div>
 
 				<div>
-					<div class="flex-col shadow-sm" style="border-radius: 50%; width: 60px; height: 60px; justify-content: center; align-items: center; margin-top: 20px; background-color: #F8F9FA">
+					<a href="#reply" class="flex-col shadow-sm reply-btn" >
 						<i class="bi bi-chat" style="font-size: 22px"></i>
-					</div>
+					</a>
 					<div style="font-size: 14px; color: rgb(130, 140, 148); margin-top: 3px;" id="replyCount">${userBoard.replyCount}</div>
 				</div>
 

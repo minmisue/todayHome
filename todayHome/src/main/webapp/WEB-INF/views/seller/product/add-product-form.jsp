@@ -263,10 +263,10 @@
 
 <body>
 <div class="main-container">
-	<div class="content shadow" style="width: 80%; padding-top: 50px; padding-bottom: 50px;">
+	<div class="content" style="width: 80%; padding-top: 50px; padding-bottom: 50px; border: 1px solid #DFE2E6; border-radius: 10px">
 		<div class="sub-menu">
 			<div style="display: flex; flex-direction: row; gap: 5px" >
-				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="location.href='${pageContext.request.contextPath}/seller'">뒤로가기</button>
+				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="history.back()">뒤로가기</button>
 			</div>
 		</div>
 
@@ -283,8 +283,7 @@
 						<button class="btn btn-outline-secondary" type="button" id="productNameCheckBtn">중복 검사</button>
 					</div>
 				</div>
-				<input type="hidden" name="id" value="${mode.equals("post") ? "" : product.productId}">
-
+				<input type="hidden" name="productId" value="${mode.equals("post") ? "" : product.productId}">
 <%--				<div style="display: flex; flex-direction: row; margin-top: 35px; gap: 10px; justify-content: space-between;">--%>
 				<div class="flex-row" style="gap: 15px; align-items: center; justify-content: space-between; align-content: center; margin-top: 35px; ">
 					<div style="display: grid; grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr; gap: 10px;" id="subcategoriesContainer">
@@ -676,6 +675,7 @@
 
 
 <script>
+    <c:if test="${mode.equals('post')}">
     let addMainOptionBtn = document.getElementById('addMainOption');
 
     addMainOptionBtn.addEventListener('click', function () {
@@ -750,9 +750,12 @@
         $(obj).parent().remove()
     }
 
+    // 상품 이름 중복 체크
+
+    </c:if>
+
     let nameCheckBtn = $('#productNameCheckBtn');
 
-    // 상품 이름 중복 체크
     nameCheckBtn.click(function () {
         let productNameInput = $('#productName')
         let productName = $(productNameInput).val()

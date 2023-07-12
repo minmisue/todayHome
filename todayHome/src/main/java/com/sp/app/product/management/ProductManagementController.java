@@ -12,6 +12,7 @@ import com.sp.app.domain.seller.Seller;
 import com.sp.app.product.category.ProductCategoryService;
 import com.sp.app.product.review.ProductReviewService;
 import com.sp.app.seller.SellerService;
+import com.sp.app.seller.SellerSessionInfo;
 import org.apache.poi.util.StringUtil;
 import org.apache.tiles.request.ApplicationContext;
 import org.apache.xmlbeans.ResourceLoader;
@@ -93,8 +94,14 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("seller/product")
-	public String addProductForm(Model model) {
+	public String addProductForm(Model model, HttpSession session) {
 
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) session.getAttribute("sellerSessionInfo");
+
+		if (sellerSessionInfo == null) {
+			return "redirect:/seller/login";
+		}
+		model.addAttribute("sellerId", sellerSessionInfo.getSellerId());
 
 		List<ProductCategory> categories = null;
 		List<ProductCategory> productCategories = null;
@@ -124,11 +131,42 @@ public class ProductManagementController {
 	}
 
 	@GetMapping("seller/product/{productId}")
-	public String editProductForm(Model model, @PathVariable Long productId) {
-		// 임시 셀러 아이디
-		model.addAttribute("sellerId", 1L);
+	public String editProductForm(Model model, @PathVariable Long productId, HttpSession session) {
+
+		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) session.getAttribute("sellerSessionInfo");
+
+		if (sellerSessionInfo == null) {
+			return "redirect:/seller/login";
+		}
 
 		Product product = productManagementService.getProductById(productId);
+		Long sellerId = product.getSellerId();
+
+		if (!Objects.equals(sellerId, sellerSessionInfo.getSellerId())) {
+			return "redirect:/seller";
+		}
+
+		model.addAttribute("sellerId", sellerSessionInfo.getSellerId());
+
+		List<ProductCategory> categories = null;
+		List<ProductCategory> productCategories = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		String json = null;
+
+		try {
+			// 최상위 카테고리
+			categories = productCategoryService.getChildCategories(null);
+
+			// 하위 카테고리 계층
+			productCategories = productCategoryService.fetchCategory(null);
+			// js에서 객체로 매핑하기 위해 json 변환
+			json = objectMapper.writeValueAsString(productCategories);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("categories", categories);
+		model.addAttribute("jsonCategories", json);
 
 		model.addAttribute("product", product);
 		model.addAttribute("mode", "edit");
@@ -200,6 +238,56 @@ public class ProductManagementController {
 				String saveFileName = fileManager.doFileUpload(img, uploadDir);
 				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
 				sequence++;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/home";
+	}
+
+	@PostMapping("seller/edit-product")
+	public String editProductSubmit(
+			@ModelAttribute Product product,
+			@RequestParam MultipartFile[] contentImg,
+			@RequestParam MultipartFile[] productImg,
+			HttpSession httpSession
+	) {
+		productManagementService.updateProduct(product);
+
+		Long productId = product.getProductId();
+
+		try {
+			// 이미지 저장 경로 설정
+			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+			System.out.println("root = " + root);
+
+			String uploadDir = root + "product" + File.separator + "product";
+
+			System.out.println("uploadDir = " + uploadDir);
+
+			int sequence = 0;
+			// 이미지가 수정되었다면
+			if (productImg != null) {
+				sequence = 0;
+
+				for (MultipartFile img : productImg) {
+					String saveFileName = fileManager.doFileUpload(img, uploadDir);
+					productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
+					sequence++;
+				}
+			}
+
+			// 이미지가 수정되었다면
+			if (contentImg != null) {
+				uploadDir = root + "product" + File.separator + "content";
+				sequence = 0;
+				for (MultipartFile img : contentImg) {
+					String saveFileName = fileManager.doFileUpload(img, uploadDir);
+					productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
+					sequence++;
+				}
 			}
 
 		} catch (Exception e) {

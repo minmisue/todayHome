@@ -255,13 +255,15 @@
 		GROUP BY oi.product_id) r ON p.product_id = r.product_id
 		LEFT JOIN (SELECT product_id, save_name AS saveName
 		FROM product_img
-		WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id 
-		<if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-			AND p.reg_date BETWEEN #{startDate} AND #{endDate} 
-		</if>
-		<if test="keyword != null and keyword !=''">
-			AND instr(p.product_name, #{keyword}) > 0 
-		</if>
+		WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+       <where>
+            <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+                p.reg_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="keyword != null and keyword !=''">
+                AND instr(p.product_name, #{keyword}) > 0
+            </if>
+       </where>
 		<if test="sort !=null and sort !=''">
 		<choose>
 			<when test="sort == 'price_asc'"> -- 가격 올림차순 

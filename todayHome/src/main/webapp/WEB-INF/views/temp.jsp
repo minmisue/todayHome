@@ -34,9 +34,12 @@
 </head>
 <body style="padding: 30px; text-align: center">
 	<h3 style="margin-top: 40px;">카테고리 수정</h3>
-	<div style="width: 500px; margin: 50px auto; padding: 30px; border-radius: 5px" class="shadow">
+	<div style="width: 500px; margin: 50px auto; padding: 30px; border: 1px solid #DFE2E6; border-radius: 10px" class="">
+		<div style="display: flex; flex-direction: row; gap: 5px; margin-bottom: 15px;" >
+			<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="history.back()">뒤로가기</button>
+		</div>
 
-		<div id="selectContainer">
+		<div id="selectContainer" style="margin: 0 auto">
 			<div class="flex-row category" style="gap: 10px">
 				<div>카테고리 목록</div>
 				<i class="bi bi-plus-square-fill add-btn" onclick="addCategory(this, 'add')"></i>

@@ -23,7 +23,7 @@ public class Order {
 	private String deliveryNumber;
 	private int deliveryCost;
 	private String arrivedDate;
-
+	private int price;
 	//주문조회
 	private int orderCount;
 	private int orderPrice;
@@ -71,6 +71,14 @@ public class Order {
 	}
 
 	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public String getProductName() {
 		return productName;
 	}

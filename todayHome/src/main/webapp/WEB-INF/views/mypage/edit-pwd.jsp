@@ -35,6 +35,18 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+		.editPwd {
+		    width: 30%;
+		    padding: 10px;
+		    background-color: #35c5f0;
+		    border: none;
+		    border-radius: 4px;
+		    color: #fff;
+		    font-weight: bold;
+		    cursor: pointer;
+		    margin-top: 20;
+		}
 </style>
 </head>
 <body>

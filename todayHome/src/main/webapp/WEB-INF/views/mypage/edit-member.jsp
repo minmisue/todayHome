@@ -98,6 +98,16 @@
 			cursor: pointer;
 		}
 		
+		.nickName-certify {
+		    width: 20%;
+		    padding: 10px;
+		    background-color: #35c5f0;
+		    border: none;
+		    border-radius: 4px;
+		    color: #fff;
+		    font-weight: bold;
+		    cursor: pointer;
+		}
 	</style>
 </head>
 <body>
@@ -198,7 +208,6 @@
 			<div class="form-group">
 				<label for="profile-image">프로필 이미지</label>
 				<input type="file" id="selectFileName" name="selectFileName">
-				${member.profileImgName}
 			</div>
 			
 			<div class="form-group">

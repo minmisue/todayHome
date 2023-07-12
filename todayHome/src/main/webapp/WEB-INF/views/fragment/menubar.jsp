@@ -230,7 +230,6 @@
 		<div class="sub-menubar" style="justify-content: center;">
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/edit'">회원정보수정</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/pwd'">비밀번호 변경</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">사용자 숨기기 설정</div>
 		</div>
 	</div>
 

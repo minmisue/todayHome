@@ -15,7 +15,7 @@
        VALUES (#{orderBundleId},#{memberId},SYSDATE,
              #{receiveName},#{tel},#{postNum},#{address2},
              #{address1},#{usedPoint},#{payMethod},#{finalTotPrice},
-             #{finalDiscountPrice},#{finalDeliveryCost},#{buyerName},#{buyerTel},#{couponId})
+             #{finalDiscountPrice},#{finalDeliveryCost},#{buyerName},#{buyerTel},#{couponId, jdbcType=INTEGER})
 	</insert>
 	
 	<!-- 주문아이템 테이블 insert -->

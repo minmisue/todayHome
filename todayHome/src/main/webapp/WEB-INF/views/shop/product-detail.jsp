@@ -347,7 +347,7 @@
 				</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
 					<div class="price">
-						<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
+						<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
 						${formatNumber}
 					</div>
 					<div style="font-size: 24px">원</div>
@@ -355,13 +355,9 @@
 			</div>
 
 			<%
-				// Calendar 객체를 생성하여 현재 날짜를 설정합니다.
+				// 현재 날짜에서 2일 후 계산
 				Calendar calendar = Calendar.getInstance();
-
-				// 현재 날짜에서 2일을 더합니다.
 				calendar.add(Calendar.DAY_OF_MONTH, 2);
-
-				// SimpleDateFormat을 사용하여 원하는 날짜 형식으로 포맷합니다.
 				SimpleDateFormat sdf = new SimpleDateFormat("M/d (E)");
 				String formattedDate = sdf.format(calendar.getTime());
 			%>
@@ -507,7 +503,7 @@
 						<div class="review flex-col" style="font-size: 13px; margin-top: 20px; padding-bottom: 50px; border: solid #EDEDED; border-width: 0 0 1px 0; margin-bottom: 20px;">
 							<div class="profile flex-row" style="align-items: center">
 								<div class="user-profile-img">
-									<img style="width: 24px; height: 24px; object-fit: cover; border-radius: 12px" src="${pageContext.request.contextPath}/resources/picture/default-profile.png"/>
+									<img style="width: 24px; height: 24px; object-fit: cover; border-radius: 12px" src="${pageContext.request.contextPath}/resources/picture/${review.profileImgName}"/>
 								</div>
 								<div class="flex-col" style="margin-left: 10px;">
 									<div>
@@ -613,7 +609,7 @@
         <c:forEach items="${productStocks}" var="productStock" varStatus="status">{
             <c:set var="productStocks" value="${stockList}" />
 
-			<c:set var="stockOptionPrice" value="${productStock.optionPrice * (product.discountPercent/100)}"/>
+			<c:set var="stockOptionPrice" value="${productStock.optionPrice * (1 - product.discountPercent/100)}"/>
 
             stockId: ${productStock.stockId},
             optionPrice:  ${stockOptionPrice},
@@ -838,7 +834,9 @@
         } else {
             optionQuantityInput.val(changeNum);
             optionQuantityDisplay.text(changeNum);
-            optionPrice.text(changeNum * price)
+            let finalPrice = Math.ceil(changeNum * price)
+            let formatNum = finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            optionPrice.text(formatNum)
 
             displayTotalPrice()
         }

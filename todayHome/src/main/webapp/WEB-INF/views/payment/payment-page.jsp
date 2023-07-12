@@ -307,7 +307,7 @@ function iamport(){
         pay_method : 'card',
         merchant_uid : '${orderBundleId}',
         name : name,
-        amount : 10,
+        amount : price,
         buyer_email : email,
         buyer_name : buyerName,
         buyer_tel : buyerTel,
@@ -417,7 +417,7 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 	$("input[name=couponId]").val(couponId);
 	$("input[name=couponName]").val(name);
 	let delivery = Number($("input[name=finalDeliveryCost]").val());
-	alert(delivery)
+	
 	let price = $('#totalPriceAmount').text().replace(/,/gi, "");
 	let roundPrice =  Math.round(price * (discountPercent/100));
 	if(roundPrice > maxAmount){

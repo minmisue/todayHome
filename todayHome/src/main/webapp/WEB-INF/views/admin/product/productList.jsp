@@ -225,7 +225,6 @@ input[type="checkbox"]:checked {
           <th>판매자 이름</th>
           <th>등록일</th>
           <th>가격</th>
-          <th>재고</th>
           <th>할인율</th>
           <th>리뷰 수</th>
           <th>별점</th>
@@ -240,7 +239,6 @@ input[type="checkbox"]:checked {
           <td>${productForList.sellerName}</td>
           <td>${productForList.regDate}</td>
           <td>${productForList.price}</td>
-          <td>${productForList.remainQuantity}</td>
           <td>${productForList.discountPercent}</td>
           <td>${productForList.reviewCnt}</td>
           <td>${productForList.rating}</td>

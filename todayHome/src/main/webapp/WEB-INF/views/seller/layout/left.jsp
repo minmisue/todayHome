@@ -124,13 +124,11 @@ $(function(){
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="주문/배송 관리">
 				<i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i>
-				<span class="menu--label">주문/배송 관리</span>
+				<span class="menu--label">주문 관리</span>
 			</label>
 
 			<ul class="sub_menu">
-				<li class="sub_menu--item">
-					<a href="<c:url value='/seller/deliveryManage'/>" class="sub_menu--link">배송조회/수정</a>
-				</li>
+	
 				<li class="sub_menu--item">
 					<a href="<c:url value='/seller/delivery/ordermanage'/>" class="sub_menu--link">주문 조회</a>
 				</li>

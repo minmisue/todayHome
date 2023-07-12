@@ -168,12 +168,6 @@
 		<button class="login-btn">
 			로그인
 		</button>
-
-
-		<div class="yeah">
-			<a class="pr_" href="">비밀번호 찾기</a>
-			<a class="pr_" href="">아이디 찾기</a>
-		</div>
 	
 		<div class="cp-loginpage_join_hr">
 			<span class="cp-loginpage_join_hr_title">판매자가 아니신가요?</span>

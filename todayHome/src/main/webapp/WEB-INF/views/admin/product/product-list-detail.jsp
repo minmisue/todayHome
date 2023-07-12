@@ -198,7 +198,6 @@ input[type="checkbox"]:checked {
         <th>내용</th>
         <th>등록날짜</th>
         <th>가격</th>
-        <th>재고</th>
         <th>할인율</th>
         <th>배달비</th>
         <th>적립 포인트 퍼센트</th>
@@ -212,7 +211,6 @@ input[type="checkbox"]:checked {
         <td>${product.content}</td>
         <td>${product.regDate}</td>
         <td>${product.price}</td>
-        <td>${product.remainQuantity}</td>
         <td>${product.discountPercent}</td>
         <td>${product.deliveryCost}</td>
         <td>${product.reservingPointPercent}</td>

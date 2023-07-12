@@ -10,10 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.app.common.MyUtil;
+import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductForList;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.order.OrderManagementService;
@@ -106,5 +109,16 @@ public class AdminProductController {
 		model.addAttribute("keyword", keyword);
 	    
 		return ".admin.product.productList";
+	}
+	@RequestMapping(value = "/admin/product/product-list-detail/{productId}", method = RequestMethod.GET)
+	public String productListDetail(@PathVariable("productId") Long productId, Model model,Product product) {
+
+		
+		Product getProducList = productManagementService.getProductById(productId);
+		
+		model.addAttribute("product",getProducList);
+		
+		return ".admin.product.product-list-detail";
+
 	}
 }

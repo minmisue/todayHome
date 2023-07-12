@@ -25,6 +25,7 @@ import com.sp.app.common.MyUtil;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.order.Order;
 import com.sp.app.domain.order.OrderDetail;
+import com.sp.app.domain.product.Product;
 import com.sp.app.domain.product.ProductForList;
 import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.seller.Seller;
@@ -527,7 +528,17 @@ public class SellerController {
 	    
 		return ".seller.product.productList";
 	}
-	
+	@RequestMapping(value = "/seller/product/product-list-detail/{productId}", method = RequestMethod.GET)
+	public String productListDetail(@PathVariable("productId") Long productId, Model model,Product product) {
+
+		
+		Product getProducList = productManagementService.getProductById(productId);
+		
+		model.addAttribute("product",getProducList);
+		
+		return ".seller.product.product-list-detail";
+
+	}
 } 
 
 

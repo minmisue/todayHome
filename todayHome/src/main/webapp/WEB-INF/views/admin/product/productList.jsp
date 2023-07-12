@@ -233,7 +233,7 @@ input[type="checkbox"]:checked {
       </thead>
       <c:forEach var="productForList" items="${getProductsByKeyword}" varStatus="status">
         <tr>
-		  <td>${productForList.productId}</td>
+		  <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/admin/product/product-list-detail/${productForList.productId}">${productForList.productId}</a></td>
           <td>${productForList.brandName}</td>
           <td>${productForList.productCategoryId}</td>
           <td>${productForList.productName}</td>

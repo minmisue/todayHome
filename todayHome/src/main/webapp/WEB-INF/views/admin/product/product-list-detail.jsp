@@ -187,62 +187,36 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 주문상세 리스트 </h2>
+    <h2><i class="menu--icon fa-fw fa-solid fa-basket-shopping"></i> 상품상세 리스트 </h2>
   </div>
-    <table class="delivery-table" style="background: white; padding: 20px;">
-      <thead>
-        <tr>
-          <th>주문 묶음 아이디</th>
-          <th>회원 아이디</th>
-          <th>주문 상품 아이디</th>
-          <th>최종 가격</th>
-          <th>원래 가격</th>
-          <th>주소</th>
-          <th>상세주소</th>
-          <th>우편번호</th>
-          <th>할인율</th>
-          <th>상태</th>
-          <th>수량</th>
-          <th>재고 아이디</th>
-
-        </tr> 
-      </thead>
-      <c:forEach var="order" items="${getOrderDetailList}" varStatus="status">
-        <tr>
-          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/seller/deliveryManage/order-status-change/${order.orderItemId}">${order.orderBundleId}</a></td>
-          <td>${order.memberId}</td>
-          <td>${order.orderItemId}</td>
-          <td>${order.finalPrice}</td>
-          <td>${order.orderPrice}</td>
-          <td>${order.address1}</td>
-          <td>${order.address2}</td>
-          <td>${order.postNum}</td>
-          <td>${order.discountPercent}</td>
-          <td> 
-	          <c:choose>
-		        <c:when test="${order.status == 1}">
-		            결제완료
-		        </c:when>
-		        <c:when test="${order.status == 2}">
-		            배송준비
-		        </c:when>
-		        <c:when test="${order.status == 3}">
-		            배송중
-		        </c:when>
-		        <c:when test="${order.status == 4}">
-		            배송완료
-		        </c:when>
-		        <c:when test="${order.status == 5}">
-		            구매확정
-		        </c:when>
-	    	</c:choose>
-    	</td>         
-          <td>${order.quantity}</td>
-          <td>${order.stockId}</td>
-        </tr>
-      </c:forEach>
-    </table>
-      <div class="page-navigation">   
-       ${paging}
-    </div>
-  </div>
+  <table class="delivery-table">
+    <thead>
+      <tr>
+        <th>상품 아이디</th>
+        <th>카테고리 아이디</th>
+        <th>상품 이름</th>
+        <th>내용</th>
+        <th>등록날짜</th>
+        <th>가격</th>
+        <th>재고</th>
+        <th>할인율</th>
+        <th>배달비</th>
+        <th>적립 포인트 퍼센트</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>${product.productId}</td>
+        <td>${product.productCategoryId}</td>
+        <td>${product.productName}</td>
+        <td>${product.content}</td>
+        <td>${product.regDate}</td>
+        <td>${product.price}</td>
+        <td>${product.remainQuantity}</td>
+        <td>${product.discountPercent}</td>
+        <td>${product.deliveryCost}</td>
+        <td>${product.reservingPointPercent}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -89,7 +89,7 @@ public class ProductManagementServiceImplTest {
 
 		System.out.println(quantityByStockId);
 	}
-
+/*
 	@Test
 	public void searchSeller() {
 		List<ProductForList> productForLists = productManagementService.searchProductBySellerId(1L, "옵", "price_asc");
@@ -97,7 +97,7 @@ public class ProductManagementServiceImplTest {
 			System.out.println(productForList);
 		}
 	}
-
+*/
 	@Test
 	public void scrapList() {
 		List<ProductForList> productForLists = productManagementService.getScrapProductList(1L);

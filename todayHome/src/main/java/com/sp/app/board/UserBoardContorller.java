@@ -138,11 +138,14 @@ public class UserBoardContorller {
 		
 		// userBoard.setContent(userBoard.getContent().replaceAll("\n", "<br>"));
 		long memberId = info.getMemberId();
+		
+		List<UserBoard> otherBoardList = userBoardservice.readOtherBoard(userBoard.getMemberId());
 
 		
 		boolean userBoardLiked = userBoardservice.userBoardLiked(userBoardId, memberId);
 		boolean userBoardScraped = userBoardservice.userBoardScraped(userBoardId, memberId);
 		
+		model.addAttribute("otherBoardList", otherBoardList);
 		model.addAttribute("userBoardLiked", userBoardLiked);
 		model.addAttribute("userBoardScraped", userBoardScraped);
 		model.addAttribute("userBoard", userBoard);
@@ -150,6 +153,8 @@ public class UserBoardContorller {
 		
 		return "community/picture/picture-article";
 	}
+	
+	
 	
 	@RequestMapping(value = "deleteBoard")
 	public String deleteBoard(@RequestParam long userBoardId,
@@ -277,10 +282,9 @@ public class UserBoardContorller {
 	
 	@PostMapping("insertReply")
 	@ResponseBody
-	public String pictureReply(Comment comment,
-			@RequestParam Long userBoardMemberId,
-			HttpSession session,
-			Model model) {
+	public Map<String, Object> pictureReply(Comment comment,
+			@RequestParam  Long userBoardMemberId,
+			HttpSession session) {
 		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
 		String state = "true";
 		try {
@@ -301,8 +305,10 @@ public class UserBoardContorller {
 		} catch (Exception e) {
 			state = "false";
 		}
-		model.addAttribute("state", state);
-		return "redirect:/community/picture/picture-list";
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("state", state);
+		return map;
 	}
 	
 	@PostMapping("deleteReply")

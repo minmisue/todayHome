@@ -317,11 +317,7 @@ function sendOk() {
 		return false;
 	}
 	
-	str = f.userBoardContentCategoryIds.value;
-	if(str='0'){
-		alert("공간 정보를 추가하세요.")
-		return false;
-	}
+
 	
 	f.action = "${pageContext.request.contextPath}/community/picture/${mode}";
 	f.submit();

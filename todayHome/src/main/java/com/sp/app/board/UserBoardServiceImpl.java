@@ -151,8 +151,16 @@ public class UserBoardServiceImpl implements UserBoardService{
 
 	@Override
 	public List<UserBoard> readOtherBoard(Long memberId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<UserBoard> list = null;
+		
+		try {
+			list = userBoardRepository.readOtherBoard(memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return list;
 	}
 
 	@Override

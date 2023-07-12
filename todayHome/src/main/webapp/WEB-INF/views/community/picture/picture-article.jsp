@@ -58,6 +58,10 @@
 			display: none; 
 		}
 		
+		.btnSendBoardLike{
+			border: none;
+		}
+		
 	</style>
 </head>
 <body>
@@ -97,18 +101,29 @@
 								</c:forEach>
 							</div>
 	
-							<div class="content-text" >
+							<div class="content-text">
 								${boardContentList.content}
 							</div>
 						</div>
 					</div>
 			</c:forEach>
 			<div>
+					<div class="memberContainer" style="display:flex; align-items: center;">
+						<img style="width: 70px; height:70px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${userBoard.profileImgName}">
+						<div class='date' style="font-size: 20px;">${userBoard.nickName}</div>
+					</div>
+					<c:forEach var="otherBoardList" items="${otherBoardList}" varStatus="status">
+						<div class="OtherBoard" style="display: inline">
+							<img style="width: 70px; height:70px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${otherBoardList.imgName}">
+						</div>
+					</c:forEach>
+					<div>
 			<c:choose>
 				<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">
   					<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
   				</c:when>
   			</c:choose>
+  					</div>
 		</div>
 		
 			<div class="reply">
@@ -117,6 +132,7 @@
 						<div style="display: flex;">
 							<div>
 								<img style="width: 50px; height:50px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${sessionInfo.profileImgName}">
+								
 							</div>  
 							<div style="position: relative;">
 								<textarea class="picture-reply-text" name="content" id="content" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다:)"></textarea>
@@ -431,7 +447,7 @@
 			content = encodeURIComponent(content);
 			
 			let url = "${pageContext.request.contextPath}/community/picture/insertReply";
-			let query = "userBoardId=" + userBoardId + "&content=" + content + "&parentCommentId=" + userBoardCommentId;
+			let query = "userBoardId=" + userBoardId + "&content=" + content + "&userBoardMemberId=" + ${userBoard.memberId} + "&parentCommentId=" + userBoardCommentId;
 			
 			const fn = function(data){
 				$td.find("textarea").val("");
@@ -460,7 +476,7 @@
 		    		let query = "userBoardCommentId=" + userBoardCommentId + "&mode=answer";
 		    		
 		    		const fn = function(data){
-		    			listReplyAnswer(answer);
+		    			listReplyAnswer(parentCommentId);
 		    		};
 		    		
 		    		ajaxFun(url, "post", query, "json", fn);

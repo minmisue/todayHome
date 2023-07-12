@@ -124,10 +124,9 @@
 	<select id="readOtherBoard" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
 	SELECT b.user_board_id as userBoardId,  img_Name as imgName
 		FROM user_board b
-		JOIN member m ON b.member_id= m.member_id
         JOIN user_board_content bc ON b.user_board_id = bc.user_board_id
-		WHERE b.member_id = #{memberId} AND content_sequence= '0'
-		ORDER BY user_board_id ASC
+		WHERE b.member_id = #{memberId} AND content_sequence= '1'
+		ORDER BY b.user_board_id ASC
 	</select>
 	
 	<!-- 수정 -->

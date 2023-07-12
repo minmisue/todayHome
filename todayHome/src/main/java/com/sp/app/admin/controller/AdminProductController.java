@@ -20,7 +20,6 @@ import com.sp.app.order.OrderManagementService;
 import com.sp.app.product.management.ProductManagementService;
 import com.sp.app.product.review.ProductReviewService;
 import com.sp.app.seller.SellerService;
-import com.sp.app.seller.SellerSessionInfo;
 
 @Controller
 public class AdminProductController {

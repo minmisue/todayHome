@@ -2,11 +2,9 @@ package com.sp.app.seller.adjustment;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sp.app.common.APISerializer;
 import com.sp.app.common.MyUtil;
 import com.sp.app.domain.member.Member;
 import com.sp.app.domain.seller.Seller;
@@ -32,8 +28,6 @@ import com.sp.app.seller.SellerSessionInfo;
 
 @Controller
 public class AdjustmentController {
-	@Autowired
-	private APISerializer apiSerializer;
 	
 	@Autowired
 	MemberManagementService memberManagementService;

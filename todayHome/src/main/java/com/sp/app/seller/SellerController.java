@@ -144,8 +144,7 @@ public class SellerController {
 		Long sellerId = sellerSessionInfo.getSellerId();
 		seller.setSellerId(sellerId);
 		try {
-			// 수정 하기
-			sellerService.updateSeller(seller);
+				sellerService.updateSeller(seller);
 		} catch (Exception e) {
 		}
 		

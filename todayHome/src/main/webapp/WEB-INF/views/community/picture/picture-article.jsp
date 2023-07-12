@@ -62,6 +62,10 @@
 			border: none;
 		}
 		
+		  .OtherBoard img:hover {
+        cursor: pointer; /* 커서 스타일을 변경하고자 하는 형식으로 설정합니다. */
+    }
+		
 	</style>
 </head>
 <body>
@@ -109,21 +113,23 @@
 			</c:forEach>
 			<div>
 					<div class="memberContainer" style="display:flex; align-items: center;">
-						<img style="width: 70px; height:70px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${userBoard.profileImgName}">
-						<div class='date' style="font-size: 20px;">${userBoard.nickName}</div>
+						<img style="width: 60px; height:60px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${userBoard.profileImgName}">
+						<div class='date' style="font-size: 15px; font-weight: bold">${userBoard.nickName}</div>
 					</div>
-					<c:forEach var="otherBoardList" items="${otherBoardList}" varStatus="status">
+					<c:forEach var="otherBoardList" items="${otherBoardList}" varStatus="status" begin="0" end="2">
 						<div class="OtherBoard" style="display: inline">
-							<img style="width: 70px; height:70px; border-radius:50%;padding: 10px "  src="${pageContext.request.contextPath}/resources/picture/member/${otherBoardList.imgName}">
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${otherBoardList.userBoardId}'" src="${pageContext.request.contextPath}/uploads/housePicture/${otherBoardList.imgName}">
 						</div>
 					</c:forEach>
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/mypage/${userBoard.memberId}/photo'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/more.JPG">
 					<div>
-			<c:choose>
-				<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">
-  					<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
-  				</c:when>
-  			</c:choose>
+						<c:choose>
+							<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">
+			  					<button type="button" class="btn btn-light" onclick="deleteBoard();">삭제</button>
+			  				</c:when>
+			  			</c:choose>
   					</div>
+  					
 		</div>
 		
 			<div class="reply">

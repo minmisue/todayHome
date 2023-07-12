@@ -299,7 +299,6 @@ public class UserBoardContorller {
 			notification.setParameter1(String.valueOf(memberId));
 			notification.setParameter2(String.valueOf(comment.userBoardId));
 			
-	
 			notificationService.createNotification(notification, session);
 			
 		} catch (Exception e) {

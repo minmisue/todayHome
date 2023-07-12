@@ -293,10 +293,6 @@ form .form-control {
 								<input type="text" name="contentSequences" value="1">
 								<input type="text" name="positions">
 								<input type="text" name="productIds" value="421">
-								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								  Launch demo modal
-								</button>
 								
 								<!-- Modal -->
 								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -381,7 +377,7 @@ $(function(){
 		reader.readAsDataURL(file);
 	});
 });
-
+ 
 $(function(){
 	$("form").on("click", ".btnContentPlus", function(){
 		// 컨텐츠 추가

@@ -433,27 +433,23 @@ public class SellerController {
 		return ".seller.review.reviewList";
 	}
 
-	@RequestMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}", method = RequestMethod.GET)
-	public String reviewPage(@PathVariable("orderItemId") String orderItemId, Model model,Order order) {
-
-		
-		model.addAttribute("order",order);
-		return ".seller.deliveryManage.order-status-change";
-
-	}
-	@RequestMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}", method = RequestMethod.POST)
-	public String updateReviewPage(@PathVariable("orderItemId") String orderItemId, Model model, Order order, OrderDetail orderDetail) {
-	    try {
-	        
-	        orderManagementService.createOrderState(orderDetail);
-	        
-	        model.addAttribute("order", order);
-	    } catch (Exception e) {
-
-	    }
-	    
+	@GetMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}")
+	public String reviewPage(@PathVariable("orderItemId") String orderItemId, Model model, Order order) {
+	    model.addAttribute("order", order);
 	    return ".seller.deliveryManage.order-status-change";
 	}
+	
+	@PostMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}")
+	public String updateReviewPage(@PathVariable("orderItemId") String orderItemId, Model model, Order order, OrderDetail orderDetail) {
+	    try {
+	        orderManagementService.createOrderState(orderDetail);
+	        model.addAttribute("order", order);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return "redirect:/seller/delivery/ordermanage";
+	}
+	
 	@RequestMapping("seller/product/productList")
 	public String productList(
 			ProductForList productForList,

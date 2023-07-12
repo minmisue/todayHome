@@ -235,7 +235,7 @@ input[type="checkbox"]:checked {
 		  <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/admin/product/product-list-detail/${productForList.productId}">${productForList.productId}</a></td>
           <td>${productForList.brandName}</td>
           <td>${productForList.productCategoryId}</td>
-          <td>${productForList.productName}</td>
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/product/${productForList.productId}">${productForList.productName}</a></td>         
           <td>${productForList.sellerName}</td>
           <td>${productForList.regDate}</td>
           <td>${productForList.price}</td>

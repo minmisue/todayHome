@@ -311,13 +311,6 @@ $(function () {
     
 });
 
-	function orderdetail(data) {
-		const f = document.orderForm;
-		let orderBundleId = data;
-		f.action = "${pageContext.request.contextPath}/mypage/order?orderBundleId="+orderBundleId;
-		f.method = "POST";
-		f.submit();
-	}
 
 </script>
 </head>
@@ -383,7 +376,7 @@ $(function () {
 				<div class="css-18ewygj">
 				<c:forEach var="orderList" items="${orderList }" varStatus="status">
 				<form name="orderForm">
-					<div class="css-oc7sge" onclick="orderdetail('${orderList.orderBundleId}');">
+					<div class="css-oc7sge" onclick="location.href='${pageContext.request.contextPath}/mypage/orderlist?orderBundleId=${orderList.orderBundleId}'">
 						<div class="css-1kwo4sf">
 							<div class="css-3eylin">${orderList.orderRegDate}</div>
 							<div class="css-15jzb03 e1rx7pum5">

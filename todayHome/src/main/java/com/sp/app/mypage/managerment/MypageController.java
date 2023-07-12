@@ -211,7 +211,7 @@ public class MypageController {
 		return "mypage/my-orderdelivery";
 	}
 	
-	@PostMapping("order")
+	@GetMapping("orderlist")
 	public String myPageOrderModal(@RequestParam String orderBundleId, HttpSession session, Model model) throws Exception{
 		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
 		

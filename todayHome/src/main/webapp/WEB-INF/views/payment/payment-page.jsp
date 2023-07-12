@@ -307,7 +307,7 @@ function iamport(){
         pay_method : 'card',
         merchant_uid : '${orderBundleId}',
         name : name,
-        amount : price,
+        amount : 10,
         buyer_email : email,
         buyer_name : buyerName,
         buyer_tel : buyerTel,
@@ -680,8 +680,15 @@ function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 									<div class="flex-col" style="gap: 10px; width: 100%">
 										<div class="flex-row" style="gap: 15px">
 											<div class="cart-img-container">
-												<img class="cart-img"
-													src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/productions/168256978840040031.jpg">
+												<c:if test="${mode != 'buyNow' }">
+													<img class="cart-img"
+														src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${cart.saveName}">
+												</c:if>
+												<c:if test="${mode == 'buyNow' }">
+													<img class="cart-img"
+														src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${cart.productImgList[0].saveName}">
+												</c:if>
+
 											</div>
 											<div class="flex-col" style="flex: 1; gap: 8px">
 												<div

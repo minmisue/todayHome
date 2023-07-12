@@ -115,9 +115,16 @@
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || not empty sessionScope.sessionInfo}">
 				<div class="btn-group" role="group">
+					<c:if test="${empty sessionScope.sessionInfo.profileImgName}">
 					<img class="menubar-profile-img dropdown-toggle" src="${pageContext.request.contextPath}/resources/picture/default-profile.png" onclick="location.href='#'"
 						 data-bs-toggle="dropdown"
 						 aria-expanded="false">
+					</c:if>
+					<c:if test="${not empty sessionScope.sessionInfo.profileImgName}">
+					<img class="menubar-profile-img dropdown-toggle" src="${pageContext.request.contextPath}/resources/picture/member/${sessionScope.sessionInfo.profileImgName}" onclick="location.href='#'"
+						 data-bs-toggle="dropdown"
+						 aria-expanded="false">
+					</c:if>
 
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}">마이페이지</a></li>

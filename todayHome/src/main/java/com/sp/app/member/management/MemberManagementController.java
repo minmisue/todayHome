@@ -47,9 +47,12 @@ public class MemberManagementController {
 		Long memberId = member.getMemberId();
 		String nickname = member.getNickName();
 		Integer role = member.getMemberRoleId();
+		String profile = member.getProfileImgName();
 
 		SessionInfo sessionInfo = new SessionInfo(memberId, nickname, role);
 
+		sessionInfo.setProfileImgName(profile);
+		
 		httpSession.setAttribute("sessionInfo", sessionInfo);
 		Integer dataCartCount = cartService.cartDateCountByMemberId(memberId);
 		try {

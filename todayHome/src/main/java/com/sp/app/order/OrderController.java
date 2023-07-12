@@ -285,7 +285,7 @@ public class OrderController {
 		
 		if(order.getCouponId() != null) {
 			try {
-				couponService.deleteMemberCoupon(order.getCouponId());
+				couponService.deleteMemberCoupon(order.getCouponId(),order.getMemberId());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

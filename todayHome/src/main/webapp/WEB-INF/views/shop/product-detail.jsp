@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -222,6 +224,12 @@
 		a {
 			color: black;
 		}
+
+        .delete-option-btn:hover {
+            cursor: pointer;
+            color: #97999B;
+        }
+
 	</style>
 </head>
 <body>
@@ -299,16 +307,44 @@
 					<div class="bookmark-cnt">${scrapCnt}</div>
 				</div>
 			</div>
-			<div class="rating">
-				<i class="bi bi-star-fill"></i>
-				<i class="bi bi-star-fill"></i>
-				<i class="bi bi-star-fill"></i>
-				<i class="bi bi-star-fill"></i>
-				<i class="bi bi-star-fill"></i>
+			<div class="rating" style="margin-right: 8px">
+				<c:set var="first" value="${fn:substringBefore(rating, '.')}"/>
+				<c:set var="second" value="${fn:substringAfter(rating, '.')}"/>
+
+				<!-- 3.4라면 1~3자리까지 꽉찬 별로 채움 -->
+				<c:if test="${!first.equals('0')}">
+					<c:forEach begin="1" end="${first}">
+						<i class="fa-solid fa-star"></i>
+					</c:forEach>
+				</c:if>
+
+				<c:if test="${!first.equals('5')}">
+					<!-- 소숫점 숫자가 0이 아니라면 반별 -->
+					<c:if test="${!second.equals('0')}">
+						<i class="fa-solid fa-star-half-stroke"></i>
+					</c:if>
+					<!-- 0이라면 빈별 -->
+					<c:if test="${second.equals('0')}">
+						<i class="fa-regular fa-star"></i>
+					</c:if>
+
+					<!-- 5 - (앞자리+1) -->
+					<c:if test="${!first.equals('4')}">
+						<c:forEach begin="1" end="${4-first}">
+							<i class="fa-regular fa-star"></i>
+						</c:forEach>
+					</c:if>
+				</c:if>
 			</div>
 
 			<div class="flex-col" style="margin-top: 8px">
-				<div class="sale-percent">${product.discountPercent}%</div>
+				<div class="flex-row" style="align-items: end">
+					<div class="sale-percent">${product.discountPercent}%</div>
+					<div style="padding-bottom: 5px; margin-left: 10px; color: #a2a2a2; text-decoration: line-through">
+						<fmt:formatNumber value="${product.price}" pattern="#,###" />
+						${formatNumber}원
+					</div>
+				</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
 					<div class="price">
 						<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
@@ -318,18 +354,29 @@
 				</div>
 			</div>
 
+			<%
+				// Calendar 객체를 생성하여 현재 날짜를 설정합니다.
+				Calendar calendar = Calendar.getInstance();
+
+				// 현재 날짜에서 2일을 더합니다.
+				calendar.add(Calendar.DAY_OF_MONTH, 2);
+
+				// SimpleDateFormat을 사용하여 원하는 날짜 형식으로 포맷합니다.
+				SimpleDateFormat sdf = new SimpleDateFormat("M/d (E)");
+				String formattedDate = sdf.format(calendar.getTime());
+			%>
+
 			<div class="flex-row" style="padding: 20px 0; font-size: 14px">
 				<div style="width: 42px; color: #828c94">배송</div>
 				<div class="flex-col" style="flex: 1; gap: 5px">
 					<div style="font-weight: 750;"><fmt:formatNumber value="${product.deliveryCost}"/> 원</div>
 					<div>일반택배</div>
-					<div style="color: #757575"><i class="bi bi-check"></i>제주도/도서산간 지역 5,000원</div>
+					<div style="color: #757575"><i class="bi bi-check"></i>제주도/도서산간 지역 <fmt:formatNumber value="${product.deliveryCost + 2000}"/>원</div>
 					<div style="background-color: #F7F8FA; height: 40px; margin-top: 10px; border-radius: 5px; align-items: center; padding: 10px 20px">
 						<div style="margin: auto 0; font-size: 14px">
 							<i class="bi bi-box-seam"></i>
-							<span style="margin-left: 5px; color: #65C2EC; font-weight: 700;">6/9(금)</span>
+							<span style="margin-left: 5px; color: #65C2EC; font-weight: 700;"><%= formattedDate%></span>
 							<span>도착 예정 </span>
-							<span style="font-weight: bold;">96%</span>
 						</div>
 					</div>
 				</div>
@@ -393,7 +440,7 @@
 			<div class="product-review-container flex-col" id="product-review-container">
 				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px; margin-top: 20px;">
 					<div>리뷰</div>
-					<div style="color: #65C2EC">541</div>
+					<div style="color: #65C2EC">${reviewCount}</div>
 				</div>
 
 				<div class="flex-row" style="justify-content: space-between; background-color: #F7F8FA; padding: 25px 60px; align-items: center; border-radius: 4px; margin-top: 15px">
@@ -717,7 +764,10 @@
 
         let obj =
 			`
-				<div class="selected-option" style="background-color: #F8F9FA; padding: 12px; margin-top: 10px; border-radius: 4px">
+				<div class="selected-option" style="background-color: #F8F9FA; padding: 12px; margin-top: 10px; border-radius: 4px; position: relative">
+					<div class="delete-option-btn" style="position: absolute; right: 12px; top: 12px" onclick="deleteOption(this)">
+						<i class="bi bi-x-lg"></i>
+					</div>
 					<div style="font-size: 14px; line-height: 18px; padding: 0 24px 10px 0; rgb(47, 52, 56);">
 			` +
 				optionNameBundle
@@ -736,6 +786,21 @@
 				</div>
 			`
 		$('.selected-option-container').append(obj)
+    }
+
+    function deleteOption(obj) {
+        let selectedOption = $('.selected-option');
+        let seq = null;
+        for (let i = 0; i < selectedOption.length; i++) {
+            if (obj === selectedOption) {
+                seq = i;
+                break;
+			}
+		}
+
+        let allSelectedOptions = getAllSelectedOptions();
+        alert(allSelectedOptions)
+		alert(seq)
     }
 
 

@@ -119,7 +119,7 @@
 
 
         .today-deal-info-container {
-            padding: 0 10px;
+            /*padding: 0 5px;*/
         }
 
         .today-deal-img-container {
@@ -245,9 +245,14 @@
 
 
 			<div class="content" style="margin-top: 50px;">
-				<div class="shop-main-label">인기 상품</div>
+				<div class="shop-main-label">상품</div>
 
-				<%-- 오늘의 딜 상품 4개 --%>
+				<c:if test="${productList.size() == 0}">
+					<div class="flex- col" style="width: 100%; justify-content: center; text-align: center; gap: 10px; padding :70px 0">
+						<img style="margin-top: 40px;" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" alt="장바구니가 비었습니다.">
+						<div style="margin-top: 15px;">등록된 상품이 없습니다.</div>
+					</div>
+				</c:if>
 				<div class="grid-col-4 grid-row">
 					<c:forEach items="${productList}" var="product">
 						<div class="flex-col today-deal-product-container"

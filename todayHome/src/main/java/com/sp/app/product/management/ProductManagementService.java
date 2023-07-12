@@ -76,11 +76,17 @@ public interface ProductManagementService {
 
 	void deleteProductImg(Long productId, int type);
 
-	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort);
-
+	List<ProductForList> getProductsByKeyword(String keyword, String sort,int offset,int size,String startDate, String endDate) throws Exception;
+	
+	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort,int offset, int size,String startDate, String endDate);
+	
 	boolean checkProductName(String productName);
 
 	List<ProductForList> getScrapProductList(Long memberId);
 
 	List<ProductForList> getBestProduct();
+
+	int countProductsByKeyword(String keyword,String startDate, String endDate) throws Exception;
+	
+	int countProductBySellerId(Long sellerId,String keyword,String startDate, String endDate) throws Exception;	
 }

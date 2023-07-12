@@ -266,7 +266,7 @@
 	<div class="content shadow" style="width: 80%; padding-top: 50px; padding-bottom: 50px;">
 		<div class="sub-menu">
 			<div style="display: flex; flex-direction: row; gap: 5px" >
-				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="location.href='#'">뒤로가기</button>
+				<button type="button" class="btn btn-outline-secondary" style="width: 90px" onclick="location.href='${pageContext.request.contextPath}/seller'">뒤로가기</button>
 			</div>
 		</div>
 

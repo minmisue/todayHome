@@ -2,7 +2,10 @@ package com.sp.app.seller;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,13 +24,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sp.app.common.MyUtil;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.order.Order;
+import com.sp.app.domain.order.OrderDetail;
+import com.sp.app.domain.product.ProductForList;
 import com.sp.app.domain.product.ProductReview;
 import com.sp.app.domain.seller.Seller;
 import com.sp.app.order.OrderManagementService;
+import com.sp.app.product.management.ProductManagementService;
 import com.sp.app.product.review.ProductReviewService;
 
 @Controller
 public class SellerController {
+	
+	@Autowired
+	ProductManagementService productManagementService;
 	
 	@Autowired
 	ProductReviewService productReviewService;
@@ -293,14 +302,30 @@ public class SellerController {
 	}
 	@RequestMapping(value = "/seller/deliveryManage/ordermanagedetail/{orderBundleId}", method = RequestMethod.GET)
 	public String orderDetail(HttpServletRequest req,
-			@PathVariable("orderBundleId") String orderBundleId,
-			@RequestParam(value = "page", defaultValue = "1") int current_page,
-			Model model, Order order ) throws Exception{
-		int size = 10;
+	        @PathVariable("orderBundleId") String orderBundleId,
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
+	        Model model, Order order) throws Exception {
+	    int size = 10;
 	    int total_page = 0;
+
+	    List<Order> getOrderDetailList = orderManagementService.getOrderDetailList(orderBundleId, 0, Integer.MAX_VALUE);
+
+	    Map<Long, Order> highestStatusOrdersMap = new HashMap<>();
+
 	    int dataCount = 0;
-	    	    
-	    dataCount = orderManagementService.orderDetailCount(orderBundleId);
+	    for (Order orderDetail : getOrderDetailList) {
+	        Long stockId = orderDetail.getStockId();
+	        int status = orderDetail.getStatus();
+
+	        if (!highestStatusOrdersMap.containsKey(stockId) || status > highestStatusOrdersMap.get(stockId).getStatus()) {
+	            highestStatusOrdersMap.put(stockId, orderDetail);
+	        }
+
+	        if (orderDetail.equals(highestStatusOrdersMap.get(stockId))) {
+	            dataCount++;
+	        }
+	    }
+
 	    if (dataCount != 0) {
 	        total_page = myUtil.pageCount(dataCount, size);
 	    }
@@ -312,25 +337,26 @@ public class SellerController {
 	    int offset = (current_page - 1) * size;
 	    if (offset < 0) offset = 0;
 
-	    List<Order> getOrderDetailList = orderManagementService.getOrderDetailList( orderBundleId,offset,size);	        	    
-	    String cp = req.getContextPath();
-	    String query =  orderBundleId; // Include orderBundleId in the query string
-	    String listUrl = cp + "/seller/deliveryManage/ordermanagedetail/";
+	    List<Order> filteredOrderList = new ArrayList<>(highestStatusOrdersMap.values());
 
-	    listUrl +=  query;
-	    
+	    String cp = req.getContextPath();
+	    String query = orderBundleId; 
+	    String listUrl = cp + "/seller/deliveryManage/ordermanagedetail/";
+	    listUrl += query;
+
 	    String paging = myUtil.paging(current_page, total_page, listUrl);
 
+	    model.addAttribute("page", current_page);
+	    model.addAttribute("orderDetailCount", dataCount);
+	    model.addAttribute("total_page", total_page);
+	    model.addAttribute("paging", paging);
+	    model.addAttribute("order", order);
+	    model.addAttribute("getOrderDetailList", filteredOrderList);
 
-		    model.addAttribute("page", current_page);
-		    model.addAttribute("orderDetailCount", dataCount);
-		    model.addAttribute("total_page", total_page);
-		    model.addAttribute("paging", paging);       
-			model.addAttribute("order", order);
-			model.addAttribute("getOrderDetailList", getOrderDetailList);
-
-		return ".seller.deliveryManage.ordermanagedetail";
+	    return ".seller.deliveryManage.ordermanagedetail";
 	}
+
+
 	
 	@RequestMapping("seller/review/reviewList")
 	public String reviewList(
@@ -416,13 +442,93 @@ public class SellerController {
 
 	}
 	@RequestMapping(value = "/seller/deliveryManage/order-status-change/{orderItemId}", method = RequestMethod.POST)
-	public String updateReviewPage(@PathVariable("orderItemId") String orderItemId, Model model,Order order) {
+	public String updateReviewPage(@PathVariable("orderItemId") String orderItemId, Model model, Order order, OrderDetail orderDetail) {
+	    try {
+	        
+	        orderManagementService.createOrderState(orderDetail);
+	        
+	        model.addAttribute("order", order);
+	    } catch (Exception e) {
 
-		
-		model.addAttribute("order",order);
-		return ".seller.deliveryManage.order-status-change";
-
+	    }
+	    
+	    return ".seller.deliveryManage.order-status-change";
 	}
+	@RequestMapping("seller/product/productList")
+	public String productList(
+			ProductForList productForList,
+			Seller seller,
+	        HttpServletRequest req,
+	        @RequestParam(value = "page", defaultValue = "1") int current_page,
+	        @RequestParam(value = "startDate", defaultValue="") String startDate,
+	        @RequestParam(value = "endDate", defaultValue = "") String endDate,	       
+	        @RequestParam(value= "sort", defaultValue="") String sort,
+			@RequestParam(value ="keyword", defaultValue = "") String keyword,	        
+	        HttpSession httpSession,
+	        Model model) throws Exception {
+	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
+	    Long sellerId = sellerSessionInfo.getSellerId();
+	    
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	        
+	        return "redirect:/seller/error";
+	    }
+	    int size = 5;
+	    int total_page = 0;
+	    int dataCount = 0;
+	    
+	    if (req.getMethod().equalsIgnoreCase("GET")) { 
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}
+	    
+	    dataCount = productManagementService.countProductBySellerId(sellerId, keyword, startDate, endDate);
+	    if (dataCount != 0) {
+	        total_page = myUtil.pageCount(dataCount, size);
+	    }
+
+	    if (total_page < current_page) {
+	        current_page = total_page;
+	    }
+
+	    int offset = (current_page - 1) * size;
+	    if (offset < 0) offset = 0;
+
+	    List<ProductForList> searchProductBySellerId = productManagementService.searchProductBySellerId(sellerId, keyword, sort, offset, size, startDate, endDate);
+	        
+	    
+	    String cp = req.getContextPath();
+	    String query = "";
+	    String listUrl = cp + "/seller/product/productList";
+	    
+	    if (startDate != null && endDate != null) {
+		    query += "&startDate=" + URLEncoder.encode(startDate, "UTF-8") + "&endDate=" + URLEncoder.encode(endDate, "UTF-8");
+		}		
+			
+		if (keyword.length() != 0) {
+		    query += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		if (sort.length() != 0) {
+		    query += "&sort=" + URLEncoder.encode(sort, "UTF-8");
+		}
+	    listUrl += "?" + query;
+	    
+	    String paging = myUtil.paging(current_page, total_page, listUrl);
+
+	    model.addAttribute("searchProductBySellerId", searchProductBySellerId);
+	    model.addAttribute("page", current_page);
+	    model.addAttribute("countProductBySellerId", dataCount);
+	    model.addAttribute("total_page", total_page);
+	    model.addAttribute("paging", paging);
+	    
+	    model.addAttribute("sort",sort);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("keyword", keyword);
+	    
+		return ".seller.product.productList";
+	}
+	
 } 
 
 

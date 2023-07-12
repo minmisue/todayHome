@@ -106,8 +106,8 @@ input[type="checkbox"]:checked {
 
 .delivery-table th,
 .delivery-table td {
-  padding: 10px;
-  text-align: left;
+  padding: 9px;
+  text-align: center;
   border-bottom: 1px solid lightgray;
 }
 
@@ -218,7 +218,25 @@ input[type="checkbox"]:checked {
           <td>${order.address2}</td>
           <td>${order.postNum}</td>
           <td>${order.discountPercent}</td>
-          <td>${order.status}</td>         
+          <td> 
+	          <c:choose>
+		        <c:when test="${order.status == 1}">
+		            결제완료
+		        </c:when>
+		        <c:when test="${order.status == 2}">
+		            배송준비
+		        </c:when>
+		        <c:when test="${order.status == 3}">
+		            배송중
+		        </c:when>
+		        <c:when test="${order.status == 4}">
+		            배송완료
+		        </c:when>
+		        <c:when test="${order.status == 5}">
+		            구매확정
+		        </c:when>
+	    	</c:choose>
+    	</td>         
           <td>${order.quantity}</td>
           <td>${order.stockId}</td>
         </tr>

@@ -42,7 +42,7 @@ a:active, a:hover { color: #f28011; text-decoration: underline; }
 // https://echarts.apache.org/en/index.html
 
 $(function(){
-	let url = "${pageContext.request.contextPath}/admin/echart/line1";
+	let url = "${pageContext.request.contextPath}/admin/echart/chart/line1";
 	
 	$.getJSON(url, function(data){
 		// console.log(data);
@@ -52,215 +52,29 @@ $(function(){
 		var option;
 
 		option = {
-		  title: {
-			text:'서울 월별 평균 기온'  
-		  },
+		title: {
+			text: data.year + '년 월별 회원 수'  
+			},				
 		  xAxis: {
 		    type: 'category',
 		    data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 		  },
 		  yAxis: {
 		    type: 'value'
-		  },
-		  
-		  // series: data.series
-		  series: [
-    		{
-      			data: data.list,
-      			type: 'line'
-    		}
-  		  ]		  
-		};
-
-		option && myChart.setOption(option);
-		
-	});
-	
-});
-
-$(function(){
-	let url = "${pageContext.request.contextPath}/admin/echart/line2";
-	
-	$.getJSON(url, function(data){
-		// console.log(data);
-		
-		var chartDom = document.getElementById('lineContainer2');
-		var myChart = echarts.init(chartDom);
-		var option;
-
-		option = {
-		  title: {
-			text: data.year + '년 월별 평균 기온'  
-		  },
-		  legend: {
-			data: data.legend
-		  },
-		  tooltip: {
-			trigger: 'axis'  
-		  },
-		  xAxis: {
-		    type: 'category',
-		    data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-		  },
-		  yAxis: {
-		    type: 'value'
-		  },
-		  
-		  series: data.series
-		};
-
-		option && myChart.setOption(option);
-		
-	});
-	
-});
-
-$(function(){
-	let url = "${pageContext.request.contextPath}/admin/echart/bar";
-
-	$.getJSON(url, function(data){
-		// console.log(data);
-		
-		var chartDom = document.getElementById('barContainer');
-		var myChart = echarts.init(chartDom);
-		var option;
-
-		option = {
-		  title: {
-			text: data.year + '년 월별 평균 기온'  
-		  },
-		  legend: {
-			data: data.legend
-		  },
-		  tooltip: {
-			trigger: 'axis'  
-		  },
-		  xAxis: {
-		    type: 'category',
-		    data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-		  },
-		  yAxis: {
-		    type: 'value'
-		  },
-		  
-		  series: data.series
-		};
-
-		option && myChart.setOption(option);
-		
-	});
-	
-});
-
-$(function(){
-	let url = "${pageContext.request.contextPath}/admin/echart/pie";
-	
-	$.getJSON(url, function(data){
-		// console.log(data);
-		
-		var chartDom = document.getElementById('pieContainer');
-		var myChart = echarts.init(chartDom);
-		var option;
-
-		option = {
-		  title: {
-			  text: '접속자 수'
-		  },
-		  tooltip: {
-		    trigger: 'item'
-		  },
-		  legend: {
-		    top: '5%',
-		    left: 'center'
 		  },
 		  series: [
 		    {
-		      name: '인원수',
-		      type: 'pie',
-		      radius: ['40%', '70%'],
-		      avoidLabelOverlap: false,
-		      itemStyle: {
-		        borderRadius: 10,
-		        borderColor: '#fff',
-		        borderWidth: 2
-		      },
-		      label: {
-		        show: false,
-		        position: 'center'
-		      },
-		      emphasis: {
-		        label: {
-		          show: true,
-		          fontSize: 40,
-		          fontWeight: 'bold'
-		        }
-		      },
-		      labelLine: {
-		        show: false
-		      },
-		      data: data
+		      data: data.series,
+		      type: 'bar'
 		    }
 		  ]
 		};
 
 		option && myChart.setOption(option);
-		
-	});
 	
 });
-
-$(function(){
-	let date = "2023-06-12"; // 매주 월요일만 가능
-	let url = "${pageContext.request.contextPath}/admin/echart/covid?date="+date;
-	
-	$.getJSON(url, function(data){
-		var chartDom = document.getElementById('covidContainer');
-		var myChart = echarts.init(chartDom);
-		var option;
-		
-		var arr = [];
-		for(let item of data.list) {
-			let obj = {value: item.incDec, name: item.gubun};
-			arr.push(obj);
-		}
-		
-		console.log(data);
-		
-		option = {
-		  title: {
-				text: data.stdDay + ' 전일 대비 확진자 증가수'
-		  },
-		  legend: {
-		    top: 'bottom'
-		  },
-		  toolbox: {
-		    show: true,
-		    feature: {
-		      mark: { show: true },
-		      dataView: { show: true, readOnly: false },
-		      restore: { show: true },
-		      saveAsImage: { show: true }
-		    }
-		  },
-		  series: [
-		    {
-		      name: 'Nightingale Chart',
-		      type: 'pie',
-		      radius: [50, 250],
-		      center: ['50%', '50%'],
-		      roseType: 'area',
-		      itemStyle: {
-		        borderRadius: 8
-		      },
-		      data: arr
-		    }
-		  ]
-		};
-
-		option && myChart.setOption(option);
-		
-	});
 });
+
 
 </script>
 
@@ -272,17 +86,9 @@ $(function(){
 	
 	<div class="box-container" style="margin-top: 15px;">
 	    <div id="lineContainer1" class="box"></div>
-	    <div id="lineContainer2" class="box"></div>
+
 	</div>
-	
-	<div class="box-container">
-	    <div id="barContainer" class="box"></div>
-	    <div id="pieContainer" class="box"></div>
-	</div>
-	
-	<div class="box-container">
-	    <div id="covidContainer" class="box" style="height: 700px;"></div>
-	</div>
+
 	
 </div>
 

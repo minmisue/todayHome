@@ -512,9 +512,9 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
-	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) {
+	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort,int offset,int size,String startDate, String endDate) {
 		try {
-			return productManagementRepository.searchProductBySellerId(sellerId, keyword, sort);
+			return productManagementRepository.searchProductBySellerId(sellerId, keyword, sort,offset,size,startDate,endDate);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -546,4 +546,25 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	@Override
+	public List<ProductForList> getProductsByKeyword(String keyword, String sort, int offset, int size,String startDate, String endDate)
+			throws Exception {
+		try {
+			return productManagementRepository.getProductsByKeyword(keyword,sort,offset,size,startDate,endDate);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Override
+	public int countProductsByKeyword(String keyword, String startDate, String endDate) throws Exception {
+		
+		return productManagementRepository.countProductsByKeyword(keyword,startDate,endDate);
+	}
+
+	@Override
+	public int countProductBySellerId(Long sellerId, String keyword, String startDate, String endDate)throws Exception {
+		return productManagementRepository.countProductBySellerId(sellerId,keyword,startDate,endDate);
+	}	
 }

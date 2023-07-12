@@ -189,14 +189,14 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-user-group"></i> 리뷰 리스트 </h2>
   </div>
 
     
   <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/review/reviewList" method="POST">
     <div class="filters">
       <div class="date-range">
-        <label for="start-date">기간:</label>
+        <label for="start-date">등록일:</label>
         <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
         <label for="end-date">-</label>
         <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
@@ -240,7 +240,7 @@ input[type="checkbox"]:checked {
       </thead>
       <c:forEach var="productReview" items="${searchReview}" varStatus="status">
         <tr>        
-          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/product/${productReview.orderItemId}#product-review-container">${productReview.orderItemId}</a></td>
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/product/${productReview.productId}#product-review-container">${productReview.orderItemId}</a></td>
           <td>${productReview.memberId}</td>
           <td>${productReview.nickName}</td>
           <td>${productReview.productName}</td>

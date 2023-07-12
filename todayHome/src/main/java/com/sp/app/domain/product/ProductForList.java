@@ -14,6 +14,9 @@ public class ProductForList {
 	private int reviewCnt;
 	private float rating;
 	private String saveName;
+	private String sellerName;
+
+
 
 	@Override
 	public String toString() {
@@ -120,4 +123,12 @@ public class ProductForList {
 	public void setSaveName(String saveName) {
 		this.saveName = saveName;
 	}
+	
+	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}	
 }

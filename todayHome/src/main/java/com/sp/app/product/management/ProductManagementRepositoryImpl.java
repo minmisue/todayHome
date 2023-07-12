@@ -60,21 +60,29 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
-	public List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception {
+	public List<ProductForList> getProductsByKeyword(String keyword, String sort,int offset,int size,String startDate, String endDate) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("keyword", keyword);
 		map.put("sort", sort);
+		map.put("offset", offset);
+		map.put("size", size);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
 
 		return commonDAO.selectList("productManagement.getProductsByKeyword", map);
 	}
 
 	@Override
-	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception {
+	public List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort,int offset,int size,String startDate, String endDate) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("keyword", keyword);
 		map.put("sort", sort);
 		map.put("sellerId", sellerId);
-
+		map.put("offset", offset);
+		map.put("size", size);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		
 		return commonDAO.selectList("productManagement.searchProductBySellerId", map);
 	}
 
@@ -234,4 +242,24 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	public List<ProductForList> getBestProduct() throws Exception {
 		return commonDAO.selectList("productManagement.getBestProduct");
 	}
+
+	@Override
+	public int countProductsByKeyword(String keyword, String startDate, String endDate) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+			map.put("keyword", keyword);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+		
+		return commonDAO.selectOne("productManagement.countProductsByKeyword",map);
+	}
+
+	@Override
+	public int countProductBySellerId(Long sellerId, String keyword, String startDate, String endDate)throws Exception {
+		Map<String, Object> map = new HashMap<>();
+			map.put("keyword", keyword);
+			map.put("sellerId", sellerId);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+		return commonDAO.selectOne("productManagement.countProductBySellerId",map);
+	}	
 }

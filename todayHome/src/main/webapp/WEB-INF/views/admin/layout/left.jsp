@@ -147,19 +147,12 @@ $(function(){
 			</label>
 			<ul class="sub_menu">
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">상품 조회</a>
+					<a href="<c:url value='/admin/product/productList'/>" class="sub_menu--link">상품 조회</a>
 				</li>
 				<li class="sub_menu--item">
 					<a href="<c:url value='/categories'/>" class="sub_menu--link">카테고리 수정</a>
 				</li>			
 			</ul>
-		</li>
-
-		<li class="menu--item">
-			<a href="<c:url value='/admin/echart/chart'/>" class="menu--link" title="주문통계">
-				<i class="menu--icon  fa-fw fa-solid fa-chart-pie"></i>
-				<span class="menu--label">주문 통계</span>
-			</a>
 		</li>
  
 		<li class="menu--item">

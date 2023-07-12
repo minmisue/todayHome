@@ -187,14 +187,14 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-calculator"></i> 정산 리스트 </h2>
   </div>
 
     
   <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/admin/adjustment/list" method="post">
     <div class="filters">
       <div class="date-range">
-        <label for="start-date">기간:</label>
+        <label for="start-date">정산 날짜:</label>
         <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
         <label for="end-date">-</label>
         <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">

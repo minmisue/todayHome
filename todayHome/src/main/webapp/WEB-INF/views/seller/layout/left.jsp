@@ -88,8 +88,7 @@ $(function(){
 				<label class="roll">판매자</label>
 				<label class="user">					
 					<span class="name">${sessionScope.sellerSessionInfo.sellerName}님</span>
-					<a href="javascript:void(0)" onclick="sellerLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-				</label>
+					<a href="${pageContext.request.contextPath}/"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>				</label>
 			</span>
 
 		</div>
@@ -117,7 +116,7 @@ $(function(){
 					<a href="<c:url value='/seller/product'/>" class="sub_menu--link">상품 등록</a>
 				</li>
 				<li class="sub_menu--item">
-					<a href="<c:url value='/admin/inquiryManage/list'/>" class="sub_menu--link">상품 조회</a>
+					<a href="<c:url value='/seller/product/productList'/>" class="sub_menu--link">상품 조회</a>
 				</li>
 			</ul>
 		</li>
@@ -164,13 +163,6 @@ $(function(){
 			</ul>
 		</li>
 		
-		<li class="menu--item">
-	        <a href="<c:url value='/seller/chart/chart'/>" class="menu--link" title="판매 통계">
-				<i class="menu--icon  fa-fw fa-solid fa-chart-pie"></i>
-				<span class="menu--label">판매 통계</span>
-			</a>
-		</li>
-		
 		<li class="menu--item menu--item__has_sub_menu">
 			<label class="menu--link" title="판매자 정보">
 				<i class="menu--icon  fa-fw fa-solid fa-gear"></i>
@@ -185,6 +177,12 @@ $(function(){
 				</li>
 			</ul>
 		</li>	
+		<li class="menu--item">
+			<a class="menu--link" href="javascript:void(0)" onclick="sellerLogout()" >
+				<i class="menu--icon fa-fw fa-solid fa-lock-open"></i>
+				<span class="menu--label">Logout</span>
+			</a>
+		</li>
 	</ul>
 
 	<button id="collapse_menu" class="collapse_menu">

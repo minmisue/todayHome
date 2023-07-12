@@ -215,7 +215,7 @@ input[type="checkbox"]:checked {
           <option value="representativeName" ${condition == "representativeName" ? 'selected="selected"' : ''}>회사 이름</option>       
         </select>
         <input type="text" id="search-input" name="keyword" value="${keyword}">
-      
+      <hr>
       </div>
       <div class="search" style="padding: 20px;">
       <label for="search-input">정렬:</label>

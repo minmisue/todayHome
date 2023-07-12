@@ -85,9 +85,14 @@
 			<div class="category-icon-text">가구</div>
 		</div>
 
-		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
-			<img class="category-icon-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/category/store_home_categories/165519431107541334.png?w=144">
-			<div class="category-icon-text">패브릭</div>
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/108'">
+			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/6.webp">
+			<div class="category-icon-text">데코·식물</div>
+		</div>
+
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/2'">
+			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/7.webp">
+			<div class="category-icon-text">조명</div>
 		</div>
 
 		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/3'">
@@ -96,23 +101,18 @@
 		</div>
 
 		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
+			<img class="category-icon-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/category/store_home_categories/165519431107541334.png?w=144">
+			<div class="category-icon-text">패브릭</div>
+		</div>
+
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/4.webp">
 			<div class="category-icon-text">주방용품</div>
 		</div>
 
-		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/2'">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/5.webp">
 			<div class="category-icon-text">식품</div>
-		</div>
-
-		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
-			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/6.webp">
-			<div class="category-icon-text">데코·식물</div>
-		</div>
-
-		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
-			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/7.webp">
-			<div class="category-icon-text">조명</div>
 		</div>
 
 		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">

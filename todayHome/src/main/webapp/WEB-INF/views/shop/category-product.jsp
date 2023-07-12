@@ -271,7 +271,7 @@
 										</span>
 									</c:if>
 									<span class="today-deal-price">
-										<fmt:formatNumber value="${product.price}" pattern="#,###"/>
+										<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
 										${formatNumber}
 									</span>
 								</div>

@@ -186,10 +186,10 @@
 
     <div class="my-page-menubar-main">
         <div class="sub-menubar" style="justify-content: center; font-weight: 700; line-height: 30px; font-size: 18px">
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/all'">프로필
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}'">프로필
                 <div class="arrow-container"></div>
             </div>
-            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">나의 쇼핑
+            <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/mypage/order'">나의 쇼핑
                 <div class="arrow-container"></div>
             </div>
             <div class="sub-item my-page-item" onclick="location.href='${pageContext.request.contextPath}/reviews/write'">나의 리뷰

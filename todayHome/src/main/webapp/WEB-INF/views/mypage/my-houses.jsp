@@ -316,7 +316,7 @@
 			    <div class="image-category-item">
 			    
 			      <div class="image-category-user">
-			        <img src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png" alt="user-image">
+			        <img src="" alt="user-image">
 			        <span>${member.name }</span>
 			      </div>
 			
@@ -332,7 +332,6 @@
 			        </div>
 			  
 			        <p class="image-category-user-content">
-			          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa voluptatibus excepturi quaerat officiis ex? Sunt dignissimos nihil ullam quae modi repellat odio tempora id reiciendis tempore. Quam est debitis animi.
 			        </p>
 			      </a>
 			    </div>

@@ -266,8 +266,8 @@
 
 .image-category-user-image img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 300px;
+  height: 300px;
   object-fit: cover;
   aspect-ratio: 1 / 1;
 }
@@ -312,8 +312,42 @@
 		<section>
 			<jsp:include page="/WEB-INF/views/fragment/myprofile.jsp"/>
 			
-			<c:forEach var="userBoardList" items="${userBoardList}" begin="0" end="3">
+			<div class="myinfo-list">
+				<div class="myinfo-list-pictures">
+					<div class="picture-header">
+						<h2>사진</h2>
+						<strong>0</strong>
+					</div>
+					<c:if test="${empty userBoardList}">
+						<a class="picture-list" href="${pageContext.request.contextPath}/community/picture/write"> 첫 번째 사진을 올려보세요 </a>
+					</c:if>
+					
+					<c:if test="${not empty userBoardList}">
+						<div class="image-category">
+					<c:forEach var="userBoardList" items="${userBoardList}" begin="0" end="3">
+						    <div class="image-category-item">
+						      <a href="${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${userBoardList.userBoardId}">
+						        <div href="" class="image-category-user-image">
+						          <img src="${pageContext.request.contextPath}/uploads/housePicture/${userBoardList.imgName}" alt="user upload image">
+						        </div>
+								<div class="image-category-user-menu">
+						          <i class="bi bi-heart"></i>
+						          <i class="bi bi-bookmark-check"></i>
+						          <i class="bi bi-chat"></i>
+						        </div>
+						         <p class="image-category-user-content">
+						        	${userBoardList.content}
+						        </p>
+						      </a>
+						    </div>
+					</c:forEach>
+						  </div>
+					</c:if>
+				</div>
+			</div>
+			
 			<div class="image-category">
+			<c:forEach var="userBoardList" items="${userBoardList}" begin="0" end="3">
 			    <div class="image-category-item">
 			    
 			      <div class="image-category-user">
@@ -337,8 +371,8 @@
 			        </p>
 			      </a>
 			    </div>
-			  </div>
 			  </c:forEach>
+			  </div>
 		</section>
 	</div>
 </div>

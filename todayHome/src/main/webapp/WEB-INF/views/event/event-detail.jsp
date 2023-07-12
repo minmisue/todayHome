@@ -134,7 +134,7 @@
 			<div class="event-detail-container">
 				<div>${eventBoard.content }</div>
 				<div><span class="eventwin-2">발표 일자는 : ${eventBoard.winningDate}</span></div>
-			<c:if test="${eventBoard.winningDate <= sysdate }">
+			<c:if test="${eventBoard.winnerNumber != 0 && eventBoard.winningDate <= sysdate}">
 			<table>
 				<tr>
 					<td colspan="2" class="text-center p-3">
@@ -182,21 +182,25 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body pt-1 text-center">
-	                 <div class="row row-cols-4 g-1">
+	                 	<c:if test="${empty eventWinnerlist }">
+	                 		<div class="col">
+								<span style="font-weight: 500;">
+									<h3 style="color: rgb(53, 197, 240);"> 당첨자 발표를 아직 하지않았습니다.</h3>
+								</span>
+	                 		</div>
+	                 	</c:if>
+	                 	<div class="row row-cols-4 g-1">
+	                 	<c:if test="${not empty eventWinnerlist }">
 	                 	<c:forEach var="winner" items="${eventWinnerlist}" varStatus="status">
 	                 		<div class="col">
 	                 			<div class="border">
-		                 			<c:if test="${winner.rank != 0}">
-										<span>
-											${vo.rank}등 :
-										</span>
-									</c:if>
 									<span style="font-weight: 500;">
-										${vo.userName}(${vo.userId})
+										${winner.nickName}
 									</span>
 								</div>
 	                 		</div>
 	                 	</c:forEach>
+	                 	</c:if>
 	                 </div>
 				</div>
 			</div>

@@ -57,4 +57,9 @@ public class NoticeBoardServiceImpl implements NoticeBoardService{
 		return noticedto;
 	}
 
+	@Override
+	public int dataCount() throws Exception {
+		return noticeboardRepository.dataCount();
+	}
+
 }

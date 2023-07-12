@@ -139,7 +139,7 @@ function totCal() {
 					let cartQuantity = Number(cartQuantityList[k].value);
 					productStockPriceOriginal += price * cartQuantity;
 					
-					productStockPrice += price * ((100-disCountPercent)/100) * cartQuantity;
+					productStockPrice += price * ((disCountPercent)/100) * cartQuantity;
 					
 					totPrice += productStockPrice;
 					totPriceOriginal += productStockPriceOriginal;

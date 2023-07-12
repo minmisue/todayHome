@@ -1,6 +1,7 @@
 package com.sp.app.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -61,7 +62,7 @@ public interface UserBoardRepository {
     boolean userBoardLiked(Long userBoardId, Long memberId) throws Exception;
     
     // 게시글에 스크랩 추가
-    void insertScrapLike(Long userBoardId, Long memberId) throws Exception;
+    void insertBoardScrap(Long userBoardId, Long memberId) throws Exception;
 
     // 게시글에 스크랩 삭제
     void deleteBoardScrap(Long userBoardId, Long memberId) throws Exception;
@@ -76,16 +77,16 @@ public interface UserBoardRepository {
     void insertComment(Comment comment) throws Exception;
 
     // 댓글 삭제
-    void deleteComment(Long commentId) throws Exception;
+    void deleteComment(Map<String, Object> map) throws Exception;
 
     // 댓글 개수 조회
     int commentCount(Long userBoardId) throws Exception;
     
     // 댓글 리스트
-    List<Comment> listComment(Long userBoardId) throws Exception;
+    List<Comment> listComment(Long memberId, Long userBoardId, int offset, int size) throws Exception;
     
     // 답글 리스트
-    List<Comment> listCommentAnswer() throws Exception;
+    List<Comment> listCommentAnswer(Map<String, Object> map) throws Exception;
 
     // 댓글에 좋아요 추가
     void insertCommentLike(Long userBoardCommentId, Long memberId) throws Exception;

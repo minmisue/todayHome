@@ -67,43 +67,31 @@ public class NotificationServiceImpl implements NotificationService {
 
 			List<NotificationParse> parseList = new ArrayList<>();
 
+
+
 			for (Notification notification : list) {
+				String message = "";
+
 				NotificationParse notificationParse = new NotificationParse();
 
 				int type = notification.getType();
+				System.out.println("type = " + type);
 
-				switch (type) {
-				case 1: {
-					String message = "님이 댓글을 남겼어요.";
-					notificationParse.setMsg(message);
-					break;
+				if (type == 1) {
+					message = "님이 댓글을 남겼어요.";
+				} else if (type == 2) {
+					message = "님이 답글을 남겼어요.";
+				} else if (type == 3) {
+					message = "님이 회원님을 언급 했어요.";
+				} else if (type == 4) {
+					message = "님이 좋아요를 눌렀어요.";
+				} else if (type == 5) {
+					message = "님 포인트가 적립되었어요.";
+				} else if (type == 6) {
+					message = "님이 팔로우 했어요.";
 				}
-				case 2: {
-					String message = "님이 답글을 남겼어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 3: {
-					String message = "님이 회원님을 언급 했어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 4: {
-					String message = "님이 좋아요를 눌렀어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 5: {
-					String message = "님 포인트가 적립되었어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				case 6: {
-					String message = "님이 팔로우 했어요.";
-					notificationParse.setMsg(message);
-					break;
-				}
-				}
+
+				notificationParse.setMsg(message);
 
 				if (type == 1 || type == 2 || type == 3 || type == 4) {
 					Long commenterId = Long.valueOf(notification.getParameter1());
@@ -115,8 +103,7 @@ public class NotificationServiceImpl implements NotificationService {
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long userBoardId = Long.valueOf(notification.getParameter2());
-					String message = notification.getMessage();
-					String bodyUri = "/board/" + userBoardId;
+					String bodyUri = "/community/picture/picture-article?userBoardId=" + userBoardId;
 					// "/profile/memberId";
 					String profileUri = "/mypage/" + commenterId;
 					String regDate = notification.getRegDate();
@@ -125,7 +112,6 @@ public class NotificationServiceImpl implements NotificationService {
 					regDate = Long.toString(daysBetween);
 
 					notificationParse.setMemberId(commenterId);
-					notificationParse.setMsg(message);
 					notificationParse.setNickName(nickName);
 					notificationParse.setProfileImgName(profileImgName);
 					notificationParse.setBodyUri(bodyUri);
@@ -138,13 +124,10 @@ public class NotificationServiceImpl implements NotificationService {
 					Long pointAmount = Long.valueOf(notification.getParameter1());
 					Member member = memberManagementRepository.readMemberById(memberId);
 
-					System.out.println(member);
-
 					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long pointPage = Long.valueOf(notification.getParameter2());
-					String message = notification.getMessage();
 					String bodyUri = "/board/" + pointPage;
 					// "/profile/memberId";
 					String profileUri = "/profile/" + pointPage;
@@ -154,7 +137,6 @@ public class NotificationServiceImpl implements NotificationService {
 					regDate = Long.toString(daysBetween);
 
 					notificationParse.setPointAmount(pointAmount);
-					notificationParse.setMsg(message);
 					notificationParse.setNickName(nickName);
 					notificationParse.setProfileImgName(profileImgName);
 					notificationParse.setBodyUri(bodyUri);
@@ -174,7 +156,6 @@ public class NotificationServiceImpl implements NotificationService {
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
 					Long followerPage = Long.valueOf(notification.getParameter2());
-					String message = notification.getMessage();
 					String bodyUri = "/mypage/" + followerPage;
 					// "/profile/memberId";
 					String profileUri = "/profile/" + follower;
@@ -184,7 +165,6 @@ public class NotificationServiceImpl implements NotificationService {
 					regDate = Long.toString(daysBetween);
 
 					notificationParse.setMemberId(follower);
-					notificationParse.setMsg(message);
 					notificationParse.setNickName(nickName);
 					notificationParse.setProfileImgName(profileImgName);
 					notificationParse.setBodyUri(bodyUri);
@@ -196,6 +176,8 @@ public class NotificationServiceImpl implements NotificationService {
 
 				parseList.add(notificationParse);
 			}
+
+			System.out.println(parseList);
 
 			return parseList;
 

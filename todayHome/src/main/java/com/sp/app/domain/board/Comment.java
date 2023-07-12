@@ -11,6 +11,7 @@ public class Comment {
 	public Long likeCount;
 	public String nickName;
 	public String profileImgName;
+	public String commentLiked;
 	
 	public Comment() {
 		
@@ -22,6 +23,27 @@ public class Comment {
 		return "Comment [userBoardId=" + userBoardId + ", memberId=" + memberId + ", replyLike=" + replyLike
 				+ ", userBoardCommentId=" + userBoardCommentId + ", parentCommentId=" + parentCommentId + ", regDate="
 				+ regDate + ", content=" + content + ", likeCount=" + likeCount + ", nickName=" + nickName + "]";
+	}
+
+	
+
+	public String getCommentLiked() {
+		return commentLiked;
+	}
+
+
+	public void setCommentLiked(String commentLiked) {
+		this.commentLiked = commentLiked;
+	}
+
+
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
 	}
 
 

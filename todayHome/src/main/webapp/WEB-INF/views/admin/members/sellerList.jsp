@@ -215,15 +215,15 @@ input[type="checkbox"]:checked {
           <option value="representativeName" ${condition == "representativeName" ? 'selected="selected"' : ''}>회사 이름</option>       
         </select>
         <input type="text" id="search-input" name="keyword" value="${keyword}">
-      
+      <hr>
       </div>
       <div class="search" style="padding: 20px;">
       <label for="search-input">정렬:</label>
 		<select id="search-option" name="orderBy">
-		  <option value="amount_DESC" ${orderByAmount == 'DESC' ? 'selected="selected"' : ''}>정산금액 높은순</option>
-		  <option value="amount_ASC" ${orderByAmount == 'ASC' ? 'selected="selected"' : ''}>정산금액 낮은순</option>
-		  <option value="regDate_DESC" ${orderByDate == 'DESC' ? 'selected="selected"' : ''}>가입일 최신순</option>
-		  <option value="regDATE_ASC" ${orderByDate == 'ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
+		  <option value="amount_DESC" ${orderBy == 'amount_DESC' ? 'selected="selected"' : ''}>정산금액 높은순</option>
+		  <option value="amount_ASC" ${orderBy == 'amount_ASC' ? 'selected="selected"' : ''}>정산금액 낮은순</option>
+		  <option value="regDate_DESC" ${orderBy == 'regDate_DESC' ? 'selected="selected"' : ''}>가입일 최신순</option>
+		  <option value="regDATE_ASC" ${orderBy == 'regDATE_ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
 		</select>
         </div>
     <hr>

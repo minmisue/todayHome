@@ -20,15 +20,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mongodb.DuplicateKeyException;
 import com.sp.app.common.MyUtil;
+import com.sp.app.domain.board.Comment;
+import com.sp.app.domain.board.EventReply;
 import com.sp.app.domain.board.ListBoard;
 import com.sp.app.domain.board.UserBoard;
 import com.sp.app.domain.common.SessionInfo;
+import com.sp.app.domain.member.Notification;
+import com.sp.app.member.notification.NotificationService;
 
 @Controller
 @RequestMapping("/community/picture/")
 public class UserBoardContorller {
 	@Autowired
 	private UserBoardService userBoardservice;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
 	private MyUtil myUtil;
@@ -131,16 +138,23 @@ public class UserBoardContorller {
 		
 		// userBoard.setContent(userBoard.getContent().replaceAll("\n", "<br>"));
 		long memberId = info.getMemberId();
+		
+		List<UserBoard> otherBoardList = userBoardservice.readOtherBoard(userBoard.getMemberId());
 
 		
 		boolean userBoardLiked = userBoardservice.userBoardLiked(userBoardId, memberId);
+		boolean userBoardScraped = userBoardservice.userBoardScraped(userBoardId, memberId);
 		
+		model.addAttribute("otherBoardList", otherBoardList);
 		model.addAttribute("userBoardLiked", userBoardLiked);
+		model.addAttribute("userBoardScraped", userBoardScraped);
 		model.addAttribute("userBoard", userBoard);
 		model.addAttribute("userBoardContent",userBoardContent);
 		
 		return "community/picture/picture-article";
 	}
+	
+	
 	
 	@RequestMapping(value = "deleteBoard")
 	public String deleteBoard(@RequestParam long userBoardId,
@@ -205,7 +219,7 @@ public class UserBoardContorller {
 			if(userBoardScraped) {
 				userBoardservice.deleteBoardScrap(userBoardId, memberId);
 			} else {
-				userBoardservice.insertScrapLike(userBoardId, memberId);
+				userBoardservice.insertBoardScrap(userBoardId, memberId);
 			}
 			
 		} catch (DuplicateKeyException e) {
@@ -224,4 +238,145 @@ public class UserBoardContorller {
 		
 	}
 	
+	@GetMapping("listReply")
+	public String picturelistReply(@RequestParam long userBoardId,
+			@RequestParam(value = "pageNo", defaultValue = "1") int current_page,
+			HttpSession session, Model model) throws Exception{
+		
+		int size = 5;
+		int total_page = 0;
+		int dataCount = 0;
+
+		dataCount = userBoardservice.commentCount(userBoardId);
+		
+		total_page = myUtil.pageCount(dataCount, size);
+		if (current_page > total_page) {
+			current_page = total_page;
+		}
+
+		
+		int offset = (current_page - 1) * size;
+		if(offset < 0) offset = 0;
+
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		long memberId = info.getMemberId();
+		
+		List<Comment> listReply = userBoardservice.listComment(memberId, userBoardId, offset, size);
+		
+		for (Comment comment : listReply) {
+			comment.setContent(comment.getContent().replaceAll("\n", "<br>"));
+		}
+
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
+		
+
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		return "community/picture/picture-reply";
+	}
+	
+	@PostMapping("insertReply")
+	@ResponseBody
+	public Map<String, Object> pictureReply(Comment comment,
+			@RequestParam  Long userBoardMemberId,
+			HttpSession session) {
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		String state = "true";
+		try {
+			Long memberId = info.getMemberId();
+			
+			comment.setMemberId(memberId);
+			userBoardservice.insertComment(comment);
+			
+			Notification notification = new Notification();
+			notification.setMemberId(userBoardMemberId);
+			notification.setType(1);
+			notification.setParameter1(String.valueOf(memberId));
+			notification.setParameter2(String.valueOf(comment.userBoardId));
+			
+	
+			notificationService.createNotification(notification, session);
+			
+		} catch (Exception e) {
+			state = "false";
+		}
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("state", state);
+		return map;
+	}
+	
+	@PostMapping("deleteReply")
+	@ResponseBody
+	public Map<String, Object> deleteReply(@RequestParam Map<String, Object> paramMap) {
+		String state = "true";
+		
+		try {
+			 userBoardservice.deleteComment(paramMap);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", state);
+		return map;
+	}
+	
+	@PostMapping("insertCommentLike")
+	@ResponseBody
+	public Map<String, Object> insertCommentLike(@RequestParam long userBoardCommentId,
+			@RequestParam boolean commentLiked,
+			HttpSession session) throws Exception{
+		
+		String state = "true";
+		int replyLikeCount = 0;
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		long memberId = info.getMemberId();
+		
+		try {
+			if(commentLiked) {
+				userBoardservice.deleteBoardLike(userBoardCommentId, memberId);
+			} else {
+				userBoardservice.insertBoardLike(userBoardCommentId, memberId);
+			}
+			
+		} catch (DuplicateKeyException e) {
+			state = "liked";
+		} catch (Exception e) {
+			state = "false";
+		}
+			
+		replyLikeCount = userBoardservice.commentLikeCount(userBoardCommentId);
+			
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			model.put("replyLikeCount", replyLikeCount);
+			
+			return model;
+		
+	}
+	
+	@GetMapping("listReplyAnswer")
+	public String listReplyAnswer(@RequestParam Map<String, Object> paramMap, 
+			HttpSession session, Model model) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
+		
+		paramMap.put("memberId", info.getMemberId());
+		
+		List<Comment> listReplyAnswer = userBoardservice.listCommentAnswer(paramMap);
+		
+		for (Comment comment : listReplyAnswer) {
+			comment.setContent(comment.getContent().replaceAll("\n", "<br>")); 
+		}
+
+		model.addAttribute("listReplyAnswer", listReplyAnswer);
+		return "community/picture/picture-replyAnswer";
+	}
 }

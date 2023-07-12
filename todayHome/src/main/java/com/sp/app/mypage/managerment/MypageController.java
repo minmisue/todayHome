@@ -18,10 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sp.app.common.FileManager;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
+import com.sp.app.domain.mypage.Point;
+import com.sp.app.domain.order.Order;
 import com.sp.app.domain.product.ProductForList;
 import com.sp.app.member.follow.FollowService;
 
 import com.sp.app.member.management.MemberManagementService;
+import com.sp.app.order.OrderManagementService;
 import com.sp.app.product.management.ProductManagementService;
 
 @Controller
@@ -38,7 +41,13 @@ public class MypageController {
 	ProductManagementService productManagementService;
 	
 	@Autowired
+	PointService pointService;
+	
+	@Autowired
 	CouponService couponService;
+	
+	@Autowired
+	OrderManagementService orderManagementService;
 	
 	@Autowired
 	private FileManager fileManager;
@@ -73,6 +82,9 @@ public class MypageController {
 	public String myPageBook(@PathVariable Long memberId, Model model) throws Exception{
 		Member member = memberManagementService.readMemberById(memberId);
 		List<ProductForList> productForList = productManagementService.getScrapProductList(memberId);
+		for(ProductForList product : productForList) {
+			System.out.println("금액 : " + Math.floor(product.getPrice()));
+		}
 		
 		model.addAttribute("member",member);
 		model.addAttribute("productForList",productForList);
@@ -170,6 +182,30 @@ public class MypageController {
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followeeCount", followeeCount);
 		return "mypage/my-like";
+	}
+	
+	@GetMapping("order")
+	public String myPageOrder(HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		Member member = memberManagementService.readMemberById(info.getMemberId());
+		
+		Point point = pointService.getPointById(info.getMemberId());
+		int couponCount = couponService.memberCouponCount(info.getMemberId());
+		List<Order> orderList = orderManagementService.getOrderListMyPage(info.getMemberId());
+		model.addAttribute("couponCount", couponCount);
+		model.addAttribute("point", point);
+		model.addAttribute("orderList", orderList);
+		return "mypage/my-orderdelivery";
+	}
+	
+	@PostMapping("order")
+	public String myPageOrderModal(@RequestParam String orderBundleId, HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo)session.getAttribute("sessionInfo");
+		
+		List<Order> orderdetailList = orderManagementService.getOrderDetailMypage(orderBundleId, info.getMemberId());
+		model.addAttribute("orderdetailList", orderdetailList);
+		
+		return "mypage/my-orderlist";
 	}
 	
 }

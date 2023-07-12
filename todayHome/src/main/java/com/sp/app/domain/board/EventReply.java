@@ -5,6 +5,7 @@ public class EventReply {
 	private Long eventBoardId;
 	private Long memberId;
 	private String name;
+	private String nickName;
 	private String content;
 	private String regDate;
 	private int dataCount;
@@ -50,6 +51,12 @@ public class EventReply {
 	}
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 	

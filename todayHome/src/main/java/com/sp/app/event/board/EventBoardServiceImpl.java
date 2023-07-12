@@ -74,8 +74,8 @@ public class EventBoardServiceImpl implements EventBoardService{
 	}
 
 	@Override
-	public List<EventBoard> eventWinnerMember(EventBoard eventBoard) throws Exception {
-		return eventBoardRepository.eventWinnerMember(eventBoard);
+	public List<EventBoard> eventWinnerMember(Long eventBoardId) throws Exception {
+		return eventBoardRepository.eventWinnerMember(eventBoardId);
 	}
 
 }

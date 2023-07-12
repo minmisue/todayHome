@@ -31,14 +31,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.nio.LongBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping()
@@ -73,11 +72,24 @@ public class ProductManagementController {
 		}
 
 		model.addAttribute("productList", productList);
-		for (ProductForList product : productList) {
-			System.out.println(product);
-		}
 
 		return "shop/shop-home";
+	}
+
+
+	@GetMapping("shop/ranks")
+	public String shopRankList(Model model) {
+		List<ProductForList> productList;
+
+		try {
+			productList = productManagementService.getBestProduct();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("productList", productList);
+
+		return "shop/shop-best-recent";
 	}
 
 	@GetMapping("seller/product")
@@ -126,75 +138,73 @@ public class ProductManagementController {
 
 	@PostMapping("seller/post-product")
 	public String addProductSubmit(
-//			@ModelAttribute Product product,
-//			@RequestParam List<String> mainOptionName,
-//			@RequestParam String subOptionName,
-//			@RequestParam List<Integer> stockPrice,
-//			@RequestParam List<Integer> stockQuantity,
-//			@RequestParam MultipartFile[] contentImg,
-			@RequestParam MultipartFile[] productImg
-//			HttpSession httpSession,
+			@ModelAttribute Product product,
+			@RequestParam List<String> mainOptionName,
+			@RequestParam String subOptionName,
+			@RequestParam List<Integer> stockPrice,
+			@RequestParam List<Integer> stockQuantity,
+			@RequestParam MultipartFile[] contentImg,
+			@RequestParam MultipartFile[] productImg,
+			HttpSession httpSession
 		) {
 
-		for (MultipartFile multipartFile : productImg) {
-			System.out.println(multipartFile);
+		Optional<Integer> min = stockPrice.stream().min(Comparator.naturalOrder());
+		product.setPrice(min.orElse(0));
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		System.out.println("product = " + product);
+		System.out.println("mainOptionName = " + mainOptionName);
+		System.out.println("subOptionName = " + subOptionName);
+		System.out.println("stockPrice = " + stockPrice);
+		System.out.println("stockQuantity = " + stockQuantity);
+		String[][] readSubNamesList;
+
+		try {
+			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
 		}
 
-//
-//		ObjectMapper objectMapper = new ObjectMapper();
-//
-//		System.out.println("product = " + product);
-//		System.out.println("mainOptionName = " + mainOptionName);
-//		System.out.println("subOptionName = " + subOptionName);
-//		System.out.println("stockPrice = " + stockPrice);
-//		System.out.println("stockQuantity = " + stockQuantity);
-//		String[][] readSubNamesList;
-//
-//		try {
-//			readSubNamesList = objectMapper.readValue(subOptionName, String[][].class);
-//		} catch (JsonProcessingException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		for (String[] subNames : readSubNamesList) {
-//			for (String subName : subNames) {
-//				System.out.print(subName + " ");
-//			}
-//			System.out.println();
-//		}
-//
-//		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
-//
-//		Long productId = product.getProductId();
-//
-//		try {
-//			// 이미지 저장 경로 설정
-//			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
-//			System.out.println("root = " + root);
-//
-//			String uploadDir = root + "product" + File.separator + "product";
-//
-//			System.out.println("uploadDir = " + uploadDir);
-//
-//			int sequence = 0;
-//			for (MultipartFile img : productImg) {
-//				String saveFileName = fileManager.doFileUpload(img, uploadDir);
-//				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
-//				sequence++;
-//			}
-//
-//			uploadDir = root + "product" + File.separator + "content";
-//
-//			sequence = 0;
-//			for (MultipartFile img : contentImg) {
-//				String saveFileName = fileManager.doFileUpload(img, uploadDir);
-//				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
-//				sequence++;
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		for (String[] subNames : readSubNamesList) {
+			for (String subName : subNames) {
+				System.out.print(subName + " ");
+			}
+			System.out.println();
+		}
+
+		productManagementService.createProduct(product, mainOptionName, readSubNamesList, stockPrice, stockQuantity);
+
+		Long productId = product.getProductId();
+
+		try {
+			// 이미지 저장 경로 설정
+			String root = httpSession.getServletContext().getRealPath("/") + "resources" + File.separator + "picture" + File.separator + "shop" + File.separator;
+			System.out.println("root = " + root);
+
+			String uploadDir = root + "product" + File.separator + "product";
+
+			System.out.println("uploadDir = " + uploadDir);
+
+			int sequence = 0;
+			for (MultipartFile img : productImg) {
+				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
+				sequence++;
+			}
+
+			uploadDir = root + "product" + File.separator + "content";
+
+			sequence = 0;
+			for (MultipartFile img : contentImg) {
+				String saveFileName = fileManager.doFileUpload(img, uploadDir);
+				productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
+				sequence++;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "redirect:/home";
 	}
@@ -229,6 +239,9 @@ public class ProductManagementController {
 		int mainOptionCnt = productManagementService.getMainOptionCnt(productId);
 		List<ProductMainOption> mainOptionList = productManagementService.getMainOptionListByProductId(productId);
 
+		int reviewCount = productReviewService.getReviewCount(productId);
+
+		model.addAttribute("reviewCount", reviewCount);
 		model.addAttribute("product", product);
 		model.addAttribute("stockList", stockList);
 		model.addAttribute("mainOptionCnt", mainOptionCnt);
@@ -325,6 +338,44 @@ public class ProductManagementController {
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
+
+	@GetMapping("shop/category/{category}")
+	public String categoryProducts(@PathVariable(required = false) Long category, Model model) {
+		ProductCategory topLevelCategory = null;
+
+		if (category == null) {
+			category = 1L;
+		}
+
+		List<ProductForList> productList;
+		List<ProductCategory> categories = null;
+		List<ProductCategory> allCategories = null;
+		List<ProductCategory> productCategories = null;
+
+		try {
+//			productList = productManagementService.getAllProducts();
+			System.out.println("topLevelCategory = " + topLevelCategory);
+			System.out.println("category = " + category);
+
+			topLevelCategory = productCategoryService.getTopLevelCategory(category);
+			categories = productCategoryService.getChildCategories(null);
+			allCategories = productCategoryService.getAllCategoryHierarchy(topLevelCategory.getProductCategoryId());
+			productCategories = productCategoryService.fetchCategory(null);
+
+			productList = productManagementService.getProductsByCategoryId(category);
+
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		model.addAttribute("categories", categories);
+		model.addAttribute("allCategories", allCategories);
+		model.addAttribute("productCategories", productCategories);
+		model.addAttribute("productList", productList);
+		model.addAttribute("topLevelCategory", topLevelCategory);
+
+		return "shop/category-product";
 	}
 
 }

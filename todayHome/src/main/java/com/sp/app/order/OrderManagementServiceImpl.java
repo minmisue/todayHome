@@ -59,13 +59,19 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 
 	@Override
 	public List<Order> getOrderList(Long sellerId,int offset,int size,String startDate, String endDate,String keyword,String condition) throws Exception {
-		List<Order> orderList = orderManagementRepository.getOrderList(sellerId,offset,size,startDate,endDate,keyword,condition);
+		List<Order> orderList = null;
+		try {
+			orderList = orderManagementRepository.getOrderList(sellerId,offset,size,startDate,endDate,keyword,condition);			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		return orderList;
 	}
 
 	@Override
-	public List<Order> getOrderDetailList(Long sellerId, String orderBundleId) throws Exception {
-		List<Order> orderDetailList = orderManagementRepository.getOrderDetailList(sellerId, orderBundleId);
+	public List<Order> getOrderDetailList( String orderBundleId,int offset, int size) throws Exception {
+		List<Order> orderDetailList = orderManagementRepository.getOrderDetailList(orderBundleId,offset,size);
 		return orderDetailList;
 	}
 
@@ -76,9 +82,45 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	}
 
 	@Override
-	public int getOrderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition) throws Exception{
+	public int orderListCount(Long sellerId, String startDate, String endDate, String keyword, String condition) throws Exception{
 	
-		return orderManagementRepository.getOrderListCount(sellerId, startDate,endDate,keyword,condition);
+		return orderManagementRepository.orderListCount(sellerId, startDate,endDate,keyword,condition);
 	
 }
+
+	@Override
+	public int orderDetailCount(String orderBundleId) throws Exception {
+		
+		return orderManagementRepository.orderDetailCount(orderBundleId);
+	}
+
+	@Override
+	public void createOrderState(OrderDetail orderDetail) throws Exception {
+		orderManagementRepository.insertOrderStatus(orderDetail);
+		
+	}
+
+	@Override
+	public Integer dateCountByStatus(Long memberId, Integer status) {
+		Integer count = null;
+		try {
+			count = orderManagementRepository.dateCountByStatus(memberId, status);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
+	@Override
+	public List<Order> getOrderDetailMypage(String orderBundleId , Long memberId) throws Exception {
+		List<Order> list = orderManagementRepository.getOrderDetailMypage(orderBundleId,memberId);
+		return list;
+	}
+
+	@Override
+	public List<Order> getOrderListMyPage(Long memberId) throws Exception {
+		List<Order> list = orderManagementRepository.getOrderListMyPage(memberId);
+		return list;
+	}
 }

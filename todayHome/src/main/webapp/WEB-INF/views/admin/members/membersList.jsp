@@ -188,7 +188,7 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-user-group"></i> 판매자 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-user-group"></i> 회원 리스트 </h2>
   </div>
  
     
@@ -211,13 +211,13 @@ input[type="checkbox"]:checked {
           <option value="email" ${condition == "email" ? 'selected="selected"' : ''}>이메일</option>       
         </select>
         <input type="text" id="search-input" name="keyword" value="${keyword}">
-      
+      <hr>
       </div>
       <div class="search" style="padding: 20px;">
       <label for="search-input">정렬:</label>
 		<select id="search-option" name="sort">
-		  <option value="desc" ${sort == 'DESC' ? 'selected="selected"' : ''}>가입일 최신순</option>
-		  <option value="asc" ${sort == 'ASC' ? 'selected="selected"' : ''}>가입일 오래된순</option>
+		  <option value="desc" ${sort == 'desc' ? 'selected="selected"' : ''}>가입일 최신순</option>
+		  <option value="asc" ${sort == 'asc' ? 'selected="selected"' : ''}>가입일 오래된순</option>
 		</select>
         </div>
     <hr>

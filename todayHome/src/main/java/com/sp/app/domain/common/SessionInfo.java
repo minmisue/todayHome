@@ -4,6 +4,7 @@ public class SessionInfo {
 	private Long memberId;
 	private String userNickname;
 	private Integer userRole;
+	private String profileImgName;
 
 	public SessionInfo(Long memberId, String userNickname, Integer userRole) {
 		super();
@@ -40,4 +41,13 @@ public class SessionInfo {
 		this.userRole = userRole;
 	}
 
+	public String getProfileImgName() {
+		return profileImgName;
+	}
+
+	public void setProfileImgName(String profileImgName) {
+		this.profileImgName = profileImgName;
+	}
+
+	
 }

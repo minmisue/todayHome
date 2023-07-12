@@ -3,6 +3,7 @@ package com.sp.app.domain.board;
 public class NoticeBoard {
 	private Long noticeBoardId;
 	private Long memberId;
+	private String nickName;
 	private String createdDate;
 	private String subject;
 	private String content;
@@ -54,6 +55,14 @@ public class NoticeBoard {
 	}
 	public void setNotice(int notice) {
 		this.notice = notice;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 	

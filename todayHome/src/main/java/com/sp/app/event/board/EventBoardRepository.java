@@ -24,5 +24,5 @@ public interface EventBoardRepository {
 	
 	void insertEventWinner(EventBoard eventBoard) throws Exception;
 	
-	List<EventBoard> eventWinnerMember(EventBoard eventBoard) throws Exception;
+	List<EventBoard> eventWinnerMember(Long eventBoardId) throws Exception;
 }

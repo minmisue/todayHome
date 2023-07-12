@@ -2,141 +2,247 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div>
-	<div class="mt-3">
-		<div class="p-3 shadow bg-body rounded">
-			<p class="fs-6 fw-semibold mb-0">주문 정보</p> 
-		</div>
-		<div class="mt-3 p-2">
-			<table class="table table-bordered mb-1">
-				<tr>
-					<td class="table-light" width="105">주문번호</td>
-					<td width="150">${order.orderNum}</td>
-					<td class="table-light" width="105">주문자</td>
-					<td width="150">${order.userName}</td>
-					<td class="table-light" width="105">주문일자</td>
-					<td width="150">${order.orderDate}</td>
-					<td class="table-light" width="110">주문상태</td>
-					<td width="150">${order.orderStateInfo}</td>
-				</tr>
-				<tr>
-					<td class="table-light">총금액</td>
-					<td class="text-primary"><fmt:formatNumber value="${order.totalMoney}"/></td>
-					<td class="table-light">적림금사용액</td>
-					<td class="text-primary"><fmt:formatNumber value="${order.usedSaved}"/></td>
-					<td class="table-light">결제금액</td>
-					<td class="text-primary"><fmt:formatNumber value="${order.payment}"/></td>
-					<td class="table-light">취소금액</td>
-					<td class="text-warning order-cancelAmount" data-cancelAmount="${order.cancelAmount}">
-						<fmt:formatNumber value="${order.cancelAmount}"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="table-light">배송비</td>
-					<td class="text-primary"><fmt:formatNumber value="${order.deliveryCharge}"/></td>
-					<td class="table-light">배송업체</td>
-					<td>${order.deliveryName}</td>
-					<td class="table-light">송장번호</td>
-					<td>${order.invoiceNumber}</td>
-					<td class="table-light">상태변경일</td>
-					<td>${order.orderStateDate}</td>
-				</tr>
-				<tr>
-					<td class="table-light">결제구분</td>
-					<td>${order.payMethod}</td>
-					<td class="table-light">결제카드</td>
-					<td>${order.cardName}</td>
-					<td class="table-light">결제승인번호</td>
-					<td>${order.authNumber}</td>
-					<td class="table-light">승인일자</td>
-					<td>${order.authDate}</td>
-				</tr>
-			</table>
-			<table class="table table-borderless mb-1">
-				<tr>
-					<td width="50%">
-						<c:if test="${order.orderState < 3}">
-							<button type="button" class="btn btn-light btn-cancel-order" data-orderNum="${order.orderNum}">판매취소</button>
-						</c:if>
-					</td>
-					<td class="text-end">
-						<c:if test="${order.orderState == 1}">
-							<button type="button" class="btn btn-light btn-prepare-order" data-orderNum="${order.orderNum}">발송처리</button>
-						</c:if>
-					
-						<div class="row justify-content-end delivery-update-area">
-							<c:if test="${order.orderState > 1 && order.orderState < 5 }">
-								<div class="col-auto">
-									<select class="form-select delivery-select">
-										<option value="2" ${order.orderState==2?"selected='selected'":"" }>발송준비</option>
-										<option value="3" ${order.orderState==3?"selected='selected'":"" }>배송시작</option>
-										<option value="4" ${order.orderState==4?"selected='selected'":"" }>배송중</option>
-										<option value="5" ${order.orderState==5?"selected='selected'":"" }>배송완료</option>
-									</select>
-								</div>
-								<div class="col-auto">
-									<button type="button" class="btn btn-light btn-delivery-order" data-orderNum="${order.orderNum}" data-orderState="${order.orderState}">배송변경</button>
-								</div>
-							</c:if>
-							<c:if test="${order.orderState == 5}">
-								<div class="col-auto">
-									<label>배송완료 일자 : ${order.orderStateDate}</label>
-								</div>
-							</c:if>
-							
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-	
-	<div class="mt-2 border-top pt-2">	
-		<div class="p-3 shadow bg-body rounded">
-			<p class="fs-6 fw-semibold mb-0">주문 상세정보</p> 
-		</div>
-		<div class="mt-3 p-3">
-			
-			<table class="table board-list order-detail-list">
-				<thead class="table-light">
-					<tr>
-						<th class="bw-80">상세번호</th>
-						<th>상품명</th>
-						<th class="bw-90">상품가격</th>
-						<th class="bw-90">할인가격</th>
-						<th class="bw-130">옵션</th>
-						<th class="bw-80">주문수량</th>
-						<th class="bw-100">주문총금액</th>
-						<th class="bw-90">적립금</th>
-						<th class="bw-110">주문상태</th>
-						<th class="bw-60">변경</th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<c:forEach var="dto" items="${listDetail}" varStatus="status">
-						<tr valign="middle" id="orderDetail-list${dto.orderDetailNum}">
-							<td>${dto.orderDetailNum}</td>
-							<td>${dto.productName}</td>
-							<td><fmt:formatNumber value="${dto.price}"/></td>
-							<td><fmt:formatNumber value="${dto.salePrice}"/></td>
-							<td>${dto.optionValue} / ${dto.optionValue2}</td>
-							<td>${dto.qty}</td>
-							<td><fmt:formatNumber value="${dto.productMoney}"/></td>
-							<td><fmt:formatNumber value="${dto.savedMoney}"/></td>
-							<td>${order.orderState==1 && dto.detailState==0?"상품준비중":dto.detailStateInfo}</td>
-							<td>
-								<span class="orderDetailStatus-update" 
-										data-orderNum="${order.orderNum}" data-orderState="${order.orderState}"
-										data-productMoney="${dto.productMoney}"
-										data-orderDetailNum="${dto.orderDetailNum}" data-detailState="${dto.detailState}">수정</span>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		
-		</div>
-	</div>
-</div>
+<jsp:include page="/WEB-INF/views/fragment/static-header.jsp"/>
+<style type="text/css">
+
+p{
+	font-weight: bold;
+}
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.status-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.status-item {
+  width: 100%;
+  height: 100px;
+  padding: 10px 15px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.status-item:hover {
+  border-color: blue;
+}
+.status-item-content{
+ font-weight: bold;
+}
+.filters {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: 	#F5F5F5;
+  flex-direction: column;
+      width: 100%; 
+    padding: 20px; 
+    box-sizing: border-box; 
+}
+
+.date-range {
+	padding:20px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.date-range label {
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.status-filter label {
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.search input[type="text"],
+.search button {
+  margin-left: 5px;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #778899;
+  }
+  
+  .delivery-table {
+  background: white;
+  padding: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+
+
+.delivery-table th,
+.delivery-table td {
+  padding: 9px;
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.delivery-table th {
+  font-weight: bold;
+}
+
+.delivery-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.button-container  button{
+    width: 10%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+
+.styled-button button{
+  margin: 0 10px;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.styled-button:hover {
+  border: 2px solid blue;
+  color: blue;
+}
+.page-navigation {
+	clear: both;
+	padding: 20px 0;
+	text-align: center;
+}
+.paginate {
+	clear: both;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 14px;	
+}
+.paginate a {
+	border: 1px solid #ccc;
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate a:hover, .paginate a:active {
+	color: #6771ff;
+}
+.paginate span {
+	border: 1px solid #e28d8d;
+	color: #cb3536;
+	font-weight: 600;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate :first-child {
+	margin-left: 0;
+}
+</style>
+</head>
+<body>
+<script>
+  function submitForm() {
+		const f = document.searchForm;
+		f.submit();
+  }
+</script>
+
+<div class="body-container">
+  <div class="body-title">
+    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 상품상세 리스트 </h2>
+  </div>
+    <table class="delivery-table" style="background: white; padding: 20px;">
+      <thead>
+        <tr>
+          <th>주문 묶음 아이디</th>
+          <th>회원 아이디</th>
+          <th>주문 상품 아이디</th>
+          <th>최종 가격</th>
+          <th>원래 가격</th>
+          <th>주소</th>
+          <th>상세주소</th>
+          <th>우편번호</th>
+          <th>할인율</th>
+          <th>상태</th>
+          <th>수량</th>
+          <th>재고 아이디</th>
+
+        </tr> 
+      </thead>
+      <c:forEach var="order" items="${getOrderDetailList}" varStatus="status">
+        <tr>
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/seller/deliveryManage/order-status-change/${order.orderItemId}">${order.orderBundleId}</a></td>
+          <td>${order.memberId}</td>
+          <td>${order.orderItemId}</td>
+          <td>${order.finalPrice}</td>
+          <td>${order.orderPrice}</td>
+          <td>${order.address1}</td>
+          <td>${order.address2}</td>
+          <td>${order.postNum}</td>
+          <td>${order.discountPercent}</td>
+          <td> 
+	          <c:choose>
+		        <c:when test="${order.status == 1}">
+		            결제완료
+		        </c:when>
+		        <c:when test="${order.status == 2}">
+		            배송준비
+		        </c:when>
+		        <c:when test="${order.status == 3}">
+		            배송중
+		        </c:when>
+		        <c:when test="${order.status == 4}">
+		            배송완료
+		        </c:when>
+		        <c:when test="${order.status == 5}">
+		            구매확정
+		        </c:when>
+	    	</c:choose>
+    	</td>         
+          <td>${order.quantity}</td>
+          <td>${order.stockId}</td>
+        </tr>
+      </c:forEach>
+    </table>
+      <div class="page-navigation">   
+       ${paging}
+    </div>
+  </div>

@@ -262,7 +262,7 @@
 						<h2>사진</h2>
 						<strong>0</strong>
 					</div>
-					<a class="picture-list" href="#"> 첫 번째 사진을 올려보세요 </a>
+					<a class="picture-list" href="${pageContext.request.contextPath}/community/picture/write"> 첫 번째 사진을 올려보세요 </a>
 				</div>
 				<div class="myinfo-list-house">
 					<div class="house-header">

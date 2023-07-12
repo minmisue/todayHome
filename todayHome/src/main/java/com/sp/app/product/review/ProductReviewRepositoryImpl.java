@@ -60,4 +60,36 @@ public class ProductReviewRepositoryImpl implements ProductReviewRepository {
 	public List<Long> getStockIdListByOrderItemId(Long orderItemId) throws Exception {
 		return commonDAO.selectList("productReview.getStockIdListByOrderItemId", orderItemId);
 	}
+
+	@Override
+	public List<ProductReview> searchReview(Long sellerId, String startDate, String endDate, String keyword, float rating,int offset, int size) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sellerId", sellerId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("keyword", keyword);
+		map.put("rating", rating);
+		map.put("offset", offset);
+		map.put("size", size);
+
+		return commonDAO.selectList("productReview.searchReview", map);
+	}
+
+	@Override
+	public int getReviewCount(Long productId) throws Exception {
+		return commonDAO.selectOne("productReview.getReviewCount", productId);
+	}
+
+	@Override
+	public int searchReviewCount(Long sellerId, String startDate, String endDate, String keyword, float rating)throws Exception{
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("sellerId", sellerId);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("keyword", keyword);
+		map.put("rating", rating);
+		
+		return commonDAO.selectOne("productReview.searchReviewCount",map);
+	}
 }

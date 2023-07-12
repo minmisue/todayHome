@@ -187,14 +187,14 @@ input[type="checkbox"]:checked {
 
 <div class="body-container">
   <div class="body-title">
-    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 정산 리스트 </h2>
+    <h2><i class="menu--icon  fa-fw fa-solid fa-truck-fast"></i> 주문 리스트 </h2>
   </div>
 
     
-  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/orderMange" method="post">
+  <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/delivery/ordermanage" method="post">
     <div class="filters">
       <div class="date-range">
-        <label for="start-date">기간:</label>
+        <label for="start-date">주문 날짜:</label>
         <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
         <label for="end-date">-</label>
         <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">
@@ -215,25 +215,25 @@ input[type="checkbox"]:checked {
           <th>주문 묶음 아이디</th>
           <th>회원 아이디</th>
           <th>주문 날짜</th>
-          <th>총 수량</th>
+          <th>구매 수량</th>
           <th>구매자 이름</th>
           <th>결제 수단</th>
 
         </tr>
       </thead>
-      <c:forEach var="adjustment" items="${adminAdjustmentList}" varStatus="status">
+      <c:forEach var="order" items="${getOrderList}" varStatus="status">
         <tr>
-          <td>${adjustment.representativeName}</td>
-          <td>${adjustment.sellerName}</td>
-          <td>${adjustment.brandName}</td>
-          <td>${adjustment.businessNumber}</td>
-          <td>${adjustment.regDate}</td>
-          <td>${adjustment.tel}</td>
+          <td><a style=" text-decoration: none; color: black;" href="${pageContext.request.contextPath}/seller/deliveryManage/ordermanagedetail/${order.orderBundleId}">${order.orderBundleId}</a></td>
+          <td>${order.memberId}</td>
+          <td>${order.orderRegDate}</td>
+          <td>${order.quantity}</td>
+          <td>${order.buyerName}</td>
+          <td>${order.payMethod}</td>
         </tr>
       </c:forEach>
     </table>
         <div class="button-container" style="display: flex; justify-content: center;">
-          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/orderManage';">초기화</button>
+          <button id="reset-button" class="styled-button" type="button" onclick="location.href='${pageContext.request.contextPath}/seller/delivery/ordermanage';">초기화</button>
           <button id="search-button" class="styled-button" type="button" onclick="submitForm()">검색</button>
         </div>
     <div class="page-navigation">   

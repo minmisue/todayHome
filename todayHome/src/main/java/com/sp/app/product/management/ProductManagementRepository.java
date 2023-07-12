@@ -24,8 +24,10 @@ public interface ProductManagementRepository {
 
 	List<ProductForList> getAllProducts() throws Exception;
 
-	List<ProductForList> getProductsByKeyword(String keyword, String sort) throws Exception;
-	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort) throws Exception;
+	List<ProductForList> getProductsByCategoryId(Long categoryId) throws Exception;
+
+	List<ProductForList> getProductsByKeyword(String keyword, String sort,int offset,int size,String startDate, String endDate) throws Exception;
+	List<ProductForList> searchProductBySellerId(Long sellerId, String keyword, String sort,int offset,int size,String startDate, String endDate) throws Exception;
 
 	List<Product> getProductsByCategory(Long categoryId);
 
@@ -87,4 +89,10 @@ public interface ProductManagementRepository {
 
 	List<ProductForList> getScrapProductList(Long memberId) throws Exception;
 
+	List<ProductForList> getBestProduct() throws Exception;
+	
+	int countProductsByKeyword(String keyword,String startDate, String endDate) throws Exception;
+	
+	int countProductBySellerId(Long sellerId,String keyword,String startDate, String endDate) throws Exception;
+	
 }

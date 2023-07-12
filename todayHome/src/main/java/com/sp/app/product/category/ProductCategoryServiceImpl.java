@@ -14,12 +14,16 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
 	@Override
 	public List<ProductCategory> getAllCategories() throws Exception {
-		return null;
+		return productCategoryRepository.getAllCategories();
 	}
 
 	@Override
 	public ProductCategory getCategoryById(Long categoryId) {
-		return null;
+		try {
+			return productCategoryRepository.getCategoryById(categoryId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -64,8 +68,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	}
 
 	@Override
-	public List<ProductCategory> getAllCategoryHierarchy() throws Exception {
-		return null;
+	public List<ProductCategory> getAllCategoryHierarchy(Long categoryId) throws Exception {
+		return productCategoryRepository.getAllCategoryHierarchy(categoryId);
 	}
 
 	@Override
@@ -97,6 +101,15 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 			for (ProductCategory subcategory : subcategories) {
 				printCategoryWithSubcategories(subcategory, depth + 1);
 			}
+		}
+	}
+
+	@Override
+	public ProductCategory getTopLevelCategory(Long categoryId) {
+		try {
+			return productCategoryRepository.getTopLevelCategory(categoryId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

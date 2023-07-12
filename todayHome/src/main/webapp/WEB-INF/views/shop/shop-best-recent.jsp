@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -147,8 +148,8 @@
 <div class="main-container" style="margin-top: 200px">
 	<div class="content" style="text-align: center; margin-top: 50px">
 		<div class="btn-bundle">
-			<button type="button" class="btn-left btn-best btn-best-selected" onclick="location.href='${pageContext.request.contextPath}/shop/ranks?type=recent'">실시간 베스트</button>
-			<button type="button" class="btn-right btn-best" onclick="location.href='${pageContext.request.contextPath}/shop/ranks?type=best'">역대 베스트</button>
+			<button type="button" class="btn-left btn-best">실시간 베스트</button>
+			<button type="button" class="btn-right btn-best btn-best-selected" onclick="location.href='${pageContext.request.contextPath}/shop/ranks?type=recent'">역대 베스트</button>
 		</div>
 	</div>
 
@@ -157,26 +158,39 @@
 		<%-- 베스트 상품들 --%>
 		<div class="grid-col-4 grid-row">
 
-			<c:forEach begin="1" end="16" step="1" varStatus="status">
-				<div class="flex-col today-deal-product-container">
+			<c:forEach  items="${productList}" var="product" varStatus="status">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
 					<div class="today-deal-img-container">
 						<img class="today-deal-product-img"
-							 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/168488666448675391.jpg?gif=1&w=1280&h=1280&c=c&webp=1">
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
 
 						<div style="position: absolute; left: 10px; top: 0; width: 28px">
 							<i class="bi bi-bookmark-fill" style="font-size: 28px; color: rgba(28,183,250,0.77)"></i>
-							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index}</div>
+							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index + 1}</div>
 						</div>
 					</div>
 
 					<div class="flex-col today-deal-info-container">
-						<div class="today-deal-brand-name">마틸라</div>
-						<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-						<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
+						<div class="today-deal-brand-name">${product.brandName}</div>
+						<div class="today-deal-product-name">${product.productName}</div>
+						<div>
+							<c:if test="${product.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+									${product.discountPercent}%
+								</span>
+							</c:if>
+							<span class="today-deal-price">
+								<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
+								${formatNumber}
+							</span>
 						</div>
-						<div class="today-deal-item-info"><span class="today-deal-star"><i
-								class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-								class="today-deal-review-count">리뷰 144</span></div>
+						<div class="today-deal-item-info">
+							<span class="today-deal-star">
+								<i class="fa-solid fa-star"></i>
+							</span>
+							<span class="today-deal-rating">${product.rating}</span>
+							<span class="today-deal-review-count">리뷰 ${product.reviewCnt}</span>
+						</div>
 					</div>
 				</div>
 			</c:forEach>

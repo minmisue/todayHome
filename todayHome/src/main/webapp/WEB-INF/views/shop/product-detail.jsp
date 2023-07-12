@@ -218,6 +218,10 @@
             letter-spacing: -.3px;
             color: #424242;
         }
+
+		a {
+			color: black;
+		}
 	</style>
 </head>
 <body>
@@ -306,7 +310,10 @@
 			<div class="flex-col" style="margin-top: 8px">
 				<div class="sale-percent">${product.discountPercent}%</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
-					<div class="price"><fmt:formatNumber value="${product.price}"/></div>
+					<div class="price">
+						<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
+						${formatNumber}
+					</div>
 					<div style="font-size: 24px">원</div>
 				</div>
 			</div>
@@ -364,18 +371,18 @@
 <%--		<p>${stock}</p>--%>
 <%--	</c:forEach>--%>
 
-
+	<div id="product-content" style="margin-bottom: 120px"></div>
 	<div class="sub-menubar-container" style="margin: 50px 0 30px 0; display: block; background-color: #FAFAFA; position: sticky; top: 130px">
 		<div class="sub-menubar" style="padding: 0 55px; height: 48px">
-			<div class="sub-item selected-sub-item" style="width: 130px; text-align: center; margin-bottom: -1px;">상품정보</div>
-			<div class="sub-item" style="width: 130px; text-align: center">리뷰 <span class="count">23,222</span></div>
-			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>
-			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>
+			<a class="sub-item selected-sub-item" href="#product-content" style="text-decoration: none; width: 130px; text-align: center; margin-bottom: -1px;">상품정보</a>
+			<a class="sub-item" href="#product-review-container" style="width: 130px; text-align: center; text-decoration: none;">리뷰 <span class="count">${reviewCount}</span></a>
+<%--			<div class="sub-item" style="width: 130px; text-align: center">문의 <span class="count">4,402</span></div>--%>
+<%--			<div class="sub-item" style="width: 130px; text-align: center">배송/환불</div>--%>
 		</div>
 	</div>
 
 	<div class="content flex-row">
-		<div class="flex-col product-content">
+		<div class="flex-col product-content" >
 			<div class="content-img-container flex-col" style="width: 100%;">
 				<c:forEach items="${product.contentImgList}" var="productImg">
 					<img style="width: 100%; height: 100%"
@@ -383,7 +390,7 @@
 				</c:forEach>
 			</div>
 
-			<div class="product-review-container flex-col">
+			<div class="product-review-container flex-col" id="product-review-container">
 				<div class="flex-row" style="font-weight: 700; font-size: 18px; gap: 10px; margin-top: 20px;">
 					<div>리뷰</div>
 					<div style="color: #65C2EC">541</div>
@@ -554,10 +561,15 @@
 	<%--let stockList = ${stockList};--%>
     <c:set var="productStocks" value="${stockList}" />
 
+
     let stockList = [
         <c:forEach items="${productStocks}" var="productStock" varStatus="status">{
+            <c:set var="productStocks" value="${stockList}" />
+
+			<c:set var="stockOptionPrice" value="${productStock.optionPrice * (product.discountPercent/100)}"/>
+
             stockId: ${productStock.stockId},
-            optionPrice: ${productStock.optionPrice},
+            optionPrice:  ${stockOptionPrice},
             quantity: ${productStock.quantity},
             <c:if test="${productStock.mainOptionId1 != null}">
             	mainOptionId1: ${productStock.mainOptionId1},

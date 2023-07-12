@@ -8,12 +8,15 @@ public class ProductForList {
 	private int productCategoryId;
 	private String productName;
 	private String regDate;
-	private float price;
+	private int price;
 	private int remainQuantity;
 	private int discountPercent;
 	private int reviewCnt;
 	private float rating;
 	private String saveName;
+	private String sellerName;
+
+
 
 	@Override
 	public String toString() {
@@ -30,6 +33,14 @@ public class ProductForList {
 				", rating=" + rating +
 				", saveName='" + saveName + '\'' +
 				'}';
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public Long getProductId() {
@@ -72,13 +83,6 @@ public class ProductForList {
 		this.regDate = regDate;
 	}
 
-	public float getPrice() {
-		return price;
-	}
-
-	public void setPrice(float price) {
-		this.price = price;
-	}
 
 	public int getRemainQuantity() {
 		return remainQuantity;
@@ -119,4 +123,12 @@ public class ProductForList {
 	public void setSaveName(String saveName) {
 		this.saveName = saveName;
 	}
+	
+	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}	
 }

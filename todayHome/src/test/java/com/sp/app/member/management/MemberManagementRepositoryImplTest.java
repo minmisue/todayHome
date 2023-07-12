@@ -5,6 +5,7 @@ import com.sp.app.domain.member.Member;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sp.app.member.follow.FollowService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

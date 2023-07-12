@@ -26,11 +26,13 @@ public interface ProductCategoryService {
 
 	List<ProductCategory> getChildCategories(Long parentCategoryId) throws Exception;
 
-	List<ProductCategory> getAllCategoryHierarchy() throws Exception;
+	List<ProductCategory> getAllCategoryHierarchy(Long categoryId) throws Exception;
 
 	List<ProductCategory> fetchCategory(Long parentCategoryId) throws Exception;
 
 	void printCategory(Long parentCategoryId) throws Exception;
 
 	void printCategoryWithSubcategories(ProductCategory category, int depth);
+
+	ProductCategory getTopLevelCategory(Long categoryId);
 }

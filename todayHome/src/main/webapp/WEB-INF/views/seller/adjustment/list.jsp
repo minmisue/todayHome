@@ -195,7 +195,7 @@ input[type="checkbox"]:checked {
   <form id="searchForm" name="searchForm" action="${pageContext.request.contextPath}/seller/adjustment/list" method="post">
     <div class="filters">
       <div class="date-range">
-        <label for="start-date">기간:</label>
+        <label for="start-date">정산일:</label>
         <input style="width: 20%;" type="date" name="startDate" value="${startDate}" id="startDate">
         <label for="end-date">-</label>
         <input style="width: 20%;"  type="date" name="endDate" value="${endDate}" id="endDate">

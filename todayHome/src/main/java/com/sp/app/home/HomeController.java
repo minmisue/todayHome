@@ -31,14 +31,14 @@ public class HomeController {
 		return "shop/product-detail";
 	}
 
-	@GetMapping("shop/ranks")
-	public String shopBest(@RequestParam(required = false) String type) {
-		if (type == null || type.equals("recent")) {
-			return "shop/shop-best-recent";
-		} else {
-			return "shop/shop-best-ever";
-		}
-	}
+//	@GetMapping("shop/ranks")
+//	public String shopBest(@RequestParam(required = false) String type) {
+//		if (type == null || type.equals("recent")) {
+//			return "shop/shop-best-recent";
+//		} else {
+//			return "shop/shop-best-ever";
+//		}
+//	}
 
 	@GetMapping("shop/today-deals")
 	public String shopTodayDeals() {

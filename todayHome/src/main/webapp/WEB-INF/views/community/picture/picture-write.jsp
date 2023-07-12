@@ -128,7 +128,6 @@ input[type=checkbox], input[type=radio] { vertical-align: middle; }
 .body-main {
 	display: block;
 	padding-bottom: 15px;
-    height: 400px;
 }
 
 form .form-control {
@@ -237,12 +236,11 @@ form .form-control {
 
 		<div class="menubar-item-bundle" style="gap: 18px">
 			<button type="button" class="abledButton" onclick="sendOk();">올리기</button>
-			
+			<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
 		</div>
 	</div>
 </header>
 <main>
-	<div id='tempContainer'></div>
 	<div class="container body-container">
 	    <div class="body-title">
 			<h2><i class="far fa-image"></i> </h2>
@@ -250,6 +248,7 @@ form .form-control {
 	    
 	    <div class="body-main mx-auto">
 			<form name="postsForm" method="post" enctype="multipart/form-data">
+				
 				<div class="content-area sortable">
 					<div class="content-row ui-state-default">
 						<div class="left-item">
@@ -261,14 +260,18 @@ form .form-control {
 								<label for="selectFile">PC에서 불러오기</label>
 								<div class="img-viewer"></div>
 							</div>
+							<div class="image-footer">
+								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
+								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
+								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
+							</div>
 						</div>
-
 						<div class="right-item">
 							<div>
 								<textarea name="contents" class="photointroduction" placeholder="어떤 사진인지 짧은 소개로 시작해보세요."></textarea>
 							</div>
 							<div>
-							<select class="contentCategory" name="userBoardContentCategoryId" id="userBoardContentCategoryId">
+							<select class="contentCategory" name="userBoardContentCategoryIds" id="userBoardContentCategoryId">
 									<option value="0" style="color: rgb(194, 200, 204)">공간 정보 추가</option>
 									<option value="1">원룸</option>
 									<option value="2">거실</option>
@@ -289,34 +292,34 @@ form .form-control {
 							<div>
 								<input type="text" name="contentSequences" value="1">
 								<input type="text" name="positions">
-								<input type="text" name="productIds" value="321">
-								<input type="hidden" name="boardTypeId" id="boardTypeId" value="1">
+								<input type="text" name="productIds" value="421">
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
-		</div>
-
-
-		<div class="image-footer">
-			<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
-			<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
-			<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
-		</div>
+		</div>	    
 	</div>
 
 </main>
 	
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 <script type="text/javascript">
 function sendOk() {
 	const f = document.postsForm;
+	let str;
+	
+	str = f.selectFile.value.trim();
+	if(!str){
+		alert("사진을 등록하세요.");
+		return false;
+	}
+	
+
 	
 	f.action = "${pageContext.request.contextPath}/community/picture/${mode}";
-	
 	f.submit();
 }
 
@@ -356,41 +359,32 @@ $(function(){
 	});
 });
 
-/*
-
-let $newRows = $(this).closest(".content-row").clone(true);
+$(function(){
+	$("form").on("click", ".btnContentPlus", function(){
+		// 컨텐츠 추가
+		let $newRows = $(this).closest(".content-row").clone(true);
+		
 		let $viewer = $newRows.find(".img-viewer");
-
+		
 		let $add = $newRows.find(".img-add");
 		let $inputFile = $newRows.find("input[name=selectFile]");
-
+		
 		$viewer.css({"width":"0", "height":"0"})
 		$viewer.hide();
 		$add.show();
 
 		$viewer.empty();
 		$viewer.css("background-image", "");
-
-
+		
+		
 		$inputFile.val("");
 		$newRows.find("textarea[name=contents]").val("");
-<<<<<<< HEAD
-		$newRows.find("input[name=userBoardContentCategoryIds]").val("");
-=======
-        let inputTag = $newRows.find("input[name=titles]");
-        inputTag.val("");
-        inputTag.setAttribute('name', )
->>>>>>> branch 'main' of https://github.com/minmisue/todayHome.git
+		$newRows.find("input[name=titles]").val("");
 		$newRows.find("input[name=positions]").val("");
- */
-
-$(function(){
-	$("form").on("click", ".btnContentPlus", function(){
-		// 컨텐츠 추가
-
 		
 		$(".content-area").append($newRows);
 		numberSetting();
+		
 		$(".content-area").find(".btnContentMinus").prop("disabled", false);
 	});
 
@@ -451,33 +445,13 @@ $(function(){
 		$(this).append($icon);
 		
 		if(positions) {
-			positions += '-' + pos;
+			positions += ',' + pos;
 		} else {
 			positions = pos;
 		}
 		
 		inputEL.val(positions);
 	});
-
-	  /*
-	  let productId = 301;
-
-	  $(this).append($icon);
-	  
-	  let n = 0;
-	  let tempTag = 
-		  `
-		  	<div class='product-tag-container'>
-				<input name='boardContentList[0].productTagList[0].productId' type='text' value='` + productId + `' />
-	  			<input name='xCoordinate ` +n+ `' type='text' value='` + x + `' />
-				<input name='yCoordinate ` +n+ `' type='text' value='` + y + `' />
-	  		</div>
-	  	
-	  		`
-	  
-	  $('#tempContainer').append(tempTag)
-	  */
-	
 	
 	$('form').on('click', '.img-icon', function(e){
 		// 아이콘 제거
@@ -489,9 +463,9 @@ $(function(){
 		let positions = inputEL.val();
 		
 		let pos = $iconArea.attr('data-position');
-		pos = positions.indexOf(pos+'-') === -1 ? pos : pos + '-';
+		pos = positions.indexOf(pos+',') === -1 ? pos : pos + ',';
 		positions = positions.replace(pos, '');
-		if(positions.length > 0 && positions.charAt(positions.length - 1) === '-') {
+		if(positions.length > 0 && positions.charAt(positions.length - 1) === ',') {
 			positions = positions.slice(0, positions.length - 1);
 		}
 			
@@ -499,7 +473,6 @@ $(function(){
 		
 		$iconArea.remove();
 	});
-	
 
 	// 드래그로 순서 변경
     $( ".sortable" ).sortable({

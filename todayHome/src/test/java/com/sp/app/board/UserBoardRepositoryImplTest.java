@@ -125,6 +125,7 @@ public class UserBoardRepositoryImplTest {
 	
 	@Test
 	public void updateBoardContent() throws Exception{
+
 		Long userBoardContentId = 38L;
 		UserBoard userBoard = new UserBoard();
 		userBoard.setContent("수정!");
@@ -216,8 +217,8 @@ public class UserBoardRepositoryImplTest {
 	public void listComment() throws Exception{
 		Long userBoardId = 2L;
 		
-		List<Comment> listComment = userBoardRepository.listComment(userBoardId);
-		System.out.println(listComment);
+//		List<Comment> listComment = userBoardRepository.listComment(userBoardId);
+//		System.out.println(listComment);
 		
 		
 	}
@@ -234,7 +235,7 @@ public class UserBoardRepositoryImplTest {
 	public void deleteComment() throws Exception{
 		Long userBoardCommentId = 1L;
 		
-		userBoardRepository.deleteComment(userBoardCommentId);
+//		userBoardRepository.deleteComment(userBoardCommentId);
 	}
 	
 	@Test

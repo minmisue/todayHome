@@ -28,7 +28,7 @@
 				<div class='row reply-writer'>
 					<div class='col-1'><i class='bi bi-person-circle text-muted icon'></i></div>
 					<div class='col-auto align-self-center'>
-						<div class='name'>${listReply.name}</div>
+						<div class='name'>${listReply.nickName}</div>
 						<div class='date'>${listReply.regDate}</div>
 					</div>
 				</div>

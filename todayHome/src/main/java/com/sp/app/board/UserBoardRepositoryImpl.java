@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -139,12 +140,12 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void insertScrapLike(Long userBoardId, Long memberId) throws Exception {
+	public void insertBoardScrap(Long userBoardId, Long memberId) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userBoardId", userBoardId);
 		map.put("memberId", memberId);
 
-		commonDAO.insertData("userBoard.insertScrapLike", map);
+		commonDAO.insertData("userBoard.insertBoardScrap", map);
 		
 	}
 
@@ -154,7 +155,7 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 		map.put("userBoardId", userBoardId);
 		map.put("memberId", memberId);
 
-		commonDAO.insertData("userBoard.deleteScrapLike", map);
+		commonDAO.insertData("userBoard.deleteBoardScrap", map);
 		
 	}
 
@@ -170,7 +171,7 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 		map.put("memberId", memberId);
 		
 		boolean result = false;
-		UserBoard userBoard = commonDAO.selectOne("userBoard.userScrapLiked", map);
+		UserBoard userBoard = commonDAO.selectOne("userBoard.userBoardScraped", map);
 		if(userBoard != null) {
 			result = true; 
 		}
@@ -185,8 +186,8 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public void deleteComment(Long userBoardCommentId) throws Exception {
-		commonDAO.deleteData("userBoard.deleteComment", userBoardCommentId);
+	public void deleteComment(Map<String, Object> map) throws Exception {
+		commonDAO.deleteData("userBoard.deleteComment", map);
 	}
 
 	@Override
@@ -195,14 +196,28 @@ public class UserBoardRepositoryImpl implements UserBoardRepository{
 	}
 
 	@Override
-	public List<Comment> listComment(Long userBoardId) throws Exception {
-		return commonDAO.selectList("userBoard.listComment", userBoardId);
+	public List<Comment> listComment(Long memberId, Long userBoardId, int offset, int size) throws Exception {
+		
+		Map<String, Object> map = new HashedMap();
+		map.put("memberId", memberId);
+		map.put("offset", offset);
+		map.put("size", size);
+		map.put("userBoardId", userBoardId);
+		
+		return commonDAO.selectList("userBoard.listComment", map);
 	}
 
 	@Override
-	public List<Comment> listCommentAnswer() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Comment> listCommentAnswer(Map<String, Object> map) {
+		List<Comment> list = null;
+		
+		try {
+			list = commonDAO.selectList("userBoard.listCommentAnswer", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 
 	@Override

@@ -502,4 +502,12 @@ public class ProductManagementRepositoryImplTest {
 		}
 	}
 	*/
+
+	@Test
+	public void getByKeyword() throws Exception {
+		List<ProductForList> productsByJustKeyword = productManagementRepository.getProductsByJustKeyword(null);
+		for (ProductForList productForList : productsByJustKeyword) {
+			System.out.println(productForList);
+		}
+	}
 }

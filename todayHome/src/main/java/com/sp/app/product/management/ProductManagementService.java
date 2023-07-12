@@ -84,6 +84,8 @@ public interface ProductManagementService {
 
 	List<ProductForList> getScrapProductList(Long memberId);
 
+	List<ProductForList> getProductsByJustKeyword(String keyword);
+
 	List<ProductForList> getBestProduct();
 
 	int countProductsByKeyword(String keyword,String startDate, String endDate) throws Exception;

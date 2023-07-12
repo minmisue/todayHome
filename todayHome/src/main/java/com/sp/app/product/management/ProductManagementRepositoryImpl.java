@@ -244,6 +244,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public List<ProductForList> getProductsByJustKeyword(String keyword) throws Exception {
+		return commonDAO.selectList("productManagement.getProductsByJustKeyword", keyword);
+	}
+
+	@Override
 	public int countProductsByKeyword(String keyword, String startDate, String endDate) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 			map.put("keyword", keyword);

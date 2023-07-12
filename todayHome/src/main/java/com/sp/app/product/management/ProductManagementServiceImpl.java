@@ -539,6 +539,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	}
 
 	@Override
+	public List<ProductForList> getProductsByJustKeyword(String keyword) {
+		try {
+			return productManagementRepository.getProductsByJustKeyword(keyword);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public List<ProductForList> getBestProduct() {
 		try {
 			return productManagementRepository.getBestProduct();

@@ -214,6 +214,65 @@ form .form-control {
 .content-row.ui-state-default.ui-sortable-handle {
 	border: none;
 }
+
+.product-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.product-card {
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 45% 40% 15%;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0 5px;
+    align-items: center;
+    border: 1px solid #eaeaea;
+    transition: 0.5s;
+}
+
+.product-card:hover {
+    background: #e7e7e7;
+    cursor: pointer;
+}
+
+.select-product {
+    padding: 6px 15px;
+    border: 1px solid gray;
+    border-radius: 4px
+}
+
+.select-product:hover {
+	background-color: #dedede;
+    cursor: pointer;
+}
+
+.marker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 16px;
+    background-color: #e7e7e7;
+    border-radius: 50%;
+}
+
+.marker:hover i {
+    cursor: pointer;
+	color: #0da2f3;
+}
+
+.marker:hover {
+	background-color: white;
+}
+
+.exitBtn:hover {
+    cursor: pointer;
+	color: #c5c5c5;
+}
 </style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" type="text/css">
@@ -258,9 +317,10 @@ form .form-control {
 								<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
 								<input type="file" name="selectFile" accept="image/*" style="display: none;">
 								<label for="selectFile">PC에서 불러오기</label>
-								<div class="img-viewer"></div>
+								<div style="z-index: 1" class="img-viewer"></div>
 							</div>
 							<div class="image-footer">
+								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
 								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
 								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
 								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
@@ -293,25 +353,8 @@ form .form-control {
 								<input type="text" name="contentSequences" value="1">
 								<input type="text" name="positions">
 								<input type="text" name="productIds" value="421">
-								
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								  <div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								      </div>
-								      <div class="modal-body">
-								        ...
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								        <button type="button" class="btn btn-primary">Save changes</button>
-								      </div>
-								    </div>
-								  </div>
-								</div>
+
+
 							</div>
 						</div>
 					</div>
@@ -319,6 +362,8 @@ form .form-control {
 			</form>
 		</div>	    
 	</div>
+
+
 
 </main>
 	
@@ -377,6 +422,10 @@ $(function(){
 		reader.readAsDataURL(file);
 	});
 });
+
+let currentObj = null;
+let inputModal = $('#addProduct');
+let currentImgViewer = null;
  
 $(function(){
 	$("form").on("click", ".btnContentPlus", function(){
@@ -445,34 +494,104 @@ $(function(){
 			el.value = n++;
 		}
 	}
-	
-	$('form').on('click', '.img-viewer', function(e){
-		let $row = $(this).closest('.content-row');
-		let inputEL = $row.find('input[name=positions]');
-		let positions = inputEL.val();
+
+    let keywordInput = document.getElementById('searchKeyword');
+
+    keywordInput.addEventListener('input', function () {
+        let keyword = $('#searchKeyword').val().trim();
+
+        if (keyword === null || keyword === '') {
+            return
+		}
+
+        getProductAjax(keyword)
+    });
+
+    function getProductAjax(keyword) {
+        let productListContainer = $('#productListContainer');
+        $(productListContainer).empty()
+
+        $.ajax({
+            url: "${pageContext.request.contextPath}/product/get-product-list",
+            type: 'POST',
+            data: 'keyword=' + keyword,
+            dataType: 'json',
+            success: function(response) {
+                if (response.result === true) {
+                    console.log();
+                    let productList = JSON.parse(response.productList);
+
+                    for (const product of productList) {
+                        let img = product.saveName;
+                        let brandName = product.brandName;
+                        let productName = product.productName;
+                        let productId = product.productId
+
+                        console.log(product)
+
+                        let tag =
+                            `
+								<div class="flex-row" style="justify-content: space-between; gap: 10px; align-items: center">
+									<img src="${pageContext.request.contextPath}/resources/picture/shop/product/product/` + img + `" style="width: 70px; height: 70px; border-radius: 25px"/>
+									<div class="flex-col" style="flex: 1; overflow: hidden">
+										<div>` + brandName  + `</div>
+										<div>` + productName + `</div>
+										<input class='product-id' type='hidden' value='`+ productId +`'>
+									</div>
+									<div class='select-product' onclick='selectProduct(this)'>선택</div>
+								</div>
+							`
+                        $(productListContainer).append(tag)
+                    }
+
+                } else {
+                    alert("서버와의 연결이 불안정합니다.");
+                }
+            },
+            error: function(xhr, status, error) {
+                // 요청이 실패했을 때 실행되는 코드
+                alert("서버와의 연결이 불안정합니다.");
+            }
+        });
+    }
+
+
+	$('.img-viewer').on('click', function(e){
+        currentObj = $(this).closest('.content-row');
+        currentImgViewer = this
+
+        let modal = $('#addProduct');
+        inputModal = new bootstrap.Modal(modal);
+        inputModal.toggle()
+
+		// let $row = $(this).closest('.content-row');
+		// let inputEL = $row.find('input[name=positions]');
+		// let positions = inputEL.val();
 		
 		let x = e.offsetX;
 		let y = e.offsetY;
 		let pos = x + ':' + y;
+
+
 		
-		let $icon = $('<div>', {'html':'<i class="fa-solid fa-location-pin img-icon"></i>', 
+		let $icon = $('<div>', {'html':'<div class="marker"><i style="display:block; font-size: 19px; color: #2db0f6;" class="bi bi-plus-circle-fill img-icon"></i></div>',
 						'class':'icon-area', 'data-position':pos});
-		
+
 		// $icon.css({left:x+'px', top:y+'px'});
 		$icon.offset( {left:x, top:y} );
-		
 		$(this).append($icon);
-		
-		if(positions) {
-			positions += ',' + pos;
-		} else {
-			positions = pos;
-		}
-		
-		inputEL.val(positions);
+
+		// if(positions) {
+		// 	positions += ',' + pos;
+		// } else {
+		// 	positions = pos;
+		// }
+		//
+		// inputEL.val(positions);
+        $('#position').val(pos)
 	});
 	
-	$('form').on('click', '.img-icon', function(e){
+	$('.img-icon').on('click', function(e){
 		// 아이콘 제거
 		e.stopPropagation();
 
@@ -501,7 +620,64 @@ $(function(){
     	 }
     });
 });
+
+function selectProduct(obj) {
+    let rootContainer = $(obj).parent();
+    let productId = rootContainer.find('.product-id').val()
+	let position = $('#position').val()
+    // let $row = $(obj).closest('.content-row');
+	//
+    // alert($(obj).html())
+
+    let inputEL = $(currentObj).find('input[name=positions]');
+    let positions = inputEL.val();
+
+    position += (':' + productId)
+
+    if(positions) {
+        positions += '-' + position;
+    } else {
+        positions = position;
+    }
+
+    inputEL.val(positions);
+
+    inputModal.toggle()
+}
+
+function cancelMarker() {
+    let find = $(currentImgViewer).find('div')
+
+    $(find).last().remove()
+    // alert($(currentImgViewer).html())
+
+}
 </script>
-	
+
+
+<!-- Modal -->
+<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="selectProductLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+
+			<div class="modal-body" style="height: 400px; overflow: auto; padding: 20px">
+				<input id='position' type='hidden'>
+				<div class="flex-col">
+					<div class="flex-row">
+						<input id="searchKeyword" class="form-control" style="flex: 1; align-items: center">
+						<div class="exitBtn" style="padding: 6px 15px" onclick="cancelMarker()">취소</div>
+					</div>
+					<%--						onclick="selectProduct(${product.productId}, '${product.name}', ${product.remainQuantity}, '${product.category.label}')"--%>
+					<div id="productListContainer" class="flex-col" style="margin-top: 20px; gap: 10px">
+
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelMarker()">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

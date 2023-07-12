@@ -113,4 +113,13 @@ public class ProductManagementServiceImplTest {
 			System.out.println(productForList);
 		}
 	}
+
+	@Test
+	public void getByKeyword() throws Exception {
+		List<ProductForList> productsByJustKeyword = productManagementService.getProductsByJustKeyword("원목");
+		for (ProductForList productForList : productsByJustKeyword) {
+			System.out.println(productForList);
+		}
+	}
+
 }

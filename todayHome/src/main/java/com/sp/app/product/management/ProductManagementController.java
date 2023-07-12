@@ -378,4 +378,31 @@ public class ProductManagementController {
 		return "shop/category-product";
 	}
 
+	@ResponseBody
+	@PostMapping("product/get-product-list")
+	public ResponseEntity<String> getProductListByKeyword(@RequestParam String keyword) {
+
+		System.out.println(keyword);
+
+		JSONObject jsonObject = new JSONObject();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		try {
+			List<ProductForList> productList = productManagementService.getProductsByJustKeyword(keyword);
+
+			for (ProductForList productForList : productList) {
+				System.out.println(productForList);
+			}
+
+			String json = objectMapper.writeValueAsString(productList);
+
+			jsonObject.put("result", true);
+			jsonObject.put("productList", json);
+		} catch (Exception e) {
+			jsonObject.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
 }

@@ -90,6 +90,8 @@ public interface ProductManagementRepository {
 	List<ProductForList> getScrapProductList(Long memberId) throws Exception;
 
 	List<ProductForList> getBestProduct() throws Exception;
+
+	List<ProductForList> getProductsByJustKeyword(String keyword) throws Exception;
 	
 	int countProductsByKeyword(String keyword,String startDate, String endDate) throws Exception;
 	

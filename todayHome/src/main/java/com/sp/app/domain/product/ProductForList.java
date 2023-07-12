@@ -17,7 +17,6 @@ public class ProductForList {
 	private String sellerName;
 
 
-
 	@Override
 	public String toString() {
 		return "ProductForList{" +

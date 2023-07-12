@@ -45,7 +45,7 @@ public class EventBoardController {
 		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
 		
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "event";
+		String pathname = root + "resources" + File.separator + "picture" + File.separator + "event";
 		try {
 			System.out.println(info.getMemberId());
 			eventBoard.setMemberId(info.getMemberId());
@@ -60,7 +60,7 @@ public class EventBoardController {
 	@GetMapping("list")
 	public String eventList(Model model,HttpSession session) {
 		String root = session.getServletContext().getRealPath("/");
-		String pathname = root + "uploads" + File.separator + "event";
+		String pathname = root + "resources" + File.separator + "picture" + File.separator + "event";
 		System.out.println(pathname);
 		try {
 			List<EventBoard> eventboardlist = eventBoardService.getAllEventBoard();

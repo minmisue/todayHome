@@ -33,7 +33,7 @@ public class ImageController {
 			String cp = req.getContextPath();
 		
 		    String root = session.getServletContext().getRealPath("/");
-		    String pathname = root + "uploads" + File.separator + "event";
+		    String pathname = root + "resources" + File.separator + "picture" + File.separator + "event";
 			File dir = new File(pathname);
 			if(! dir.exists()) {
 				dir.mkdirs();
@@ -57,7 +57,7 @@ public class ImageController {
 					strUrl += "&bNewLine=true&sFileName="; 
 	                strUrl += saveFilename;
 	                strUrl += "&sWidth=" + width;
-	                strUrl += "&sFileURL=" + cp + "/uploads/event/" + saveFilename;
+	                strUrl += "&sFileURL=" + cp + "/resources/picture/event/" + saveFilename;
 			    }
 				
 				PrintWriter out=resp.getWriter();

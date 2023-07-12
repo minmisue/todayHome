@@ -51,7 +51,11 @@
     font-size: 18px;
 	text-align: center;
 		}
-
+		
+	.eventimg img{
+	height: 1100px;
+	width: 600px;
+	}
 	</style>
 </head>
 <body>
@@ -131,7 +135,7 @@
 		<div class="content">
 			<div class="event-detail-container">
 			<form name="eventForm">
-				<div>${eventBoard.content }</div>
+				<div class="eventimg">${eventBoard.content }</div>
 				<div><span class="eventwin-2">발표 일자는 : ${eventBoard.winningDate}</span></div>
 			<c:if test="${eventBoard.winningDate <= sysdate }">
 			<table>
@@ -173,7 +177,6 @@
 		</div>
 	</div>
 
-<c:if test="${eventWinnerlist.size() != 0}">
 	<script type="text/javascript">
 		$(function(){
 			$(".btnEventWinnerList").click(function(){
@@ -193,6 +196,7 @@
 		
 	</script>
 	
+<c:if test="${eventWinnerlist.size() != 0}">
 	<div class="modal fade" id="eventWinnerModal" tabindex="-1" aria-labelledby="eventWinnerModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">

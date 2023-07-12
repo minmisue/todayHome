@@ -347,7 +347,7 @@
 				</div>
 				<div class="flex-row" style="align-items: center; line-height: 30px">
 					<div class="price">
-						<fmt:formatNumber value="${product.price * (product.discountPercent/100)}" pattern="#,###" />
+						<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
 						${formatNumber}
 					</div>
 					<div style="font-size: 24px">원</div>

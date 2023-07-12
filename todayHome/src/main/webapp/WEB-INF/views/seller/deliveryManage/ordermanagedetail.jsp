@@ -213,7 +213,7 @@ input[type="checkbox"]:checked {
           <td>${order.memberId}</td>
           <td>${order.orderItemId}</td>
           <td>${order.finalPrice}</td>
-          <td>${order.orderPrice}</td>
+          <td>${order.price}</td>
           <td>${order.address1}</td>
           <td>${order.address2}</td>
           <td>${order.postNum}</td>

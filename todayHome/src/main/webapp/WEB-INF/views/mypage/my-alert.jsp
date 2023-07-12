@@ -101,14 +101,13 @@
 
 					<c:forEach items="${list }" var="notification">
 
-
 						<div class="news-item">
 							<a class="news-image"
 								href="${pageContext.request.contextPath}${notification.profileUri }">
 								<img
 								src="${pageContext.request.contextPath}/resources/picture/member/${notification.profileImgName}">
 							</a> <a class="news-link" onclick="isRead('${notification.notificationId}','${notification.bodyUri}');"
-								style="text-decoration: none;"> <span class="news-title">${notification.nickName }${notification.msg }</span>
+								style="text-decoration: none;"> <span class="news-title"><span style="font-weight: 700;">${notification.nickName }</span>${notification.msg }</span>
 								<span class="news-date"> 
 								<c:if test="${notification.regDate == 0}">
  								   오늘 

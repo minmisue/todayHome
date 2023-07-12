@@ -86,7 +86,7 @@ public class NotificationServiceImpl implements NotificationService {
 				} else if (type == 4) {
 					message = "님이 좋아요를 눌렀어요.";
 				} else if (type == 5) {
-					message = "님 포인트가 적립되었어요.";
+					message = "님 " + notification.getParameter1() + " 포인트가 적립되었어요.";
 				} else if (type == 6) {
 					message = "님이 팔로우 했어요.";
 				}
@@ -127,10 +127,9 @@ public class NotificationServiceImpl implements NotificationService {
 					Long notificationId = notification.getNotificationId();
 					String nickName = member.getNickName();
 					String profileImgName = member.getProfileImgName();
-					Long pointPage = Long.valueOf(notification.getParameter2());
-					String bodyUri = "/board/" + pointPage;
+					String bodyUri = "/mypage/point";
 					// "/profile/memberId";
-					String profileUri = "/profile/" + pointPage;
+					String profileUri = "/mypage/" + memberId;
 					String regDate = notification.getRegDate();
 					LocalDate targetDate = LocalDate.parse(regDate);
 					long daysBetween = ChronoUnit.DAYS.between(targetDate, currentDate);
@@ -158,7 +157,7 @@ public class NotificationServiceImpl implements NotificationService {
 					Long followerPage = Long.valueOf(notification.getParameter2());
 					String bodyUri = "/mypage/" + followerPage;
 					// "/profile/memberId";
-					String profileUri = "/profile/" + follower;
+					String profileUri = "/mypage/" + follower;
 					String regDate = notification.getRegDate();
 					LocalDate targetDate = LocalDate.parse(regDate);
 					long daysBetween = ChronoUnit.DAYS.between(targetDate, currentDate);

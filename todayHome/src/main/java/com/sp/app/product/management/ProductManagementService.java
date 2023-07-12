@@ -36,7 +36,7 @@ public interface ProductManagementService {
 
 	int scrapCnt(Long productId);
 
-
+	int scrapCntByMemberId(Long memberId);
 
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);

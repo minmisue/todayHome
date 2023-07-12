@@ -293,7 +293,11 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
 	@Override
 	public void updateProduct(Product product) {
-		productManagementRepository.updateProduct(product);
+		try {
+			productManagementRepository.updateProduct(product);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -332,6 +336,15 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 	public int scrapCnt(Long productId) {
 		try {
 			return productManagementRepository.scrapCnt(productId);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public int scrapCntByMemberId(Long memberId) {
+		try {
+			return productManagementRepository.scrapCntByMemberId(memberId);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

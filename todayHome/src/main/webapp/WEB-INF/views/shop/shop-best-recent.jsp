@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -153,8 +155,17 @@
 		</div>
 	</div>
 
+
+	<%
+		// 현재 날짜에서 2일 후 계산
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, 2);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		String formattedDate = sdf.format(calendar.getTime());
+	%>
+
 	<div class="content" style="margin-top: 50px">
-		<div style="font-size: 14px; color: #9e9e9e; margin-bottom: 10px">2023.06.05 15:08 기준</div>
+		<div style="font-size: 14px; color: #9e9e9e; margin-bottom: 10px"><%=formattedDate%> 기준</div>
 		<%-- 베스트 상품들 --%>
 		<div class="grid-col-4 grid-row">
 

@@ -31,7 +31,7 @@ public interface ProductManagementRepository {
 
 	List<Product> getProductsByCategory(Long categoryId);
 
-	void updateProduct(Product product);
+	void updateProduct(Product product) throws Exception;
 
 	void deleteProduct(Long productId);
 
@@ -42,6 +42,8 @@ public interface ProductManagementRepository {
 	int isScrapProduct(Long memberId, Long productId) throws Exception;
 
 	int scrapCnt(Long productId) throws Exception;
+
+	int scrapCntByMemberId(Long memberId) throws Exception;
 
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);

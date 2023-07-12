@@ -135,15 +135,15 @@ public class ProductManagementController {
 
 		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) session.getAttribute("sellerSessionInfo");
 
-		if (sellerSessionInfo == null) {
-			return "redirect:/seller/login";
+		if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+			return "redirect:/seller/error";
 		}
 
 		Product product = productManagementService.getProductById(productId);
 		Long sellerId = product.getSellerId();
 
 		if (!Objects.equals(sellerId, sellerSessionInfo.getSellerId())) {
-			return "redirect:/seller";
+			return "redirect:/seller/error";
 		}
 
 		model.addAttribute("sellerId", sellerSessionInfo.getSellerId());
@@ -254,6 +254,10 @@ public class ProductManagementController {
 			@RequestParam MultipartFile[] productImg,
 			HttpSession httpSession
 	) {
+		System.out.println("product = " + product);
+		System.out.println("contentImg = " + Arrays.toString(contentImg));
+		System.out.println("productImg = " + Arrays.toString(productImg));
+
 		productManagementService.updateProduct(product);
 
 		Long productId = product.getProductId();
@@ -269,22 +273,31 @@ public class ProductManagementController {
 
 			int sequence = 0;
 			// 이미지가 수정되었다면
-			if (productImg != null) {
+			System.out.println("productImg 존재 여부 : " + (productImg != null && productImg.length > 0 && !productImg[0].isEmpty()));
+			if (productImg != null && productImg.length > 0 && !productImg[0].isEmpty()) {
 				sequence = 0;
+				productManagementService.deleteProductImg(productId, 0);
 
 				for (MultipartFile img : productImg) {
 					String saveFileName = fileManager.doFileUpload(img, uploadDir);
+					System.out.println("saveFileName product = " + saveFileName);
+
 					productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 0));
 					sequence++;
 				}
 			}
 
 			// 이미지가 수정되었다면
-			if (contentImg != null) {
+			System.out.println("contentImg 존재 여부 : " + (contentImg != null && contentImg.length > 0 && !contentImg[0].isEmpty()));
+			if (contentImg != null && contentImg.length > 0 && !contentImg[0].isEmpty()) {
 				uploadDir = root + "product" + File.separator + "content";
 				sequence = 0;
+				productManagementService.deleteProductImg(productId, 1);
+
 				for (MultipartFile img : contentImg) {
 					String saveFileName = fileManager.doFileUpload(img, uploadDir);
+					System.out.println("saveFileName content = " + saveFileName);
+
 					productManagementService.insertProductImg(productId, new ProductImg(saveFileName, sequence, 1));
 					sequence++;
 				}

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.sp.app.domain.member.Notification;
+import com.sp.app.member.notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,10 +44,13 @@ public class OrderController {
 	CartService cartservice;
 	
 	@Autowired
-	ProductManagementService productservice;
+	ProductManagementService productManagementService;
+
+	@Autowired
+	NotificationService notificationService;
 	
 	@Autowired
-	MemberManagementService memberservie;
+	MemberManagementService memberManagementService;
 	
 	@Autowired
 	OrderManagementService orderManagementService;
@@ -86,7 +91,7 @@ public class OrderController {
 				
 				Long quantity = vo.getQuantity();
 				
-				ProductStock productStock = productservice.getStockByStockId(stockId);
+				ProductStock productStock = productManagementService.getStockByStockId(stockId);
 				productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
 				
 				productStock.setCartQuantity(quantity);
@@ -98,7 +103,7 @@ public class OrderController {
 		}
 		
 		String orderBundleId = orderManagementService.productOrderNumber();
-		Member member = memberservie.readMemberById(memberId);
+		Member member = memberManagementService.readMemberById(memberId);
 		
 		
 		Point point =  pointService.getPointById(memberId);
@@ -139,7 +144,7 @@ public class OrderController {
 		Long memberId = info.getMemberId();
 		Member member = null;
 		try {
-			member = memberservie.readMemberById(memberId);
+			member = memberManagementService.readMemberById(memberId);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -147,14 +152,14 @@ public class OrderController {
 
 		String orderBundleId = orderManagementService.productOrderNumber();
 		List<Product> productList = new ArrayList<Product>();
-		Product product =  productservice.getProductById(productId);
+		Product product =  productManagementService.getProductById(productId);
 		
 		List<ProductStock> productStockList = new ArrayList<ProductStock>();
 		for(int i= 0; i<stockId.size(); i++) {
 			Long stock = stockId.get(i);
 			Long stockQuantity = quantity.get(i);
 			
-			ProductStock productStock = productservice.getStockByStockId(stock);
+			ProductStock productStock = productManagementService.getStockByStockId(stock);
 			productStock.setPrice(Long.valueOf(productStock.getOptionPrice()));
 			
 			productStock.setCartQuantity(stockQuantity);
@@ -189,16 +194,17 @@ public class OrderController {
 			@RequestParam(required = false, defaultValue = "-1") Integer usedPoint,
 			@RequestParam Integer reward,
 			@RequestParam(defaultValue = "isNottrue") String defaultAddress,
-			Model model
+			Model model,
+			HttpSession session
 			) {
-		
+
 		System.out.println(deliveryCostList);
-		
-		
+
+
 		// 옵션 상세
 		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
 		List<Delivery> deliveryList = new ArrayList<Delivery>();
-		
+
 		for(int i=0;i<productNums.size();i++) {
 			OrderDetail orderDetail = new OrderDetail();
 			orderDetail.setOrderBundleId(order.getOrderBundleId());
@@ -207,30 +213,30 @@ public class OrderController {
 			orderDetail.setFinalPrice(finalPrices.get(i));// 상품당 금액
 			orderDetail.setOriginalPrice(originalPrices.get(i));
 			orderDetail.setStatus(state.get(i)); // 상품 상태
-			
+
 			orderDetailList.add(orderDetail);
-			
+
 			Delivery delivery = new Delivery();
 			delivery.setDeliveryCost(deliveryCostList.get(i));
 			deliveryList.add(delivery);
-			
+
 			// 정산 테이블
 			try {
 				Seller seller = sellerService.getSellerBySellerId(sellerNums.get(i));
 				Long accumulatedAmount = seller.getAccumulatedAmount(); // 업데이트 전 금액
-				
+
 				seller.setAccumulatedAmount(accumulatedAmount + Long.valueOf(finalPrices.get(i)));
 				sellerService.updateAccumulatedAmount(seller); // 업데이트
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		List<OrderItemStock> orderItemStockList = new ArrayList<OrderItemStock>();
 		for(int i=0;i<stockNums.size();i++) {
-			
+
 			OrderItemStock orderItemStock = new OrderItemStock();
 			orderItemStock.setGubun(gubun.get(i));
 			orderItemStock.setPrice(price.get(i));
@@ -238,22 +244,22 @@ public class OrderController {
 			orderItemStock.setStockId(stockNums.get(i));
 			orderItemStockList.add(orderItemStock);
 		}
-		
+
 		try {
 			orderManagementService.createOrder(order, orderDetailList, orderItemStockList,deliveryList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		if(defaultAddress.equals("istrue")) {
 			Member member = new Member();
 			member.setMemberId(order.getMemberId());
 			member.setAddress1(order.getAddress1());
 			member.setAddress2(order.getAddress2());
 			member.setPostNum(order.getPostNum());
-			
+
 			try {
-				memberservie.insertAddress(member);
+				memberManagementService.insertAddress(member);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -269,7 +275,7 @@ public class OrderController {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
 			// 포인트 사용이력
 			MemberPoint memberPoint = new MemberPoint();
 			memberPoint.setAmount(usedPoint);
@@ -280,9 +286,9 @@ public class OrderController {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
 		}
-		
+
 		if(order.getCouponId() != null) {
 			try {
 				couponService.deleteMemberCoupon(order.getCouponId(),order.getMemberId());
@@ -298,10 +304,22 @@ public class OrderController {
 		memberPoint2.setStatus(1);
 		try {
 			pointService.insertMemberPoint(memberPoint2);
+
+			// 알림 추가
+			Notification notification = new Notification();
+			// 알림받는 멤버 아이디 설정
+			notification.setMemberId(order.getMemberId());
+			// 알림 타입 설정
+			notification.setType(5);
+			// 금액 설정
+			notification.setParameter1(String.valueOf(reward));
+
+			notificationService.createNotification(notification, session);
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
+
 
 		// 결제 완료 후 장바구니 삭제
 		if(cartIdList != null) {
@@ -309,7 +327,7 @@ public class OrderController {
 				cartservice.deleteCart(cartId);
 			}
 		}
-		
+
 		return "redirect:/payment/complete";
 	}
 	

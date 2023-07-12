@@ -20,6 +20,8 @@ section {
 		  myinfo
 		----------------
 		*/
+
+
 .myinfo-wrapper {
 	position: sticky;
 	top: 0;

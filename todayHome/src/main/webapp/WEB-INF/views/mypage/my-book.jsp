@@ -170,10 +170,6 @@
   font-weight: 600;
 }
 
-.scrap-div:hover{
-	cursor: pointer;
-}
-
 .today-deal-product-img {
 	width: 100%;
 	border-radius: 5px;
@@ -183,6 +179,122 @@
 .today-deal-product-img:hover {
 	transform: scale(1.05);
 	cursor: pointer;
+}
+
+
+
+.shop-banner img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.grid-col-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.today-deal-brand-name {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #848C93;
+}
+
+.today-deal-product-name {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 17px;
+    max-height: 34px;
+    color: #424242;
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+}
+
+.today-deal-sale-percent {
+    font-size: 17px;
+    line-height: 23px;
+    font-weight: 700;
+    color: #65C2EC;
+    margin-right: 5px;
+}
+
+.today-deal-price {
+    font-size: 17px;
+    line-height: 23px;
+    font-weight: 700;
+}
+
+.today-deal-rating {
+    color: #424242;
+}
+
+.today-deal-review-count {
+    margin-left: 5px;
+}
+
+.today-deal-star {
+    color: #65C2EC;
+}
+
+.today-deal-item-info {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #9e9e9e;
+    line-height: 16px;
+    font-weight: 700;
+}
+
+.today-deal-product-img {
+    width: 100%;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.today-deal-product-img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+
+.today-deal-info-container {
+    padding: 0 10px;
+}
+
+.today-deal-img-container {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+}
+
+.today-deal-product-container:hover {
+    cursor: pointer;
+}
+
+.today-deal-product-container:hover .today-deal-product-name {
+    color: #A0A0A0;
+}
+
+.grid-row {
+    grid-auto-rows: 458px;
+}
+
+.more-view-btn {
+    color: #f77;
+    font-weight: 700;
+    margin-right: 7px;
+    font-size: 15px;
+    transition: opacity .1s;
+}
+
+.more-view-btn:hover {
+    color: #F6BFBD;
+    cursor: pointer;
 }
 	</style>
 </head>
@@ -214,11 +326,11 @@
 		    </div>
 		
 		    <div class="scrapBook-menu">
-		      <strong class="menu menu-1">모두(0)</strong>
-		      <strong class="menu menu-2">상품(0)</strong>
+		      <strong class="menu menu-1">모두(${scrapCnt})</strong>
+		      <strong class="menu menu-2">상품(${scrapCnt})</strong>
 		    </div>
 		    
-		    <ul class="scrapBook-content">
+<%--		    <ul class="scrapBook-content">--%>
 		      <!-- 콘텐츠가 없을 때 UI -->
 		      <!-- <div class="no-content">
 		        <p>아직 스크랩한<br/>콘텐츠가 없습니다.</p>
@@ -226,27 +338,59 @@
 		      </div> -->
 		
 		      <!-- 콘텐츠가 있을 때 UI -->
-		      <c:forEach var="productForList" items="${productForList}" varStatus="status">
-		      <li class="scrapBook">
-		      	<div class="scrap-div" onclick="location.href='${pageContext.request.contextPath}/product/${productForList.productId}'">
-		        <div class="scrap-image">
-		          <img class="today-deal-product-img" src="${pageContext.request.contextPath}resources/picture/product/${productForList.saveName}" alt="scrap image">
-		        </div>
-		        <div class="scrap-content">
-		          <span class="scrap-brand">${productForList.brandName}</span>
-		          <strong class="scrap-name">${productForList.productName }</strong>
-		          <div class="price-wrapper">
-		            <span class="price">${Math.round(productForList.price)}</span>
-		          </div>
-		          <p class="rating-wrapper">
-		            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path fill="currentColor" fill-rule="evenodd" d="M12 19.72l-5.677 2.405c-.76.322-1.318-.094-1.247-.906l.533-6.142-4.042-4.656c-.54-.624-.317-1.283.477-1.467l6.006-1.39L11.23 2.28c.426-.707 1.122-.699 1.542 0l3.179 5.282 6.006 1.391c.805.187 1.011.851.477 1.467l-4.042 4.656.533 6.142c.072.822-.497 1.224-1.247.906L12 19.72z"></path></svg>
-		            <strong>${productForList.rating}</strong>
-		          </p>
-		        </div>
-		        </div>
-		      </li>
-		      </c:forEach>
-		    </ul>
+<%--		      <c:forEach var="productForList" items="${productForList}" varStatus="status">--%>
+<%--		      <li class="scrapBook">--%>
+<%--		      	<div class="scrap-div" onclick="location.href='${pageContext.request.contextPath}/product/${productForList.productId}'">--%>
+<%--		        <div class="scrap-image">--%>
+<%--		          <img class="today-deal-product-img" src="${pageContext.request.contextPath}resources/picture/product/${productForList.saveName}" alt="scrap image">--%>
+<%--		        </div>--%>
+<%--		        <div class="scrap-content">--%>
+<%--		          <span class="scrap-brand">${productForList.brandName}</span>--%>
+<%--		          <strong class="scrap-name">${productForList.productName }</strong>--%>
+<%--		          <div class="price-wrapper">--%>
+<%--		            <span class="price">${productForList.price}</span>--%>
+<%--		          </div>--%>
+<%--		          <p class="rating-wrapper">--%>
+<%--		            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path fill="currentColor" fill-rule="evenodd" d="M12 19.72l-5.677 2.405c-.76.322-1.318-.094-1.247-.906l.533-6.142-4.042-4.656c-.54-.624-.317-1.283.477-1.467l6.006-1.39L11.23 2.28c.426-.707 1.122-.699 1.542 0l3.179 5.282 6.006 1.391c.805.187 1.011.851.477 1.467l-4.042 4.656.533 6.142c.072.822-.497 1.224-1.247.906L12 19.72z"></path></svg>--%>
+<%--		            <strong>${productForList.rating}</strong>--%>
+<%--		          </p>--%>
+<%--		        </div>--%>
+<%--		        </div>--%>
+<%--		      </li>--%>
+<%--		      </c:forEach>--%>
+<%--		    </ul>--%>
+			<div class="grid-col-4 grid-row">
+
+				<c:forEach items="${productForList}" var="product">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
+					<div class="today-deal-img-container">
+						<img class="today-deal-product-img"
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
+					</div>
+					<div class="flex-col today-deal-info-container">
+						<div class="today-deal-brand-name">${product.brandName}</div>
+						<div class="today-deal-product-name">${product.productName}</div>
+						<div>
+							<c:if test="${product.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+										${product.discountPercent}<span style="margin-left: 2px;">%</span>
+								</span>
+							</c:if>
+
+							<span class="today-deal-price">
+								<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
+								${formatNumber}
+							</span>
+						</div>
+						<div class="today-deal-item-info">
+							<span class="today-deal-star"><i class="fa-solid fa-star"></i></span>
+							<span class="today-deal-rating">${product.rating}</span>
+							<span class="today-deal-review-count">리뷰 ${product.reviewCnt}</span>
+						</div>
+					</div>
+				</div>
+				</c:forEach>
+
 		  </section>
 		</div>
 	</div>

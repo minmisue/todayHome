@@ -93,8 +93,8 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 
 
 	@Override
-	public void updateProduct(Product product) {
-
+	public void updateProduct(Product product) throws Exception {
+		commonDAO.updateData("productManagement.updateProduct", product);
 	}
 
 	@Override
@@ -129,6 +129,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	@Override
 	public int scrapCnt(Long productId) throws Exception {
 		return commonDAO.selectOne("productManagement.scrapCnt", productId);
+	}
+
+	@Override
+	public int scrapCntByMemberId(Long memberId) throws Exception {
+		return commonDAO.selectOne("productManagement.scrapCntByMemberId", memberId);
 	}
 
 	@Override

@@ -9,8 +9,11 @@
 	<style>
         .shop-banner {
             height: 380px;
-
         }
+
+		.shop-banner img {
+
+		}
 
         .shop-banner:hover {
             cursor: pointer;
@@ -51,9 +54,9 @@
 
         .grid-col-4 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
 
-            gap: 15px;
+            gap: 25px;
 
         }
 
@@ -139,7 +142,7 @@
         }
 
         .grid-row {
-            grid-auto-rows: 340px;
+            grid-auto-rows: 360px;
         }
 
         .more-view-btn {
@@ -208,9 +211,9 @@
 
 <div class="main-container" style="margin-top: 130px">
 
-	<div class="flex-row">
-		<div class="side-bar" style="width: 700px">
-			<div id="selectContainer" style="padding: 40px 90px">
+	<div class="flex-row content" style="margin-bottom: 100px;">
+		<div class="side-bar" style="width: 500px">
+			<div id="selectContainer" style="padding: 40px 30px">
 				<a class="main-category" style="margin-bottom: 5px;" href="${pageContext.request.contextPath}/shop/category/${topLevelCategory.productCategoryId}">${topLevelCategory.categoryName}</a>
 
 				<c:forEach items="${allCategories}" var="category">

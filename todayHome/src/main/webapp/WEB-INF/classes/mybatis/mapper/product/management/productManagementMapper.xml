@@ -42,6 +42,11 @@
         SET sequence = sequence + 1
         WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
     </update>
+    
+    <update id="updateProduct" parameterType="com.sp.app.domain.product.Product">
+        update product SET product_category_id = #{productCategoryId}, product_name = #{productName}, content = #{content}, delivery_cost = #{deliveryCost}, discount_percent = #{discountPercent}
+        WHERE product_id = #{productId}
+    </update>
 
     <insert id="insertScrapProduct" parameterType="map">
         INSERT INTO PRODUCT_SCRAP (MEMBER_ID, PRODUCT_ID)
@@ -189,6 +194,12 @@
         SELECT count(*) AS cnt
         FROM product_scrap
         WHERE product_id = #{productId}
+    </select>
+
+    <select id="scrapCntByMemberId" parameterType="Long" resultType="int">
+        SELECT count(*) AS cnt
+        FROM product_scrap
+        WHERE MEMBER_ID = #{memberId}
     </select>
 
     <delete id="deleteProductImg" parameterType="map">

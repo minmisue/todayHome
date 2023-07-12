@@ -930,8 +930,6 @@
 
         $('#productCategoryId').val(finalCategoryValue)
 
-		alert($('#productCategoryId').val())
-
 
         form.submit();
     }

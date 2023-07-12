@@ -765,8 +765,8 @@
         let obj =
 			`
 				<div class="selected-option" style="background-color: #F8F9FA; padding: 12px; margin-top: 10px; border-radius: 4px; position: relative">
-					<div class="delete-option-btn" style="position: absolute; right: 12px; top: 12px" onclick="deleteOption(this)">
-						<i class="bi bi-x-lg"></i>
+					<div class="delete-option-btn" style="position: absolute; right: 12px; top: 12px">
+						<i class="bi bi-x-lg" onclick="deleteOption(this)"></i>
 					</div>
 					<div style="font-size: 14px; line-height: 18px; padding: 0 24px 10px 0; rgb(47, 52, 56);">
 			` +
@@ -788,19 +788,21 @@
 		$('.selected-option-container').append(obj)
     }
 
+    // 선택된 옵션 삭제
     function deleteOption(obj) {
-        let selectedOption = $('.selected-option');
-        let seq = null;
-        for (let i = 0; i < selectedOption.length; i++) {
-            if (obj === selectedOption) {
-                seq = i;
-                break;
-			}
-		}
-
+        let par = $(obj).parent().parent()
         let allSelectedOptions = getAllSelectedOptions();
-        alert(allSelectedOptions)
-		alert(seq)
+		let stockId = $(par).find('.stock-id').val();
+
+        for (let i = 0; i < allSelectedOptions.length; i++) {
+            if (parseInt(allSelectedOptions[i][0]) === parseInt(stockId)) {
+				allSelectedOptions.splice(i, 1);
+				$(par).remove()
+            }
+        }
+
+        clearOptions();
+        displayTotalPrice()
     }
 
 

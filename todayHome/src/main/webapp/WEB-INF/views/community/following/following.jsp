@@ -190,14 +190,8 @@
 
 <jsp:include page="/WEB-INF/views/fragment/menubar.jsp"/>
 
-<div class="main-container">
-	<div class="content" style="padding: 0 240px;">
-		<div class="following-feed-container">
-			<div class="following-feed-container-msg">팔로잉 피드가 비어있어요.</div>
-		</div>
-	</div>
 
-	<div class="content" style="padding: 0 240px;">
+	<div class="content" style="padding: 0px 240px; margin-top: 120px;">
 		<div class="flex-col follow-label-container">
 			<div class="follow-label-main"><span class="label-highlighting-color">${sessionScope.sessionInfo.userNickname}</span>님을 위한 추천 유저</div>
 			<div class="follow-label-sub">유저를 팔로우하고 새 소식을 확인하세요!</div>
@@ -242,12 +236,13 @@
 	</div>
 
 	<div class="content following-feed-btn-container" style="padding: 0 240px;">
-		<button class="following-feed-btn" onclick="sendCheckedValues();">팔로잉 피드 시작해보기</button>
+		<div class="following-feed-btn" onclick="sendCheckedValues();">팔로잉 피드 시작해보기
 			<div class="check-cnt-circle">
 				<div id="check-cnt"></div>
+				</div>
 		</div>
 	</div>
-</div>
+
 
 <jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
 

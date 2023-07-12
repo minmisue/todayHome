@@ -155,6 +155,7 @@ public class MypageController {
 		
 		String root = session.getServletContext().getRealPath("/");
 		String pathname = root + "resources" + File.separator + "picture" + File.separator + "member";
+		System.out.println(pathname);
 		
 		try {
 			

@@ -838,7 +838,6 @@
             let formatNum = finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             optionPrice.text(formatNum)
 
-
             displayTotalPrice()
         }
     };

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sp.app.board.UserBoardService;
 import com.sp.app.common.FileManager;
+import com.sp.app.domain.board.UserBoard;
 import com.sp.app.domain.common.SessionInfo;
 import com.sp.app.domain.member.Member;
 import com.sp.app.domain.mypage.Point;
@@ -44,6 +46,9 @@ public class MypageController {
 	PointService pointService;
 	
 	@Autowired
+	UserBoardService userBoardService;
+	
+	@Autowired
 	CouponService couponService;
 	
 	@Autowired
@@ -58,10 +63,14 @@ public class MypageController {
 		int couponCount = couponService.memberCouponCount(memberId);
 		int followerCount = followService.followerCount(memberId);
 		int followeeCount = followService.followingCount(memberId);
+		List<UserBoard> userBoardList = userBoardService.readOtherBoard(memberId);
+		
 		model.addAttribute("member",member);
 		model.addAttribute("couponCount",couponCount);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followeeCount", followeeCount);
+		model.addAttribute("userBoardList", userBoardList);
+		
 		return "mypage/all-view";
 	}
 	
@@ -71,10 +80,13 @@ public class MypageController {
 		int couponCount = couponService.memberCouponCount(memberId);
 		int followerCount = followService.followerCount(memberId);
 		int followeeCount = followService.followingCount(memberId);
+		List<UserBoard> userBoardList = userBoardService.readOtherBoard(memberId);
+		
 		model.addAttribute("member",member);
 		model.addAttribute("couponCount",couponCount);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followeeCount", followeeCount);
+		model.addAttribute("userBoardList", userBoardList);
 		return "mypage/my-photo";
 	}
 	

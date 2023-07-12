@@ -224,6 +224,74 @@
         .follower-data:hover {
 			cursor: pointer;
 		}
+		
+		 .image-category {
+		  display: flex;
+		  justify-content: flex-start;
+		  align-items: flex-start;
+		  flex-wrap: wrap;
+		  margin-top: 16px;
+		  gap : 5px;
+		}
+
+.image-category-item {
+  width:  25%;
+}
+
+.image-category-user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.image-category-user img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.image-category-user span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.image-category-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-category-user-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-category-user-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.image-category-user-menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.image-category-user-menu i {
+  padding: 13px 0 16px;
+}
+
+.image-category-user-content {
+  margin: 0;
+  font-size: 15px;
+}
 	</style>
 </head>
 <body>
@@ -262,7 +330,23 @@
 						<h2>사진</h2>
 						<strong>0</strong>
 					</div>
-					<a class="picture-list" href="${pageContext.request.contextPath}/community/picture/write"> 첫 번째 사진을 올려보세요 </a>
+					<c:if test="${empty userBoardList}">
+						<a class="picture-list" href="${pageContext.request.contextPath}/community/picture/write"> 첫 번째 사진을 올려보세요 </a>
+					</c:if>
+					
+					<c:if test="${not empty userBoardList}">
+						<div class="image-category">
+					<c:forEach var="userBoardList" items="${userBoardList}" begin="0" end="3">
+						    <div class="image-category-item">
+						      <a href="${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${userBoardList.userBoardId}">
+						        <div href="" class="image-category-user-image">
+						          <img src="${pageContext.request.contextPath}/upload/housePicture/${userBoardList.imgName}" alt="user upload image">
+						        </div>
+						      </a>
+						    </div>
+					</c:forEach>
+						  </div>
+					</c:if>
 				</div>
 				<div class="myinfo-list-house">
 					<div class="house-header">

@@ -122,7 +122,7 @@
 	
 	<!-- 글쓴이가 쓴 다른 게시글 -->
 	<select id="readOtherBoard" parameterType="map" resultType="com.sp.app.domain.board.UserBoard">
-	SELECT b.user_board_id as userBoardId,  img_Name as imgName
+	SELECT b.user_board_id as userBoardId,  img_Name as imgName, content
 		FROM user_board b
         JOIN user_board_content bc ON b.user_board_id = bc.user_board_id
 		WHERE b.member_id = #{memberId} AND content_sequence= '1'

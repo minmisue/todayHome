@@ -312,17 +312,18 @@
 		<section>
 			<jsp:include page="/WEB-INF/views/fragment/myprofile.jsp"/>
 			
+			<c:forEach var="userBoardList" items="${userBoardList}" begin="0" end="3">
 			<div class="image-category">
 			    <div class="image-category-item">
 			    
 			      <div class="image-category-user">
-			        <img src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png" alt="user-image">
-			        <span>${member.name }</span>
+			        <img src="">
+			        <span>${member.nickName }</span>
 			      </div>
 			
-			      <a href="#">
-			        <div href="" class="image-category-user-image">
-			          <img src="./assets/images/picture01.png" alt="user upload image">
+			      <a href="${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${userBoardList.userBoardId}">
+			        <div class="image-category-user-image">
+			          <img src="${pageContext.request.contextPath}/upload/housePicture/${userBoardList.imgName}">
 			        </div>
 			  
 			        <div class="image-category-user-menu">
@@ -332,11 +333,12 @@
 			        </div>
 			  
 			        <p class="image-category-user-content">
-			          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa voluptatibus excepturi quaerat officiis ex? Sunt dignissimos nihil ullam quae modi repellat odio tempora id reiciendis tempore. Quam est debitis animi.
+			        	${userBoardList.content}
 			        </p>
 			      </a>
 			    </div>
 			  </div>
+			  </c:forEach>
 		</section>
 	</div>
 </div>

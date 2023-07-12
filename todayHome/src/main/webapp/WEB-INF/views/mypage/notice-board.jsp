@@ -52,7 +52,7 @@ $(function () {
     // 마이페이지일때 메뉴
 	// 메인메뉴, 서브메뉴 숫자 입력
 	// 첫번째 파라미터에 0 입력시 숨김
-	selectMyPage(2,5);
+	selectMyPage(2,4);
 });
 
 </script>

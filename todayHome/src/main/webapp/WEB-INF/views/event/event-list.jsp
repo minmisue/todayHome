@@ -55,7 +55,6 @@
 				</div>
 			</c:forEach>
 			</div>
-		<button type="button" onclick="location.href='${pageContext.request.contextPath}/event/write'">등록하기</button>
 		</div>
 	</div>
 

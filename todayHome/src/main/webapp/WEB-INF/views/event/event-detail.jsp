@@ -52,6 +52,10 @@
 	text-align: center;
 		}
 
+	.eventimg img{
+	height: 1100px;
+	width: 600px;
+	}
 	</style>
 </head>
 <body>
@@ -132,7 +136,7 @@
 	<div class="main-container">
 		<div class="content">
 			<div class="event-detail-container">
-				<div>${eventBoard.content }</div>
+				<div class="eventimg">${eventBoard.content }</div>
 				<div><span class="eventwin-2">발표 일자는 : ${eventBoard.winningDate}</span></div>
 			<c:if test="${eventBoard.winnerNumber != 0 && eventBoard.winningDate <= sysdate}">
 			<table>

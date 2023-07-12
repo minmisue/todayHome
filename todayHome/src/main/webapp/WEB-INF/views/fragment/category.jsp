@@ -80,62 +80,62 @@
 
 <div class="category-container">
 	<div class="main-category-icon-container">
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/category/store_home_categories/165698403420736265.png?w=144">
 			<div class="category-icon-text">가구</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/category/store_home_categories/165519431107541334.png?w=144">
 			<div class="category-icon-text">패브릭</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/3'">
 			<img class="category-icon-img" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/category/store_home_categories/168489250261646598.png?w=144">
 			<div class="category-icon-text">가전·디지털</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/4.webp">
 			<div class="category-icon-text">주방용품</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/2'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/5.webp">
 			<div class="category-icon-text">식품</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/6.webp">
 			<div class="category-icon-text">데코·식물</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/7.webp">
 			<div class="category-icon-text">조명</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/8.webp">
 			<div class="category-icon-text">수납·정리</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/9.webp">
 			<div class="category-icon-text">생활용품</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/30'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/10.webp">
 			<div class="category-icon-text">생필품</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/11.webp">
 			<div class="category-icon-text">유아·아동</div>
 		</div>
 
-		<div class="main-icon-item flex-col">
+		<div class="main-icon-item flex-col" onclick="location.href='${pageContext.request.contextPath}/shop/category/1'">
 			<img class="category-icon-img" src="${pageContext.request.contextPath}/resources/picture/shop/home/icon/category/12.webp">
 			<div class="category-icon-text">반려동물</div>
 		</div>

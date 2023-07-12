@@ -398,7 +398,7 @@ $(function() {
 									<div class="flex-row" style="gap: 10px">
 										<div class="cart-img-container">
 											<img class="cart-img"
-												src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/productions/168256978840040031.jpg">
+												src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${cart.saveName}">
 										</div>
 										<div class="flex-col" style="flex: 1; gap: 5px">
 											<div

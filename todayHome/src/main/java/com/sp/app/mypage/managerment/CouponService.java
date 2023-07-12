@@ -19,7 +19,7 @@ public interface CouponService {
 	
 	void insertMemberCoupon(MemberCoupon membercoupon) throws Exception;
 
-	void deleteMemberCoupon(long couponId) throws Exception;
+	void deleteMemberCoupon(long couponId, long memberId) throws Exception;
 	
 	List<MemberCoupon> getMemberCouponById(Long memberId) throws Exception;
 	

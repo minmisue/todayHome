@@ -1,6 +1,8 @@
 package com.sp.app.mypage.managerment;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,8 +38,11 @@ public class CouponRepositoryImpl implements CouponRepository{
 	}
 
 	@Override
-	public void deleteMemberCoupon(long couponId) throws Exception {
-		commonDAO.deleteData("coupon.deleteMemberCoupon", couponId);
+	public void deleteMemberCoupon(long couponId, long memberId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("couponId", couponId);
+		map.put("memberId", memberId);
+		commonDAO.deleteData("coupon.deleteMemberCoupon", map);
 	}
 
 	@Override

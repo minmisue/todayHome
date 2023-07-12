@@ -40,8 +40,8 @@ public class CouponServiceImpl implements CouponService{
 	}
 
 	@Override
-	public void deleteMemberCoupon(long couponId) throws Exception {
-		couponRepository.deleteMemberCoupon(couponId);
+	public void deleteMemberCoupon(long couponId, long memberId) throws Exception {
+		couponRepository.deleteMemberCoupon(couponId,memberId);
 	}
 
 	@Override

@@ -22,8 +22,8 @@
 		DELETE FROM coupon WHERE coupon_id = #{couponId}
 	</delete>
 	
-	<delete id="deleteMemberCoupon" parameterType="Long">
-		DELETE FROM member_coupon WHERE member_coupon_id = #{memberCouponId}
+	<delete id="deleteMemberCoupon" parameterType="map">
+		DELETE FROM member_coupon WHERE member_coupon_id = #{memberCouponId} and member_id = #{memberId}
 	</delete>
 	
 	<select id="getAllCoupon" resultType="com.sp.app.domain.mypage.Coupon">

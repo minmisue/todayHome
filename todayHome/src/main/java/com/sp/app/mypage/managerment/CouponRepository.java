@@ -16,7 +16,7 @@ public interface CouponRepository {
 	
 	void insertMemberCoupon(MemberCoupon membercoupon) throws Exception;
 	
-	void deleteMemberCoupon(long couponId) throws Exception;
+	void deleteMemberCoupon(long couponId, long memberId) throws Exception;
 
 	List<Coupon> getAllCoupon() throws Exception;
 	

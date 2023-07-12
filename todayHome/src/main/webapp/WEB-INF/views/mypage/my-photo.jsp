@@ -323,7 +323,7 @@
 			
 			      <a href="${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${userBoardList.userBoardId}">
 			        <div class="image-category-user-image">
-			          <img src="${pageContext.request.contextPath}/upload/housePicture/${userBoardList.imgName}">
+			          <img src="${pageContext.request.contextPath}/uploads/housePicture/${userBoardList.imgName}">
 			        </div>
 			  
 			        <div class="image-category-user-menu">

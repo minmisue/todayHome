@@ -340,7 +340,7 @@
 						    <div class="image-category-item">
 						      <a href="${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${userBoardList.userBoardId}">
 						        <div href="" class="image-category-user-image">
-						          <img src="${pageContext.request.contextPath}/upload/housePicture/${userBoardList.imgName}" alt="user upload image">
+						          <img src="${pageContext.request.contextPath}/uploads/housePicture/${userBoardList.imgName}" alt="user upload image">
 						        </div>
 						      </a>
 						    </div>

@@ -65,14 +65,18 @@ public class ProductManagementController {
 	@GetMapping("shop/home")
 	public String shopHome(Model model) {
 		List<ProductForList> productList;
+		List<ProductForList> productListHotDeal;
 
 		try {
 			productList = productManagementService.getAllProducts();
+			productListHotDeal = productManagementService.getAllProductsLimit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+
 		model.addAttribute("productList", productList);
+		model.addAttribute("productListHotDeal", productListHotDeal);
 
 		return "shop/shop-home";
 	}

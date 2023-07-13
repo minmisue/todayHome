@@ -234,74 +234,112 @@
 			<div class="shop-main-label">오늘의딜</div>
 
 			<%-- 클릭시 오늘의딜 탭으로 이동 --%>
-			<div class="more-view-btn">더보기</div>
+			<div class="more-view-btn" onclick="location.href='${pageContext.request.contextPath}/shop/today-deals'">더보기</div>
 		</div>
 
 		<%-- 오늘의 딜 상품 4개 --%>
 		<div class="grid-col-4">
-			<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/268'">
-				<div class="today-deal-img-container">
-					<img class="today-deal-product-img"
-						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
-				</div>
-				<div class="flex-col today-deal-info-container">
-					<div class="today-deal-brand-name">영가구</div>
-					<div class="today-deal-product-name">[리뷰 23,000개] 베가 폴라 투명 접이식의자 17colors</div>
-					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">25,600</span>
-					</div>
-					<div class="today-deal-item-info"><span class="today-deal-star"><i
-							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-							class="today-deal-review-count">리뷰 23,823</span></div>
-				</div>
-			</div>
+			<c:forEach var="product" items="${productListHotDeal}" varStatus="status">
+				<c:if test="${status.index < 4}">
+					<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
+						<div class="today-deal-img-container">
+							<img class="today-deal-product-img"
+								 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
 
-			<div class="flex-col today-deal-product-container">
-				<div class="today-deal-img-container">
-					<img class="today-deal-product-img"
-						 src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/productions/168256978840040031.jpg">
-				</div>
-				<div class="flex-col today-deal-info-container">
-					<div class="today-deal-brand-name">마틸라</div>
-					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
-					</div>
-					<div class="today-deal-item-info"><span class="today-deal-star"><i
-							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-							class="today-deal-review-count">리뷰 144</span></div>
-				</div>
-			</div>
+							<div style="position: absolute; left: 12px; top: 12px; background-color: #EE7F7B; width: 95px; line-height: 24px; font-size: 12px; color: white; font-weight: 700; text-align: center; padding: 0px 6px; border-radius: 5px">
+								<span class="remain-time">06:54:45</span> 남음
+									<%--							<i class="bi bi-bookmark-fill" style="font-size: 28px; color: rgba(28,183,250,0.77)"></i>--%>
+									<%--							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index}</div>--%>
+							</div>
+						</div>
+						<div class="flex-col today-deal-info-container">
+							<div class="today-deal-brand-name">${product.brandName}</div>
+							<div class="today-deal-product-name">${product.productName}</div>
+							<div>
+								<c:if test="${product.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+									${product.discountPercent}%
+								</span>
+								</c:if>
 
-			<div class="flex-col today-deal-product-container">
-				<div class="today-deal-img-container">
-					<img class="today-deal-product-img"
-						 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165959279812235613.jpg?gif=1&w=1280&h=1280&c=c&webp=1">
-				</div>
-				<div class="flex-col today-deal-info-container">
-					<div class="today-deal-brand-name">마틸라</div>
-					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
+								<span class="today-deal-price">
+								<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
+								${formatNumber}
+							</span>
+							</div>
+							<div class="today-deal-item-info">
+								<span class="today-deal-star"><i class="fa-solid fa-star"></i></span>
+								<span class="today-deal-rating">${product.rating}</span>
+								<span class="today-deal-review-count">리뷰 ${product.reviewCnt}</span>
+							</div>
+						</div>
 					</div>
-					<div class="today-deal-item-info"><span class="today-deal-star"><i
-							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-							class="today-deal-review-count">리뷰 144</span></div>
-				</div>
-			</div>
+				</c:if>
+			</c:forEach>
 
-			<div class="flex-col today-deal-product-container">
-				<div class="today-deal-img-container">
-					<img class="today-deal-product-img"
-						 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/167168822852557476.jpg?gif=1&w=1280&h=1280&c=c&webp=1">
-				</div>
-				<div class="flex-col today-deal-info-container">
-					<div class="today-deal-brand-name">마틸라</div>
-					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
-					</div>
-					<div class="today-deal-item-info"><span class="today-deal-star"><i
-							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-							class="today-deal-review-count">리뷰 144</span></div>
-				</div>
-			</div>
+<%--			<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/268'">--%>
+<%--				<div class="today-deal-img-container">--%>
+<%--					<img class="today-deal-product-img"--%>
+<%--						 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">--%>
+<%--				</div>--%>
+<%--				<div class="flex-col today-deal-info-container">--%>
+<%--					<div class="today-deal-brand-name">영가구</div>--%>
+<%--					<div class="today-deal-product-name">[리뷰 23,000개] 베가 폴라 투명 접이식의자 17colors</div>--%>
+<%--					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">25,600</span>--%>
+<%--					</div>--%>
+<%--					<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--							class="today-deal-review-count">리뷰 23,823</span></div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
+
+<%--			<div class="flex-col today-deal-product-container">--%>
+<%--				<div class="today-deal-img-container">--%>
+<%--					<img class="today-deal-product-img"--%>
+<%--						 src="https://bucketplace-v2-development.s3.amazonaws.com/uploads/productions/168256978840040031.jpg">--%>
+<%--				</div>--%>
+<%--				<div class="flex-col today-deal-info-container">--%>
+<%--					<div class="today-deal-brand-name">마틸라</div>--%>
+<%--					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>--%>
+<%--					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>--%>
+<%--					</div>--%>
+<%--					<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--							class="today-deal-review-count">리뷰 144</span></div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
+
+<%--			<div class="flex-col today-deal-product-container">--%>
+<%--				<div class="today-deal-img-container">--%>
+<%--					<img class="today-deal-product-img"--%>
+<%--						 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165959279812235613.jpg?gif=1&w=1280&h=1280&c=c&webp=1">--%>
+<%--				</div>--%>
+<%--				<div class="flex-col today-deal-info-container">--%>
+<%--					<div class="today-deal-brand-name">마틸라</div>--%>
+<%--					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>--%>
+<%--					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>--%>
+<%--					</div>--%>
+<%--					<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--							class="today-deal-review-count">리뷰 144</span></div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
+
+<%--			<div class="flex-col today-deal-product-container">--%>
+<%--				<div class="today-deal-img-container">--%>
+<%--					<img class="today-deal-product-img"--%>
+<%--						 src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/167168822852557476.jpg?gif=1&w=1280&h=1280&c=c&webp=1">--%>
+<%--				</div>--%>
+<%--				<div class="flex-col today-deal-info-container">--%>
+<%--					<div class="today-deal-brand-name">마틸라</div>--%>
+<%--					<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>--%>
+<%--					<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>--%>
+<%--					</div>--%>
+<%--					<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--							class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--							class="today-deal-review-count">리뷰 144</span></div>--%>
+<%--				</div>--%>
+<%--			</div>--%>
 
 		</div>
 	</div>
@@ -371,5 +409,45 @@
 </div>
 
 <jsp:include page="/WEB-INF/views/fragment/footer.jsp"/>
+
+<script>
+    $(function () {
+        updateRemainingTime()
+    });
+
+    function getRemainingTimeInSeconds() {
+        const now = new Date(); // 현재 시간
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999); // 오늘의 끝나는 시간 (23시 59분 59초 999밀리초)
+
+        // 남은 시간 계산 (밀리초를 초로 변환)
+        return convertSecondsToTime(Math.floor((endOfDay - now) / 1000));
+    }
+
+    function updateRemainingTime() {
+        const remainingTime = getRemainingTimeInSeconds();
+
+        let $remain = $('.remain-time');
+        for (const remain of $remain) {
+            $(remain).text(remainingTime)
+        }
+
+        // 1초마다 함수를 호출하여 시간을 갱신
+        setTimeout(updateRemainingTime, 1000);
+    }
+
+    function convertSecondsToTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        const formattedHours = hours < 10 ? '0' + hours : hours;
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+
+        return formattedHours + ':' + formattedMinutes + ':' + formattedSeconds;
+    }
+
+</script>
 </body>
 </html>

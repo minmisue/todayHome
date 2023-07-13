@@ -144,7 +144,7 @@
 				<div class="w-100 h-100 img-container" style="overflow: hidden; position: relative">
 					<img class="banner-card-img" onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=429'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/2023071312185341608613227900.jpg">
 					<div class="flex-col main-banner-info">
-						<div class="fw-bolder fs-2 text-white main-banner-text">우리들의 집들이</div>
+						<div class="fw-bolder fs-2 main-banner-text" style="color:">우리들의 집들이</div>
 						<div class="flex-row" style="align-items: center; margin-top: 8px">
 							<img class="banner-user-img" src="${pageContext.request.contextPath}/resources/picture/park.jpeg">
 							<div class="banner-username">kun</div>

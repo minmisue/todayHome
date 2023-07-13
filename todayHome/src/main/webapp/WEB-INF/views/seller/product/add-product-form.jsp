@@ -306,12 +306,12 @@
 				<div style="display: flex; flex-direction: row; gap: 10px; justify-content: space-between; margin-top: 35px;">
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">할인율</span></div>
-						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == "post" ? "" : product.discountPercent}">
+						<input type="number" class="form-control product-info" id="discountPercent" name="discountPercent" value="${mode == 'post' ? '' : product.discountPercent}">
 					</div>
 
 					<div class="input-group">
 						<div class="input-group-text" style="width: 85px;"><span style="margin: auto">배달비</span></div>
-						<input type="number" class="form-control product-info" id="deliveryCost" name="deliveryCost" value="${mode == "post" ? "" : product.deliveryCost}">
+						<input type="number" class="form-control product-info" id="deliveryCost" name="deliveryCost" value="${mode == 'post' ? '' : product.deliveryCost}">
 					</div>
 				</div>
 

@@ -168,6 +168,14 @@ public class OrderController {
 		
 		product.setProductStockList(productStockList);
 		productList.add(product);
+		
+		Point point = null;
+		try {
+			point =  pointService.getPointById(memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("point", point);
 		model.addAttribute("cartList", productList);
 		model.addAttribute("mode","buyNow");
 		model.addAttribute("member",member);

@@ -65,14 +65,18 @@ public class ProductManagementController {
 	@GetMapping("shop/home")
 	public String shopHome(Model model) {
 		List<ProductForList> productList;
+		List<ProductForList> productListHotDeal;
 
 		try {
 			productList = productManagementService.getAllProducts();
+			productListHotDeal = productManagementService.getAllProductsLimit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+
 		model.addAttribute("productList", productList);
+		model.addAttribute("productListHotDeal", productListHotDeal);
 
 		return "shop/shop-home";
 	}
@@ -525,11 +529,22 @@ public class ProductManagementController {
 
 			jsonObject.put("result", true);
 			jsonObject.put("product", json);
+
+			System.out.println(json);
 		} catch (Exception e) {
 			jsonObject.put("result", false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
+
+	@GetMapping("shop/today-deals")
+	public String shopTodayDeals(Model model) {
+
+		List<ProductForList> productList = productManagementService.getAllProductsLimit();
+
+		model.addAttribute("productList", productList);
+		return "shop/shop-today-deals";
 	}
 }

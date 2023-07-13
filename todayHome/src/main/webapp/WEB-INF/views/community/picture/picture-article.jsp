@@ -124,7 +124,7 @@
 				<div class="flex-col article-item-container" style="margin-bottom: 30px;">
 					<div style="position: relative;">
 					<div class="flex-col" style="">
-						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/resources/picture/house-picture/${boardContentList.imgName}">
+						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/${boardContentList.imgName}">
 					<div class="article-contain-item-container flex-row">
 					<c:forEach var="boardProductList" items="${userBoardProduct}" varStatus="status">
 						<div class="productImgContainer" style="width: 100px; height: 100px; border-radius: 20px">

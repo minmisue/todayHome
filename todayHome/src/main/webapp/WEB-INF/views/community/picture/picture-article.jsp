@@ -116,10 +116,10 @@
 						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/uploads/housePicture/${boardContentList.imgName}">
 					<div class="article-contain-item-container flex-row">
 					<c:forEach var="boardProductList" items="${userBoardProduct}" varStatus="status">
-						<div style="width: 100px; height: 100px; border-radius: 20px">
+						<div class="productImgContainer" style="width: 100px; height: 100px; border-radius: 20px">
 							<img onclick="location.href='${pageContext.request.contextPath}/product/${boardProductList.productId}'" style="width: 100px; height: 100px; border: 1px solid #C5C2BB; border-radius: 30px" src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${boardProductList.saveName}" id="productImg${status.index}">
 							<div style="position: absolute; top: ${boardProductList.yCoordinate - 10}%; left: ${boardProductList.xCoordinate}%;">
-							<img src="${pageContext.request.contextPath}/resources/picture/house-picture/list/marker.JPG" width="20" height="20" style="border-radius: 10px;" >
+							<img class="marker" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/marker.JPG" width="20" height="20" style="border-radius: 10px;" >
 						</div>
 						</div>
 					</c:forEach>
@@ -517,26 +517,46 @@
 		    	});
 		    });
 		
-		    function getProductAjax(keyword) {
-		        let productListContainer = $('#productListContainer');
+		let currentObj = null;
+		let currentMarker = null;
+		
+		  $('.marker').on('mouseover', function(e){
+		        currentObj = $(this).closest('.productImgContainer');
+		        currentMarker = this
+
+		        let modal = $('#selectProduct');
+		        inputModal = new bootstrap.Modal(modal);
+		        inputModal.show()
+
+			});
+		  
+		  $('#selectProduct2').on('mouseout', function(e){
+			  alert('helo')
+			   let modal = $('#selectProduct');
+		        inputModal = new bootstrap.Modal(modal);
+			  inputModal.hide()
+		  })
+		
+		    function getProductAjax(productId) {
+		        let selectProductListContainer = $('#selectProductListContainer');
 		        $(productListContainer).empty()
 
 		        $.ajax({
-		            url: "${pageContext.request.contextPath}/product/get-product-list",
+		            url: "${pageContext.request.contextPath}/product/get-product-json",
 		            type: 'POST',
-		            data: 'keyword=' + keyword,
+		            data: 'productId=' + productId,
 		            dataType: 'json',
 		            success: function(response) {
 		                if (response.result === true) {
 		                    console.log();
-		                    let productList = JSON.parse(response.productList);
+		                    let product = JSON.parse(response.product);
 
-		                    for (const product of productList) {
 		                        let img = product.saveName;
 		                        let brandName = product.brandName;
 		                        let productName = product.productName;
-		                        let productId = product.productId
-
+		                        let productId = product.productId;
+								let price = product.price;
+		                        
 		                        console.log(product)
 
 		                        let tag =
@@ -546,9 +566,9 @@
 											<div class="flex-col" style="flex: 1; overflow: hidden">
 												<div>` + brandName  + `</div>
 												<div>` + productName + `</div>
+												<div>` + price + `</div>
 												<input class='product-id' type='hidden' value='`+ productId +`'>
 											</div>
-											<div class='select-product' onclick='selectProduct(this)'>선택</div>
 										</div>
 									`
 		                        $(productListContainer).append(tag)
@@ -568,9 +588,8 @@
 
 <!-- Modal -->
 <div class="modal fade" id="selectProduct" tabindex="-1" aria-labelledby="selectProductLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-dialog modal-dialog-centered" id="selectProduct2">
 		<div class="modal-content">
-
 			<div class="modal-body" style="height: 400px; overflow: auto; padding: 20px">
 				<div class="flex-col">
 					<div class="flex-row">

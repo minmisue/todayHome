@@ -1,5 +1,7 @@
 package com.sp.app.domain.order;
 
+import java.util.List;
+
 public class Order {
 	private String orderBundleId; // 주문 묶음 아이디
 	private Long memberId;
@@ -34,6 +36,7 @@ public class Order {
 	private Long stockId;
 
 	private String productName;
+	private Long statusCountList;
 	public Order() {
 	}
 
@@ -71,6 +74,15 @@ public class Order {
 	}
 
 	
+
+	public Long getStatusCountList() {
+		return statusCountList;
+	}
+
+	public void setStatusCountList(Long statusCountList) {
+		this.statusCountList = statusCountList;
+	}
+
 	public int getPrice() {
 		return price;
 	}

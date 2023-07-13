@@ -123,4 +123,10 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 		List<Order> list = orderManagementRepository.getOrderListMyPage(memberId);
 		return list;
 	}
+
+	@Override
+	public List<Order> selectStatusCount(Long memberId) throws Exception {
+		List<Order> list = orderManagementRepository.selectStatusCount(memberId);
+		return list;
+	}
 }

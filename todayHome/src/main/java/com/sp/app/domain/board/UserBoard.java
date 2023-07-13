@@ -38,8 +38,8 @@ public class UserBoard {
 	private List<Long> productIds;
 	
 	
-	private int xCoordinate;
-	private int yCoordinate;
+	private double xCoordinate;
+	private double yCoordinate;
 	private Long discountedPrice;
 	private String productName;
 	private String brandName;
@@ -427,29 +427,39 @@ public class UserBoard {
 
 
 
-	public void setProductIds(List<Long> productIds) {
-		this.productIds = productIds;
-	}
 
 
 
-
-	public int getxCoordinate() {
+	public double getxCoordinate() {
 		return xCoordinate;
 	}
 
 
 
 
-	public void setxCoordinate(int xCoordinate) {
+	public void setxCoordinate(double xCoordinate) {
 		this.xCoordinate = xCoordinate;
 	}
 
 
 
 
-	public int getyCoordinate() {
+	public double getyCoordinate() {
 		return yCoordinate;
+	}
+
+
+
+
+	public void setyCoordinate(double yCoordinate) {
+		this.yCoordinate = yCoordinate;
+	}
+
+
+
+
+	public void setProductIds(List<Long> productIds) {
+		this.productIds = productIds;
 	}
 
 

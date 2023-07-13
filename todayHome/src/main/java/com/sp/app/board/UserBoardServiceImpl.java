@@ -49,16 +49,13 @@ public class UserBoardServiceImpl implements UserBoardService{
 				
 				
 				String[] ss = userBoard.getPositions().get(i).split("-");
-				// [319:72] [238:132] [213:125] [232:126]
 				for(int j=0; j<ss.length; j++) {
 					String[] sss = ss[j].split(":");
-					userBoard.setPosition(ss[j]);
-					userBoard.setProductId(userBoard.getProductIds().get(j));
-					userBoard.setxCoordinate(Integer.parseInt(sss[0]));
-				    userBoard.setyCoordinate(Integer.parseInt(sss[1]));
+					userBoard.setxCoordinate(Double.parseDouble(sss[0]));
+				    userBoard.setyCoordinate(Double.parseDouble(sss[1]));
+				    userBoard.setProductId(Long.parseLong(sss[2]));
 					
 					userBoardRepository.insertProduct(userBoard);
-					// sss = null;
 				}
 			}
 		/*
@@ -125,8 +122,17 @@ public class UserBoardServiceImpl implements UserBoardService{
 
 	@Override
 	public List<UserBoard> readProduct(Long userBoardContentId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<UserBoard> list = null;
+		
+		try {
+			list = userBoardRepository.readProduct(userBoardContentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return list;
 	}
 
 	@Override

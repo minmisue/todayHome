@@ -175,6 +175,10 @@ public class OrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		Integer dataCartCount = cartservice.cartDateCountByMemberId(info.getMemberId());
+		session.setAttribute("dataCartCount", dataCartCount);
+
 		model.addAttribute("point", point);
 		model.addAttribute("cartList", productList);
 		model.addAttribute("mode","buyNow");
@@ -301,7 +305,7 @@ public class OrderController {
 			try {
 				couponService.deleteMemberCoupon(order.getCouponId(),order.getMemberId());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}

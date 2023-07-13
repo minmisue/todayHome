@@ -124,7 +124,7 @@
 				<div class="flex-col article-item-container" style="margin-bottom: 30px;">
 					<div style="position: relative;">
 					<div class="flex-col" style="">
-						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/uploads/housePicture/${boardContentList.imgName}">
+						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/resources/picture/house-picture/${boardContentList.imgName}">
 					<div class="article-contain-item-container flex-row">
 					<c:forEach var="boardProductList" items="${userBoardProduct}" varStatus="status">
 						<div class="productImgContainer" style="width: 100px; height: 100px; border-radius: 20px">
@@ -150,10 +150,10 @@
 					</div>
 					<c:forEach var="otherBoardList" items="${otherBoardList}" varStatus="status" begin="0" end="2">
 						<div class="OtherBoard" style="display: inline">
-							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${otherBoardList.userBoardId}'" src="${pageContext.request.contextPath}/uploads/housePicture/${otherBoardList.imgName}">
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${otherBoardList.userBoardId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/${otherBoardList.imgName}">
 						</div>
 					</c:forEach>
-							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/mypage/${userBoard.memberId}/photo'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/more.JPG">
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/mypage/${userBoard.memberId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/more.JPG">
 					<div>
 						<c:choose>
 							<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">

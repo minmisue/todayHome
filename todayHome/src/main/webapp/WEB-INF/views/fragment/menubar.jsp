@@ -152,7 +152,6 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/picture/write">사진/동영상 올리기</a></li>
-                    <li><a class="dropdown-item" href="#">집들이 글쓰기</a></li>
 <%--                    <li><a class="dropdown-item" href="#">노하우 글쓰기</a></li>--%>
                     <li><a class="dropdown-item" href="#">상품 리뷰 쓰기</a></li>
                 </ul>
@@ -170,7 +169,6 @@
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/home'">홈</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/follow/feed'">팔로잉</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-list'">사진</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/community/house-warming/list'">집들이</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/event/list'">이벤트</div>
         </div>
     </div>

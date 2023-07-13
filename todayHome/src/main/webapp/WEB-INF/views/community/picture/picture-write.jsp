@@ -349,8 +349,8 @@ form .form-control {
 							</select>
 							</div>
 							<div>
-								<input type="text" name="contentSequences" value="1">
-								<input type="text" name="positions">
+								<input type="hidden" name="contentSequences" value="1">
+								<input type="hidden" name="positions">
 							</div>
 						</div>
 					</div>

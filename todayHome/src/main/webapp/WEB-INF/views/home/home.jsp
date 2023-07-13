@@ -154,7 +154,7 @@
 			</div>
 			<div class="w-25">
 				<div class="w-100 h-100 img-container" style="overflow: hidden;">
-					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-event1.png">
+					<img class="banner-card-img" src="${pageContext.request.contextPath}/resources/picture/main-event1.png" onclick="location.href='${pageContext.request.contextPath}/event/detail?eventBoardId=201'">
 				</div>
 			</div>
 		</div>

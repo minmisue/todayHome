@@ -524,7 +524,7 @@ public class ProductManagementController {
 			String json = objectMapper.writeValueAsString(product);
 
 			jsonObject.put("result", true);
-			jsonObject.put("productList", json);
+			jsonObject.put("product", json);
 		} catch (Exception e) {
 			jsonObject.put("result", false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());

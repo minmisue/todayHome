@@ -6,8 +6,10 @@
         <selectKey keyProperty="productId" resultType="Long" order="BEFORE">
             SELECT SEQ_PRODUCT.NEXTVAL as productId FROM DUAL
         </selectKey>
-        insert INTO product (product_id, seller_id, product_category_id, product_name, content, price, discount_percent, delivery_cost)
-        VALUES (#{productId}, #{sellerId}, #{productCategoryId}, #{productName}, #{content, jdbcType=VARCHAR}, #{price, jdbcType=VARCHAR}, #{discountPercent, jdbcType=VARCHAR}, #{deliveryCost, jdbcType=VARCHAR})
+        insert INTO product (product_id, seller_id, product_category_id, product_name, content, price, discount_percent,
+        delivery_cost)
+        VALUES (#{productId}, #{sellerId}, #{productCategoryId}, #{productName}, #{content, jdbcType=VARCHAR},
+        #{price, jdbcType=VARCHAR}, #{discountPercent, jdbcType=VARCHAR}, #{deliveryCost, jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertProductImg" parameterType="map">
@@ -16,17 +18,24 @@
     </insert>
 
     <select id="getProductById" parameterType="Long" resultType="com.sp.app.domain.product.Product">
-        SELECT p.product_id as productId, p.seller_id as sellerId, product_category_id as productCategoryId,
-                product_name as productName, content, to_char(p.reg_date, 'yyyy-mm-dd') as regDate, price,
-                remain_quantity as remainQuantity, discount_percent as discountPercent, delivery_cost as deliveryCost,
-                reserving_point_percent as reservingPointPercent,
-                NVL(product_scrap_cnt, 0) AS productScrapCnt, s2.BRAND_NAME AS brandName
+        SELECT p.product_id                      AS productId,
+               p.seller_id                       AS sellerId,
+               product_category_id               AS productCategoryId,
+               product_name                      AS productName,
+               content,
+               TO_CHAR(p.reg_date, 'yyyy-mm-dd') AS regDate,
+               price,
+               remain_quantity                   AS remainQuantity,
+               discount_percent                  AS discountPercent,
+               delivery_cost                     AS deliveryCost,
+               reserving_point_percent           AS reservingPointPercent,
+               NVL(product_scrap_cnt, 0)         AS productScrapCnt,
+               s2.BRAND_NAME                     AS brandName
         FROM PRODUCT P
-        JOIN SELLER S2 ON P.SELLER_ID = S2.SELLER_ID
-        LEFT OUTER JOIN (
-            SELECT PRODUCT_ID, COUNT(*) AS PRODUCT_SCRAP_CNT
-            FROM PRODUCT_SCRAP
-            GROUP BY PRODUCT_ID) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
+                 JOIN SELLER S2 ON P.SELLER_ID = S2.SELLER_ID
+                 LEFT OUTER JOIN (SELECT PRODUCT_ID, COUNT(*) AS PRODUCT_SCRAP_CNT
+                                  FROM PRODUCT_SCRAP
+                                  GROUP BY PRODUCT_ID) PS ON PS.PRODUCT_ID = P.PRODUCT_ID
         WHERE P.PRODUCT_ID = #{productId}
     </select>
 
@@ -40,11 +49,17 @@
     <update id="increaseImgSequences" parameterType="map">
         UPDATE product_img
         SET sequence = sequence + 1
-        WHERE PRODUCT_ID = #{productId} and sequence >= #{sequence}
+        WHERE PRODUCT_ID = #{productId}
+          AND sequence >= #{sequence}
     </update>
-    
+
     <update id="updateProduct" parameterType="com.sp.app.domain.product.Product">
-        update product SET product_category_id = #{productCategoryId}, product_name = #{productName}, content = #{content}, delivery_cost = #{deliveryCost}, discount_percent = #{discountPercent}
+        UPDATE product
+        SET product_category_id = #{productCategoryId},
+            product_name        = #{productName},
+            content             = #{content},
+            delivery_cost       = #{deliveryCost},
+            discount_percent    = #{discountPercent}
         WHERE product_id = #{productId}
     </update>
 
@@ -55,19 +70,22 @@
 
     <delete id="deleteScrapProduct" parameterType="map">
         DELETE PRODUCT_SCRAP
-        WHERE PRODUCT_ID = #{productId} and MEMBER_ID = #{memberId}
+        WHERE PRODUCT_ID = #{productId}
+          AND MEMBER_ID = #{memberId}
     </delete>
 
     <select id="isScrapProduct" resultType="int" parameterType="map">
         SELECT COUNT(*)
         FROM PRODUCT_SCRAP
-        WHERE MEMBER_ID = #{memberId} and PRODUCT_ID = #{productId}
+        WHERE MEMBER_ID = #{memberId}
+          AND PRODUCT_ID = #{productId}
     </select>
 
     <select id="getMainOptionByParentId" resultType="com.sp.app.domain.product.ProductMainOption" parameterType="map">
-        SELECT option_id AS mainOptionId, parent_option_id AS parentOptionId, product_id AS productId, option_name AS optionName
+        SELECT option_id AS mainOptionId, parent_option_id AS parentOptionId, product_id AS productId, option_name AS
+        optionName
         FROM product_main_option
-        WHERE product_id = #{productId} AND  parent_option_id
+        WHERE product_id = #{productId} AND parent_option_id
         <if test="parentOptionId == null">
             is null
         </if>
@@ -76,28 +94,34 @@
         </if>
     </select>
 
-    <select id="getSubOptionsByMainOptionId" resultType="com.sp.app.domain.product.ProductSubOption" parameterType="Long">
+    <select id="getSubOptionsByMainOptionId" resultType="com.sp.app.domain.product.ProductSubOption"
+            parameterType="Long">
         SELECT option_detail_id AS subOptionId, option_detail_name AS subOptionName
         FROM product_sub_option
         WHERE option_id = #{mainOptionId}
     </select>
 
     <select id="getStockBySubOptionId" resultType="com.sp.app.domain.product.ProductStock" parameterType="Long">
-        SELECT option_price AS optionPrice, quantity, OPTION_DETAIL_ID AS subOptionId1, option_detail_id2 AS subOptionId2
+        SELECT option_price      AS optionPrice,
+               quantity,
+               OPTION_DETAIL_ID  AS subOptionId1,
+               option_detail_id2 AS subOptionId2
         FROM stock
         WHERE option_detail_id = #{subOptionId}
     </select>
 
     <select id="getMainOptionSeq" resultType="Long">
-        SELECT SEQ_PRODUCT_MAIN_OPTION.nextval FROM DUAL
+        SELECT SEQ_PRODUCT_MAIN_OPTION.nextval
+        FROM DUAL
     </select>
 
     <select id="getProductSeq" resultType="Long">
-        SELECT SEQ_PRODUCT.nextval FROM DUAL
+        SELECT SEQ_PRODUCT.nextval
+        FROM DUAL
     </select>
 
     <select id="getMainOptionCnt" resultType="int" parameterType="Long">
-        SELECT count(*)
+        SELECT COUNT(*)
         FROM (SELECT CONNECT_BY_ROOT option_id AS option_id, option_name, PRODUCT_ID
               FROM product_main_option
               START WITH parent_option_id IS NULL
@@ -114,18 +138,19 @@
     </insert>
 
     <select id="getOptionMapByStockId" parameterType="Long" resultType="com.sp.app.domain.product.OptionMap">
-        select pmo.option_id AS mainOptionId, pmo.OPTION_NAME AS mainOptionName, option_detail_id AS subOptionId, OPTION_DETAIL_NAME AS subOptionName
+        SELECT pmo.option_id      AS mainOptionId,
+               pmo.OPTION_NAME    AS mainOptionName,
+               option_detail_id   AS subOptionId,
+               OPTION_DETAIL_NAME AS subOptionName
         FROM PRODUCT_SUB_OPTION
-        JOIN PRODUCT_MAIN_OPTION PMO ON PMO.OPTION_ID = PRODUCT_SUB_OPTION.OPTION_ID
-        WHERE OPTION_DETAIL_ID IN (
-            SELECT option_detail_id
-            FROM stock
-            WHERE stock_id = #{optionDetailId}
-            UNION ALL
-            SELECT option_detail_id2
-            FROM stock
-            WHERE stock_id = #{optionDetailId}
-        )
+                 JOIN PRODUCT_MAIN_OPTION PMO ON PMO.OPTION_ID = PRODUCT_SUB_OPTION.OPTION_ID
+        WHERE OPTION_DETAIL_ID IN (SELECT option_detail_id
+                                   FROM stock
+                                   WHERE stock_id = #{optionDetailId}
+                                   UNION ALL
+                                   SELECT option_detail_id2
+                                   FROM stock
+                                   WHERE stock_id = #{optionDetailId})
     </select>
 
 
@@ -139,65 +164,94 @@
 
     <insert id="insertStock" parameterType="com.sp.app.domain.product.ProductStock">
         INSERT INTO STOCK (STOCK_ID, OPTION_PRICE, QUANTITY, OPTION_DETAIL_ID, OPTION_DETAIL_ID2)
-        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{subOptionId1, jdbcType=VARCHAR}, #{subOptionId2, jdbcType=VARCHAR})
+        VALUES (SEQ_STOCK_ID.nextval, #{optionPrice}, #{quantity}, #{subOptionId1, jdbcType=VARCHAR},
+                #{subOptionId2, jdbcType=VARCHAR})
     </insert>
 
     <select id="getStockListByProductId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
-        SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
-                subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
-                subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
-                sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
-        FROM
-            (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
-                    pso2.option_detail_name AS subOptionName2,
-                    pso.option_id AS option_id1, pso2.option_id AS option_id2,
-                    option_price AS optionPrice, pso.option_detail_id as subOptionId1,
-                    pso2.option_detail_id AS subOPtionId2, QUANTITY
-                FROM stock s
-                LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
-                LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
-                LEFT JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
-                LEFT JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+        SELECT stock_id         AS stockId,
+               pmo.option_name  AS mainOptionName1,
+               subOptionName1   AS subOptionName1,
+               pmo2.option_name AS mainOptionName2,
+               subOptionName2,
+               pmo.option_id    AS mainOptionId1,
+               pmo2.option_id   AS mainOptionId2,
+               sb.subOptionId1,
+               sb.subOptionId2,
+               pmo.product_id   AS productId,
+               optionPrice,
+               QUANTITY
+        FROM (SELECT stock_id,
+                     s.option_detail_id,
+                     pso.option_detail_name  AS subOptionName1,
+                     pso2.option_detail_name AS subOptionName2,
+                     pso.option_id           AS option_id1,
+                     pso2.option_id          AS option_id2,
+                     option_price            AS optionPrice,
+                     pso.option_detail_id    AS subOptionId1,
+                     pso2.option_detail_id   AS subOPtionId2,
+                     QUANTITY
+              FROM stock s
+                       LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                       LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id) sb
+                 LEFT JOIN product_main_option pmo ON sb.option_id1 = pmo.option_id
+                 LEFT JOIN product_main_option pmo2 ON sb.option_id2 = pmo2.option_id
         WHERE pmo.product_id = #{productId}
         ORDER BY subOptionId1, subOPtionId2
     </select>
 
     <select id="getStockByStockId" parameterType="Long" resultType="com.sp.app.domain.product.ProductStock">
-        SELECT stock_id AS stockId, pmo.option_name as mainOptionName1,
-                subOptionName1 as subOptionName1, pmo2.option_name AS mainOptionName2,
-                subOptionName2, pmo.option_id as mainOptionId1, pmo2.option_id as mainOptionId2,
-                sb.subOptionId1, sb.subOptionId2, pmo.product_id AS productId, optionPrice, QUANTITY
-        FROM
-            (SELECT stock_id, s.option_detail_id, pso.option_detail_name AS subOptionName1,
-                pso2.option_detail_name AS subOptionName2,
-                pso.option_id AS option_id1, pso2.option_id AS option_id2,
-                option_price AS optionPrice, pso.option_detail_id as subOptionId1,
-                pso2.option_detail_id AS subOPtionId2, QUANTITY
-                FROM stock s
-                LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
-                LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id
-                WHERE STOCK_ID = #{stockId}) sb
-                LEFT JOIN product_main_option pmo on sb.option_id1 = pmo.option_id
-                LEFT JOIN product_main_option pmo2 on sb.option_id2 = pmo2.option_id
+        SELECT stock_id         AS stockId,
+               pmo.option_name  AS mainOptionName1,
+               subOptionName1   AS subOptionName1,
+               pmo2.option_name AS mainOptionName2,
+               subOptionName2,
+               pmo.option_id    AS mainOptionId1,
+               pmo2.option_id   AS mainOptionId2,
+               sb.subOptionId1,
+               sb.subOptionId2,
+               pmo.product_id   AS productId,
+               optionPrice,
+               QUANTITY
+        FROM (SELECT stock_id,
+                     s.option_detail_id,
+                     pso.option_detail_name  AS subOptionName1,
+                     pso2.option_detail_name AS subOptionName2,
+                     pso.option_id           AS option_id1,
+                     pso2.option_id          AS option_id2,
+                     option_price            AS optionPrice,
+                     pso.option_detail_id    AS subOptionId1,
+                     pso2.option_detail_id   AS subOPtionId2,
+                     QUANTITY
+              FROM stock s
+                       LEFT JOIN product_sub_option pso ON s.option_detail_id = pso.option_detail_id
+                       LEFT JOIN product_sub_option pso2 ON s.option_detail_id2 = pso2.option_detail_id
+              WHERE STOCK_ID = #{stockId}) sb
+                 LEFT JOIN product_main_option pmo ON sb.option_id1 = pmo.option_id
+                 LEFT JOIN product_main_option pmo2 ON sb.option_id2 = pmo2.option_id
         ORDER BY subOptionId1, subOPtionId2
     </select>
 
     <update id="updateStockQuantity" parameterType="map">
-        UPDATE stock SET quantity = #{quantity} WHERE stock_id = #{stockId}
+        UPDATE stock
+        SET quantity = #{quantity}
+        WHERE stock_id = #{stockId}
     </update>
 
     <select id="getQuantityByStockId" parameterType="Long" resultType="int">
-        SELECT quantity FROM stock WHERE stock_id = #{stockId}
+        SELECT quantity
+        FROM stock
+        WHERE stock_id = #{stockId}
     </select>
 
     <select id="scrapCnt" parameterType="Long" resultType="int">
-        SELECT count(*) AS cnt
+        SELECT COUNT(*) AS cnt
         FROM product_scrap
         WHERE product_id = #{productId}
     </select>
 
     <select id="scrapCntByMemberId" parameterType="Long" resultType="int">
-        SELECT count(*) AS cnt
+        SELECT COUNT(*) AS cnt
         FROM product_scrap
         WHERE MEMBER_ID = #{memberId}
     </select>
@@ -205,38 +259,82 @@
     <delete id="deleteProductImg" parameterType="map">
         DELETE
         FROM product_img
-        WHERE product_id = #{productId} AND type = #{type}
+        WHERE product_id = #{productId}
+          AND type = #{type}
     </delete>
 
     <select id="getAllProducts" resultType="com.sp.app.domain.product.ProductForList">
-        SELECT p.product_id AS productId, brand_name AS brandName,discount_percent AS discountPercent,
-               product_category_id AS productCategoryId, product_name AS productName,
-               p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+        SELECT p.product_id            AS productId,
+               brand_name              AS brandName,
+               discount_percent        AS discountPercent,
+               product_category_id     AS productCategoryId,
+               product_name            AS productName,
+               p.reg_date              AS regDate,
+               price,
+               NVL(remain_quantity, 0) AS remainCnt,
+               NVL(reviewCnt, 0)       AS reviewCnt,
+               NVL(r.rating, 0)        AS rating,
+               pi.saveName
         FROM product p
-        join seller s2 ON p.seller_id = s2.seller_id
-        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-            FROM product_review pr
-            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-            GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
-        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-            FROM product_review pr
-            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-            GROUP BY oi.product_id) r ON p.product_id = r.product_id
-        LEFT JOIN (SELECT product_id, save_name AS saveName
-            FROM product_img
-            WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+                 JOIN seller s2 ON p.seller_id = s2.seller_id
+                 LEFT JOIN (SELECT COUNT(*) reviewCnt, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+                 LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+                 LEFT JOIN (SELECT product_id, save_name AS saveName
+                            FROM product_img
+                            WHERE sequence = 0
+                              AND type = 0) pi ON pi.product_id = p.product_id
     </select>
 
     <select id="getProductsByCategoryId" parameterType="Long" resultType="com.sp.app.domain.product.ProductForList">
-        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS discountPercent,
-        product_category_id AS productCategoryId, product_name AS productName,
-        p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+        SELECT p.product_id            AS productId,
+               brand_name              AS brandName,
+               discount_percent        AS discountPercent,
+               product_category_id     AS productCategoryId,
+               product_name            AS productName,
+               p.reg_date              AS regDate,
+               price,
+               NVL(remain_quantity, 0) AS remainCnt,
+               NVL(reviewCnt, 0)       AS reviewCnt,
+               NVL(r.rating, 0)        AS rating,
+               pi.saveName
+        FROM product p
+                 JOIN seller s2 ON p.seller_id = s2.seller_id
+                 LEFT JOIN (SELECT COUNT(*) reviewCnt, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+                 LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+                 LEFT JOIN (SELECT product_id, save_name AS saveName
+                            FROM product_img
+                            WHERE sequence = 0
+                              AND type = 0) pi ON pi.product_id = p.product_id
+        WHERE product_category_id IN (SELECT pc.product_category_id
+                                      FROM product_category pc
+                                      START WITH pc.product_category_id = #{categoryId}
+                                      CONNECT BY PRIOR pc.product_category_id = pc.parent_category_id)
+    </select>
+
+    <select parameterType="map" id="getProductsByKeyword" resultType="com.sp.app.domain.product.ProductForList">
+        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS
+        discountPercent,product_category_id AS productCategoryId,
+        product_name AS productName,s2.seller_name AS sellerName,p.reg_date AS regDate, price, NVL(remain_quantity, 0)
+        AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt,
+        NVL(r.rating, 0) AS rating, pi.saveName
         FROM product p
         join seller s2 ON p.seller_id = s2.seller_id
         LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-        GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
+        GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
         LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
@@ -244,140 +342,45 @@
         LEFT JOIN (SELECT product_id, save_name AS saveName
         FROM product_img
         WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
-        WHERE product_category_id IN (SELECT pc.product_category_id
-        FROM product_category pc
-        START WITH pc.product_category_id = #{categoryId}
-        CONNECT BY PRIOR pc.product_category_id = pc.parent_category_id)
-    </select>
-
-	<select parameterType="map" id="getProductsByKeyword" resultType="com.sp.app.domain.product.ProductForList">
-		SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS discountPercent,product_category_id AS productCategoryId, 
-		product_name AS productName,s2.seller_name AS sellerName,p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, 
-		NVL(r.rating, 0) AS rating, pi.saveName
-		FROM product p
-		join seller s2 ON p.seller_id = s2.seller_id
-		LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
-		LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) r ON p.product_id = r.product_id
-		LEFT JOIN (SELECT product_id, save_name AS saveName
-		FROM product_img
-		WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
-       <where>
+        <where>
             <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
                 p.reg_date BETWEEN #{startDate} AND #{endDate}
             </if>
             <if test="keyword != null and keyword !=''">
                 AND instr(p.product_name, #{keyword}) > 0
             </if>
-       </where>
-		<if test="sort !=null and sort !=''">
-		<choose>
-			<when test="sort == 'price_asc'"> -- 가격 올림차순 
-				ORDER BY p.price ASC 
-			</when>		
-			<when test="sort == 'price_desc'"> -- 가격 내림차순 
-				ORDER BY p.price DESC 
-			</when>		
-			<when test="sort == 'rating_desc'"> -- 별점 내림차순으로 정렬 
-				ORDER BY r.rating DESC 
-			</when>		
-			<when test="sort == 'rating_asc'"> -- 별점 내림차순으로 정렬 
-				ORDER BY r.rating ASC 
-			</when>		
-		</choose>
-		</if>
-		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY 
-	</select>
+        </where>
+        <if test="sort !=null and sort !=''">
+            <choose>
+                <when test="sort == 'price_asc'">-- 가격 올림차순
+                    ORDER BY p.price ASC
+                </when>
+                <when test="sort == 'price_desc'">-- 가격 내림차순
+                    ORDER BY p.price DESC
+                </when>
+                <when test="sort == 'rating_desc'">-- 별점 내림차순으로 정렬
+                    ORDER BY r.rating DESC
+                </when>
+                <when test="sort == 'rating_asc'">-- 별점 내림차순으로 정렬
+                    ORDER BY r.rating ASC
+                </when>
+            </choose>
+        </if>
+        OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+    </select>
 
 
     <select parameterType="map" id="searchProductBySellerId" resultType="com.sp.app.domain.product.ProductForList">
-		SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS discountPercent,product_category_id AS productCategoryId, 
-		product_name AS productName,p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating,pi.saveName
-		 FROM product p
-		 join seller s2 ON p.seller_id = s2.seller_id
-		 LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-		 FROM product_review pr
-		 JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		 GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
-		 LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-		 FROM product_review pr
-		 JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		 GROUP BY oi.product_id) r ON p.product_id = r.product_id
-		 LEFT JOIN (SELECT product_id, save_name AS saveName
-		 FROM product_img
-		 WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id 
-		<where>
-			p.seller_id = #{sellerId} 
-			<if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-				AND p.reg_date BETWEEN #{startDate} AND #{endDate}
-			</if>
-
-			<if test="keyword != null and keyword !=''">
-				AND instr(p.product_name, #{keyword}) > 0 
-			</if>
-		</where>
-			<if test="sort !=null and sort !=''">
-		<choose>
-			<when test="sort == 'price_asc'"> -- 가격 올림차순 
-				ORDER BY p.price ASC 
-			</when>
-			<when test="sort == 'price_desc'"> -- 가격 내림차순
-				 ORDER BY p.price DESC
-		 	</when>
-			<when test="sort == 'rating_desc'"> -- 별점 내림차순으로 정렬 
-				ORDER BY r.rating DESC 
-			</when>
-		<when test="sort == 'rating_asc'"> -- 별점 내림차순으로 정렬 
-			ORDER BY r.rating ASC 
-		</when>
-		</choose>
-			</if>
-			OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY 
-	</select>
-
-    <select id="getScrapProductList" parameterType="Long" resultType="com.sp.app.domain.product.ProductForList">
-        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS discountPercent,
-        product_category_id AS productCategoryId, product_name AS productName,
-        p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
-        FROM product p
-        JOIN seller s2 ON p.seller_id = s2.seller_id
-        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-            FROM product_review pr
-            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-            GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
-        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-            FROM product_review pr
-            JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-            GROUP BY oi.product_id) r ON p.product_id = r.product_id
-        LEFT JOIN (SELECT product_id, save_name AS saveName
-            FROM product_img
-            WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
-        JOIN (SELECT product_id
-            FROM PRODUCT_SCRAP
-            WHERE MEMBER_ID = #{memberId}) scrap_items ON scrap_items.product_id = p.product_id
-    </select>
-
-    <select id="checkProductName" parameterType="String" resultType="Integer">
-        select COUNT(*)
-        from PRODUCT
-        WHERE PRODUCT_NAME = #{productName}
-    </select>
-
-    <select id="getBestProduct" resultType="com.sp.app.domain.product.ProductForList">
-        SELECT p.product_id AS productId, brand_name AS brandName,discount_percent AS discountPercent,
-        product_category_id AS productCategoryId, product_name AS productName,
-        p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt, NVL(r.rating, 0) AS rating, pi.saveName
+        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS
+        discountPercent,product_category_id AS productCategoryId,
+        product_name AS productName,p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt,
+        0) AS reviewCnt, NVL(r.rating, 0) AS rating,pi.saveName
         FROM product p
         join seller s2 ON p.seller_id = s2.seller_id
         LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-        GROUP BY oi.product_id) rc ON  p.product_id = rc.product_id
+        GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
         LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
         FROM product_review pr
         JOIN order_item oi ON pr.order_item_id = oi.order_item_id
@@ -385,68 +388,162 @@
         LEFT JOIN (SELECT product_id, save_name AS saveName
         FROM product_img
         WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
-        JOIN (SELECT count(*) count, product_id
-        FROM order_item oi
-        JOIN order_status os ON oi.order_item_id = os.order_item_id
-        WHERE os.status = 5
-        group BY product_id) cnt ON cnt.product_id = p.product_id
-        order by cnt.count DESC
+        <where>
+            p.seller_id = #{sellerId}
+            <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+                AND p.reg_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+
+            <if test="keyword != null and keyword !=''">
+                AND instr(p.product_name, #{keyword}) > 0
+            </if>
+        </where>
+        <if test="sort !=null and sort !=''">
+            <choose>
+                <when test="sort == 'price_asc'">-- 가격 올림차순
+                    ORDER BY p.price ASC
+                </when>
+                <when test="sort == 'price_desc'">-- 가격 내림차순
+                    ORDER BY p.price DESC
+                </when>
+                <when test="sort == 'rating_desc'">-- 별점 내림차순으로 정렬
+                    ORDER BY r.rating DESC
+                </when>
+                <when test="sort == 'rating_asc'">-- 별점 내림차순으로 정렬
+                    ORDER BY r.rating ASC
+                </when>
+            </choose>
+        </if>
+        OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
     </select>
-    
+
+    <select id="getScrapProductList" parameterType="Long" resultType="com.sp.app.domain.product.ProductForList">
+        SELECT p.product_id            AS productId,
+               brand_name              AS brandName,
+               discount_percent        AS discountPercent,
+               product_category_id     AS productCategoryId,
+               product_name            AS productName,
+               p.reg_date              AS regDate,
+               price,
+               NVL(remain_quantity, 0) AS remainCnt,
+               NVL(reviewCnt, 0)       AS reviewCnt,
+               NVL(r.rating, 0)        AS rating,
+               pi.saveName
+        FROM product p
+                 JOIN seller s2 ON p.seller_id = s2.seller_id
+                 LEFT JOIN (SELECT COUNT(*) reviewCnt, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+                 LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+                 LEFT JOIN (SELECT product_id, save_name AS saveName
+                            FROM product_img
+                            WHERE sequence = 0
+                              AND type = 0) pi ON pi.product_id = p.product_id
+                 JOIN (SELECT product_id
+                       FROM PRODUCT_SCRAP
+                       WHERE MEMBER_ID = #{memberId}) scrap_items ON scrap_items.product_id = p.product_id
+    </select>
+
+    <select id="checkProductName" parameterType="String" resultType="Integer">
+        SELECT COUNT(*)
+        FROM PRODUCT
+        WHERE PRODUCT_NAME = #{productName}
+    </select>
+
+    <select id="getBestProduct" resultType="com.sp.app.domain.product.ProductForList">
+        SELECT p.product_id            AS productId,
+               brand_name              AS brandName,
+               discount_percent        AS discountPercent,
+               product_category_id     AS productCategoryId,
+               product_name            AS productName,
+               p.reg_date              AS regDate,
+               price,
+               NVL(remain_quantity, 0) AS remainCnt,
+               NVL(reviewCnt, 0)       AS reviewCnt,
+               NVL(r.rating, 0)        AS rating,
+               pi.saveName
+        FROM product p
+                 JOIN seller s2 ON p.seller_id = s2.seller_id
+                 LEFT JOIN (SELECT COUNT(*) reviewCnt, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+                 LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+                            FROM product_review pr
+                                     JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+                            GROUP BY oi.product_id) r ON p.product_id = r.product_id
+                 LEFT JOIN (SELECT product_id, save_name AS saveName
+                            FROM product_img
+                            WHERE sequence = 0
+                              AND type = 0) pi ON pi.product_id = p.product_id
+                 JOIN (SELECT COUNT(*) count, product_id
+                       FROM order_item oi
+                                JOIN order_status os ON oi.order_item_id = os.order_item_id
+                       WHERE os.status = 5
+                       GROUP BY product_id) cnt ON cnt.product_id = p.product_id
+        ORDER BY cnt.count DESC
+    </select>
+
     <select parameterType="map" id="countProductsByKeyword" resultType="int">
-		SELECT NVL(COUNT(*), 0) as dataCount
-		FROM product p
-		join seller s2 ON p.seller_id = s2.seller_id
-		LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
-		LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) r ON p.product_id = r.product_id
-		LEFT JOIN (SELECT product_id, save_name AS saveName
-		FROM product_img
-		WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id 
-		<if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-			AND p.reg_date BETWEEN #{startDate} AND #{endDate} 
-		</if>
+        SELECT NVL(COUNT(*), 0) as dataCount
+        FROM product p
+        join seller s2 ON p.seller_id = s2.seller_id
+        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        GROUP BY oi.product_id) r ON p.product_id = r.product_id
+        LEFT JOIN (SELECT product_id, save_name AS saveName
+        FROM product_img
+        WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+        <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+            AND p.reg_date BETWEEN #{startDate} AND #{endDate}
+        </if>
 
-		<if test="keyword != null and keyword !=''">
-			AND instr(p.product_name, #{keyword}) > 0 
-		</if>
-	</select>
+        <if test="keyword != null and keyword !=''">
+            AND instr(p.product_name, #{keyword}) > 0
+        </if>
+    </select>
 
-	<select parameterType="map" id="countProductBySellerId" resultType="int">
-		SELECT NVL(COUNT(*), 0) as dataCount
-		FROM product p
-		join seller s2 ON p.seller_id = s2.seller_id
-		LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
-		LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
-		FROM product_review pr
-		JOIN order_item oi ON pr.order_item_id = oi.order_item_id
-		GROUP BY oi.product_id) r ON p.product_id = r.product_id
-		LEFT JOIN (SELECT product_id, save_name AS saveName
-		FROM product_img
-		WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id 
-		<where>
-		p.seller_id = #{sellerId} 
-		<if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-			AND p.reg_date BETWEEN #{startDate} AND #{endDate} 
-		</if>		
-		<if test="keyword!= null and keyword !='' ">
-			AND instr(p.product_name, #{keyword}) > 0 
-		</if>		
-		</where>	
-	</select>
+    <select parameterType="map" id="countProductBySellerId" resultType="int">
+        SELECT NVL(COUNT(*), 0) as dataCount
+        FROM product p
+        join seller s2 ON p.seller_id = s2.seller_id
+        LEFT JOIN (SELECT count(*) reviewCnt, oi.product_id
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        GROUP BY oi.product_id) rc ON p.product_id = rc.product_id
+        LEFT JOIN (SELECT AVG(rating) AS rating, oi.product_id
+        FROM product_review pr
+        JOIN order_item oi ON pr.order_item_id = oi.order_item_id
+        GROUP BY oi.product_id) r ON p.product_id = r.product_id
+        LEFT JOIN (SELECT product_id, save_name AS saveName
+        FROM product_img
+        WHERE sequence = 0 AND type = 0) pi on pi.product_id = p.product_id
+        <where>
+            p.seller_id = #{sellerId}
+            <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+                AND p.reg_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="keyword!= null and keyword !='' ">
+                AND instr(p.product_name, #{keyword}) > 0
+            </if>
+        </where>
+    </select>
 
 
     <select parameterType="String" id="getProductsByJustKeyword" resultType="com.sp.app.domain.product.ProductForList">
-        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS discountPercent,product_category_id AS productCategoryId,
-        product_name AS productName,s2.seller_name AS sellerName,p.reg_date AS regDate, price, NVL(remain_quantity, 0) AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt,
+        SELECT p.product_id AS productId, brand_name AS brandName, discount_percent AS
+        discountPercent,product_category_id AS productCategoryId,
+        product_name AS productName,s2.seller_name AS sellerName,p.reg_date AS regDate, price, NVL(remain_quantity, 0)
+        AS remainCnt, NVL(reviewCnt, 0) AS reviewCnt,
         NVL(r.rating, 0) AS rating, pi.saveName AS saveName
         FROM product p
         join seller s2 ON p.seller_id = s2.seller_id

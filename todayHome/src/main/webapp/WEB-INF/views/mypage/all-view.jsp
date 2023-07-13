@@ -348,13 +348,6 @@
 						  </div>
 					</c:if>
 				</div>
-				<div class="myinfo-list-house">
-					<div class="house-header">
-						<h2>집들이</h2>
-						<strong>0</strong>
-					</div>
-					<a class="house-list" href="#"> 첫 번째 집들이를 올려보세요 </a>
-				</div>
 			</div>
 		</section>
 	</div>

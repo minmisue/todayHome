@@ -42,5 +42,5 @@ public interface OrderManagementRepository {
 	
 	public List<Order> getOrderListMyPage(Long memberId) throws Exception;
 	
-	public List<Long> selectStatusCount(Long memberId) throws Exception; 
+	public List<Order> selectStatusCount(Long memberId) throws Exception; 
 }

@@ -36,7 +36,7 @@ public class Order {
 	private Long stockId;
 
 	private String productName;
-	private List<Long> statusCountList;
+	private Long statusCountList;
 	public Order() {
 	}
 
@@ -74,11 +74,12 @@ public class Order {
 	}
 
 	
-	public List<Long> getStatusCountList() {
+
+	public Long getStatusCountList() {
 		return statusCountList;
 	}
 
-	public void setStatusCountList(List<Long> statusCountList) {
+	public void setStatusCountList(Long statusCountList) {
 		this.statusCountList = statusCountList;
 	}
 

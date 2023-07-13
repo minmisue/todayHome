@@ -126,8 +126,8 @@ public class OrderManagementRepositoryImpl implements OrderManagementRepository{
 	}
 
 	@Override
-	public List<Long> selectStatusCount(Long memberId) throws Exception {
-		List<Long> list = commondao.selectList("order.selectStatusCount",memberId);
+	public List<Order> selectStatusCount(Long memberId) throws Exception {
+		List<Order> list = commondao.selectList("order.selectStatusCount",memberId);
 		return list;
 	}
 

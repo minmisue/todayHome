@@ -205,9 +205,13 @@ public class MypageController {
 		Point point = pointService.getPointById(info.getMemberId());
 		int couponCount = couponService.memberCouponCount(info.getMemberId());
 		List<Order> orderList = orderManagementService.getOrderListMyPage(info.getMemberId());
+		List<Order> statuslist = orderManagementService.selectStatusCount(info.getMemberId());
+		
+		
 		model.addAttribute("couponCount", couponCount);
 		model.addAttribute("point", point);
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("statuslist", statuslist);
 		return "mypage/my-orderdelivery";
 	}
 	

@@ -125,8 +125,8 @@ public class OrderManagementServiceImpl implements OrderManagementService{
 	}
 
 	@Override
-	public List<Long> selectStatusCount(Long memberId) throws Exception {
-		List<Long> list = orderManagementRepository.selectStatusCount(memberId);
+	public List<Order> selectStatusCount(Long memberId) throws Exception {
+		List<Order> list = orderManagementRepository.selectStatusCount(memberId);
 		return list;
 	}
 }

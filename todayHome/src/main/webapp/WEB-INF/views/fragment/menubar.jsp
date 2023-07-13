@@ -204,7 +204,6 @@
     <div class="my-page-menubar-sub">
         <div class="sub-menubar" style="justify-content: center;">
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}'">모두보기</div>
-            <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/photo'">사진</div>
             <div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book'">스크랩북</div>
         </div>
     </div>

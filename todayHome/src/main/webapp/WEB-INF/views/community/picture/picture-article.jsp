@@ -124,13 +124,13 @@
 				<div class="flex-col article-item-container" style="margin-bottom: 30px;">
 					<div style="position: relative;">
 					<div class="flex-col" style="">
-						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/${boardContentList.imgName}">
+						<img style="width: 100%; height:100%; aspect-ratio: 1/1; object-fit: cover" src="${pageContext.request.contextPath}/resources/picture/house-picture/${boardContentList.imgName}">
 					<div class="article-contain-item-container flex-row">
 					<c:forEach var="boardProductList" items="${userBoardProduct}" varStatus="status">
 						<div class="productImgContainer" style="width: 100px; height: 100px; border-radius: 20px">
 							<img onclick="location.href='${pageContext.request.contextPath}/product/${boardProductList.productId}'" style="width: 100px; height: 100px; border: 1px solid #C5C2BB; border-radius: 30px" src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${boardProductList.saveName}" id="productImg${status.index}">
 							<div style="position: absolute; top: ${boardProductList.yCoordinate - 10}%; left: ${boardProductList.xCoordinate}%;">
-							<img class="marker" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/marker.JPG" width="20" height="20" style="border-radius: 10px;" >
+							<img class="marker" src="${pageContext.request.contextPath}/resources/picture/house-picture/marker.JPG" width="20" height="20" style="border-radius: 10px;" >
 							<input type="hidden" value="${boardProductList.productId}">
 						</div>
 						</div>

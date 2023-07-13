@@ -40,11 +40,6 @@ public class HomeController {
 //		}
 //	}
 
-	@GetMapping("shop/today-deals")
-	public String shopTodayDeals() {
-		return "shop/shop-today-deals";
-	}
-
 	
 	/*
 	@GetMapping("community/picture/list")

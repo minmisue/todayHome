@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -93,7 +94,7 @@
         }
 
         .grid-row {
-            grid-auto-rows: 458px;
+            grid-auto-rows: 408px;
         }
 
         .today-deal-main-label {
@@ -131,29 +132,64 @@
 
 		<%-- 오늘의 딜 상품들 --%>
 		<div class="grid-col-4 grid-row">
-			<c:forEach begin="1" end="16" step="1" varStatus="status">
-				<div class="flex-col today-deal-product-container">
+			<c:forEach items="${productList}" var="product" varStatus="status">
+				<div class="flex-col today-deal-product-container" onclick="location.href='${pageContext.request.contextPath}/product/${product.productId}'">
 					<div class="today-deal-img-container">
 						<img class="today-deal-product-img"
-							 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">
+							 src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${product.saveName}">
 
 						<div style="position: absolute; left: 12px; top: 12px; background-color: #EE7F7B; width: 95px; line-height: 24px; font-size: 12px; color: white; font-weight: 700; text-align: center; padding: 0px 6px; border-radius: 5px">
 							<span class="remain-time">06:54:45</span> 남음
-<%--							<i class="bi bi-bookmark-fill" style="font-size: 28px; color: rgba(28,183,250,0.77)"></i>--%>
-<%--							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index}</div>--%>
+								<%--							<i class="bi bi-bookmark-fill" style="font-size: 28px; color: rgba(28,183,250,0.77)"></i>--%>
+								<%--							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index}</div>--%>
 						</div>
 					</div>
-
 					<div class="flex-col today-deal-info-container">
-						<div class="today-deal-brand-name">마틸라</div>
-						<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>
-						<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>
+						<div class="today-deal-brand-name">${product.brandName}</div>
+						<div class="today-deal-product-name">${product.productName}</div>
+						<div>
+							<c:if test="${product.discountPercent != 0}">
+								<span class="today-deal-sale-percent">
+									${product.discountPercent}%
+								</span>
+							</c:if>
+
+							<span class="today-deal-price">
+								<fmt:formatNumber value="${product.price * (1 - product.discountPercent/100)}" pattern="#,###" />
+								${formatNumber}
+							</span>
 						</div>
-						<div class="today-deal-item-info"><span class="today-deal-star"><i
-								class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span
-								class="today-deal-review-count">리뷰 144</span></div>
+						<div class="today-deal-item-info">
+							<span class="today-deal-star"><i class="fa-solid fa-star"></i></span>
+							<span class="today-deal-rating">${product.rating}</span>
+							<span class="today-deal-review-count">리뷰 ${product.reviewCnt}</span>
+						</div>
 					</div>
 				</div>
+
+
+<%--				<div class="flex-col today-deal-product-container">--%>
+<%--					<div class="today-deal-img-container">--%>
+<%--						<img class="today-deal-product-img"--%>
+<%--							 src="${pageContext.request.contextPath}/resources/picture/shop/product-detail/chair/product/1.jpg">--%>
+
+<%--						<div style="position: absolute; left: 12px; top: 12px; background-color: #EE7F7B; width: 95px; line-height: 24px; font-size: 12px; color: white; font-weight: 700; text-align: center; padding: 0px 6px; border-radius: 5px">--%>
+<%--							<span class="remain-time">06:54:45</span> 남음--%>
+<%--&lt;%&ndash;							<i class="bi bi-bookmark-fill" style="font-size: 28px; color: rgba(28,183,250,0.77)"></i>&ndash;%&gt;--%>
+<%--&lt;%&ndash;							<div style="position: absolute; left: 0; top: 3px; font-size: 12px; color: white; font-weight: 700; width: 100%; text-align: center">${status.index}</div>&ndash;%&gt;--%>
+<%--						</div>--%>
+<%--					</div>--%>
+
+<%--					<div class="flex-col today-deal-info-container">--%>
+<%--						<div class="today-deal-brand-name">마틸라</div>--%>
+<%--						<div class="today-deal-product-name">[원데이특가]시원쾌적 시어서커X항균소취 스무디 양면 여름 차렵이불세트 5colors</div>--%>
+<%--						<div><span class="today-deal-sale-percent">55%</span><span class="today-deal-price">38,900</span>--%>
+<%--						</div>--%>
+<%--						<div class="today-deal-item-info"><span class="today-deal-star"><i--%>
+<%--								class="fa-solid fa-star"></i></span><span class="today-deal-rating">4.7</span><span--%>
+<%--								class="today-deal-review-count">리뷰 144</span></div>--%>
+<%--					</div>--%>
+<%--				</div>--%>
 			</c:forEach>
 		</div>
 	</div>

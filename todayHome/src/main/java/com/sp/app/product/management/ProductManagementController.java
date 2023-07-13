@@ -532,4 +532,13 @@ public class ProductManagementController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
 	}
+
+	@GetMapping("shop/today-deals")
+	public String shopTodayDeals(Model model) {
+
+		List<ProductForList> productList = productManagementService.getAllProductsLimit();
+
+		model.addAttribute("productList", productList);
+		return "shop/shop-today-deals";
+	}
 }

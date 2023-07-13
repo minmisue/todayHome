@@ -55,6 +55,11 @@ public class ProductManagementRepositoryImpl implements ProductManagementReposit
 	}
 
 	@Override
+	public List<ProductForList> getAllProductsLimit() throws Exception {
+		return commonDAO.selectList("productManagement.getAllProductsLimit");
+	}
+
+	@Override
 	public List<ProductForList> getProductsByCategoryId(Long categoryId) throws Exception {
 		return commonDAO.selectList("productManagement.getProductsByCategoryId", categoryId);
 	}

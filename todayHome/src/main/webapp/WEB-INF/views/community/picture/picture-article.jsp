@@ -150,10 +150,10 @@
 					</div>
 					<c:forEach var="otherBoardList" items="${otherBoardList}" varStatus="status" begin="0" end="2">
 						<div class="OtherBoard" style="display: inline">
-							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${otherBoardList.userBoardId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/${otherBoardList.imgName}">
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/community/picture/picture-article?userBoardId=${otherBoardList.userBoardId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/${otherBoardList.imgName}">
 						</div>
 					</c:forEach>
-							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/mypage/${userBoard.memberId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/more.JPG">
+							<img style="width: 24%; height:140px; " onclick="location.href='${pageContext.request.contextPath}/mypage/${userBoard.memberId}'" src="${pageContext.request.contextPath}/resources/picture/house-picture/more.JPG">
 					<div>
 						<c:choose>
 							<c:when test = "${sessionScope.sessionInfo.memberId==userBoard.memberId}">

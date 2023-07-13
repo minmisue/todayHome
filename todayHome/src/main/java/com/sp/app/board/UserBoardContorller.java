@@ -112,7 +112,7 @@ public class UserBoardContorller {
 			HttpSession session) throws Exception {
 		
 		String root = session.getServletContext().getRealPath("/");
-		String path = root + "uploads" + File.separator + "housePicture";
+		String path = root + "resources" + File.separator + "picture" + File.separator + "house-picture";
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("sessionInfo");
 		try {

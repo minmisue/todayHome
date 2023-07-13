@@ -227,7 +227,7 @@
 					<%-- 이미지 --%>
 					<div class="picture-img-container">
 							 <a href="${articleUrl}?userBoardId=${board.userBoardId}"><img class="follow-user-item-img"
-							 src="${pageContext.request.contextPath}/uploads/housePicture/${board.imgName}"></a>
+							 src="${pageContext.request.contextPath}/resources/picture/house-picture/${board.imgName}"></a>
 					</div>
 
 					<div class="flex-row" style="justify-content: space-around">

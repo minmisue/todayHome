@@ -506,4 +506,30 @@ public class ProductManagementController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
 	}
+
+	@ResponseBody
+	@PostMapping("product/get-product-json")
+	public ResponseEntity<String> getProductListByKeyword(@RequestParam Long productId) {
+
+		System.out.println(productId);
+
+		JSONObject jsonObject = new JSONObject();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		try {
+			Product product = productManagementService.getProductById(productId);
+
+			System.out.println(product);
+
+			String json = objectMapper.writeValueAsString(product);
+
+			jsonObject.put("result", true);
+			jsonObject.put("productList", json);
+		} catch (Exception e) {
+			jsonObject.put("result", false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
 }

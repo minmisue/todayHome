@@ -86,7 +86,7 @@
 
             <%-- 로그인 --%>
 			<c:if test="${sessionScope.sessionInfo.userRole == 1 || sessionScope.sessionInfo.userRole == 2 && not empty sessionScope.sessionInfo}">
-				<i class="bi bi-bookmark menubar-icon"></i>
+				<i class="bi bi-bookmark menubar-icon" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book'"></i>
 				
 				<div style="position: relative">
 				 <i class="bi bi-bell menubar-icon" onclick="location.href='${pageContext.request.contextPath}/notification'"></i>
@@ -212,7 +212,6 @@
 	<div class="my-page-menubar-sub">
 		<div class="sub-menubar" style="justify-content: center;">
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/order'">주문배송내역 조회</div>
-			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/${sessionScope.sessionInfo.memberId}/book'">상품 스크랩북</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/point'">포인트</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/notice'">공지사항</div>
 			<div class="sub-item" onclick="location.href='${pageContext.request.contextPath}/mypage/qnalist'">고객센터</div>

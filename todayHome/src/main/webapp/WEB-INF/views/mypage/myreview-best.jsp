@@ -81,6 +81,11 @@
     cursor: pointer;
 	color: #c5c5c5;
 }
+
+.subject:hover {
+    cursor: pointer;
+    color: #8d8d8d;
+}
 </style>
 <script>
 
@@ -116,7 +121,8 @@
 								style="justify-content: space-between; width: 100%">
 								<div class="flex-row" style="gap: 15px; align-items: center;">
 									<div class="product-text-container">
-										<div class="product-text subject">${review.productName}</div>
+										<div class="product-text subject" onclick="location.href='${pageContext.request.contextPath}/product/${review.productId}'">${review.productName}</div>
+
 										<div class="product-text name">${review.stockString}</div>
 										<input class="rating" id="rating" type="hidden" value="${review.rating}">
 										<input class="review-orderItemId" type="hidden" value="${review.orderItemId}">

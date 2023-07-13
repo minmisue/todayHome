@@ -321,7 +321,7 @@
 		<section class="scrapBook">
 		    <h2>스크랩북</h2>
 		    <div class="scrapBook-user">
-		      <img src="${pageContext.request.contextPath}/resources/picture/member/default-profile.png" alt="user-image">
+		      <img style="border-radius: 50%" src="${pageContext.request.contextPath}/resources/picture/member/${sessionScope.sessionInfo.profileImgName}" alt="user-image">
 		      <span>${member.nickName}</span>
 		    </div>
 		

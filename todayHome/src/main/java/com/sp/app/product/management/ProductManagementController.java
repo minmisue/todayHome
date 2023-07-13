@@ -102,9 +102,10 @@ public class ProductManagementController {
 
 		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) session.getAttribute("sellerSessionInfo");
 
-		if (sellerSessionInfo == null) {
-			return "redirect:/seller/login";
+		if (sellerSessionInfo != null && sellerSessionInfo.getStatus() != 1) {
+			return "redirect:/seller/error";
 		}
+
 		model.addAttribute("sellerId", sellerSessionInfo.getSellerId());
 
 		List<ProductCategory> categories = null;
@@ -139,7 +140,7 @@ public class ProductManagementController {
 
 		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) session.getAttribute("sellerSessionInfo");
 
-		if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+		if (sellerSessionInfo != null && sellerSessionInfo.getStatus() != 1) {
 			return "redirect:/seller/error";
 		}
 

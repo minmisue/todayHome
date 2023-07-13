@@ -51,7 +51,7 @@ public class AdjustmentController {
 	    SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
 	    Long sellerId = sellerSessionInfo.getSellerId();
 	    
-	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() !=1 ) {
 	        
 	        return "redirect:/seller/error";
 	    }
@@ -307,7 +307,7 @@ public class AdjustmentController {
 			Model model) throws Exception{
 		SellerSessionInfo sellerSessionInfo = (SellerSessionInfo) httpSession.getAttribute("sellerSessionInfo");
 			    
-	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() == 0) {
+	    if (sellerSessionInfo != null && sellerSessionInfo.getStatus() !=1 ) {
 	        
 	        return "redirect:/seller/error";
 	    }

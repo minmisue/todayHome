@@ -82,6 +82,17 @@
             margin-top: 20px;
             background-color: #F8F9FA
         }
+
+		.product-item {
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center
+		}
+
+		.product-item:hover {
+            cursor: pointer;
+        }
+
 	</style>
 </head>
 <body>
@@ -120,6 +131,7 @@
 							<img onclick="location.href='${pageContext.request.contextPath}/product/${boardProductList.productId}'" style="width: 100px; height: 100px; border: 1px solid #C5C2BB; border-radius: 30px" src="${pageContext.request.contextPath}/resources/picture/shop/product/product/${boardProductList.saveName}" id="productImg${status.index}">
 							<div style="position: absolute; top: ${boardProductList.yCoordinate - 10}%; left: ${boardProductList.xCoordinate}%;">
 							<img class="marker" src="${pageContext.request.contextPath}/resources/picture/house-picture/list/marker.JPG" width="20" height="20" style="border-radius: 10px;" >
+							<input type="hidden" value="${boardProductList.productId}">
 						</div>
 						</div>
 					</c:forEach>
@@ -520,26 +532,21 @@
 		let currentObj = null;
 		let currentMarker = null;
 		
-		  $('.marker').on('mouseover', function(e){
-		        currentObj = $(this).closest('.productImgContainer');
-		        currentMarker = this
+		  $('.marker').on('click', function (e) {
+              currentObj = $(this).closest('.productImgContainer');
+              currentMarker = this
+              let productId = $(currentObj).find('input').val()
 
-		        let modal = $('#selectProduct');
-		        inputModal = new bootstrap.Modal(modal);
-		        inputModal.show()
+              let modal = $('#selectProduct');
+              let inputModal = new bootstrap.Modal(modal);
+              inputModal.show()
 
-			});
-		  
-		  $('#selectProduct2').on('mouseout', function(e){
-			  alert('helo')
-			   let modal = $('#selectProduct');
-		        inputModal = new bootstrap.Modal(modal);
-			  inputModal.hide()
-		  })
+              getProductAjax(productId)
+          });
 		
 		    function getProductAjax(productId) {
 		        let selectProductListContainer = $('#selectProductListContainer');
-		        $(productListContainer).empty()
+		        $(selectProductListContainer).empty()
 
 		        $.ajax({
 		            url: "${pageContext.request.contextPath}/product/get-product-json",
@@ -548,31 +555,31 @@
 		            dataType: 'json',
 		            success: function(response) {
 		                if (response.result === true) {
-		                    console.log();
+
 		                    let product = JSON.parse(response.product);
+                            console.log(product);
 
-		                        let img = product.saveName;
-		                        let brandName = product.brandName;
-		                        let productName = product.productName;
-		                        let productId = product.productId;
-								let price = product.price;
-		                        
-		                        console.log(product)
+							let img = product.productImgList[0].saveName;
+							let brandName = product.brandName;
+							let productName = product.productName;
+							let productId = product.productId;
+							let price = product.price;
 
-		                        let tag =
-		                            `
-										<div class="flex-row" style="justify-content: space-between; gap: 10px; align-items: center">
-											<img src="${pageContext.request.contextPath}/resources/picture/shop/product/product/` + img + `" style="width: 70px; height: 70px; border-radius: 25px"/>
-											<div class="flex-col" style="flex: 1; overflow: hidden">
-												<div>` + brandName  + `</div>
-												<div>` + productName + `</div>
-												<div>` + price + `</div>
-												<input class='product-id' type='hidden' value='`+ productId +`'>
-											</div>
+							console.log(product)
+
+							let tag =
+								`
+									<div class="flex-row product-item" onclick="location.href='${pageContext.request.contextPath}/product/` + productId + `'">
+										<img src="${pageContext.request.contextPath}/resources/picture/shop/product/product/` + img + `" style="width: 70px; height: 70px; border-radius: 25px"/>
+										<div class="flex-col" style="flex: 1; overflow: hidden">
+											<div>` + brandName  + `</div>
+											<div>` + productName + `</div>
+											<div style='font-weight: 700'>` + price + `</div>
+											<input class='product-id' type='hidden' value='`+ productId +`'>
 										</div>
-									`
-		                        $(productListContainer).append(tag)
-		                    }
+									</div>
+								`
+							$(selectProductListContainer).append(tag)
 
 		                } else {
 		                    alert("서버와의 연결이 불안정합니다.");
@@ -588,13 +595,10 @@
 
 <!-- Modal -->
 <div class="modal fade" id="selectProduct" tabindex="-1" aria-labelledby="selectProductLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" id="selectProduct2">
-		<div class="modal-content">
-			<div class="modal-body" style="height: 400px; overflow: auto; padding: 20px">
-				<div class="flex-col">
-					<div class="flex-row">
-						<div class="exitBtn" style="padding: 6px 15px" onclick="cancelMarker()">취소</div>
-					</div>
+	<div class="modal-dialog modal-dialog-centered" style="width: 400px; height: 150px" id="selectProduct2">
+		<div class="modal-content" style="width: 400px; height: 150px">
+			<div class="modal-body flex-row" style="height: 400px; width: 100%; overflow: auto; padding: 20px; justify-content: center; ">
+				<div class="flex-col" style="flex: 1">
 					<div id="selectProductListContainer" class="flex-col" style="margin-top: 20px; gap: 10px">
 
 					</div>

@@ -525,6 +525,8 @@ public class ProductManagementController {
 
 			jsonObject.put("result", true);
 			jsonObject.put("product", json);
+
+			System.out.println(json);
 		} catch (Exception e) {
 			jsonObject.put("result", false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());

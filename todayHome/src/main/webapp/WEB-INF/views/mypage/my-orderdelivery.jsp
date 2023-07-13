@@ -338,31 +338,33 @@ $(function () {
                <a>
                   <div class="status-item-content">
                      <div>결제완료</div>
-                     <div>${statuslist}</div>
+                     <div>
+                     ${statuslist[0].statusCountList }
+                     </div>
                   </div>
                </a> 
                <a>
                   <div class="status-item-content">
                      <div>배송준비</div>
-                     <div>${statuslist[1]}</div>
+                     <div>${statuslist[1].statusCountList}</div>
                   </div>
                </a> 
                <a>
                   <div class="status-item-content">
                      <div>배송중</div>
-                     <div>${statuslist[2]}</div>
+                     <div>${statuslist[2].statusCountList }</div>
                   </div>
                </a> 
                <a>
                   <div class="status-item-content">
                      <div>배송완료</div>
-                     <div>${statuslist[3]}</div>
+                     <div>${statuslist[3].statusCountList }</div>
                   </div>
                </a> 
                <a>
                   <div class="status-item-content">
                      <div>구매확정</div>
-                     <div>${statuslist[4]}</div>
+                     <div>${statuslist[4].statusCountList }</div>
                   </div>
                </a>
             </div>

@@ -29,14 +29,6 @@ public class ProductManagementServiceImplTest {
 	@Autowired
 	ProductManagementService productManagementService;
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void createProduct() throws Exception {
 		// 임시 이미지 데이터

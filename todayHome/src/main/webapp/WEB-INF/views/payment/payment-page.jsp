@@ -412,10 +412,7 @@ $(function(){
 	});
 });
 
-$(function() {
-	reward = $("input[name=reward]").val();
-	alert(reward);
-});
+
 
 function couponSelectBtn(couponId,name,maxAmount,discountPercent) {
 	$("#orderDetailStateDialogModal").modal("hide");

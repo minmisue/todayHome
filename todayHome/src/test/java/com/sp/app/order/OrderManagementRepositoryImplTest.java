@@ -37,8 +37,7 @@ public class OrderManagementRepositoryImplTest {
 	
 	@Test
 	public void getOr() throws Exception{
-		Order order = orderManagementService.getOrderCount(1L, "week");
-		System.out.println(order.getOrderCount()+ "!!!!!!!!!!" +order.getOrderPrice());
+		
 		
 	}
 

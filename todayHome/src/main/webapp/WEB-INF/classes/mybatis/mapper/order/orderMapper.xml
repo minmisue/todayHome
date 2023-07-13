@@ -3,9 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">   
 
-	<!-- 주문 묶음 테이블 insert -->
-	<insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
-<!-- 		<selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
+   <!-- 주문 묶음 테이블 insert -->
+   <insert id="insertOrderBundle" parameterType="com.sp.app.domain.order.Order">
+<!--       <selectKey keyProperty="orderBundleId" resultType="Long" order="BEFORE">
             SELECT SEQ_ORDER_BUNDLE.NEXTVAL as orderBundleId FROM DUAL
         </selectKey>
          -->
@@ -16,53 +16,53 @@
              #{receiveName},#{tel},#{postNum},#{address2},
              #{address1},#{usedPoint},#{payMethod},#{finalTotPrice},
              #{finalDiscountPrice},#{finalDeliveryCost},#{buyerName},#{buyerTel},#{couponId, jdbcType=INTEGER})
-	</insert>
-	
-	<!-- 주문아이템 테이블 insert -->
-	<insert id="insertOrderItem" parameterType="com.sp.app.domain.order.OrderDetail">
-		<selectKey keyProperty="orderItemId" resultType="Long" order="BEFORE">
+   </insert>
+   
+   <!-- 주문아이템 테이블 insert -->
+   <insert id="insertOrderItem" parameterType="com.sp.app.domain.order.OrderDetail">
+      <selectKey keyProperty="orderItemId" resultType="Long" order="BEFORE">
             SELECT SEQ_ORDER_ITEM.NEXTVAL as orderItemId FROM DUAL
         </selectKey>
-		 INSERT INTO ORDER_ITEM(ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID,PRICE, FINAL_PRICE, DISCOUNT_PERCENT)
+       INSERT INTO ORDER_ITEM(ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID,PRICE, FINAL_PRICE, DISCOUNT_PERCENT)
        VALUES (#{orderItemId},#{orderBundleId},#{productId},#{originalPrice},#{finalPrice},#{disCountPercent})
-	</insert>
-	
-	<!-- 상품 옵션 테이블 insert -->
-	<insert id="insertOrderItemStock" parameterType="com.sp.app.domain.order.OrderItemStock" >
-		INSERT INTO order_item_stock_bundle(order_item_id,stock_id,quantity,price) VALUES (#{orderItemId},#{stockId},#{quantity},#{price})
-	</insert>
-	
-	<!-- 주문 상태 테이블 insert -->
-	<insert id="insertOrderStatus" parameterType="map">
-		INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
-		 VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
-	</insert>
-		
-	<!-- 배송 테이블 insert -->
-	<insert id="insertDelivery" parameterType="com.sp.app.domain.order.Delivery">
-		INSERT INTO delivery(ORDER_ITEM_ID,DELIVERY_NUMBER,DELIVERY_COST,ARRIVED_DATE)
-			VALUES (#{orderItemId},#{deliveryNumber, jdbcType=VARCHAR},#{deliveryCost},#{arrivedDate, jdbcType=	DATE})
-	</insert>
-	
-	<!-- v -->
-	
-	<!-- 판매자별 주문 조회 -->
-	<select id="getOrderList" parameterType="map" resultType="com.sp.app.domain.order.Order">
-		select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
-		<where>
-		<if test="sellerId != null">
+   </insert>
+   
+   <!-- 상품 옵션 테이블 insert -->
+   <insert id="insertOrderItemStock" parameterType="com.sp.app.domain.order.OrderItemStock" >
+      INSERT INTO order_item_stock_bundle(order_item_id,stock_id,quantity,price) VALUES (#{orderItemId},#{stockId},#{quantity},#{price})
+   </insert>
+   
+   <!-- 주문 상태 테이블 insert -->
+   <insert id="insertOrderStatus" parameterType="map">
+      INSERT INTO ORDER_STATUS(ORDER_STATUS_ID, ORDER_ITEM_ID, STATUS, REG_DATE)
+       VALUES (SEQ_ORDER_STATUS.nextval,#{orderItemId},#{status},SYSDATE)
+   </insert>
+      
+   <!-- 배송 테이블 insert -->
+   <insert id="insertDelivery" parameterType="com.sp.app.domain.order.Delivery">
+      INSERT INTO delivery(ORDER_ITEM_ID,DELIVERY_NUMBER,DELIVERY_COST,ARRIVED_DATE)
+         VALUES (#{orderItemId},#{deliveryNumber, jdbcType=VARCHAR},#{deliveryCost},#{arrivedDate, jdbcType=   DATE})
+   </insert>
+   
+   <!-- v -->
+   
+   <!-- 판매자별 주문 조회 -->
+   <select id="getOrderList" parameterType="map" resultType="com.sp.app.domain.order.Order">
+      select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
+      <where>
+      <if test="sellerId != null">
         p.SELLER_ID = #{sellerId}
       </if>
-			<if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
-		     AND ob.REG_DATE BETWEEN #{startDate} AND #{endDate}
-		    </if>
-		 <choose>
+         <if test="startDate != null and startDate !='' and endDate != null and endDate !='' ">
+           AND ob.REG_DATE BETWEEN #{startDate} AND #{endDate}
+          </if>
+       <choose>
       <when test="condition=='buyerName'">
         <if test="keyword != null and  keyword !='' ">
           AND INSTR(ob.buyer_name, #{keyword}) &gt; 0
@@ -74,31 +74,31 @@
         </if>
         </when>
         </choose>
-		</where>		
-		group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
-		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
-	</select>
-		
-	<select id="getOrderListMyPage" parameterType="map" resultType="com.sp.app.domain.order.Order">
-	    select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
-		where m.member_id = #{memberId}
-		group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
-	</select>
-	<!-- 판매자별 주문 조회 카운트 -->
-	 <select id="orderListCount" parameterType="map" resultType="int">
-		SELECT COUNT(DISTINCT ob.ORDER_BUNDLE_ID) AS dataCount
-		FROM ORDER_BUNDLE ob
-		JOIN MEMBER M ON ob.MEMBER_ID = M.MEMBER_ID
-		JOIN ORDER_ITEM oi ON ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		JOIN PRODUCT p ON oi.PRODUCT_ID = p.PRODUCT_ID
-		JOIN ORDER_STATUS os ON oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
-		JOIN ORDER_ITEM_STOCK_BUNDLE oisb ON oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      </where>      
+      group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
+      OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+   </select>
+      
+   <select id="getOrderListMyPage" parameterType="map" resultType="com.sp.app.domain.order.Order">
+       select ORDER_BUNDLE_ID orderBundleId,ob.MEMBER_ID memberId, ob.REG_DATE orderRegDate,SUM(QUANTITY) quantity,ob.buyer_name buyerName,ob.pay_method payMethod
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
+      where m.member_id = #{memberId}
+      group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method
+   </select>
+   <!-- 판매자별 주문 조회 카운트 -->
+    <select id="orderListCount" parameterType="map" resultType="int">
+      SELECT COUNT(DISTINCT ob.ORDER_BUNDLE_ID) AS dataCount
+      FROM ORDER_BUNDLE ob
+      JOIN MEMBER M ON ob.MEMBER_ID = M.MEMBER_ID
+      JOIN ORDER_ITEM oi ON ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      JOIN PRODUCT p ON oi.PRODUCT_ID = p.PRODUCT_ID
+      JOIN ORDER_STATUS os ON oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+      JOIN ORDER_ITEM_STOCK_BUNDLE oisb ON oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
     <where>
       <if test="sellerId != null">
         p.SELLER_ID = #{sellerId}
@@ -121,87 +121,86 @@
     </where>
 </select>
 
-	
-	
-	<!-- 주문조회 상세 -->
-	<select id="getOrderDetailList" parameterType="map" resultType="com.sp.app.domain.order.Order">	
-		select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId,oisb.price * ((100-oi.discount_percent)/100) finalPrice, oisb.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		where ORDER_BUNDLE_ID = #{orderBundleId}
-		OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
-	</select>
-	
-	<select id="orderDetailCount" parameterType="map" resultType="int">
-		SELECT COUNT(*) AS dataCount
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		where ORDER_BUNDLE_ID = #{orderBundleId}
-	</select>
-	
-	<!-- 판매건수 -->
-	<select id="getOrderCount" parameterType="map" resultType="com.sp.app.domain.order.Order">
-		select NVL(SUM(oisb.quantity),0) orderCount , NVL(SUM(oi.final_price),0) orderPrice
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		where p.SELLER_ID = #{sellerId} AND status = 1 
-		<if test="date == 'today'">		
-			AND TRUNC(ob.reg_date) = TRUNC(SYSDATE)
-		</if>
-		<if test="date == 'week'">		
-			AND TRUNC(ob.reg_date) &gt;= TRUNC(SYSDATE) - 7
-		</if>
-		<if test="date == 'month'">		
-			AND EXTRACT(MONTH FROM ob.reg_date) = EXTRACT(MONTH FROM SYSDATE)
-  			AND EXTRACT(YEAR FROM  ob.reg_date) = EXTRACT(YEAR FROM SYSDATE)
-		</if>		
-	</select>
-	
-	<select id="dateCountByStatus" parameterType="map" resultType="Integer">
-		select COUNT(*) count
-		from ORDER_BUNDLE ob
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		left outer join ORDER_STATUS on oi.ORDER_ITEM_ID = ORDER_STATUS.ORDER_ITEM_ID
-		where ob.MEMBER_ID = #{memberId} and STATUS = #{status}
-	</select>
-	
-	<select id="getOrderDetailMypage" parameterType="map" resultType="com.sp.app.domain.order.Order">
-		select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId,oisb.price * ((100-oi.discount_percent)/100) finalPrice,p.PRODUCT_NAME productName, oisb.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId
-		from ORDER_BUNDLE ob
-		join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-		join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-		join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-		join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-		join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
-		where ORDER_BUNDLE_ID = #{orderBundleId} and m.member_id = #{memberId}	
-	
-	</select>
-	
-	<select id="selectStatusCount" parameterType="Long" resultType="com.sp.app.domain.order.Order">
-	SELECT COUNT(status) statusCountList 
-	FROM  (select status
-	      from ORDER_BUNDLE ob
-	      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
-	      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
-	      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
-	      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
-	      join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
-	      where m.member_id = #{memberId}
-	      group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method,status) group by status	
-	</select>
+   
+   
+   <!-- 주문조회 상세 -->
+   <select id="getOrderDetailList" parameterType="map" resultType="com.sp.app.domain.order.Order">   
+      select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId,oisb.price * ((100-oi.discount_percent)/100) finalPrice, oisb.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      where ORDER_BUNDLE_ID = #{orderBundleId}
+      OFFSET #{offset} ROWS FETCH FIRST #{size} ROWS ONLY
+   </select>
+   
+   <select id="orderDetailCount" parameterType="map" resultType="int">
+      SELECT COUNT(*) AS dataCount
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      where ORDER_BUNDLE_ID = #{orderBundleId}
+   </select>
+   
+   <!-- 판매건수 -->
+   <select id="getOrderCount" parameterType="map" resultType="com.sp.app.domain.order.Order">
+      select NVL(SUM(oisb.quantity),0) orderCount , NVL(SUM(oi.final_price),0) orderPrice
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_STATUS os on oi.ORDER_ITEM_ID = os.ORDER_ITEM_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      where p.SELLER_ID = #{sellerId} AND status = 1 
+      <if test="date == 'today'">      
+         AND TRUNC(ob.reg_date) = TRUNC(SYSDATE)
+      </if>
+      <if test="date == 'week'">      
+         AND TRUNC(ob.reg_date) &gt;= TRUNC(SYSDATE) - 7
+      </if>
+      <if test="date == 'month'">      
+         AND EXTRACT(MONTH FROM ob.reg_date) = EXTRACT(MONTH FROM SYSDATE)
+           AND EXTRACT(YEAR FROM  ob.reg_date) = EXTRACT(YEAR FROM SYSDATE)
+      </if>      
+   </select>
+   
+   <select id="dateCountByStatus" parameterType="map" resultType="Integer">
+      select COUNT(*) count
+      from ORDER_BUNDLE ob
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      left outer join ORDER_STATUS on oi.ORDER_ITEM_ID = ORDER_STATUS.ORDER_ITEM_ID
+      where ob.MEMBER_ID = #{memberId} and STATUS = #{status}
+   </select>
+   
+   <select id="getOrderDetailMypage" parameterType="map" resultType="com.sp.app.domain.order.Order">
+      select order_bundle_id orderBundleId, m.member_id memberId,oi.order_item_id orderItemId,oisb.price * ((100-oi.discount_percent)/100) finalPrice,p.PRODUCT_NAME productName, oisb.price,address1,address2,post_num postNum,oi.discount_percent discountPercent,status,oisb.quantity quantity, oisb.stock_id stockId
+      from ORDER_BUNDLE ob
+      join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+      join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+      join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+      join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+      join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
+      where ORDER_BUNDLE_ID = #{orderBundleId} and m.member_id = #{memberId}   
+   
+   </select>
+   
+   <select id="selectStatusCount" parameterType="Long" resultType="com.sp.app.domain.order.Order">
+   SELECT COUNT(status) statusCountList 
+   FROM  (select status
+         from ORDER_BUNDLE ob
+         join MEMBER M on ob.MEMBER_ID = M.MEMBER_ID
+         join ORDER_ITEM oi on ob.ORDER_BUNDLE_ID = oi.ORDER_ID
+         join PRODUCT p on oi.PRODUCT_ID = p.PRODUCT_ID
+         join ORDER_ITEM_STOCK_BUNDLE oisb on oi.ORDER_ITEM_ID = oisb.ORDER_ITEM_ID
+         join (select ORDER_ITEM_ID,MAX(STATUS) status from ORDER_STATUS group by ORDER_ITEM_ID) t on t.ORDER_ITEM_ID = oi.ORDER_ITEM_ID
+         where m.member_id = #{memberId}
+         group by ORDER_BUNDLE_ID,ob.MEMBER_ID,ob.REG_DATE,ob.buyer_name,ob.pay_method,status) group by status   
+   </select>
 </mapper>
-
 
 

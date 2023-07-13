@@ -95,7 +95,7 @@ input[type=checkbox], input[type=radio] { vertical-align: middle; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 
 .container {
-	max-width: 900px;
+	max-width: 860px;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -149,7 +149,7 @@ form .form-control {
 
 .left-item, .right-item {
 	width: 50%;
-	height: 330px;
+	height: 400px;
 	padding: 5px;
 }
 
@@ -162,7 +162,7 @@ form .form-control {
 	align-items: center;
 	justify-content: center;
     text-align: center;
-	
+	position: relative;
 }
 .image-footer {
 	padding: 5px;
@@ -178,13 +178,13 @@ form .form-control {
 }
 
 .image-main .img-viewer {
-	width: 0%;
-	height: 0%;
 	position: relative;
 	z-index: 9999;
 	background-repeat : no-repeat;
-	background-size : cover;
+	background-size : 100% 100%;
 }
+
+
 
 .icon-area {
 	position: absolute;
@@ -313,14 +313,13 @@ form .form-control {
 						<div class="left-item">
 							<div class="image-main">
 								<img class="img-add" style="width: 25px; height: 25px" src="${pageContext.request.contextPath}/resources/picture/camera.png">
-								<div style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 끌어다 놓으세요</div>
-								<div style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
+								<div class="dropPicture" style="font-weight: 700; color: rgb(130, 140, 148); margin-bottom: 4px; margin-top: 10px;">사진을 등록하세요</div>
+								<div class="limitPicture" style="font-size: 14px; font-weight: 500; color: rgb(130, 140, 148); margin-bottom: 15px;">10장까지 올릴 수 있어요.</div>
 								<input type="file" name="selectFile" accept="image/*" style="display: none;">
 								<label for="selectFile">PC에서 불러오기</label>
 								<div style="z-index: 1" class="img-viewer"></div>
 							</div>
 							<div class="image-footer">
-								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
 								<button type="button" class="btn btnContentPlus" title="추가"> <i class="fa-solid fa-plus"></i> </button>
 								<button type="button" class="btn btnContentMinus" disabled="disabled" title="삭제"> <i class="fa-solid fa-minus"></i> </button>
 								<button type="button" class="btn btnImageInit" title="이미지 제거"> <i class="fa-solid fa-arrows-rotate"></i> </button>
@@ -352,9 +351,6 @@ form .form-control {
 							<div>
 								<input type="text" name="contentSequences" value="1">
 								<input type="text" name="positions">
-								<input type="text" name="productIds" value="421">
-
-
 							</div>
 						</div>
 					</div>
@@ -375,14 +371,6 @@ function sendOk() {
 	const f = document.postsForm;
 	let str;
 	
-	str = f.selectFile.value.trim();
-	if(!str){
-		alert("사진을 등록하세요.");
-		return false;
-	}
-	
-
-	
 	f.action = "${pageContext.request.contextPath}/community/picture/${mode}";
 	f.submit();
 }
@@ -396,12 +384,16 @@ $(function(){
 	$("form").on("change", "input[name=selectFile]", function(event){
 		let $viewer = $(this).closest(".image-main").find(".img-viewer");
 		let $add = $(this).closest(".image-main").find(".img-add");
+		let $label = $(this).closest(".image-main").find("label[for=selectFile]");
+		let $div = $(this).closest(".image-main").find("div.dropPicture");
+		let $civ = $(this).closest(".image-main").find("div.limitPicture");
 		
 		let file = this.files[0];
 		if(! file) {
 			$viewer.css({"width":"0", "height":"0"})
 			$viewer.hide();
 			$add.show();
+			$label.hide();
 
 			$viewer.empty();
 			$viewer.css("background-image", "");
@@ -414,6 +406,9 @@ $(function(){
 			$viewer.css({"width":"100%", "height":"100%"})
 			$viewer.show();
 			$add.hide();
+			$label.hide();
+			$div.hide();
+			$civ.hide();
 			
 			$viewer.empty();
 			$viewer.css("background-image", "url("+e.target.result+")");
@@ -570,7 +565,7 @@ $(function(){
 		
 		let x = e.offsetX;
 		let y = e.offsetY;
-		let pos = x + ':' + y;
+		let pos = x/4 + ':' + y/4;
 
 
 		

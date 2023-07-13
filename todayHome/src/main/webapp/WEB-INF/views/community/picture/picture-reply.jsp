@@ -66,7 +66,7 @@
 						<div class='name' style="font-size: 16px; font-weight: bold; padding: 0 0 5px">${listReply.nickName}</div>
 						<div class='content' style="padding: 0 0 5px">${listReply.content}</div>
 						<div class='date' style="font-size: 12px;">${listReply.regDate}
-							<button type="button" class="btn btn-outline-secondary btnSendReplyLike" style= "border: none;" title="좋아요"><i class="bi ${listReply.commentLiked ==	 1 ? 'bi-heart-fill':'bi-heart'}" style="font-size: 15px;"></i></button>
+							<button type="button" class="btn btn-outline-secondary btnSendReplyLike" style= "border: none;" title="좋아요" data-commentLiked="${listReply.commentLiked}" data-userBoardCommentId="${listReply.userBoardCommentId }"><i class="bi ${listReply.commentLiked ==	 1 ? 'bi-heart-fill':'bi-heart'}" style="font-size: 15px;"></i></button>
 							<span id="likeCount">${listReply.likeCount}&nbsp;&nbsp;</span>
 							<button type='button' class='btn btnReplyAnswerLayout' data-userBoardCommentId='${listReply.userBoardCommentId}'>답글 달기 </button>
 							<c:if test="${sessionScope.sessionInfo.memberId==listReply.memberId}">

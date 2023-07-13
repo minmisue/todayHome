@@ -2,6 +2,7 @@ package com.sp.app.board;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,14 @@ public class UserBoardContorller {
 		
 		List<UserBoard> userBoardContent = userBoardservice.readContent(userBoard.getUserBoardId());
 		
+		List<UserBoard> userBoardProduct = new ArrayList<>(); 
+		
+		for(int i=0; i<userBoardContent.size(); i++) {
+			
+			userBoardProduct.addAll(userBoardservice.readProduct(userBoardContent.get(i).getUserBoardContentId()));
+		
+		}
+		
 		
 		// userBoard.setContent(userBoard.getContent().replaceAll("\n", "<br>"));
 		long memberId = info.getMemberId();
@@ -150,6 +159,7 @@ public class UserBoardContorller {
 		model.addAttribute("userBoardScraped", userBoardScraped);
 		model.addAttribute("userBoard", userBoard);
 		model.addAttribute("userBoardContent",userBoardContent);
+		model.addAttribute("userBoardProduct", userBoardProduct);
 		
 		return "community/picture/picture-article";
 	}
@@ -329,7 +339,7 @@ public class UserBoardContorller {
 	@PostMapping("insertCommentLike")
 	@ResponseBody
 	public Map<String, Object> insertCommentLike(@RequestParam long userBoardCommentId,
-			@RequestParam boolean commentLiked,
+			@RequestParam int commentLiked,
 			HttpSession session) throws Exception{
 		
 		String state = "true";
@@ -339,10 +349,10 @@ public class UserBoardContorller {
 		long memberId = info.getMemberId();
 		
 		try {
-			if(commentLiked) {
-				userBoardservice.deleteBoardLike(userBoardCommentId, memberId);
+			if(commentLiked==1) {
+				userBoardservice.deleteCommentLike(userBoardCommentId, memberId);
 			} else {
-				userBoardservice.insertBoardLike(userBoardCommentId, memberId);
+				userBoardservice.insertCommentLike(userBoardCommentId, memberId);
 			}
 			
 		} catch (DuplicateKeyException e) {

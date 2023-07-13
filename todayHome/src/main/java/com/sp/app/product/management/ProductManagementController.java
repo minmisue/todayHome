@@ -525,11 +525,22 @@ public class ProductManagementController {
 
 			jsonObject.put("result", true);
 			jsonObject.put("product", json);
+
+			System.out.println(json);
 		} catch (Exception e) {
 			jsonObject.put("result", false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(jsonObject.toString());
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+	}
+
+	@GetMapping("shop/today-deals")
+	public String shopTodayDeals(Model model) {
+
+		List<ProductForList> productList = productManagementService.getAllProductsLimit();
+
+		model.addAttribute("productList", productList);
+		return "shop/shop-today-deals";
 	}
 }

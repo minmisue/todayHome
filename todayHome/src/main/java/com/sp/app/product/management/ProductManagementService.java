@@ -22,6 +22,8 @@ public interface ProductManagementService {
 
 	List<ProductForList> getAllProducts() throws Exception;
 
+	List<ProductForList> getAllProductsLimit();
+
 	List<ProductForList> getProductsByCategoryId(Long categoryId);
 
 	List<Product> getProductsByCategory(Long categoryId);
@@ -37,6 +39,7 @@ public interface ProductManagementService {
 	int scrapCnt(Long productId);
 
 	int scrapCntByMemberId(Long memberId);
+
 
 	// 수정해야댐
 	ProductMainOption getOptionsById(Long productId);
